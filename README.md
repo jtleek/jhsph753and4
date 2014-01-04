@@ -8,13 +8,14 @@ Course Information
 ------------------
 * Instructor: Jeff Leek (ask me for my email if you don't know it)
 * TA: Amanda Mejia (ask her for her email, office hour TBA)
+
 * Webpage: https://github.com/jtleek/jhsph753and4/
 * Old 753and4 Webpages: 
-  * http://biostat.jhsph.edu/~jleek/teaching/2011/754/ (2011)
+	* http://biostat.jhsph.edu/~jleek/teaching/2011/754/ (2011)
 	* http://biostat.jhsph.edu/~jleek/teaching/appliedstat/ (2012)
 	* http://jtleek.github.io/jhsph753/ (2013)
-Room: TBD
-Time: TuTh 10:30am-11:50am
+* Room: TBD
+* Time: TuTh 10:30am-11:50am
 
 This course is the third term of the intensive introduction to methods for applied statistics. The goal of this sequence is to develop Ph.D. level biostatisticians who are capable of both applied data analysis and developing the next generation of statistical methods. Both data analysis and methods development require substantial hands on experience, so the focus of this class will be on hands on data analysis. 
 
@@ -39,6 +40,24 @@ Evaluation and feedback
 * 10%  =  Bi-weekly data analysis review (completion)
 * 25%  =  Final Project (graded by instructor)
 
+
+You will get receive grades on the methods problems, feedback from your peers, and brief (< 1 paragraph + grade) feedback from me within a week of submitting your assignment. If you would like further feedback on your assignments please schedule time to meet with me. I will try to leave Fridays available from 10am-3pm in 20 minute slots available. You may book up to 3 slots at a time:
+
+http://jtleek.youcanbook.me/
+
+
+Grading philosophy
+----------------
+
+I believe the purpose of the Ph.D. is to train you to be able to think for yourself and initiate and complete your own projects. I am super excited to talk to you about ideas, work out solutions with you, and help you to figure out statistical methods and/or data analysis. I don't think that graduate school grades are important for this purpose. This means that I don't care very much about graduate student grades. 
+
+That being said, the purpose of this course is to prepare you for the qualifying exam. I will therefore assign grades on a three level scale:
+
+1. A - Excellent 
+2. B - Passing
+3. C - Needs improvement
+
+If you receive A's and B's and perform in a similar way on the qualifying exam, I anticipate that you will pass. If you receive C's that is my way of letting you know that your work would not pass on the qualifying exam. I don't feel comfortable assigning percentages to data analyses. So an A = 100%, B = 85%, C = 75% of available points. 
 
 
 Data anaysis assignments
@@ -90,8 +109,28 @@ Class will consist of both lectures on statistical methdology and hands on pract
 
 
 
-Tentative syllabus
+Tentative syllabus (753 and 754)
 ------------------
+
+* Obtaining data and data processing
+* Exploratory data analysis
+* Regression and generalizations
+* Smoothing
+* Prediction 
+* High dimensional analysis
+* Simulation studies
+
+
+Books
+----------------
+
+* [Elements of statistical learning](http://www-stat.stanford.edu/~tibs/ElemStatLearn/)
+* [Modern applied statistics with S](http://www.amazon.com/Modern-Applied-Statistics-Computing/dp/0387954570)
+* [A course in large sample theory](http://www.amazon.com/Course-Sample-Chapman-Statistical-Science/dp/0412043718)
+
+
+
+
 
 
 
