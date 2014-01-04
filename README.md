@@ -1,7 +1,7 @@
 Biostatistics 753 and 754
 ============
 
-Class github repository for 753 and 754; doctoral classes in the Department of Biostatistics at Johns Hopkins.
+Class github repository for 753 and 754; doctoral classes in the Department of Biostatistics at Johns Hopkins. You may use the material according to the [Creative Commons Share-Alike 2.0 (CC-SA 2.0)](http://creativecommons.org/licenses/by/2.0/) license. 
 
 
 Course Information
