@@ -60,7 +60,7 @@ That being said, the purpose of this course is to prepare you for the qualifying
 If you receive A's and B's and perform in a similar way on the qualifying exam, I anticipate that you will pass. If you receive C's that is my way of letting you know that your work would not pass on the qualifying exam. I don't feel comfortable assigning percentages to data analyses. So an A = 100%, B = 85%, C = 75% of available points. 
 
 
-Data anaysis assignments
+Data analysis assignments
 -----------------
 
 (For more on my project philosophy see: http://bit.ly/wQT5uI)
