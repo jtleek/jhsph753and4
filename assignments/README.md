@@ -15,18 +15,18 @@ How to submit
 Assignment 1
 --------------
 
-Assigned: Tuesday, January 21st
-Due: Tuesday, February 4th 
-Peer Grading Due: February 11th 
-[Assignment link]
+* Assigned: Tuesday, January 21st
+* Due: Tuesday, February 4th 
+* Peer Grading Due: February 11th 
+* [Assignment link]()
 
 Assignment 2
 --------------
 
-Assigned: Tuesday, February 11th
-Due: Tuesday, February 25th
-Peer Grading Due: March 4th
-[Assignment link]
+* Assigned: Tuesday, February 11th
+* Due: Tuesday, February 25th
+* Peer Grading Due: March 4th
+* [Assignment link]
 
 Final Project
 --------------
