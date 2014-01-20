@@ -14,7 +14,7 @@ Course Information
 	* http://biostat.jhsph.edu/~jleek/teaching/2011/754/ (2011)
 	* http://biostat.jhsph.edu/~jleek/teaching/appliedstat/ (2012)
 	* http://jtleek.github.io/jhsph753/ (2013)
-* Room: TBD
+* Room: W2009
 * Time: TuTh 10:30am-11:50am
 
 This course is the third term of the intensive introduction to methods for applied statistics. The goal of this sequence is to develop Ph.D. level biostatisticians who are capable of both applied data analysis and developing the next generation of statistical methods. Both data analysis and methods development require substantial hands on experience, so the focus of this class will be on hands on data analysis. 
@@ -37,7 +37,7 @@ Evaluation and feedback
 
 * 35%  =  Data analysis (peer graded/instructor summarized)
 * 20%  =  Bi-weekly problems (graded by TA)
-* 10%  =  Bi-weekly data analysis review (completion)
+* 10%  =  Data analysis review (completion)
 * 25%  =  Final Project (graded by instructor)
 
 
@@ -57,7 +57,7 @@ That being said, the purpose of this course is to prepare you for the qualifying
 2. B - Passing
 3. C - Needs improvement
 
-If you receive A's and B's and perform in a similar way on the qualifying exam, I anticipate that you will pass. If you receive C's that is my way of letting you know that your work would not pass on the qualifying exam. I don't feel comfortable assigning percentages to data analyses. So an A = 100%, B = 85%, C = 75% of available points. 
+If you receive A's and B's and perform in a similar way on the qualifying exam, I anticipate that you will pass. If you receive C's that is my way of letting you know that your work would not pass on the qualifying exam. I don't feel comfortable assigning percentages to data analyses, but to be able to calculate grades at the completion of the course I will use the following percentages: A = 100%, B = 85%, C = 75% of available points. 
 
 
 Data analysis assignments
