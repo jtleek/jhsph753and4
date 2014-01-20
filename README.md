@@ -125,6 +125,7 @@ Books
 ----------------
 
 * [Elements of statistical learning](http://www-stat.stanford.edu/~tibs/ElemStatLearn/)
+* [Advanced Data Analysis from An Elementary Point of View](http://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf)
 * [Modern applied statistics with S](http://www.amazon.com/Modern-Applied-Statistics-Computing/dp/0387954570)
 * [A course in large sample theory](http://www.amazon.com/Course-Sample-Chapman-Statistical-Science/dp/0412043718)
 
