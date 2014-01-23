@@ -25,7 +25,7 @@ Assignment 1
 * Due: Tuesday, February 4th 
 * Peer Grading Due: February 11th 
 * Data Analysis Assignment: [http://www.crowdgrader.org/crowdgrader/venues/view_venue/248](http://www.crowdgrader.org/crowdgrader/venues/view_venue/248) (contact Jeff with your email to be added). 
-* Homework problems: 
+* Homework problems: [https://github.com/jtleek/jhsph753and4/tree/master/assignments/hw1-753](https://github.com/jtleek/jhsph753and4/tree/master/assignments/hw1-753)
 
 Assignment 2
 --------------
