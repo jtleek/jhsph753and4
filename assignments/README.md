@@ -24,7 +24,8 @@ Assignment 1
 * Assigned: Tuesday, January 21st
 * Due: Tuesday, February 4th 
 * Peer Grading Due: February 11th 
-* [Assignment link]
+* Data Analysis Assignment: [http://www.crowdgrader.org/crowdgrader/venues/view_venue/248](http://www.crowdgrader.org/crowdgrader/venues/view_venue/248) (contact Jeff with your email to be added). 
+* Homework problems: 
 
 Assignment 2
 --------------
