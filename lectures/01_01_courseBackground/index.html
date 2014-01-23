@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Biostats 753</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Biostats 753">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="../../libraries/frameworks/io2012/js/slides" 
+    src="../../libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+    <link rel="stylesheet" href = "../../assets/css/custom.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BACKUP.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BASE.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.LOCAL.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.orig">
+<link rel="stylesheet" href = "../../assets/css/custom.css.REMOTE.546.css">
+<link rel="stylesheet" href = "../../assets/css/ribbons.css">
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    <!-- END LOGO SLIDE -->
+    
+
+    <!-- TITLE SLIDE -->
+    <!-- Should I move this to a Local Layout File? -->
+    <slide class="title-slide segue nobackground">
+      <aside class="gdbar">
+        <img src="../../assets/img/bloomberg_shield.png">
+      </aside>
+      <hgroup class="auto-fadein">
+        <h1>Biostats 753</h1>
+        <h2></h2>
+        <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+      </hgroup>
+          </slide>
+
+    <!-- SLIDES -->
+      <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Why do data science?</h2>
+  </hgroup>
+  <article>
+    <p>&quot;It is not the critic who counts: not the man who points out how the strong man stumbles or where the doer of deeds could have done better. The credit belongs to the man who is actually in the arena, whose face is marred by dust and sweat and blood, who strives valiantly, who errs and comes up short again and again, because there is no effort without error or shortcoming, but who knows the great enthusiasms, the great devotions, who spends himself for a worthy cause; who, at the best, knows, in the end, the triumph of high achievement, and who, at the worst, if he fails, at least he fails while daring greatly, so that his place shall never be with those cold and timid souls who knew neither victory nor defeat.&quot;</p>
+
+<p><img src="../../assets/img/01_DataScientistToolbox/teddy.jpeg" height=100>  <em>Theodore Roosevelt, 26th President of the United States</em></p>
+
+<p><a href="http://simplystatistics.org/2012/06/22/statistics-and-the-science-club/">Statistics and the science game</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>The key challenge in data science</h2>
+  </hgroup>
+  <article>
+    <p>&quot;Ask yourselves, what problem have you solved, ever, that was worth solving, where you knew knew all of the given information in advance? Where you didn’t have a surplus of information and have to filter it out, or you didn’t have insufficient information and have to go find some?&quot;</p>
+
+<p><img src="../../assets/img/01_DataScientistToolbox/meyer.jpg" height=100 /> <a href="http://www.ted.com/talks/dan_meyer_math_curriculum_makeover.html">Dan Myer, Mathematics Educator</a></p>
+
+<p><a href="http://simplystatistics.org/2013/12/12/the-key-word-in-data-science-is-not-data-it-is-science/">The key word in data science is not data; it is science</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>About me</h2>
+  </hgroup>
+  <article>
+    <p><center> <font color="#CD3278">Data intensive</font> statistics in <font color="#008B45">molecular biology</font></center></p>
+
+<ul>
+<li>Jeff Leek 
+
+<ul>
+<li>Website <a href="http://biostat.jhsph.edu/%7Ejleek/">http://biostat.jhsph.edu/~jleek/</a>, <a href="http://simplystatistics.org/">http://simplystatistics.org/</a></li>
+<li>Twitter <a href="https://twitter.com/jtleek">@jtleek</a> </li>
+<li>Github <a href="https://github.com/jtleek">https://github.com/jtleek</a></li>
+<li>Email <a href="http://cdn.memegenerator.net/instances/400x/33457759.jpg">jtleek &#39;at&#39; gmail &#39;punctuation&#39; com</a></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Why data science?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src="../../assets/img/01_DataScientistToolbox/deluge.jpeg" height=400 /></p>
+
+<p><a href="http://www.economist.com/node/15579717">http://www.economist.com/node/15579717</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Why data science?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src="../../assets/img/01_DataScientistToolbox/mckinsey.png" height=400 /></p>
+
+<p><a href="http://www.mckinsey.com/insights/business_technology/big_data_the_next_frontier_for_innovation">http://www.mckinsey.com/insights/business_technology/big_data_the_next_frontier_for_innovation</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Why statistical data science?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src="../../assets/img/01_DataScientistToolbox/nytimes.png" height=400 /></p>
+
+<p><a href="http://www.nytimes.com/2009/08/06/technology/06stats.html?_r=0">http://www.nytimes.com/2009/08/06/technology/06stats.html?_r=0</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Why are you lucky?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src="../../assets/img/01_DataScientistToolbox/bezos.jpg" height=400 /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Why are you lucky?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/01_DataScientistToolbox/heritage.png height=400 /></p>
+
+<p><a href="http://www.heritagehealthprize.com/c/hhp">Heritage Health Prize</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Who is a statistician?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center height=400 src=../../assets/img/01_DataScientistToolbox/morey.jpeg />
+<a href="http://en.wikipedia.org/wiki/Daryl_Morey">Daryl Morey</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Who is a statistician?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center height=400 src=../../assets/img/01_DataScientistToolbox/mason.jpeg />
+<a href="http://www.hilarymason.com/">Hilary Mason</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Who is a statistician?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center height=400 src=../../assets/img/01_DataScientistToolbox/koller.jpeg /></p>
+
+<p><a href="http://ai.stanford.edu/%7Ekoller/">Daphne Koller</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Who is a statistician?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center height=400 src=../../assets/img/01_DataScientistToolbox/silver.jpeg /></p>
+
+<p><a href="http://fivethirtyeight.blogs.nytimes.com/">Nate Silver</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>What is the point of a Ph.D.</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Freedom</li>
+<li>Discover new knowledge</li>
+<li>Time to dive deep</li>
+<li>Opportunity for leadership</li>
+<li>Opportunity to make a name for yourself
+
+<ul>
+<li>R packages</li>
+<li>Papers</li>
+<li>Blogs</li>
+</ul></li>
+<li>A good presentation <a href="http://pgbovine.net/phd.htm">http://pgbovine.net/phd.htm</a>, he also has more good resources here <a href="http://pgbovine.net/phd.htm">http://pgbovine.net/phd.htm</a></li>
+<li>Get a job</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>What is not the point of a Ph.D.</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Grades</li>
+<li>Classes</li>
+<li>Exams</li>
+<li>Proving you are smart</li>
+<li>Competition with other students locally</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>What is 753?</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Historically just a methods course</li>
+<li>Now a combination of methods/data analysis. </li>
+<li>Goals
+
+<ul>
+<li>Teach you to think about data</li>
+<li>Teach you to organize an analysis</li>
+<li>Help you understand current methods</li>
+<li>Get you started creating your own methods</li>
+<li>Teach you practical Ph.D. skills</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>What does a Ph.D. statistician do?</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Research 
+
+<ul>
+<li>Collaborate with scientists</li>
+<li>Discover new problems</li>
+<li>Work on statistical methods/theory</li>
+</ul></li>
+<li>Teaching
+
+<ul>
+<li>Teach graduate students</li>
+<li>Teach undergraduate students</li>
+</ul></li>
+<li>Service
+
+<ul>
+<li>Sit on committees</li>
+<li>Review papers</li>
+<li>Act as editor for papers</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>What does a Ph.D. statistician do?</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Research 
+
+<ul>
+<li><rt> Collaborate with scientists </rt></li>
+<li><rt> Discover new problems </rt></li>
+<li><rt>Work on statistical methods</rt>/theory</li>
+</ul></li>
+<li>Teaching
+
+<ul>
+<li>Teach graduate students</li>
+<li>Teach undergraduate students</li>
+</ul></li>
+<li>Service
+
+<ul>
+<li>Sit on committees</li>
+<li><rt>Review papers</rt></li>
+<li>Act as editor for papers</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>What does a Ph.D. statistician do - concretely.</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Write papers</li>
+<li>Teach classes</li>
+<li>Advise students</li>
+<li>Review papers</li>
+<li>Go to meetings</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>What are methods?</h2>
+  </hgroup>
+  <article>
+    <p>The term &quot;methods&quot; is somewhat open to interpretation - this is
+one potential way to break journals down to give some insight</p>
+
+<ul>
+<li><strong>Theory</strong>: Annals of Statistics, JRSSB, JASA TM</li>
+<li><strong>Data Analysis</strong>: JRSSC, Nature, NEJM, JAMA, Genome Biology</li>
+<li><strong>Methods</strong>: Biometrics, AOAS, Biostatistics, Neuroimage, Genome Biology, Bioinformatics</li>
+</ul>
+
+<p>Many PhD theses &quot;resemble&quot; methods papers, and contain material
+similar to that discussed in 573. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Goals of this course</h2>
+  </hgroup>
+  <article>
+    <p>Upon completion of this course students will be able to:</p>
+
+<ol>
+<li>Obtain, clean, transform and process raw data into usable formats</li>
+<li>Formulate quantitative models to address scientific questions</li>
+<li>Organize and perform a complete data analysis, from exploration, to analysis, to synthesis, to communication. </li>
+<li>Understand and apply a range of statistical methods for inference and prediction.</li>
+<li><strong>Develop ideas for new statistical methods, tools, and analyses</strong></li>
+</ol>
+
+<p>Students will also be encouraged to independently read and apply statistical methods from texts and the scientific literature that are not covered in the course. They will also be encouraged to think of improvements or variations on existing methods to address specific scientific questions. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Textbooks</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Notes on the course webpage <a href="https://github.com/jtleek/jhsph753and4">https://github.com/jtleek/jhsph753and4</a></li>
+<li><a href="http://www-stat.stanford.edu/%7Etibs/ElemStatLearn/">Elements of statistical learning</a></li>
+<li><a href="http://www.stat.cmu.edu/%7Ecshalizi/ADAfaEPoV/ADAfaEPoV.pdf">Advanced Data Analysis from An Elementary Point of View</a></li>
+<li><a href="http://www.amazon.com/Modern-Applied-Statistics-Computing/dp/0387954570">Modern applied statistics with S</a></li>
+<li><a href="http://www.amazon.com/Course-Sample-Chapman-Statistical-Science/dp/0412043718">A course in large sample theory</a></li>
+<li><a href="http://www.biostat.jhsph.edu/%7Ejleek/teaching/2011/754/reading/StrunkandWhite.pdf">The elements of style</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Grading policy</h2>
+  </hgroup>
+  <article>
+    <p><em>I believe the purpose of the Ph.D. is to train you to be able to think for yourself and initiate and complete your own projects. I am super excited to talk to you about ideas, work out solutions with you, and help you to figure out statistical methods and/or data analysis. I don&#39;t think that graduate school grades are important for this purpose. This means that I don&#39;t care very much about graduate student grades.</em></p>
+
+<p>The only purpose for grades in my mind is to communicate whether you are on the path to passing the qual. Here are the grades I will give for that purpose.</p>
+
+<ul>
+<li>A = Do this well and you will pass</li>
+<li>B = Do this well and you will likely pass</li>
+<li>C = Do this well and you will have trouble</li>
+<li>D = Rarely given, means we need to have a talk</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Evaluation and feedback</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>35%  =  Data analysis (peer graded/instructor summarized)</li>
+<li>20%  =  Bi-weekly problems (graded by TA)</li>
+<li>10%  =  Data analysis review (completion)</li>
+<li><p>25%  =  Final Project (graded by instructor)</p></li>
+<li><p>You will get receive</p>
+
+<ul>
+<li>Grades on the methods problems</li>
+<li>Feedback from your peers</li>
+<li>Brief (&lt; 1 paragraph + grade) feedback from me within a week of submitting your analyses.</li>
+</ul></li>
+</ul>
+
+<p><em>If you would like further feedback on your assignments please schedule time to meet with me. I will try to leave Fridays available from 10am-3pm in 20 minute slots available. You may book up to 3 slots at a time: <a href="http://jtleek.youcanbook.me/">http://jtleek.youcanbook.me/</a></em></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Assignments</h2>
+  </hgroup>
+  <article>
+    <p>Assignments posted here: <a href="https://github.com/jtleek/jhsph753and4/tree/master/assignments">https://github.com/jtleek/jhsph753and4/tree/master/assignments</a></p>
+
+<ul>
+<li>Homework problems
+
+<ul>
+<li>Statistical methods focus</li>
+<li>Submit to jtleek+methods14 gmail address cc Amanda</li>
+<li>Title must be formatted: 753-Assignment-1-LastName</li>
+<li>Due 10am on assignment due date</li>
+</ul></li>
+<li>Data analyses
+
+<ul>
+<li>Please submit data analysis assignments to <a href="http://www.crowdgrader.org/">http://www.crowdgrader.org/</a></li>
+<li>All assignments and reviews are due by 10am on the due date.</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Data analysis projects</h2>
+  </hgroup>
+  <article>
+    <p>(For more on my project philosophy see: <a href="http://bit.ly/wQT5uI">http://bit.ly/wQT5uI</a>)</p>
+
+<ul>
+<li>You will do two</li>
+<li>All documents should be submitted electronically</li>
+<li>You must submit pdfs + rmds</li>
+</ul>
+
+<p><strong>Grading criteria</strong></p>
+
+<ol>
+<li>Did you answer the scientific question? (30%)</li>
+<li>Did you use appropriate statistical methods? (40%)</li>
+<li>Was your write-up simple, clear, and precise? (20%)</li>
+<li>Was your code reproducible? (10%)</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Data Analysis Reviews</h2>
+  </hgroup>
+  <article>
+    <p>After each data analysis is turned in, they will be randomly assigned to another student for review. Your review will be due one week after it is assigned. Your comments should have the format of a typical peer review. You should include a summary of the analyses and conclusions in the project you are reviewing, any major revisions, and any minor revisions. I will also evaluate each data analysis independently to assign a grade. Synthesized comments will be made available for each project. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Crowdgrader</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><a href="http://www.crowdgrader.org/">http://www.crowdgrader.org/</a></li>
+<li>Please email me with the title &quot;Crowdgrader email&quot;</li>
+<li>I will add you to the assignment</li>
+<li>We are trying this out - if you can&#39;t get it to submit, we will do by email (ugh)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Tentative syllabus (753 and 754)</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Obtaining data and data processing</li>
+<li>Exploratory data analysis</li>
+<li>Regression and generalizations</li>
+<li>Smoothing</li>
+<li>Prediction </li>
+<li>High dimensional analysis</li>
+<li>Simulation studies</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Questions?</h2>
+  </hgroup>
+  <article>
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Inference</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/01_DataScientistToolbox/infcentraldogma.png height=450></p>
+
+<p><a href="http://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture2.pdf">http://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture2.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Prediction</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/centraldogma.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Structure of a data analysis</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Define the question</li>
+<li>Define the ideal data set</li>
+<li>Determine what data you can access</li>
+<li>Obtain the data</li>
+<li>Clean the data</li>
+<li>Exploratory data analysis</li>
+<li>Statistical prediction/modeling</li>
+<li>Interpret results</li>
+<li>Challenge results</li>
+<li>Synthesize/write up results</li>
+<li>Create reproducible code</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Defining a question</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/stat-projects.jpg height=400 /></p>
+
+<ol>
+<li>Statistical methods development</li>
+<li><a href="http://www.drewconway.com/zia/?p=2378">Danger zone!!!</a></li>
+<li>Proper data analysis </li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>An example</h2>
+  </hgroup>
+  <article>
+    <p><strong>Start with a general question</strong></p>
+
+<p>Can I automatically detect emails that are SPAM that are not?</p>
+
+<p><strong>Make it concrete</strong></p>
+
+<p>Can I use quantitative characteristics of the emails to classify them as SPAM/HAM?</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Define the ideal data set</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The data set may depend on your goal
+
+<ul>
+<li>Descriptive - a whole population</li>
+<li>Exploratory - a random sample with many variables measured</li>
+<li>Inferential - the right population, randomly sampled</li>
+<li>Predictive - a training and test data set from the same population</li>
+<li>Causal - data from a randomized study</li>
+<li>Mechanistic - data about all components of the system</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Our example</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/datacenter.png height='400' />
+<a href="http://www.google.com/about/datacenters/inside/">http://www.google.com/about/datacenters/inside/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Determine what data you can access</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Sometimes you can find data free on the web</li>
+<li>Other times you may need to buy the data</li>
+<li>Be sure to respect the terms of use</li>
+<li>If the data don&#39;t exist, you may need to generate it yourself</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>Back to our example</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/security.png height='400' /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>A possible solution</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/uci.png height='400' /></p>
+
+<p><a href="http://archive.ics.uci.edu/ml/datasets/Spambase">http://archive.ics.uci.edu/ml/datasets/Spambase</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>Obtain the data</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Try to obtain the raw data</li>
+<li>Be sure to reference the source</li>
+<li>Polite emails go a long way</li>
+<li>If you will load the data from an internet source, record the url and time accessed</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>Our data set</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/spamR.png height='400' /></p>
+
+<p><a href="http://search.r-project.org/library/kernlab/html/spam.html">http://search.r-project.org/library/kernlab/html/spam.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>Clean the data</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Raw data often needs to be processed</li>
+<li>If it is pre-processed, make sure you understand how</li>
+<li>Understand the source of the data (census, sample, convenience sample, etc.)</li>
+<li>May need reformating, subsampling - record these steps</li>
+<li><strong>Determine if the data are good enough</strong> - if not, quit or change data</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>Our cleaned data set</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r"># If it isn&#39;t installed, install the kernlab package with install.packages()
+library(kernlab)
+data(spam)
+str(spam[, 1:5])
+</code></pre>
+
+<pre><code>&#39;data.frame&#39;:   4601 obs. of  5 variables:
+ $ make   : num  0 0.21 0.06 0 0 0 0 0 0.15 0.06 ...
+ $ address: num  0.64 0.28 0 0 0 0 0 0 0 0.12 ...
+ $ all    : num  0.64 0.5 0.71 0 0 0 0 0 0.46 0.77 ...
+ $ num3d  : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ our    : num  0.32 0.14 1.23 0.63 0.63 1.85 1.92 1.88 0.61 0.19 ...
+</code></pre>
+
+<p><a href="http://search.r-project.org/library/kernlab/html/spam.html">http://search.r-project.org/library/kernlab/html/spam.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>Subsampling our data set</h2>
+  </hgroup>
+  <article>
+    <p>We need to generate a test and training set (prediction)</p>
+
+<pre><code class="r"># If it isn&#39;t installed, install the kernlab package
+library(kernlab)
+data(spam)
+# Perform the subsampling
+set.seed(3435)
+trainIndicator = rbinom(4601,size=1,prob=0.5)
+table(trainIndicator)
+</code></pre>
+
+<pre><code>trainIndicator
+   0    1 
+2314 2287 
+</code></pre>
+
+<pre><code class="r">trainSpam = spam[trainIndicator==1,]
+testSpam = spam[trainIndicator==0,]
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>Exploratory data analysis</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Look at summaries of the data</li>
+<li>Check for missing data</li>
+<li>Create exploratory plots</li>
+<li>Perform exploratory analyses (e.g. clustering)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>Names</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">names(trainSpam)
+</code></pre>
+
+<pre><code> [1] &quot;make&quot;              &quot;address&quot;           &quot;all&quot;               &quot;num3d&quot;            
+ [5] &quot;our&quot;               &quot;over&quot;              &quot;remove&quot;            &quot;internet&quot;         
+ [9] &quot;order&quot;             &quot;mail&quot;              &quot;receive&quot;           &quot;will&quot;             
+[13] &quot;people&quot;            &quot;report&quot;            &quot;addresses&quot;         &quot;free&quot;             
+[17] &quot;business&quot;          &quot;email&quot;             &quot;you&quot;               &quot;credit&quot;           
+[21] &quot;your&quot;              &quot;font&quot;              &quot;num000&quot;            &quot;money&quot;            
+[25] &quot;hp&quot;                &quot;hpl&quot;               &quot;george&quot;            &quot;num650&quot;           
+[29] &quot;lab&quot;               &quot;labs&quot;              &quot;telnet&quot;            &quot;num857&quot;           
+[33] &quot;data&quot;              &quot;num415&quot;            &quot;num85&quot;             &quot;technology&quot;       
+[37] &quot;num1999&quot;           &quot;parts&quot;             &quot;pm&quot;                &quot;direct&quot;           
+[41] &quot;cs&quot;                &quot;meeting&quot;           &quot;original&quot;          &quot;project&quot;          
+[45] &quot;re&quot;                &quot;edu&quot;               &quot;table&quot;             &quot;conference&quot;       
+[49] &quot;charSemicolon&quot;     &quot;charRoundbracket&quot;  &quot;charSquarebracket&quot; &quot;charExclamation&quot;  
+[53] &quot;charDollar&quot;        &quot;charHash&quot;          &quot;capitalAve&quot;        &quot;capitalLong&quot;      
+[57] &quot;capitalTotal&quot;      &quot;type&quot;             
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>Head</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">head(trainSpam)
+</code></pre>
+
+<pre><code>   make address  all num3d  our over remove internet order mail receive will people report
+1  0.00    0.64 0.64     0 0.32 0.00   0.00        0  0.00 0.00    0.00 0.64   0.00      0
+7  0.00    0.00 0.00     0 1.92 0.00   0.00        0  0.00 0.64    0.96 1.28   0.00      0
+9  0.15    0.00 0.46     0 0.61 0.00   0.30        0  0.92 0.76    0.76 0.92   0.00      0
+12 0.00    0.00 0.25     0 0.38 0.25   0.25        0  0.00 0.00    0.12 0.12   0.12      0
+14 0.00    0.00 0.00     0 0.90 0.00   0.90        0  0.00 0.90    0.90 0.00   0.90      0
+16 0.00    0.42 0.42     0 1.27 0.00   0.42        0  0.00 1.27    0.00 0.00   0.00      0
+   addresses free business email  you credit your font num000 money hp hpl george num650 lab labs
+1          0 0.32        0  1.29 1.93   0.00 0.96    0      0  0.00  0   0      0      0   0    0
+7          0 0.96        0  0.32 3.85   0.00 0.64    0      0  0.00  0   0      0      0   0    0
+9          0 0.00        0  0.15 1.23   3.53 2.00    0      0  0.15  0   0      0      0   0    0
+12         0 0.00        0  0.00 1.16   0.00 0.77    0      0  0.00  0   0      0      0   0    0
+14         0 0.00        0  0.00 2.72   0.00 0.90    0      0  0.00  0   0      0      0   0    0
+16         0 1.27        0  0.00 1.70   0.42 1.27    0      0  0.42  0   0      0      0   0    0
+   telnet num857 data num415 num85 technology num1999 parts pm direct cs meeting original project
+1       0      0 0.00      0     0          0    0.00     0  0   0.00  0       0      0.0       0
+7       0      0 0.00      0     0          0    0.00     0  0   0.00  0       0      0.0       0
+9       0      0 0.15      0     0          0    0.00     0  0   0.00  0       0      0.3       0
+12      0      0 0.00      0     0          0    0.00     0  0   0.00  0       0      0.0       0
+14      0      0 0.00      0     0          0    0.00     0  0   0.00  0       0      0.0       0
+16      0      0 0.00      0     0          0    1.27     0  0   0.42  0       0      0.0       0
+   re edu table conference charSemicolon charRoundbracket charSquarebracket charExclamation
+1   0   0     0          0         0.000            0.000                 0           0.778
+7   0   0     0          0         0.000            0.054                 0           0.164
+9   0   0     0          0         0.000            0.271                 0           0.181
+12  0   0     0          0         0.022            0.044                 0           0.663
+14  0   0     0          0         0.000            0.000                 0           0.000
+16  0   0     0          0         0.000            0.063                 0           0.572
+   charDollar charHash capitalAve capitalLong capitalTotal type
+1       0.000    0.000      3.756          61          278 spam
+7       0.054    0.000      1.671           4          112 spam
+9       0.203    0.022      9.744         445         1257 spam
+12      0.000    0.000      1.243          11          184 spam
+14      0.000    0.000      2.083           7           25 spam
+16      0.063    0.000      5.659          55          249 spam
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>Summaries</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">table(trainSpam$type)
+</code></pre>
+
+<pre><code>
+nonspam    spam 
+   1381     906 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>Plots</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">plot(trainSpam$capitalAve ~ trainSpam$type)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-50" style="background:;">
+  <hgroup>
+    <h2>Plots</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">plot(log10(trainSpam$capitalAve + 1) ~ trainSpam$type)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-51" style="background:;">
+  <hgroup>
+    <h2>Relationships between predictors</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">plot(log10(trainSpam[,1:4]+1))
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-52" style="background:;">
+  <hgroup>
+    <h2>Clustering</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">hCluster = hclust(dist(t(trainSpam[,1:57])))
+plot(hCluster)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-10.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-53" style="background:;">
+  <hgroup>
+    <h2>New clustering</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">hClusterUpdated = hclust(dist(t(log10(trainSpam[,1:55]+1))))
+plot(hClusterUpdated)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-54" style="background:;">
+  <hgroup>
+    <h2>Statistical prediction/modeling</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Should be informed by the results of your exploratory analysis</li>
+<li>Exact methods depend on the question of interest</li>
+<li>Transformations/processing should be accounted for when necessary</li>
+<li>Measures of uncertainty should be reported</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-55" style="background:;">
+  <hgroup>
+    <h2>Statistical prediction/modeling</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">trainSpam$numType = as.numeric(trainSpam$type)-1
+costFunction = function(x,y) sum(x!=(y &gt; 0.5)) 
+cvError = rep(NA,55)
+library(boot)
+for(i in 1:55){
+  lmFormula = reformulate(names(trainSpam)[i], response = &quot;numType&quot;)
+  glmFit = glm(lmFormula,family=&quot;binomial&quot;,data=trainSpam)
+  cvError[i] = cv.glm(trainSpam,glmFit,costFunction,2)$delta[2]
+}
+
+## Which predictor has minimum cross-validated error?
+names(trainSpam)[which.min(cvError)]
+</code></pre>
+
+<pre><code>[1] &quot;charDollar&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-56" style="background:;">
+  <hgroup>
+    <h2>Get a measure of uncertainty</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">## Use the best model from the group
+predictionModel = glm(numType ~ charDollar,family=&quot;binomial&quot;,data=trainSpam)
+
+## Get predictions on the test set
+predictionTest = predict(predictionModel,testSpam)
+predictedSpam = rep(&quot;nonspam&quot;,dim(testSpam)[1])
+
+## Classify as `spam&#39; for those with prob &gt; 0.5
+predictedSpam[predictionModel$fitted &gt; 0.5] = &quot;spam&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-57" style="background:;">
+  <hgroup>
+    <h2>Get a measure of uncertainty</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">## Classification table
+table(predictedSpam,testSpam$type)
+</code></pre>
+
+<pre><code>
+predictedSpam nonspam spam
+      nonspam    1346  458
+      spam         61  449
+</code></pre>
+
+<pre><code class="r">
+## Error rate
+(61+458)/(1346+458 + 61 + 449)
+</code></pre>
+
+<pre><code>[1] 0.2243
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-58" style="background:;">
+  <hgroup>
+    <h2>Interpret results</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Use the appropriate language
+
+<ul>
+<li>describes </li>
+<li>correlates with/associated with</li>
+<li>leads to/causes</li>
+<li>predicts</li>
+</ul></li>
+<li>Give an explanation</li>
+<li>Interpret coefficients</li>
+<li>Interpret measures of uncertainty</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-59" style="background:;">
+  <hgroup>
+    <h2>Our example</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The fraction of charcters that are dollar signs can be used to predict if an email is Spam</li>
+<li>Anything with more than 6.6% dollar signs is classified as Spam</li>
+<li>More dollar signs always means more Spam under our prediction</li>
+<li>Our test set error rate was 22.4% </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-60" style="background:;">
+  <hgroup>
+    <h2>Challenge results</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Challenge all steps:
+
+<ul>
+<li>Question</li>
+<li>Data source</li>
+<li>Processing </li>
+<li>Analysis </li>
+<li>Conclusions</li>
+</ul></li>
+<li>Challenge measures of uncertainty</li>
+<li>Challenge choices of terms to include in models</li>
+<li>Think of potential alternative analyses </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-61" style="background:;">
+  <hgroup>
+    <h2>Synthesize/write-up results</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Lead with the question</li>
+<li>Summarize the analyses into the story </li>
+<li>Don&#39;t include every analysis, include it
+
+<ul>
+<li>If it is needed for the story</li>
+<li>If it is needed to address a challenge</li>
+</ul></li>
+<li>Order analyses according to the story, rather than chronologically</li>
+<li>Include &quot;pretty&quot; figures that contribute to the story </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-62" style="background:;">
+  <hgroup>
+    <h2>In our example</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Lead with the question
+
+<ul>
+<li>Can I use quantitative characteristics of the emails to classify them as SPAM/HAM?</li>
+</ul></li>
+<li>Describe the approach
+
+<ul>
+<li>Collected data from UCI -&gt; created training/test sets</li>
+<li>Explored relationships</li>
+<li>Choose logistic model on training set by cross validation</li>
+<li>Applied to test, 78% test set accuracy</li>
+</ul></li>
+<li>Interpret results
+
+<ul>
+<li>Number of dollar signs seems reasonable, e.g. &quot;Make money with Viagra \$ \$ \$ \$!&quot;</li>
+</ul></li>
+<li>Challenge results
+
+<ul>
+<li>78% isn&#39;t that great</li>
+<li>I could use more variables</li>
+<li>Why logistic regression?</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-63" style="background:;">
+  <hgroup>
+    <h2>Create reproducible code</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/rmarkdown.png height='400' /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-64" style="background:;">
+  <hgroup>
+    <h2>Questions?</h2>
+  </hgroup>
+  <article>
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+
+  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+<!-- Grab CDN jQuery, fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Load Javascripts for Widgets -->
+<!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script> -->
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="../../libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+</html>
