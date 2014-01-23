@@ -1,16 +1,22 @@
 Assignments for JHSPH 753 and 754
 =============================
 
-How to submit
+How to submit data analyses
 ----------------
 
-1. Please submit all assignments to jtleek+753 gmail address and cc Amanda. 
-2. For 753 email should have title "753-Assignment-1-LastName"
-3. Please also submit data analysis assignments to [http://www.crowdgrader.org/](http://www.crowdgrader.org/).
-4. All assignments and reviews are due by 10pm on the due date. 
-5. Late submissions are not accepted unless agreed to _in advance by at least one week_. 
-6. The only acceptable formats for submissions are pdf files for text/math and R Markdown files for code. 
+### Homework problems
 
+1. Please submit all assignments to jtleek+methods14 gmail address and cc Amanda. 
+2. For 753 email should have title "753-Assignment-1-LastName"
+3. All assignments and reviews are due by 10am on the due date. 
+
+### Data Analysis assignments
+
+4. Please submit data analysis assignments to [http://www.crowdgrader.org/](http://www.crowdgrader.org/).
+8. All assignments and reviews are due by 10am on the due date.
+
+
+Late submissions are not accepted unless agreed to _in advance by at least one week_. The only acceptable formats for submissions are pdf files for text/math and R Markdown files for code. 
 
 Assignment 1
 --------------
