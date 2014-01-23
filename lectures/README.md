@@ -8,6 +8,3 @@ January 21: Motivation, syllabus and types of questions
 [in-class]()
 
 
-January 23: Getting and visualizing data
-[Lecture]()
-[in-class]()

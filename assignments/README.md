@@ -18,7 +18,11 @@ Assignment 1
 * Assigned: Tuesday, January 21st
 * Due: Tuesday, February 4th 
 * Peer Grading Due: February 11th 
+<<<<<<< HEAD
 * [Assignment link]()
+=======
+* [Assignment link]
+>>>>>>> 0c4344af5e270f20ad00373f16534e4e01e2e967
 
 Assignment 2
 --------------
@@ -27,6 +31,10 @@ Assignment 2
 * Due: Tuesday, February 25th
 * Peer Grading Due: March 4th
 * [Assignment link]
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0c4344af5e270f20ad00373f16534e4e01e2e967
 
 Final Project
 --------------

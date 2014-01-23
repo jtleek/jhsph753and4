@@ -1,0 +1,87 @@
+\documentclass[12pt]{article} 
+%\usepackage[orientation=portrait,size=A4]{beamerposter}
+\usepackage{color}
+\usepackage{graphics}
+ \usepackage{fullpage,amsfonts,url}
+\newcommand{\bmX}{\mbox{\boldmath $X$}}
+%\newcommand{\hatb0}{\mbox{$\hat{\beta}_0$}}
+\newcommand{\bmY}{\mbox{\boldmath $Y$}}
+\newcommand{\bmy}{\mbox{\boldmath $y$}}
+\newcommand{\bmZ}{\mbox{\boldmath $Z$}}
+\newcommand{\bmz}{\mbox{\boldmath $z$}}
+\newcommand{\bmx}{\mbox{\boldmath $x$}}
+\newcommand{\bmQ}{\mbox{\boldmath $Q$}}
+\newcommand{\bmU}{\mbox{\boldmath $U$}}
+\newcommand{\bmu}{\mbox{\boldmath $u$}}
+\newcommand{\bmV}{\mbox{\boldmath $V$}}
+\newcommand{\bmI}{\mbox{\boldmath $I$}}
+\newcommand{\bmW}{\mbox{\boldmath $W$}}
+\newcommand{\bmD}{\mbox{\boldmath $D$}}
+\newcommand{\bms}{\mbox{\boldmath $s$}}
+\newcommand{\bma}{\mbox{\boldmath $a$}}
+\newcommand{\bmb}{\mbox{\boldmath $b$}}
+\newcommand{\bmq}{\mbox{\boldmath $q$}}
+\newcommand{\bmf}{\mbox{\boldmath $f$}}
+\newcommand{\bmA}{\mbox{\boldmath $A$}}
+%\newcommand{\bmepsilon}{\mbox{\boldmath $\epsilon$}}
+\newcommand{\Prob}{\mbox{Pr}}
+\newcommand{\bmone}{\mbox{\bf 1}}
+\newcommand{\bmzero}{\mbox{\bf 0}}
+\newcommand{\bmbeta}{\mbox{\boldmath $\beta$}}
+\newcommand{\bmdelta}{\mbox{\boldmath $\delta$}}
+\newcommand{\bmtheta}{\mbox{\boldmath $\theta$}}
+\newcommand{\bmpsi}{\mbox{\boldmath $\psi$}}
+\newcommand{\bmphi}{\mbox{\boldmath $\phi$}}
+\newcommand{\bmnu}{\mbox{\boldmath $\nu$}}
+\newcommand{\bmgamma}{\mbox{\boldmath $\gamma$}}
+\newcommand{\bmmu}{\mbox{\boldmath $\mu$}}
+\newcommand{\bmepsilon}{\mbox{\boldmath $\epsilon$}}
+\newcommand{\bmSigma}{\mbox{\boldmath $\Sigma$}}
+\newcommand{\e}{\mathbb{E}}
+
+
+
+\title{Bio 753: Homework 1}
+
+
+\begin{document}
+\maketitle
+\noindent {\it See the class site for due date, guidance on how to answer, and notice of any corrections or clarifications. For problems which require computation, please append neat and commented R code as an appendix to your homework. }
+
+\begin{enumerate}
+\item \textbf{[GLM Basics]}
+
+\begin{enumerate}
+\item Define the following components of a GLM for a member of the exponential family: link function, canonical link, natural parameter, linear predictor, iteratively re-weighted least squares. 
+\item What are the advantages of using the canonical link function? Describe a case where you would not use the canonical link. 
+\item In general terms, describe the type of data for which each of the following families would be sensible: Gaussian, Poisson, Gamma, Inverse-Gaussian, Binomial. 
+\item Suppose we have a sample $Y_i|\theta \sim_{i.i.d.} p(\cdot | \theta,\phi)$,$i=1,\ldots,n$ from the following distributions: 
+\begin{itemize}
+\item Poisson: $p(y | \theta,\phi) = \frac{e^{-\lambda} \lambda^y}{y!}$ for $y=0,1,2,\ldots$
+\item Gamma: $p(y| \theta,\phi) = \frac{b^{\alpha}}{\Gamma(\alpha)}y^{\alpha-1}e^{-by}$ for $y > 0$
+\item Inverse Gaussian: $p(y | \theta, \phi) = \left(\frac{\delta}{2\pi y^3}\right)^{1/2} \exp\left[\frac{-\delta(y-\lambda)^2}{2\lambda^2y}\right]$ for $y > 0$
+\end{itemize}
+Show that each of these distributions is a member of the exponential family and identify $\theta$, $\phi$, $b(\theta)$, $a(\phi)$, and $c(y,\phi)$. 
+\item Identify $\e[Y|\theta,\phi]$ and ${\rm Var}(Y | \theta,\phi)$. 
+\item Determine the canonical link function for each distribution
+\item The Altham et al. 1991 (available from the class website) data are $T_4$ cells/mm$^3$ in blood samples from 20 patients in remission from Hodgkin's disease and 20 other patients in remission from disseminated malignancies. The question of interest is: is there any difference in the distribution of cell counts between the two diseases? Using the R function {\tt glm()} fit the above models to the cell count data assuming the canonical link with $g(\mu_i)  = x_i \beta$ where $x_i = [1 0]$ for $i = 1,\ldots, n=20$ and $x_i = [1 1]$ for $i = n+1,\ldots,2n=40$ and $\beta' = (\beta_0,\beta_1)$. 
+\item The question of interest here is whether the means of the two groups are equal? Express this question in terms of $\beta_0$ and $\beta_1$. For what transformation of $\beta$ is this question answered on the scale of the original data? 
+\item Using the asymptotic distribution of the MLE, that is $\hat{\beta} \dot{\sim} N(\beta,I(\hat{\beta})^{-1})$ give 90\% confidence intervals for each parameter. Under each of the distributional assumptions, would you conclude that the means of the two groups are equal? 
+\end{enumerate} 
+
+\item \textbf{[Interpreting coefficients]}
+Suppose you have observed an outcome $Y_i$ and covariates $X_i, Z_i$ (all univariate) and fit the models
+\begin{eqnarray}
+{\rm logit}(\e[Y_i]) &=& \beta_0 + \beta_1 X_i + \gamma_2 Z_i\\
+{\rm logit}(\e[Y_i]) &=& \gamma_0 + \gamma_1 X_i + \gamma_2 Z_i  + \gamma_3 Z_iX_i
+\end{eqnarray}
+
+What are the interpretations of the coefficients for each of these models, in language suitable for a non-statistical audience, under both the parametric and non-parametric assumptions? What transformation of the coefficients may be more interpretable to a non-statistical audience? How do you interpret the parameters after this transformation?\\
+{\it Hint: It may be helpful to make up plausible hypothetical $X$ and $Y$ - see problem 1(c).}
+
+
+\item \textbf{[Earthquakes!]}
+Download earthquake data for the last 30 days from Data.gov (\url{http://earthquake.usgs.gov/earthquakes/feed/v1.0/csv.php}). The question of interest is to quantify the association (if any) between earthquake magnitude and earthquake depth. Fit a GLM with appropriate  choice for distribution and link to these data  All model fitting must be performed ``by hand''. You must write your own code to maximize the likelihood with neat (read: readable, reproducible) code and derivations included as supplementary information. Use the {\tt glm} and {\tt sandwich} functions to confirm your code works. 
+\end{enumerate}
+
+\end{document}
