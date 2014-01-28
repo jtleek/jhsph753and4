@@ -1,0 +1,695 @@
+---
+title       : Regresssion review
+subtitle    : 
+author      : Jeffrey Leek
+job         : Johns Hopkins Bloomberg School of Public Health
+logo        : bloomberg_shield.png
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow   # 
+url:
+  lib: ../../libraries
+  assets: ../../assets
+widgets     : [mathjax]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+---
+
+
+```{r setup, cache = F, echo = F, message = F, warning = F, tidy = F}
+# make this an external chunk that can be included in any file
+options(width = 100)
+opts_chunk$set(message = F, error = F, warning = F, comment = NA, fig.align = 'center', dpi = 100, tidy = F, cache.path = '.cache/', fig.path = 'fig/')
+
+options(xtable.type = 'html')
+knit_hooks$set(inline = function(x) {
+  if(is.numeric(x)) {
+    round(x, getOption('digits'))
+  } else {
+    paste(as.character(x), collapse = ', ')
+  }
+})
+knit_hooks$set(plot = knitr:::hook_plot_html)
+
+```
+
+
+## Pro tip 0 
+
+Read journals. Here are some good ones:
+
+* Biostatistics, Annals of Applied Statisitcs, Statistics in Medicine, Biometrics, Biometrika, JASA TM, JASA AC, JRSSB
+* Nature,Science, NEJM, JAMA, PLoS Biology, Other PLoS's
+* Neuroimage, Bioinformatics, Genome Biology, Neuron, Epidemiology, American Journal of Epidemiology
+
+
+* Use a feed reader. 
+* Twitter is even better.
+* Read fast (typical distribution)
+  * Title = 100%
+  * Abstract = 50%
+  * Article = 20% or less
+
+---
+
+## Pro tip 1 - becoming an expert
+
+What's going to happen during your Ph.D.
+
+* 1st Year - Classes
+* After 1st Year - Exam
+* 2nd Year - More classes, reading courses
+* <redtext>3rd Year - Work on research</redtext>
+* <redtext>4th Year - Work on research</redtext>
+* 5th Year - Search for job
+
+3rd & 4th are the best, but massively unstructured. 
+
+Be prepared: [http://alyssafrazee.com/unstructured-time.html](http://alyssafrazee.com/unstructured-time.html)
+
+
+---
+
+## Paper of the day
+
+__"The Future of Data Analysis"__ Tukey, 1962, Annals of Statistics
+
+http://projecteuclid.org/download/pdf_1/euclid.aoms/1177704711
+
+Normally I do quotes, _but you should all read this_, if for no other reason to see a person travel in time from 1962 to 2014. 
+
+
+---
+
+## Slide credits
+
+* Most of today's slides courtesy [Ken Rice](http://faculty.washington.edu/kenrice/), I think one of the best lecturers on regression models I know. 
+
+
+---
+
+## What is "randomness"?
+
+Recall high school physics... 
+For two resistors ``in series'', the 
+resistances are added to give a 
+total (Y , measured in Ohms, $\Omega$) which we record __without error__. 
+
+* We know the number of gold stripes (X) and silver stripes (Z)
+* We know that each is $\propto$ the number of stripes
+* Q: How much resistance do stripes of each color correspond to?
+
+<img class="center" src=../../assets/img/ohm.png height=300>
+
+---
+
+## Thought experiment #1
+
+Note that there is __no measurement error__ or __noise__ and __nothing random going on__
+
+What is the "value" of each gold stripe. 
+
+<img class="center" src=../../assets/img/ohmplot1.png height=450>
+
+---
+
+## Plot resistance versus gold stripes
+
+What is the difference between X and X+1?
+
+<img class="center" src=../../assets/img/ohmplot2.png height=450>
+
+
+---
+
+## Remove the knowledge of silver stripes
+
+
+<img class="center" src=../../assets/img/ohmplot3.png height=450>
+
+
+---
+
+## Math behind this experiment
+
+Here's the truth; 
+
+$$Y_{n\times1} =\gamma_0 1_{n\times1} + \gamma_1 X_{n\times1} + \gamma_2 Z_{n\times1}$$
+
+where $n$ is evenly distributed between all $X,Z$ combinations.
+
+But not knowing $Z$, we will fit the relationship $Y \approx \beta_0 \vec{1} + \beta_1 X$
+Here ``fit'' means that we will find $e$ _orthogonal_ to $\vec{1}$ and $X$ such that $$Y = \beta_0 \vec{1} + \beta_1 X + e$$
+By linear algebra (i.e. projection onto $\vec{1}$ and $X$) we must have 
+$$e  = Y - \left(\frac{Y \cdot \vec{1}}{n} - \frac{Y\cdot(X - Ar{X}\vec{1})}{(X-Ar{X}\vec{1}) \cdot(X-Ar{X}\vec{1}) }X\right)\vec{1} - \left(\frac{Y\cdot(X - Ar{X}\vec{1})}{(X-Ar{X}\vec{1}) \cdot(X-Ar{X}\vec{1}) }\right)X$$
+
+where $Ar{X} = X \cdot \vec{1} / (\vec{1} \cdot \vec{1}) = X \cdot \vec{1}/n$, i.e. the mean of $X$  - a scalar. 
+
+---
+
+## The fitted line
+
+* Orthogonal to $\vec{1}$ and $X$.
+* What is the slope? 
+
+<img class="center" src=../../assets/img/ohmplot4.png height=450>
+
+
+---
+
+## Take homes
+
+What to remember (in ``real'' experiments too);
+
+
+* The "errors" _represent_ everything that we didn't measure. 
+* _Nothing_ is random here - we just have imperfect information
+* If you are _never_ going to know $Z$ (or can't assume you know 
+a lot about it) this sort of "marginal" relationship is all that can be learned
+
+What you __didn't__ measure can't be ignored...
+
+
+---
+
+## Thought experiment 2
+
+* A different "design"
+* What is going on? 
+
+<img class="center" src=../../assets/img/ohmplot5.png height=450>
+
+---
+
+## Plotting gold stripes versus resistance
+
+
+<img class="center" src=../../assets/img/ohmplot6.png height=450>
+
+
+---
+
+## Ignoring information on silver stripes
+
+<img class="center" src=../../assets/img/ohmplot7.png height=450>
+
+
+---
+
+## Here's the fit
+
+* What is the slope?
+* What would you conclude? 
+
+<img class="center" src=../../assets/img/ohmplot8.png height=450>
+
+---
+
+## Math behind experiment two 
+
+Here's the truth, for both $Y$ and $Z$;
+$$ Y = \gamma_0 \vec{1} + \gamma_1 X + \gamma_2 Z$$
+$$ Z = \theta_0 \vec{1} + \theta_1 X + e$$
+where $e$ is orthongal to $\vec{1}$, $X$. Therefore,
+
+$$Y = \gamma_0 + \gamma_1 X + \gamma_2 (\theta_0 + \theta_1 X + e)$$
+$$ = (\gamma_0 + \gamma_2\theta_0) \vec{1} + (\gamma_1 + \gamma_2\theta_1)X + \gamma_2e$$
+$${\rm E}quiv \beta_0 \vec{1} + \beta_1 X + e$$
+and we get $\beta_1 = \gamma_1$ if (and only if) there's "nothing going on" between $Z$ and $X$. The change we saw
+in the $Y-X$ slope (from \#1 to \#2) follows exactly this pattern. 
+
+---
+
+## Take homes
+
+* The marginal slope $\beta_1$ is not the ``wrong'' answer, but it may not be the same as $\gamma_1$. 
+* Which do you want? The $Y-Z$ slope if $Z$ is fixed or if $Z$ varies with $X$ in the same way it did in your experiment? 
+* No one needs to know that $Y$ is being measured for $\beta_1 \neq \gamma_1$ to occur. 
+* The "observed""  $e$ are actually $\gamma_2 e$ here, so the "noise" doesn't simply reflect the $Z-X$ relationship _alone_.
+
+---
+
+## Last experiment
+
+<img class="center" src=../../assets/img/ohmplot9.png height=450>
+
+---
+
+## Plot gold stripes versus resistance
+
+<img class="center" src=../../assets/img/ohmplot10.png height=450>
+
+
+
+---
+
+## Starts to look like real data
+
+<img class="center" src=../../assets/img/ohmplot11.png height=450>
+
+
+---
+
+## Take homes
+
+* $Z$ and $X$ were orthogonal - what happened to the slope?
+* But the variability of $Z$ depended on $X$. What happened to $e$, compared to \#1 and \# 2?
+* We can extend all these arguments to $X_{n\times p }$ and $Z_{n \times q}$ 
+* Reality also tends to have $>$ 1 "unpretty" phenomena per situation!
+* In general, the nature of what we call ``randomness'' depends 
+__heavily__ on what is going on unobserved. It's only in extremely 
+simple situations that unobserved patterns can be dismissed 
+without careful thought. 
+* In some complex situations they can be dismissed, but only after careful thought. 
+
+---
+
+## Reality check
+
+This is a realistically complex "system" you might  see in practice. $X$ is development time and $Y$ is expression of a gene. Knowing $Y-X$ is clearly useful, but it is pretty silly to pretend there is no $Z-X$ relationship. 
+
+<img class="center" src=../../assets/img/complications.png height=450>
+
+
+---
+
+## Probably the main source of retractions too
+
+<img class="center" src=../../assets/img/gwas.png height=450>
+
+
+---
+
+## Some data
+
+<img class="center" src=../../assets/img/scatter1.png height=450>
+
+
+---
+
+## More data
+
+<img class="center" src=../../assets/img/scatter2.png height=450>
+
+
+---
+
+## Super-population
+
+<img class="center" src=../../assets/img/scatter3.png height=450>
+
+---
+
+## Mean of X
+
+<img class="center" src=../../assets/img/scatter4.png height=450>
+
+
+---
+
+## Mean of Y
+
+<img class="center" src=../../assets/img/scatter5.png height=450>
+
+---
+
+## Mean of Y at a given X
+
+<img class="center" src=../../assets/img/scatter6.png height=450>
+
+
+---
+
+## Difference in mean of Y beween to values of X
+
+Which is unchanged if $X\rightarrow X + c$
+
+<img class="center" src=../../assets/img/scatter7.png height=450>
+
+---
+
+## Defining parameters
+
+* A _parameter_ is (formally) an operation on a super-population,
+mapping it to a ``parameter space'' $\Theta$, such as $\mathbb{R}$, or
+$\mathbb{R}^p$, or $\{0,1\}$.
+* The parameter _value_ (typically denoted $\beta$ or $\theta$) is the result of this operation
+* "Inference" means making one or more conclusions about the parameter value
+* These could be estimates, intervals, or binary (Yes/No) decisions
+* "Statistical inference"" means drawing conclusions without the full populations' data, i.e. in the face of uncertainty. 
+
+* In previous courses, parameters may have been defined as linear operations on the superpopulation. In 753and4, we will generalize the idea. 
+
+
+---
+
+## More on parameters
+
+In this course, we will typically assume relevant parameters can 
+be identified in this way. But in some real situations, one cannot 
+identify $\theta$, even with an infinite sample (e.g. mean height of 
+women, when you only have data on men) 
+
+
+If your data do not permit useful inference, you could; 
+
+* Switch target parameters 
+* Extrapolate cautiously i.e. make assumptions 
+* Not do inference, but "hypothesis-generation"
+* Give up 
+
+_The data may not contain the answer. The 
+combination of some data and an aching desire 
+for an answer does not ensure that a reasonable 
+answer can be extracted from a given body of data._
+
+-John Tukey
+
+---
+
+## What is regression?
+
+In its most fundamental interpretation, ÔregressionÕ estimates
+differences in outcome Y , between subjects whose X values differ
+in a specified manner.
+
+We take differences in "Y" to mean differences in the expectation
+of Y , on some scale. For example, with binary X, you might be
+interested in;
+$${\rm E}_F[Y|X=1] - {\rm E}_F[Y|X=0]$$
+or 
+$$log({\rm E}_F[Y|X=1]/{\rm E}_F[Y|X=0])$$
+or even
+$$ {\rm E}xp\{{\rm E}_F[\log(Y)|X=1] - {\rm E}_F[\log(Y)|X=0]\}$$
+Note that these are all different! As before, none of them is
+"right","wrong", "uniformly best", or "uniformly a great idea"
+
+
+--- 
+
+## For continuous values
+
+The most commonly-used regression parameter is;
+
+<center>"The difference in Y per 1-unit difference in X"</center>
+
+-which, most fundamentally, means:
+
+* Take the difference in $Y$ between two different $X$ values
+divided by the difference in those $X$ values
+*  Rinse and repeat, averaging this "slope" over all pairs of $\{Y,X_j\}, \{Y,X_k\}$. 
+
+---
+
+## More parameters
+
+* The average $\Delta(Y)/\Delta(X)$, averaging pairs of observations - and weighting
+this average proportionally to $\Delta(X)^2$. 
+* The least squares fit to the line $Y = g(X^T\beta)$. 
+* The weighted least squares fit to the line $Y=g(X^T\beta)$, weighted by some $w(X^T\beta)$
+* As above, except we minimize by iteratively reweighted least squares, and not "proper" minimization (!)
+
+Important point - no one cares about these. They care about the question. Remember that your parameter is defined by a question. 
+
+---
+
+## More parameters - math
+
+* $\beta = \underset{\beta'}{\operatorname{argmin}} \mathbb{E}_F\left[(Y - X^T\beta)(Y - X^T\beta')\right]$ \\ $= \mathbb{E}_F\left[XX^T\right]^{-1}\mathbb{E}_F[XY]$
+* $\beta$ : ${\rm E}_F\left[\frac{\partial g(X^T\beta)}{\partial \beta}\left(Y - g(X^T\beta\right)\right] = 0$
+* $\beta$ : ${\rm E}_F\left[\frac{\partial g(X^T\beta)}{\partial \beta}w(X^T\beta)\left(Y - g(X^T\beta)\right)\right] = 0$
+*  $\beta = \lim_{k\rightarrow \infty}\left\{\beta^{[k+1]} = \underset{\beta'}{\operatorname{argmin}} {\rm E}_F\left[w(X^T\beta^{[k]})(Y_i - g(X^T\beta'))^2\right]\right\}$
+
+---
+
+## General form
+
+The general form of these equations is:
+
+$${\rm E}_F[G(\beta,Y | X)] = 0$$
+
+where $G()$ maps to $\mathbb{R}^p$. Typically $G()$ involves an expression in $Y - g(X^T\beta)$, somewhere.
+
+* Without any parametric assumptions, we are defining regression parameters $\beta$ as quantities reflecting the difference in Y _associated with_ some specific difference in X. 
+
+* Formally we are defining $\beta$ as a __functional__ of $F$. For convenience, we assume that a unique root $\beta$ exists; having multiple roots or no roots can happen  - and theory exists to cope.
+
+---
+
+## Link functions
+
+* The `link' function $g^{-1}()$ indicates how we are measuring differences in Y;
+* Additive differences $\Leftrightarrow$ Identity link
+* Multiplicative differences $\Leftrightarrow$ Log link
+
+For odds ratios, the logistic link specifies:
+$$ g(X^T\beta) = \frac{{\rm E}xp(X^T\beta)}{1+ {\rm E}xp(X^T\beta)}$$
+and is commonly used with binary Y.
+
+The complementary log-log link specifies
+$$g(X^T\beta) = {\rm E}xp\left(-e^{X^T\beta}\right)$$
+and is most-often used when Y is time to event. 
+
+---
+
+## Estimating parameters
+
+Defining parameters is a first step; next we want to estimate
+these parameters.
+
+* As $F$ provides data "rows" $\{Y_i,X_i\}$ as independent random samples, the expectations above are easily "mmicked"; for a sample of size $n$ from $F$, an empirical (and generally __sane__) estimator $\hat{\beta}$ can be
+defined as the solution to the "estimating equation" (EE): 
+$$ \sum_{i=1}^n G(\hat{\beta},Y_i,X_i) = 0$$
+$G$ is known as the "estimating function"; it is vector valued and maps to $\mathbb{R}^p$. 
+
+Solve the EE(s) gives p-dimensional $\hat{\beta}$. 
+
+---
+
+## Optimization: Newton's method
+
+$$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
+
+$$x_{n+1} = x_n - J(x_n)^{-1}F(x_n)$$ 
+
+---
+
+## Optimization: IRWLS
+
+$$\hat{\beta}^{[k+1]} = \hat{\beta}^{[k]} - \left(\frac{\partial}{\partial \beta} \sum_i G(\hat{\beta}^{[k]},Y_i,X_i)\right)^{-1}\left(\sum_i G(\hat{\beta}^{[k]},Y_i,X_i)\right)$$
+
+* Iterate until convergence. 
+* Derive with respect to $\beta$ 
+* Note that the derivative term is $n \times \hat{A}$ at the working value
+
+---
+
+## Properties of estimates from CLT
+
+
+For general  $\theta$ satisfying ${\rm E}_F[G(\theta,Y,X)] = 0$, we use estimating equations:
+
+$$ \sum_{i=1}^n G(\hat{\beta},Y_i,X_i) = 0 $$
+
+* Many similar size "contributions" are being added, the Central Limit Theorem is therefore useful for deriving the frequentist properties of estimating function $G(\cdot, \cdot,\cdot)$ 
+* These properties can be {\it transferred} to the resultant estimator $\hat{\theta}$, allowing us to specify:
+  * Large sample limiting value of $\hat{\theta}$
+  * Large sample variance of $\hat{\theta}$
+  * Large sample distribution of $\hat{\theta}$
+
+These can be used to give (valid) large-sample confidence intervals, whatever the true-but-unknown $F$, or $\theta(F)$.
+sf
+
+
+---
+
+## Standard error estimates: theory
+
+Suppose that, based on a sample of size $n$, $\hat{\theta}_n \in \mathbb{R}^p$ is a solution to the estimating equation $\sum_{i=1}^n G(\theta,Y_i,X_i) = 0$. Under mild regularity conditions, $\hat{\theta}_n \rightarrow_P \theta$ - so $\hat{\theta}_n$ is a consistent estimate of $\theta$. Furthermore:
+$$\sqrt{n}(\hat{\theta}_n - \theta) \rightarrow_D N_p(0, A^{-1}BA^{T-1}) $$
+where
+
+$$ A = A(\theta) = {\rm E}_F\left[\frac{\partial}{\partial \theta}G(\theta,Y,X)\right]$$
+
+$$ B = B(\theta) = {\rm E}_F\left[G(\theta,Y,X)G(\theta,Y,X)^T\right] = {\rm Cov}_F[G(\theta,Y,X)] $$
+
+This means $\hat{\theta}$ is asymptotically Normal, around the 
+"right" mean, with a variance that shrinks with $n^{-1}$. 
+
+
+---
+
+## More about standard errors
+
+* ${\rm Var}_F[\hat{\theta}_n] \approx A^{-1}B A^{T-1}/n$ is known as the "sandwich formula". $A^{-1}$ is informally known as the 
+"bread", and $B$ is the "meat"
+* "Mild" really is "mild"; a few moment conditions will typically suffice
+* The CLT is your friend! For many problems, the approximations are __very good_ for $n$ in the hundreds - but for $n < 10$ don't expect miracles. 
+* The asymptotics of location/spread can "kick in" at different rates. For "hard" problems Normality may be a poor approximation to the behavior of $\hat{\theta}$ unless $n$ is {\bf vast}. 
+
+---
+
+## Estimating the sandwich
+
+If we plug-in empirical estimates of $\theta$ and $F$, i.e.,
+
+$$ \hat{A} = \frac{1}{n} \sum_{i=1}^n \frac{\partial}{\partial \theta} G(\hat{\theta}_n, Y_i, X_i)$$
+
+$$\hat{B} = \frac{1}{n} \sum_{i=1}^n G(\hat{\theta}_n, Y_i, X_i)G(\hat{\theta}_n,Y_i,X_i)^T$$
+
+then (by a law of large numbers) $\hat{A} \rightarrow_P A$ and $\hat{B} \rightarrow B$, so
+$$\widehat{{\rm Var}}(\hat{\theta}_n) = \frac{1}{n} \hat{A}^{-1} \hat{B}\hat{A}^{T-1}$$
+is a __consistent__ estimator of the variance of $\hat{\theta}_n(Y)$. Intervals based on $\hat{\theta}_n \rightarrow_D N_p(\theta,\widehat{{\rm Var}}(\hat{\theta}_n))$ have the correct coverage, asymptotically. 
+
+This is known as the _sandwich covariance estimate_ due to
+Huber (1967, Proc 5th Berk Sym) - and Eicker, and White.
+Hansen (1982, Econometrika) proposed the general form. He recently [won a Nobel prize for this](http://simplystatistics.org/2013/10/14/why-did-lars-peter-hansen-win-the-nobel-prize-generalized-method-of-moments-explained/).
+
+
+---
+
+## Some history and terminology
+
+* Also known as the "robust" estimate of (co)variance, used in "robust standard errors", "robust intervals"
+*  As it can behave badly in some (non-asymptotic) situations, ``model-agnostic'' is better; we're using {\bf no} parametric ideas
+* Also known as a ``heteroskedasticity-consistent'' estimate. This name:
+  *  badly understates the utility; we specified almost nothing about $F$ - why worry only about the variance?
+  * regularly defeats seminar speakers
+* EE and the sandwich are known as the Generalized Method
+of Moments in econometrics where they are common. But they were largely unknown to statisticians before Royall (1986, Intl Stat Rev)
+
+
+---
+
+## Can always fit models like this
+
+
+<img class="center" src=../../assets/img/line1.png height=450>
+
+But be careful!
+
+---
+
+## Line fitting
+
+
+* You are probably familiar with the idea of "fitting lines to data"
+* We don't need this to justify regression models
+* It can provide more intuitive interpretation of "difference"
+parameters
+* "More parametric" methods than EE/the sandwich often
+make assumptions which can be expressed as linearity, on
+some scale. 
+
+---
+
+## Line fitting: straight lines
+
+* One sane summary is the straight line with intercept $\beta_0$, slope
+$\beta_X$ that minimizes
+
+$${\rm E}_F\left[(Y- \beta_0 - \beta_X X)^2\right]$$
+
+Empirically, we can estimate this by finding the $\hat{\beta}$ that minimizes
+$$\sum_{i=1}^n (Y_i - \beta_0 - \beta_X X_i)^2$$
+... i.e. the Least Squares Estimator. 
+
+Use of sandwich standard errors based on
+$$\sum_i \{1,X_i\}^T(Y- \beta_0 - \beta_X X_i) = 0$$
+
+
+---
+
+## Line fitting: curves
+
+Least-squares also works for curves, consider estimating
+$$ \beta\:\: {\rm minimizing} \:\:  {\rm E}_F[(Y- e^{X^T\beta})^2]$$
+You would do this (I hope) by solving
+$$ \sum_{i=1}^n X_i e^{X_i^T\beta}(Y_i - e^{X^T_i\beta})= 0$$
+and then using the sandwich. 
+
+
+---
+
+## Line fitting: other weights
+
+* But why always "plain vanilla" least squares? We could 
+"fit a line" (and estimate a sane parameter) by instead minimizing
+$$\sum_{i=1}^n w_i(Y_i - e^{X_i^T\beta})^2$$
+meaning $\hat{\beta}$ is the solution to 
+$$ \sum_{i=1}^n w_i X_ie^{X_i^T\hat{\beta}}(Y_i - e^{X_i^T\hat{\beta}}) = 0$$
+Informally, one way to proceed then sets $w_i = e^{-X_i^T\hat{\beta}}$ and solves
+$$\sum_{i=1}^n X_i(Y_i - e^{X_i\hat{\beta}}) = 0$$
+
+
+
+---
+
+## Line fitting: general case
+
+* Consider the general EE;
+$$ \sum_{i=1}^n \frac{\partial g(X_i^T\beta)}{\partial \beta}w(X_i^T\beta)(Y- g(X^T\beta)) = 0$$
+$g(\cdot)$ tells you what line you're fitting. But its _inverse_ $g^{-1}(\cdot)$ (mapping from Y-space to $\mathbb{R}$) is called the __link__ function.
+
+* $g(X^T\beta) = X^T\beta$ identity link
+* $g(X^T\beta) = exp(X^T\beta)$ log link
+* $g(X^T\beta) = 1/X^T\beta$  inverse link
+
+Formally, $\beta$ tells you about "slopes" of fitted surfaces, on a scale defined by $g^{-1}(\cdot)$. Other (occasional) choices include square-root link, and the "probit" function - the inverse of the Normal distribution function. 
+
+---
+
+## Families
+
+Having specified a link, the choice of weights is made by
+specifying a family
+
+* $w(X^T\beta) = 1$  Gaussian/Normal family
+* $w(X^T\beta) = 1/g(X^T\beta)$  Poisson family
+* $w(X^T\beta) = \frac{1}{g(X^T\beta)(1-g(X^T\beta)}$  Binomial family 
+
+
+* As you might guess from the names, these have connections
+to parametric models - but keep in mind that our interpretation
+does not need/use them. 
+* Judicious, canonical choice of $w(\cdot)$ leads to "pretty" cancellation,
+and (often) an EE of the form 
+$$ \sum_{i=1}^n X_i(Y_i - g(X^T\beta)) = 0$$
+
+
+---
+
+## Parametric assumptions
+
+* Often we "realize"/"see"/"are beamed down knowledge from a UFO" that (for independent data) $Y_i$ has the following density:
+$$f(y_i | x_i) = h(x_i, \phi) \exp\left(\frac{y_i\theta_i - b(\theta_i,x)}{\phi}\right)$$
+where for some known function $g()$ we also know that:
+$$g^{-1}\left(\frac{\partial b(\theta,x_i)}{\partial \theta}\right) = \theta^Tx_i$$
+The second assumption is familiar as:
+$$\e[Y_i | x_i] = g(\theta^Tx_i)$$
+In other words, the "systematic componet" (i.e. the structure of $\e[Y | x]$ is linear in $x$ and $\beta$ on the given scale. This is distinguished from the "random' component, which states distribution 
+
+---
+
+## Likelihood
+
+* Under these assumptions, the MLE is found by solving
+$$ D^TV^{-1}(Y - \mu)/\phi = 0$$
+where $V$ indicates (modeled) variance of $Y_i|x_i$, $D$ is the usual matrix
+of derivatives, and $\mu$ denotes the vector of ${\rm E}[Y_i | x_i]$ - note that $\phi$ doesn't affect
+the root-finding. 
+
+* These EE's can be derived non-parametrically
+* For canonical parameters, things get even prettier:
+$$ X^T(Y - \mu) = 0$$
+
+* Canonical or not, the contributions are weighted by their variances, so we get efficiency
+* Use of MLEs from GLMs $\implies$ estimating sane parameters under a sane weighting
+scheme. 
+
+
+---
+
+## Questions?
+
+[https://github.com/jtleek/jhsph753and4/lectures](https://github.com/jtleek/jhsph753and4/lectures)
+

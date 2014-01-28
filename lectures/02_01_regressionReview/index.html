@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Regresssion review</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Regresssion review">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="../../libraries/frameworks/io2012/js/slides" 
+    src="../../libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+    <link rel="stylesheet" href = "../../assets/css/custom.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BACKUP.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BASE.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.LOCAL.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.orig">
+<link rel="stylesheet" href = "../../assets/css/custom.css.REMOTE.546.css">
+<link rel="stylesheet" href = "../../assets/css/ribbons.css">
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    <!-- END LOGO SLIDE -->
+    
+
+    <!-- TITLE SLIDE -->
+    <!-- Should I move this to a Local Layout File? -->
+    <slide class="title-slide segue nobackground">
+      <aside class="gdbar">
+        <img src="../../assets/img/bloomberg_shield.png">
+      </aside>
+      <hgroup class="auto-fadein">
+        <h1>Regresssion review</h1>
+        <h2></h2>
+        <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+      </hgroup>
+          </slide>
+
+    <!-- SLIDES -->
+      <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip 0</h2>
+  </hgroup>
+  <article>
+    <p>Read journals. Here are some good ones:</p>
+
+<ul>
+<li>Biostatistics, Annals of Applied Statisitcs, Statistics in Medicine, Biometrics, Biometrika, JASA TM, JASA AC, JRSSB</li>
+<li>Nature,Science, NEJM, JAMA, PLoS Biology, Other PLoS&#39;s</li>
+<li><p>Neuroimage, Bioinformatics, Genome Biology, Neuron, Epidemiology, American Journal of Epidemiology</p></li>
+<li><p>Use a feed reader. </p></li>
+<li><p>Twitter is even better.</p></li>
+<li><p>Read fast (typical distribution)</p>
+
+<ul>
+<li>Title = 100%</li>
+<li>Abstract = 50%</li>
+<li>Article = 20% or less</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Pro tip 1 - becoming an expert</h2>
+  </hgroup>
+  <article>
+    <p>What&#39;s going to happen during your Ph.D.</p>
+
+<ul>
+<li>1st Year - Classes</li>
+<li>After 1st Year - Exam</li>
+<li>2nd Year - More classes, reading courses</li>
+<li><redtext>3rd Year - Work on research</redtext></li>
+<li><redtext>4th Year - Work on research</redtext></li>
+<li>5th Year - Search for job</li>
+</ul>
+
+<p>3rd &amp; 4th are the best, but massively unstructured. </p>
+
+<p>Be prepared: <a href="http://alyssafrazee.com/unstructured-time.html">http://alyssafrazee.com/unstructured-time.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Paper of the day</h2>
+  </hgroup>
+  <article>
+    <p><strong>&quot;The Future of Data Analysis&quot;</strong> Tukey, 1962, Annals of Statistics</p>
+
+<p><a href="http://projecteuclid.org/download/pdf_1/euclid.aoms/1177704711">http://projecteuclid.org/download/pdf_1/euclid.aoms/1177704711</a></p>
+
+<p>Normally I do quotes, <em>but you should all read this</em>, if for no other reason to see a person travel in time from 1962 to 2014. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Slide credits</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Most of today&#39;s slides courtesy <a href="http://faculty.washington.edu/kenrice/">Ken Rice</a>, I think one of the best lecturers on regression models I know. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>What is &quot;randomness&quot;?</h2>
+  </hgroup>
+  <article>
+    <p>Recall high school physics... 
+For two resistors ``in series&#39;&#39;, the 
+resistances are added to give a 
+total (Y , measured in Ohms, \(\Omega\)) which we record <strong>without error</strong>. </p>
+
+<ul>
+<li>We know the number of gold stripes (X) and silver stripes (Z)</li>
+<li>We know that each is \(\propto\) the number of stripes</li>
+<li>Q: How much resistance do stripes of each color correspond to?</li>
+</ul>
+
+<p><img class="center" src=../../assets/img/ohm.png height=300></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Thought experiment #1</h2>
+  </hgroup>
+  <article>
+    <p>Note that there is <strong>no measurement error</strong> or <strong>noise</strong> and <strong>nothing random going on</strong></p>
+
+<p>What is the &quot;value&quot; of each gold stripe. </p>
+
+<p><img class="center" src=../../assets/img/ohmplot1.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Plot resistance versus gold stripes</h2>
+  </hgroup>
+  <article>
+    <p>What is the difference between X and X+1?</p>
+
+<p><img class="center" src=../../assets/img/ohmplot2.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Remove the knowledge of silver stripes</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/ohmplot3.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Math behind this experiment</h2>
+  </hgroup>
+  <article>
+    <p>Here&#39;s the truth; </p>
+
+<p>\[Y_{n\times1} =\gamma_0 1_{n\times1} + \gamma_1 X_{n\times1} + \gamma_2 Z_{n\times1}\]</p>
+
+<p>where \(n\) is evenly distributed between all \(X,Z\) combinations.</p>
+
+<p>But not knowing \(Z\), we will fit the relationship \(Y \approx \beta_0 \vec{1} + \beta_1 X\)
+Here ``fit&#39;&#39; means that we will find \(e\) <em>orthogonal</em> to \(\vec{1}\) and \(X\) such that \[Y = \beta_0 \vec{1} + \beta_1 X + e\]
+By linear algebra (i.e. projection onto \(\vec{1}\) and \(X\)) we must have 
+\[e  = Y - \left(\frac{Y \cdot \vec{1}}{n} - \frac{Y\cdot(X - Ar{X}\vec{1})}{(X-Ar{X}\vec{1}) \cdot(X-Ar{X}\vec{1}) }X\right)\vec{1} - \left(\frac{Y\cdot(X - Ar{X}\vec{1})}{(X-Ar{X}\vec{1}) \cdot(X-Ar{X}\vec{1}) }\right)X\]</p>
+
+<p>where \(Ar{X} = X \cdot \vec{1} / (\vec{1} \cdot \vec{1}) = X \cdot \vec{1}/n\), i.e. the mean of \(X\)  - a scalar. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>The fitted line</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Orthogonal to \(\vec{1}\) and \(X\).</li>
+<li>What is the slope? </li>
+</ul>
+
+<p><img class="center" src=../../assets/img/ohmplot4.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Take homes</h2>
+  </hgroup>
+  <article>
+    <p>What to remember (in ``real&#39;&#39; experiments too);</p>
+
+<ul>
+<li>The &quot;errors&quot; <em>represent</em> everything that we didn&#39;t measure. </li>
+<li><em>Nothing</em> is random here - we just have imperfect information</li>
+<li>If you are <em>never</em> going to know \(Z\) (or can&#39;t assume you know 
+a lot about it) this sort of &quot;marginal&quot; relationship is all that can be learned</li>
+</ul>
+
+<p>What you <strong>didn&#39;t</strong> measure can&#39;t be ignored...</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Thought experiment 2</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>A different &quot;design&quot;</li>
+<li>What is going on? </li>
+</ul>
+
+<p><img class="center" src=../../assets/img/ohmplot5.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Plotting gold stripes versus resistance</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/ohmplot6.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Ignoring information on silver stripes</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/ohmplot7.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Here&#39;s the fit</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>What is the slope?</li>
+<li>What would you conclude? </li>
+</ul>
+
+<p><img class="center" src=../../assets/img/ohmplot8.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Math behind experiment two</h2>
+  </hgroup>
+  <article>
+    <p>Here&#39;s the truth, for both \(Y\) and \(Z\);
+\[ Y = \gamma_0 \vec{1} + \gamma_1 X + \gamma_2 Z\]
+\[ Z = \theta_0 \vec{1} + \theta_1 X + e\]
+where \(e\) is orthongal to \(\vec{1}\), \(X\). Therefore,</p>
+
+<p>\[Y = \gamma_0 + \gamma_1 X + \gamma_2 (\theta_0 + \theta_1 X + e)\]
+\[ = (\gamma_0 + \gamma_2\theta_0) \vec{1} + (\gamma_1 + \gamma_2\theta_1)X + \gamma_2e\]
+\[{\rm E}quiv \beta_0 \vec{1} + \beta_1 X + e\]
+and we get \(\beta_1 = \gamma_1\) if (and only if) there&#39;s &quot;nothing going on&quot; between \(Z\) and \(X\). The change we saw
+in the \(Y-X\) slope (from #1 to #2) follows exactly this pattern. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Take homes</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The marginal slope \(\beta_1\) is not the ``wrong&#39;&#39; answer, but it may not be the same as \(\gamma_1\). </li>
+<li>Which do you want? The \(Y-Z\) slope if \(Z\) is fixed or if \(Z\) varies with \(X\) in the same way it did in your experiment? </li>
+<li>No one needs to know that \(Y\) is being measured for \(\beta_1 \neq \gamma_1\) to occur. </li>
+<li>The &quot;observed&quot;&quot;  \(e\) are actually \(\gamma_2 e\) here, so the &quot;noise&quot; doesn&#39;t simply reflect the \(Z-X\) relationship <em>alone</em>.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Last experiment</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/ohmplot9.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Plot gold stripes versus resistance</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/ohmplot10.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Starts to look like real data</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/ohmplot11.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Take homes</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>\(Z\) and \(X\) were orthogonal - what happened to the slope?</li>
+<li>But the variability of \(Z\) depended on \(X\). What happened to \(e\), compared to #1 and # 2?</li>
+<li>We can extend all these arguments to \(X_{n\times p }\) and \(Z_{n \times q}\) </li>
+<li>Reality also tends to have \(>\) 1 &quot;unpretty&quot; phenomena per situation!</li>
+<li>In general, the nature of what we call ``randomness&#39;&#39; depends 
+<strong>heavily</strong> on what is going on unobserved. It&#39;s only in extremely 
+simple situations that unobserved patterns can be dismissed 
+without careful thought. </li>
+<li>In some complex situations they can be dismissed, but only after careful thought. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Reality check</h2>
+  </hgroup>
+  <article>
+    <p>This is a realistically complex &quot;system&quot; you might  see in practice. \(X\) is development time and \(Y\) is expression of a gene. Knowing \(Y-X\) is clearly useful, but it is pretty silly to pretend there is no \(Z-X\) relationship. </p>
+
+<p><img class="center" src=../../assets/img/complications.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Probably the main source of retractions too</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/gwas.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Some data</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/scatter1.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>More data</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/scatter2.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Super-population</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/scatter3.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Mean of X</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/scatter4.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Mean of Y</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/scatter5.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Mean of Y at a given X</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/scatter6.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Difference in mean of Y beween to values of X</h2>
+  </hgroup>
+  <article>
+    <p>Which is unchanged if \(X\rightarrow X + c\)</p>
+
+<p><img class="center" src=../../assets/img/scatter7.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Defining parameters</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>A <em>parameter</em> is (formally) an operation on a super-population,
+mapping it to a ``parameter space&#39;&#39; \(\Theta\), such as \(\mathbb{R}\), or
+\(\mathbb{R}^p\), or \(\{0,1\}\).</li>
+<li>The parameter <em>value</em> (typically denoted \(\beta\) or \(\theta\)) is the result of this operation</li>
+<li>&quot;Inference&quot; means making one or more conclusions about the parameter value</li>
+<li>These could be estimates, intervals, or binary (Yes/No) decisions</li>
+<li><p>&quot;Statistical inference&quot;&quot; means drawing conclusions without the full populations&#39; data, i.e. in the face of uncertainty. </p></li>
+<li><p>In previous courses, parameters may have been defined as linear operations on the superpopulation. In 753and4, we will generalize the idea. </p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>More on parameters</h2>
+  </hgroup>
+  <article>
+    <p>In this course, we will typically assume relevant parameters can 
+be identified in this way. But in some real situations, one cannot 
+identify \(\theta\), even with an infinite sample (e.g. mean height of 
+women, when you only have data on men) </p>
+
+<p>If your data do not permit useful inference, you could; </p>
+
+<ul>
+<li>Switch target parameters </li>
+<li>Extrapolate cautiously i.e. make assumptions </li>
+<li>Not do inference, but &quot;hypothesis-generation&quot;</li>
+<li>Give up </li>
+</ul>
+
+<p><em>The data may not contain the answer. The 
+combination of some data and an aching desire 
+for an answer does not ensure that a reasonable 
+answer can be extracted from a given body of data.</em></p>
+
+<p>-John Tukey</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>What is regression?</h2>
+  </hgroup>
+  <article>
+    <p>In its most fundamental interpretation, ÔregressionÕ estimates
+differences in outcome Y , between subjects whose X values differ
+in a specified manner.</p>
+
+<p>We take differences in &quot;Y&quot; to mean differences in the expectation
+of Y , on some scale. For example, with binary X, you might be
+interested in;
+\[{\rm E}_F[Y|X=1] - {\rm E}_F[Y|X=0]\]
+or 
+\[log({\rm E}_F[Y|X=1]/{\rm E}_F[Y|X=0])\]
+or even
+\[ {\rm E}xp\{{\rm E}_F[\log(Y)|X=1] - {\rm E}_F[\log(Y)|X=0]\}\]
+Note that these are all different! As before, none of them is
+&quot;right&quot;,&quot;wrong&quot;, &quot;uniformly best&quot;, or &quot;uniformly a great idea&quot;</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>For continuous values</h2>
+  </hgroup>
+  <article>
+    <p>The most commonly-used regression parameter is;</p>
+
+<p><center>&quot;The difference in Y per 1-unit difference in X&quot;</center></p>
+
+<p>-which, most fundamentally, means:</p>
+
+<ul>
+<li>Take the difference in \(Y\) between two different \(X\) values
+divided by the difference in those \(X\) values</li>
+<li> Rinse and repeat, averaging this &quot;slope&quot; over all pairs of \(\{Y,X_j\}, \{Y,X_k\}\). </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>More parameters</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The average \(\Delta(Y)/\Delta(X)\), averaging pairs of observations - and weighting
+this average proportionally to \(\Delta(X)^2\). </li>
+<li>The least squares fit to the line \(Y = g(X^T\beta)\). </li>
+<li>The weighted least squares fit to the line \(Y=g(X^T\beta)\), weighted by some \(w(X^T\beta)\)</li>
+<li>As above, except we minimize by iteratively reweighted least squares, and not &quot;proper&quot; minimization (!)</li>
+</ul>
+
+<p>Important point - no one cares about these. They care about the question. Remember that your parameter is defined by a question. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>More parameters - math</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>\(\beta = \underset{\beta'}{\operatorname{argmin}} \mathbb{E}_F\left[(Y - X^T\beta)(Y - X^T\beta')\right]\) \ \(= \mathbb{E}_F\left[XX^T\right]^{-1}\mathbb{E}_F[XY]\)</li>
+<li>\(\beta\) : \({\rm E}_F\left[\frac{\partial g(X^T\beta)}{\partial \beta}\left(Y - g(X^T\beta\right)\right] = 0\)</li>
+<li>\(\beta\) : \({\rm E}_F\left[\frac{\partial g(X^T\beta)}{\partial \beta}w(X^T\beta)\left(Y - g(X^T\beta)\right)\right] = 0\)</li>
+<li> \(\beta = \lim_{k\rightarrow \infty}\left\{\beta^{[k+1]} = \underset{\beta'}{\operatorname{argmin}} {\rm E}_F\left[w(X^T\beta^{[k]})(Y_i - g(X^T\beta'))^2\right]\right\}\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>General form</h2>
+  </hgroup>
+  <article>
+    <p>The general form of these equations is:</p>
+
+<p>\[{\rm E}_F[G(\beta,Y | X)] = 0\]</p>
+
+<p>where \(G()\) maps to \(\mathbb{R}^p\). Typically \(G()\) involves an expression in \(Y - g(X^T\beta)\), somewhere.</p>
+
+<ul>
+<li><p>Without any parametric assumptions, we are defining regression parameters \(\beta\) as quantities reflecting the difference in Y <em>associated with</em> some specific difference in X. </p></li>
+<li><p>Formally we are defining \(\beta\) as a <strong>functional</strong> of \(F\). For convenience, we assume that a unique root \(\beta\) exists; having multiple roots or no roots can happen  - and theory exists to cope.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>Link functions</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The `link&#39; function \(g^{-1}()\) indicates how we are measuring differences in Y;</li>
+<li>Additive differences \(\Leftrightarrow\) Identity link</li>
+<li>Multiplicative differences \(\Leftrightarrow\) Log link</li>
+</ul>
+
+<p>For odds ratios, the logistic link specifies:
+\[ g(X^T\beta) = \frac{{\rm E}xp(X^T\beta)}{1+ {\rm E}xp(X^T\beta)}\]
+and is commonly used with binary Y.</p>
+
+<p>The complementary log-log link specifies
+\[g(X^T\beta) = {\rm E}xp\left(-e^{X^T\beta}\right)\]
+and is most-often used when Y is time to event. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>Estimating parameters</h2>
+  </hgroup>
+  <article>
+    <p>Defining parameters is a first step; next we want to estimate
+these parameters.</p>
+
+<ul>
+<li>As \(F\) provides data &quot;rows&quot; \(\{Y_i,X_i\}\) as independent random samples, the expectations above are easily &quot;mmicked&quot;; for a sample of size \(n\) from \(F\), an empirical (and generally <strong>sane</strong>) estimator \(\hat{\beta}\) can be
+defined as the solution to the &quot;estimating equation&quot; (EE): 
+\[ \sum_{i=1}^n G(\hat{\beta},Y_i,X_i) = 0\]
+\(G\) is known as the &quot;estimating function&quot;; it is vector valued and maps to \(\mathbb{R}^p\). </li>
+</ul>
+
+<p>Solve the EE(s) gives p-dimensional \(\hat{\beta}\). </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>Optimization: Newton&#39;s method</h2>
+  </hgroup>
+  <article>
+    <p>\[x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}\]</p>
+
+<p>\[x_{n+1} = x_n - J(x_n)^{-1}F(x_n)\] </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>Optimization: IRWLS</h2>
+  </hgroup>
+  <article>
+    <p>\[\hat{\beta}^{[k+1]} = \hat{\beta}^{[k]} - \left(\frac{\partial}{\partial \beta} \sum_i G(\hat{\beta}^{[k]},Y_i,X_i)\right)^{-1}\left(\sum_i G(\hat{\beta}^{[k]},Y_i,X_i)\right)\]</p>
+
+<ul>
+<li>Iterate until convergence. </li>
+<li>Derive with respect to \(\beta\) </li>
+<li>Note that the derivative term is \(n \times \hat{A}\) at the working value</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>Properties of estimates from CLT</h2>
+  </hgroup>
+  <article>
+    <p>For general  \(\theta\) satisfying \({\rm E}_F[G(\theta,Y,X)] = 0\), we use estimating equations:</p>
+
+<p>\[ \sum_{i=1}^n G(\hat{\beta},Y_i,X_i) = 0 \]</p>
+
+<ul>
+<li>Many similar size &quot;contributions&quot; are being added, the Central Limit Theorem is therefore useful for deriving the frequentist properties of estimating function \(G(\cdot, \cdot,\cdot)\) </li>
+<li>These properties can be {\it transferred} to the resultant estimator \(\hat{\theta}\), allowing us to specify:
+
+<ul>
+<li>Large sample limiting value of \(\hat{\theta}\)</li>
+<li>Large sample variance of \(\hat{\theta}\)</li>
+<li>Large sample distribution of \(\hat{\theta}\)</li>
+</ul></li>
+</ul>
+
+<p>These can be used to give (valid) large-sample confidence intervals, whatever the true-but-unknown \(F\), or \(\theta(F)\).
+sf</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>Standard error estimates: theory</h2>
+  </hgroup>
+  <article>
+    <p>Suppose that, based on a sample of size \(n\), \(\hat{\theta}_n \in \mathbb{R}^p\) is a solution to the estimating equation \(\sum_{i=1}^n G(\theta,Y_i,X_i) = 0\). Under mild regularity conditions, \(\hat{\theta}_n \rightarrow_P \theta\) - so \(\hat{\theta}_n\) is a consistent estimate of \(\theta\). Furthermore:
+\[\sqrt{n}(\hat{\theta}_n - \theta) \rightarrow_D N_p(0, A^{-1}BA^{T-1}) \]
+where</p>
+
+<p>\[ A = A(\theta) = {\rm E}_F\left[\frac{\partial}{\partial \theta}G(\theta,Y,X)\right]\]</p>
+
+<p>\[ B = B(\theta) = {\rm E}_F\left[G(\theta,Y,X)G(\theta,Y,X)^T\right] = {\rm Cov}_F[G(\theta,Y,X)] \]</p>
+
+<p>This means \(\hat{\theta}\) is asymptotically Normal, around the 
+&quot;right&quot; mean, with a variance that shrinks with \(n^{-1}\). </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>More about standard errors</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>\({\rm Var}_F[\hat{\theta}_n] \approx A^{-1}B A^{T-1}/n\) is known as the &quot;sandwich formula&quot;. \(A^{-1}\) is informally known as the 
+&quot;bread&quot;, and \(B\) is the &quot;meat&quot;</li>
+<li>&quot;Mild&quot; really is &quot;mild&quot;; a few moment conditions will typically suffice</li>
+<li>The CLT is your friend! For many problems, the approximations are _<em>very good</em> for \(n\) in the hundreds - but for \(n < 10\) don&#39;t expect miracles. </li>
+<li>The asymptotics of location/spread can &quot;kick in&quot; at different rates. For &quot;hard&quot; problems Normality may be a poor approximation to the behavior of \(\hat{\theta}\) unless \(n\) is {\bf vast}. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>Estimating the sandwich</h2>
+  </hgroup>
+  <article>
+    <p>If we plug-in empirical estimates of \(\theta\) and \(F\), i.e.,</p>
+
+<p>\[ \hat{A} = \frac{1}{n} \sum_{i=1}^n \frac{\partial}{\partial \theta} G(\hat{\theta}_n, Y_i, X_i)\]</p>
+
+<p>\[\hat{B} = \frac{1}{n} \sum_{i=1}^n G(\hat{\theta}_n, Y_i, X_i)G(\hat{\theta}_n,Y_i,X_i)^T\]</p>
+
+<p>then (by a law of large numbers) \(\hat{A} \rightarrow_P A\) and \(\hat{B} \rightarrow B\), so
+\[\widehat{{\rm Var}}(\hat{\theta}_n) = \frac{1}{n} \hat{A}^{-1} \hat{B}\hat{A}^{T-1}\]
+is a <strong>consistent</strong> estimator of the variance of \(\hat{\theta}_n(Y)\). Intervals based on \(\hat{\theta}_n \rightarrow_D N_p(\theta,\widehat{{\rm Var}}(\hat{\theta}_n))\) have the correct coverage, asymptotically. </p>
+
+<p>This is known as the <em>sandwich covariance estimate</em> due to
+Huber (1967, Proc 5th Berk Sym) - and Eicker, and White.
+Hansen (1982, Econometrika) proposed the general form. He recently <a href="http://simplystatistics.org/2013/10/14/why-did-lars-peter-hansen-win-the-nobel-prize-generalized-method-of-moments-explained/">won a Nobel prize for this</a>.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>Some history and terminology</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Also known as the &quot;robust&quot; estimate of (co)variance, used in &quot;robust standard errors&quot;, &quot;robust intervals&quot;</li>
+<li> As it can behave badly in some (non-asymptotic) situations, ``model-agnostic&#39;&#39; is better; we&#39;re using {\bf no} parametric ideas</li>
+<li>Also known as a ``heteroskedasticity-consistent&#39;&#39; estimate. This name:
+
+<ul>
+<li> badly understates the utility; we specified almost nothing about \(F\) - why worry only about the variance?</li>
+<li>regularly defeats seminar speakers</li>
+</ul></li>
+<li>EE and the sandwich are known as the Generalized Method
+of Moments in econometrics where they are common. But they were largely unknown to statisticians before Royall (1986, Intl Stat Rev)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>Can always fit models like this</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/line1.png height=450></p>
+
+<p>But be careful!</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>Line fitting</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>You are probably familiar with the idea of &quot;fitting lines to data&quot;</li>
+<li>We don&#39;t need this to justify regression models</li>
+<li>It can provide more intuitive interpretation of &quot;difference&quot;
+parameters</li>
+<li>&quot;More parametric&quot; methods than EE/the sandwich often
+make assumptions which can be expressed as linearity, on
+some scale. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>Line fitting: straight lines</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>One sane summary is the straight line with intercept \(\beta_0\), slope
+\(\beta_X\) that minimizes</li>
+</ul>
+
+<p>\[{\rm E}_F\left[(Y- \beta_0 - \beta_X X)^2\right]\]</p>
+
+<p>Empirically, we can estimate this by finding the \(\hat{\beta}\) that minimizes
+\[\sum_{i=1}^n (Y_i - \beta_0 - \beta_X X_i)^2\]
+... i.e. the Least Squares Estimator. </p>
+
+<p>Use of sandwich standard errors based on
+\[\sum_i \{1,X_i\}^T(Y- \beta_0 - \beta_X X_i) = 0\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-50" style="background:;">
+  <hgroup>
+    <h2>Line fitting: curves</h2>
+  </hgroup>
+  <article>
+    <p>Least-squares also works for curves, consider estimating
+\[ \beta\:\: {\rm minimizing} \:\:  {\rm E}_F[(Y- e^{X^T\beta})^2]\]
+You would do this (I hope) by solving
+\[ \sum_{i=1}^n X_i e^{X_i^T\beta}(Y_i - e^{X^T_i\beta})= 0\]
+and then using the sandwich. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-51" style="background:;">
+  <hgroup>
+    <h2>Line fitting: other weights</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>But why always &quot;plain vanilla&quot; least squares? We could 
+&quot;fit a line&quot; (and estimate a sane parameter) by instead minimizing
+\[\sum_{i=1}^n w_i(Y_i - e^{X_i^T\beta})^2\]
+meaning \(\hat{\beta}\) is the solution to 
+\[ \sum_{i=1}^n w_i X_ie^{X_i^T\hat{\beta}}(Y_i - e^{X_i^T\hat{\beta}}) = 0\]
+Informally, one way to proceed then sets \(w_i = e^{-X_i^T\hat{\beta}}\) and solves
+\[\sum_{i=1}^n X_i(Y_i - e^{X_i\hat{\beta}}) = 0\]</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-52" style="background:;">
+  <hgroup>
+    <h2>Line fitting: general case</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><p>Consider the general EE;
+\[ \sum_{i=1}^n \frac{\partial g(X_i^T\beta)}{\partial \beta}w(X_i^T\beta)(Y- g(X^T\beta)) = 0\]
+\(g(\cdot)\) tells you what line you&#39;re fitting. But its <em>inverse</em> \(g^{-1}(\cdot)\) (mapping from Y-space to \(\mathbb{R}\)) is called the <strong>link</strong> function.</p></li>
+<li><p>\(g(X^T\beta) = X^T\beta\) identity link</p></li>
+<li><p>\(g(X^T\beta) = exp(X^T\beta)\) log link</p></li>
+<li><p>\(g(X^T\beta) = 1/X^T\beta\)  inverse link</p></li>
+</ul>
+
+<p>Formally, \(\beta\) tells you about &quot;slopes&quot; of fitted surfaces, on a scale defined by \(g^{-1}(\cdot)\). Other (occasional) choices include square-root link, and the &quot;probit&quot; function - the inverse of the Normal distribution function. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-53" style="background:;">
+  <hgroup>
+    <h2>Families</h2>
+  </hgroup>
+  <article>
+    <p>Having specified a link, the choice of weights is made by
+specifying a family</p>
+
+<ul>
+<li>\(w(X^T\beta) = 1\)  Gaussian/Normal family</li>
+<li>\(w(X^T\beta) = 1/g(X^T\beta)\)  Poisson family</li>
+<li><p>\(w(X^T\beta) = \frac{1}{g(X^T\beta)(1-g(X^T\beta)}\)  Binomial family </p></li>
+<li><p>As you might guess from the names, these have connections
+to parametric models - but keep in mind that our interpretation
+does not need/use them. </p></li>
+<li><p>Judicious, canonical choice of \(w(\cdot)\) leads to &quot;pretty&quot; cancellation,
+and (often) an EE of the form 
+\[ \sum_{i=1}^n X_i(Y_i - g(X^T\beta)) = 0\]</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-54" style="background:;">
+  <hgroup>
+    <h2>Parametric assumptions</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Often we &quot;realize&quot;/&quot;see&quot;/&quot;are beamed down knowledge from a UFO&quot; that (for independent data) \(Y_i\) has the following density:
+\[f(y_i | x_i) = h(x_i, \phi) \exp\left(\frac{y_i\theta_i - b(\theta_i,x)}{\phi}\right)\]
+where for some known function \(g()\) we also know that:
+\[g^{-1}\left(\frac{\partial b(\theta,x_i)}{\partial \theta}\right) = \theta^Tx_i\]
+The second assumption is familiar as:
+\[\e[Y_i | x_i] = g(\theta^Tx_i)\]
+In other words, the &quot;systematic componet&quot; (i.e. the structure of \(\e[Y | x]\) is linear in \(x\) and \(\beta\) on the given scale. This is distinguished from the &quot;random&#39; component, which states distribution </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-55" style="background:;">
+  <hgroup>
+    <h2>Likelihood</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><p>Under these assumptions, the MLE is found by solving
+\[ D^TV^{-1}(Y - \mu)/\phi = 0\]
+where \(V\) indicates (modeled) variance of \(Y_i|x_i\), \(D\) is the usual matrix
+of derivatives, and \(\mu\) denotes the vector of \({\rm E}[Y_i | x_i]\) - note that \(\phi\) doesn&#39;t affect
+the root-finding. </p></li>
+<li><p>These EE&#39;s can be derived non-parametrically</p></li>
+<li><p>For canonical parameters, things get even prettier:
+\[ X^T(Y - \mu) = 0\]</p></li>
+<li><p>Canonical or not, the contributions are weighted by their variances, so we get efficiency</p></li>
+<li><p>Use of MLEs from GLMs \(\implies\) estimating sane parameters under a sane weighting
+scheme. </p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-56" style="background:;">
+  <hgroup>
+    <h2>Questions?</h2>
+  </hgroup>
+  <article>
+    <p><a href="https://github.com/jtleek/jhsph753and4/lectures">https://github.com/jtleek/jhsph753and4/lectures</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+
+  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+<!-- Grab CDN jQuery, fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Load Javascripts for Widgets -->
+<!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script> -->
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="../../libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+</html>

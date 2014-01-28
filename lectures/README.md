@@ -6,4 +6,7 @@ Lecture material for 753 and 754; doctoral classes in the Department of Biostati
 January 21: Motivation, syllabus and types of questions
 [Lecture](http://jtleek.github.io/jhsph753and4/lectures/01_01_courseBackground/#1)
 
+Regression review 1
+[Lecture](http://jtleek.github.io/jhsph753and4/lectures/02_01_regressionReview/#1)
+
 
