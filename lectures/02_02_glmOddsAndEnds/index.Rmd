@@ -342,6 +342,16 @@ where $n-p$ is the "residual degrees of freedom", D is sometimes known as "resid
 
 ---
 
+## How I use GLMs
+
+* Quick and dirty calculations
+* Easy to explain answers - careful about believeing the model though
+* First pass check on answers from more complicated models
+* As a basis for building more complicated models
+* Blended with other things in prediction
+
+---
+
 ## Questions?
 
 [https://github.com/jtleek/jhsph753and4/lectures](https://github.com/jtleek/jhsph753and4/lectures)

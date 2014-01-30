@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Getting data</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Getting data">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="../../libraries/frameworks/io2012/js/slides" 
+    src="../../libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+    <link rel="stylesheet" href = "../../assets/css/custom.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BACKUP.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BASE.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.LOCAL.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.orig">
+<link rel="stylesheet" href = "../../assets/css/custom.css.REMOTE.546.css">
+<link rel="stylesheet" href = "../../assets/css/ribbons.css">
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    <!-- END LOGO SLIDE -->
+    
+
+    <!-- TITLE SLIDE -->
+    <!-- Should I move this to a Local Layout File? -->
+    <slide class="title-slide segue nobackground">
+      <aside class="gdbar">
+        <img src="../../assets/img/bloomberg_shield.png">
+      </aside>
+      <hgroup class="auto-fadein">
+        <h1>Getting data</h1>
+        <h2></h2>
+        <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+      </hgroup>
+          </slide>
+
+    <!-- SLIDES -->
+      <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>My belief about statisticians</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Define the question</li>
+<li>Define the ideal data set</li>
+<li><redtext>Determine what data you can access </redtext></li>
+<li><redtext>Obtain the data </redtext></li>
+<li><redtext>Clean the data </redtext></li>
+<li>Exploratory data analysis</li>
+<li>Statistical prediction/modeling</li>
+<li>Interpret results</li>
+<li>Challenge results</li>
+<li>Synthesize/write up results</li>
+<li>Create reproducible code</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Why?</h2>
+  </hgroup>
+  <article>
+    <p><center> &quot;Real scientists make their own data&quot; -Sean Taylor</center></p>
+
+<p><center> &quot;Real scientists make (and know how to get) their own data&quot; -Jeff </center></p>
+
+<ol>
+<li>Most major contributions to real science involve data collection (by you/others)</li>
+<li>Making/getting your own data gives you priveledged access to scientific findings</li>
+<li>If you create the data you will understand it better</li>
+<li>You can do things like experimental design (e.g. randomized experiments)</li>
+</ol>
+
+<p><a href="http://seanjtaylor.com/post/41463778912/real-scientists-make-their-own-data">http://seanjtaylor.com/post/41463778912/real-scientists-make-their-own-data</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>What you wish data looked like</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/excel.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>What does data really look like?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/fastq.png height=450/></p>
+
+<p><a href="http://brianknaus.com/software/srtoolbox/s_4_1_sequence80.txt">http://brianknaus.com/software/srtoolbox/s_4_1_sequence80.txt</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>What does data really look like?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/twitter.png height= 450/></p>
+
+<p><a href="https://dev.twitter.com/docs/api/1/get/blocks/blocking">https://dev.twitter.com/docs/api/1/get/blocks/blocking</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>What does data really look like?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/medicalrecord.png height=400/></p>
+
+<p><a href="http://blue-button.github.com/challenge/">http://blue-button.github.com/challenge/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>What does data really look like?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/fmri.jpeg height= 450/></p>
+
+<p><a href="http://spectrum.ieee.org/tech-talk/biomedical/imaging/sorting-fmri-with-textmining-software">http://spectrum.ieee.org/tech-talk/biomedical/imaging/sorting-fmri-with-textmining-software</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Where is data?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/harddrive.jpg height= 450/></p>
+
+<p><a href="http://en.wikipedia.org/wiki/Sneakernet">http://en.wikipedia.org/wiki/Sneakernet</a></p>
+
+<p><a href="http://en.wikipedia.org/wiki/File:USB-Hard-Drive.jpg">http://en.wikipedia.org/wiki/File:USB-Hard-Drive.jpg</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Where is data?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/databases.png height=400/></p>
+
+<p><a href="http://rickosborne.org/blog/2010/02/infographic-migrating-from-sql-to-mapreduce-with-mongodb/">http://rickosborne.org/blog/2010/02/infographic-migrating-from-sql-to-mapreduce-with-mongodb/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Where is data?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/twitter.png height= 450/></p>
+
+<p><a href="https://dev.twitter.com/docs/api/1/get/blocks/blocking">https://dev.twitter.com/docs/api/1/get/blocks/blocking</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Where is data?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/baltimore.png height= 450/></p>
+
+<p><a href="https://data.baltimorecity.gov/">https://data.baltimorecity.gov/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Definition of data</h2>
+  </hgroup>
+  <article>
+    <p><q>Data are values of qualitative or quantitative variables, belonging to a set of items.</q></p>
+
+<p><a href="http://en.wikipedia.org/wiki/Data">http://en.wikipedia.org/wiki/Data</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Definition of data</h2>
+  </hgroup>
+  <article>
+    <p><q>Data are values of qualitative or quantitative variables, belonging to a <redtext>set of items</redtext>.</q></p>
+
+<p><a href="http://en.wikipedia.org/wiki/Data">http://en.wikipedia.org/wiki/Data</a></p>
+
+<p><strong>Set of items</strong>: Sometimes called the population; the set of objects you are interested in</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Definition of data</h2>
+  </hgroup>
+  <article>
+    <p><q>Data are values of qualitative or quantitative <redtext>variables</redtext>, belonging to a set of items.</q></p>
+
+<p><a href="http://en.wikipedia.org/wiki/Data">http://en.wikipedia.org/wiki/Data</a></p>
+
+<p><strong>Variables</strong>: A measurement or characteristic of an item.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Definition of data</h2>
+  </hgroup>
+  <article>
+    <p><q>Data are values of <redtext>qualitative</redtext> or <redtext>quantitative</redtext> variables, belonging to a set of items.</q></p>
+
+<p><a href="http://en.wikipedia.org/wiki/Data">http://en.wikipedia.org/wiki/Data</a></p>
+
+<p><strong>Qualitative</strong>: Country of origin, sex, treatment</p>
+
+<p><strong>Quantitative</strong>: Height, weight, blood pressure</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Raw versus processed data</h2>
+  </hgroup>
+  <article>
+    <p><strong>Raw data</strong></p>
+
+<ul>
+<li>The original source of the data</li>
+<li>Often hard to use for data analyses</li>
+<li>Data analysis <em>includes</em> processing</li>
+<li>Raw data may only need to be processed once</li>
+</ul>
+
+<p><a href="http://en.wikipedia.org/wiki/Raw_data">http://en.wikipedia.org/wiki/Raw_data</a></p>
+
+<p><strong>Processed data</strong></p>
+
+<ul>
+<li>Data that is ready for analysis</li>
+<li>Processing can include merging, subsetting, transforming, etc.</li>
+<li>There may be standards for processing</li>
+<li>All steps should be recorded </li>
+</ul>
+
+<p><a href="http://en.wikipedia.org/wiki/Computer_data_processing">http://en.wikipedia.org/wiki/Computer_data_processing</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>An example of a processing pipeline</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/hiseq.jpeg height=450/></p>
+
+<p><a href="http://www.illumina.com.cn/support/sequencing/sequencing_instruments/hiseq_1000.asp">http://www.illumina.com.cn/support/sequencing/sequencing_instruments/hiseq_1000.asp</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>An example of a processing pipeline</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/processing.png height=400 /></p>
+
+<p><a href="http://www.cbcb.umd.edu/%7Ehcorrada/CMSC858B/lectures/lect22_seqIntro/seqIntro.pdf">http://www.cbcb.umd.edu/~hcorrada/CMSC858B/lectures/lect22_seqIntro/seqIntro.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    
+  </hgroup>
+  <article>
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>The raw data</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The strange binary file your measurement machine spits out</li>
+<li>The unformatted Excel file with 10 worksheets the company you contracted with sent you</li>
+<li>The complicated JSON data you got from scraping the Twitter API</li>
+<li>The hand-entered numbers you collected looking through a microscope</li>
+</ul>
+
+<p><em>You know the raw data is in the right format if you</em> </p>
+
+<ol>
+<li>Ran no software on the data</li>
+<li>Did not manipulate any of the numbers in the data</li>
+<li>You did not remove any data from the data set</li>
+<li>You did not summarize the data in any way</li>
+</ol>
+
+<p><a href="https://github.com/jtleek/datasharing">https://github.com/jtleek/datasharing</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>The tidy data</h2>
+  </hgroup>
+  <article>
+    <ol>
+<li>Each variable you measure should be in one column</li>
+<li>Each different observation of that variable should be in a different row</li>
+<li>There should be one table for each &quot;kind&quot; of variable</li>
+<li>If you have multiple tables, they should include a column in the table that allows them to be linked</li>
+</ol>
+
+<p><em>Some other important tips</em></p>
+
+<ul>
+<li>Include a row at the top of each file with variable names. </li>
+<li>Make variable names human readable AgeAtDiagnosis instead of AgeDx</li>
+<li>In general data should be saved in one file per table.</li>
+</ul>
+
+<p><a href="https://github.com/jtleek/datasharing">https://github.com/jtleek/datasharing</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>The code book</h2>
+  </hgroup>
+  <article>
+    <ol>
+<li>Information about the variables (including units!) in the data set not contained in the tidy data</li>
+<li>Information about the summary choices you made</li>
+<li>Information about the experimental study design you used</li>
+</ol>
+
+<p><em>Some other important tips</em></p>
+
+<ul>
+<li>A common format for this document is a Word/text file. </li>
+<li>There should be a section called &quot;Study design&quot; that has a thorough description of how you collected the data. </li>
+<li>There must be a section called &quot;Code book&quot; that describes each variable and its units.</li>
+</ul>
+
+<p><a href="https://github.com/jtleek/datasharing">https://github.com/jtleek/datasharing</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>The instruction list</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Ideally a computer script (in R :-), but I suppose Python is ok too...)</li>
+<li>The input for the script is the raw data</li>
+<li>The output is the processed, tidy data</li>
+<li>There are no parameters to the script</li>
+</ul>
+
+<p>In some cases it will not be possible to script every step. In that case you should provide instructions like: </p>
+
+<ol>
+<li>Step 1 - take the raw file, run version 3.1.2 of summarize software with parameters a=1, b=2, c=3</li>
+<li>Step 2 - run the software separately for each sample</li>
+<li>Step 3 - take column three of outputfile.out for each sample and that is the corresponding row in the output data set</li>
+</ol>
+
+<p><a href="https://github.com/jtleek/datasharing">https://github.com/jtleek/datasharing</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Why is the instruction list important?</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/rr.png height=200 /></p>
+
+<p><img class=center src=../../assets/img/03_ObtainingData/rrcolbert.jpeg height=250></p>
+
+<p><a href="http://www.colbertnation.com/the-colbert-report-videos/425748/april-23-2013/austerity-s-spreadsheet-error">http://www.colbertnation.com/the-colbert-report-videos/425748/april-23-2013/austerity-s-spreadsheet-error</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Get/set your working directory</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>A basic component of working with data is knowing your working directory</li>
+<li>The two main commands are <code>getwd()</code> and <code>setwd()</code>. </li>
+<li>Be aware of relative versus absolute paths
+
+<ul>
+<li><strong>Relative</strong> - <code>setwd(&quot;./data&quot;)</code>, <code>setwd(&quot;../&quot;)</code></li>
+<li><strong>Absolute</strong> - <code>setwd(&quot;/Users/jtleek/data/&quot;)</code></li>
+</ul></li>
+<li>Important difference in Windows <code>setwd(&quot;C:\\Users\\Andrew\\Downloads&quot;)</code></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Checking for and creating directories</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><code>file.exists(&quot;directoryName&quot;)</code> will check to see if the directory exists</li>
+<li><code>dir.create(&quot;directoryName&quot;)</code> will create a directory if it doesn&#39;t exist</li>
+<li>Here is an example checking for a &quot;data&quot; directory and creating it if it doesn&#39;t exist</li>
+</ul>
+
+<pre><code class="r">if(!file.exists(&quot;data&quot;)){
+  dir.create(&quot;data&quot;)
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Getting data from the internet - download.file()</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Downloads a file from the internet</li>
+<li>Even if you could do this by hand, helps with reproducibility</li>
+<li>Important parameters are <em>url</em>, <em>destfile</em>, <em>method</em></li>
+<li>Useful for downloading tab-delimited, csv, and other files</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Example - Baltimore camera data</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/cameras.png height=500></p>
+
+<p><a href="https://data.baltimorecity.gov/Transportation/Baltimore-Fixed-Speed-Cameras/dz54-2aru">https://data.baltimorecity.gov/Transportation/Baltimore-Fixed-Speed-Cameras/dz54-2aru</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Example - Baltimore camera data</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/cameraslink.png height=500></p>
+
+<p><a href="https://data.baltimorecity.gov/Transportation/Baltimore-Fixed-Speed-Cameras/dz54-2aru">https://data.baltimorecity.gov/Transportation/Baltimore-Fixed-Speed-Cameras/dz54-2aru</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Download a file from the web</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">fileUrl &lt;- &quot;https://data.baltimorecity.gov/api/views/dz54-2aru/rows.csv?accessType=DOWNLOAD&quot;
+download.file(fileUrl,destfile=&quot;./data/cameras.csv&quot;,method=&quot;curl&quot;)
+list.files(&quot;./data&quot;)
+</code></pre>
+
+<pre><code>[1] &quot;cameras.csv&quot;  &quot;cameras.xlsx&quot; &quot;movies.txt&quot;  
+</code></pre>
+
+<pre><code class="r">dateDownloaded &lt;- date()
+dateDownloaded
+</code></pre>
+
+<pre><code>[1] &quot;Thu Jan 30 10:25:10 2014&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Some notes about download.file()</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>If the url starts with <em>http</em> you can use download.file()</li>
+<li>If the url starts with <em>https</em> on Windows you may be ok</li>
+<li>If the url starts with <em>https</em> on Mac you may need to set <em>method=&quot;curl&quot;</em></li>
+<li>If the file is big, this might take a while</li>
+<li>Be sure to record when you downloaded. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Loading flat files - read.table()</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>This is the main function for reading data into R</li>
+<li>Flexible and robust but requires more parameters</li>
+<li>Reads the data into RAM - big data can cause problems</li>
+<li>Important parameters <em>file</em>, <em>header</em>, <em>sep</em>, <em>row.names</em>, <em>nrows</em></li>
+<li>Related: <em>read.csv()</em>, <em>read.csv2()</em></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Example: Baltimore camera data</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">cameraData &lt;- read.table(&quot;./data/cameras.csv&quot;,sep=&quot;,&quot;,header=TRUE)
+head(cameraData)
+</code></pre>
+
+<pre><code>                         address direction      street  crossStreet               intersection
+1       S CATON AVE &amp; BENSON AVE       N/B   Caton Ave   Benson Ave     Caton Ave &amp; Benson Ave
+2       S CATON AVE &amp; BENSON AVE       S/B   Caton Ave   Benson Ave     Caton Ave &amp; Benson Ave
+3 WILKENS AVE &amp; PINE HEIGHTS AVE       E/B Wilkens Ave Pine Heights Wilkens Ave &amp; Pine Heights
+4        THE ALAMEDA &amp; E 33RD ST       S/B The Alameda      33rd St     The Alameda  &amp; 33rd St
+5        E 33RD ST &amp; THE ALAMEDA       E/B      E 33rd  The Alameda      E 33rd  &amp; The Alameda
+6        ERDMAN AVE &amp; N MACON ST       E/B      Erdman     Macon St         Erdman  &amp; Macon St
+                       Location.1
+1 (39.2693779962, -76.6688185297)
+2 (39.2693157898, -76.6689698176)
+3  (39.2720252302, -76.676960806)
+4 (39.3285013141, -76.5953545714)
+5 (39.3283410623, -76.5953594625)
+6 (39.3068045671, -76.5593167803)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Example: Baltimore camera data</h2>
+  </hgroup>
+  <article>
+    <p>read.csv sets <em>sep=&quot;,&quot;</em> and <em>header=TRUE</em> </p>
+
+<pre><code class="r">cameraData &lt;- read.csv(&quot;./data/cameras.csv&quot;)
+head(cameraData)
+</code></pre>
+
+<pre><code>                         address direction      street  crossStreet               intersection
+1       S CATON AVE &amp; BENSON AVE       N/B   Caton Ave   Benson Ave     Caton Ave &amp; Benson Ave
+2       S CATON AVE &amp; BENSON AVE       S/B   Caton Ave   Benson Ave     Caton Ave &amp; Benson Ave
+3 WILKENS AVE &amp; PINE HEIGHTS AVE       E/B Wilkens Ave Pine Heights Wilkens Ave &amp; Pine Heights
+4        THE ALAMEDA &amp; E 33RD ST       S/B The Alameda      33rd St     The Alameda  &amp; 33rd St
+5        E 33RD ST &amp; THE ALAMEDA       E/B      E 33rd  The Alameda      E 33rd  &amp; The Alameda
+6        ERDMAN AVE &amp; N MACON ST       E/B      Erdman     Macon St         Erdman  &amp; Macon St
+                       Location.1
+1 (39.2693779962, -76.6688185297)
+2 (39.2693157898, -76.6689698176)
+3  (39.2720252302, -76.676960806)
+4 (39.3285013141, -76.5953545714)
+5 (39.3283410623, -76.5953594625)
+6 (39.3068045671, -76.5593167803)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Some more important parameters</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><em>quote</em> - you can tell R whether there are any quoted values quote=&quot;&quot; means no quotes.</li>
+<li><em>na.strings</em> - set the character that represents a missing value. </li>
+<li><em>nrows</em> - how many rows to read of the file (e.g. nrows=10 reads 10 lines).</li>
+<li><em>skip</em> - number of lines to skip before starting to read</li>
+</ul>
+
+<p><em>In my experience, the biggest trouble with reading flat files are quotation marks ` or &quot; placed in data values, setting quote=&quot;&quot; often resolves these</em>.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Example: Baltimore camera data</h2>
+  </hgroup>
+  <article>
+    <p>read.csv sets <em>sep=&quot;,&quot;</em> and <em>header=TRUE</em> </p>
+
+<pre><code class="r">cameraData &lt;- scan(&quot;./data/cameras.csv&quot;,sep=&quot;,&quot;,what=&quot;character&quot;)
+str(cameraData)
+</code></pre>
+
+<pre><code> chr [1:486] &quot;address&quot; &quot;direction&quot; &quot;street&quot; &quot;crossStreet&quot; &quot;intersection&quot; ...
+</code></pre>
+
+<pre><code class="r">cameraData &lt;- matrix(cameraData,byrow=TRUE,ncol=6)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Excel files</h2>
+  </hgroup>
+  <article>
+    <p><em>Still probably the most widely used format for sharing data</em></p>
+
+<p><img class=center src=../../assets/img/03_ObtainingData/excel2.png height=450></p>
+
+<p><a href="http://office.microsoft.com/en-us/excel/">http://office.microsoft.com/en-us/excel/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>Download the file to load</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">if(!file.exists(&quot;data&quot;)){dir.create(&quot;data&quot;)}
+fileUrl &lt;- &quot;https://data.baltimorecity.gov/api/views/dz54-2aru/rows.xlsx?accessType=DOWNLOAD&quot;
+download.file(fileUrl,destfile=&quot;./data/cameras.xlsx&quot;,method=&quot;curl&quot;)
+dateDownloaded &lt;- date()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>read.xlsx(), read.xlsx2() {xlsx package}</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">library(xlsx)
+cameraData &lt;- read.xlsx(&quot;./data/cameras.xlsx&quot;,sheetIndex=1,header=TRUE)
+head(cameraData)
+</code></pre>
+
+<pre><code>                         address direction      street  crossStreet               intersection
+1       S CATON AVE &amp; BENSON AVE       N/B   Caton Ave   Benson Ave     Caton Ave &amp; Benson Ave
+2       S CATON AVE &amp; BENSON AVE       S/B   Caton Ave   Benson Ave     Caton Ave &amp; Benson Ave
+3 WILKENS AVE &amp; PINE HEIGHTS AVE       E/B Wilkens Ave Pine Heights Wilkens Ave &amp; Pine Heights
+4        THE ALAMEDA &amp; E 33RD ST       S/B The Alameda      33rd St     The Alameda  &amp; 33rd St
+5        E 33RD ST &amp; THE ALAMEDA       E/B      E 33rd  The Alameda      E 33rd  &amp; The Alameda
+6        ERDMAN AVE &amp; N MACON ST       E/B      Erdman     Macon St         Erdman  &amp; Macon St
+                       Location.1
+1 (39.2693779962, -76.6688185297)
+2 (39.2693157898, -76.6689698176)
+3  (39.2720252302, -76.676960806)
+4 (39.3285013141, -76.5953545714)
+5 (39.3283410623, -76.5953594625)
+6 (39.3068045671, -76.5593167803)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>Reading specific rows and columns</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">colIndex &lt;- 2:3
+rowIndex &lt;- 1:4
+cameraDataSubset &lt;- read.xlsx(&quot;./data/cameras.xlsx&quot;,sheetIndex=1,
+                              colIndex=colIndex,rowIndex=rowIndex)
+cameraDataSubset
+</code></pre>
+
+<pre><code>  direction      street
+1       N/B   Caton Ave
+2       S/B   Caton Ave
+3       E/B Wilkens Ave
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>Further notes</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The <em>write.xlsx</em> function will write out an Excel file with similar arguments.</li>
+<li><em>read.xlsx2</em> is much faster than <em>read.xlsx</em> but for reading subsets of rows may be slightly unstable. </li>
+<li>The <a href="http://cran.r-project.org/web/packages/XLConnect/index.html">XLConnect</a> package has more options for writing and manipulating Excel files</li>
+<li>The <a href="http://cran.r-project.org/web/packages/XLConnect/vignettes/XLConnect.pdf">XLConnect vignette</a> is a good place to start for that package</li>
+<li>In general it is advised to store your data in either a database
+or in comma separated files (.csv) or tab separated files (.tab/.txt) as they are easier to distribute.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+
+  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+<!-- Grab CDN jQuery, fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Load Javascripts for Widgets -->
+<!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script> -->
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="../../libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+</html>
