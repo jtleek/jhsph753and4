@@ -323,8 +323,8 @@ where $n-p$ is the "residual degrees of freedom", D is sometimes known as "resid
 
 <img class="center" src=../../assets/img/simpsons.png height=400>
 
-Basic idea: Uh-oh confounding! 
-More explicitly: [http://normaldeviate.wordpress.com/2013/06/20/simpsons-paradox-explained/](http://normaldeviate.wordpress.com/2013/06/20/simpsons-paradox-explained/)
+* Basic idea: Uh-oh confounding! 
+* More explicitly: [http://normaldeviate.wordpress.com/2013/06/20/simpsons-paradox-explained/](http://normaldeviate.wordpress.com/2013/06/20/simpsons-paradox-explained/)
 
 ---
 
