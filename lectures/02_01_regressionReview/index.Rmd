@@ -90,7 +90,7 @@ Normally I do quotes, _but you should all read this_, if for no other reason to 
 ## What is "randomness"?
 
 Recall high school physics... 
-For two resistors ``in series'', the 
+For two resistors "in series", the 
 resistances are added to give a 
 total (Y , measured in Ohms, $\Omega$) which we record __without error__. 
 

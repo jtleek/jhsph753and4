@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GLM Odds and Ends</title>
+  <meta charset="utf-8">
+  <meta name="description" content="GLM Odds and Ends">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="../../libraries/frameworks/io2012/js/slides" 
+    src="../../libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+    <link rel="stylesheet" href = "../../assets/css/custom.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BACKUP.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BASE.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.LOCAL.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.orig">
+<link rel="stylesheet" href = "../../assets/css/custom.css.REMOTE.546.css">
+<link rel="stylesheet" href = "../../assets/css/ribbons.css">
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    <!-- END LOGO SLIDE -->
+    
+
+    <!-- TITLE SLIDE -->
+    <!-- Should I move this to a Local Layout File? -->
+    <slide class="title-slide segue nobackground">
+      <aside class="gdbar">
+        <img src="../../assets/img/bloomberg_shield.png">
+      </aside>
+      <hgroup class="auto-fadein">
+        <h1>GLM Odds and Ends</h1>
+        <h2></h2>
+        <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+      </hgroup>
+          </slide>
+
+    <!-- SLIDES -->
+      <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro Tip</h2>
+  </hgroup>
+  <article>
+    <p>What it takes to be an ultra-productive researcher</p>
+
+<ol>
+<li>ability to think of a good problem</li>
+<li>ability to work on it (i.e. code)</li>
+<li>ability to recognize a worthwhile result</li>
+<li>ability to make a decision as to when to stop and write up the results</li>
+<li>ability to write adequately</li>
+<li>ability to profit constructively from criticism</li>
+<li>determination to submit the paper to a journal</li>
+<li>persistence in making changes (if necessary as a result of
+journal action).</li>
+</ol>
+
+<p>\[ p_1 \times p_2 \times p_3 \times p_4 \times p_5 \times p_6 \times p_7 \times p_8\]</p>
+
+<p><a href="http://dynamicecology.wordpress.com/2014/01/23/william-shockley-on-what-makes-a-person-write-a-lot-of-papers-and-the-superstar-researcher-system/">http://dynamicecology.wordpress.com/2014/01/23/william-shockley-on-what-makes-a-person-write-a-lot-of-papers-and-the-superstar-researcher-system/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper of the day</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><a href="http://www.plosone.org/article/info:doi%2F10.1371%2Fjournal.pone.0066463">Why selective publicaiton of statistically significant results can be effective</a></li>
+<li><a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0084896;jsessionid=FE021F235547B98EB616F60877F88081#pone.0084896-DeWinter1">Why Publishing Everything Is More Effective than Selective Publishing of Statistically Significant Results</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Checklist for your analysis project</h2>
+  </hgroup>
+  <article>
+    <p><a href="https://docs.google.com/document/d/1A_5SHCOwVULmaUZmzCXkC13TOhBzuwWUvlRM4P2KhU4/edit?usp=sharing">https://docs.google.com/document/d/1A_5SHCOwVULmaUZmzCXkC13TOhBzuwWUvlRM4P2KhU4/edit?usp=sharing</a></p>
+
+<ul>
+<li>Most common mistakes on first write-up
+
+<ul>
+<li>Not having a title</li>
+<li>Not telling a story </li>
+<li>Not explaining why you did things</li>
+<li>Reporting every analysis you did</li>
+<li>Reporting models without interpretation</li>
+<li>Reporting coefficients without interpretation</li>
+<li>Reporting only measures of significance (e.g. p-values) but no measures of scientific uncertainty </li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Most of (generalized) linear regression</h2>
+  </hgroup>
+  <article>
+    <p>\[{\rm E}_F[G(\beta,Y | X)] = 0\]</p>
+
+<p>\[ \sum_{i=1}^n G(\hat{\beta},Y_i,X_i) = 0 \]</p>
+
+<p>Most common example: </p>
+
+<p>\[ {\rm argmin}_{\beta} \sum_i w_i (Y_i - g(X_i^T\beta))^2\]</p>
+
+<p>\[ \sum_{i=1}^n \frac{\partial g(X_i^T\beta)}{\partial \beta}w(X_i^T\beta)(Y- g(X^T\beta)) = 0\]</p>
+
+<p>More parametric from left to right:  </p>
+
+<p><center>GMM -&gt; Line fitting -&gt; Quasi Likelihood -&gt; Likelihood -&gt; GLMs </center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Quick aside - estimating variances</h2>
+  </hgroup>
+  <article>
+    <p>Score: \(S(\theta)\) is the (multivariate) derivative of the likelihood</p>
+
+<p>\[ \sqrt{n}(\hat{\theta} - \theta) \rightarrow_D N(0, bA^{-1}_nB_nA^{-1}_n)\]</p>
+
+<p>\[A_n = {\rm E}_F\left[ \frac{\partial S(\theta)}{\partial \theta}\right]\]
+\[B_n = {\rm E}_F\left[S(\theta) S(\theta)^T\right]\]</p>
+
+<p>It turns out \(B_n = - A_n\) for these EE&#39;s so \({\rm Cov}_F[\hat{\theta}] = -A_n^{-1} = B_n^{-1}\)</p>
+
+<p>Two estimates:</p>
+
+<p>\[\left[{\rm E}\left(\frac{\partial^2}{\partial \theta \partial \theta^T} {\rm E}ll(\theta)\right)\right]_{\theta = \hat{\theta}}\]</p>
+
+<p>\[\left[\frac{\partial^2}{\partial \theta \partial \theta^T} {\rm E}ll(\theta)\right]_{\theta = \hat{\theta}}\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>GLM concepts: random component</h2>
+  </hgroup>
+  <article>
+    <p><center>\(Y_i\) has a distribution</center></p>
+
+<p>Exponential family:</p>
+
+<p>\[f(y_i | x_i) = h(x_i, \phi) {\rm E}xp\left(\frac{y_i\theta_i - b(\theta_i,x)}{\phi}\right)\]</p>
+
+<ul>
+<li>Adding lots of little effects \(\rightarrow\) Normal distributions</li>
+<li>Binary events \(\rightarrow\) Bernoulli &amp; Binomial</li>
+<li>Counting lots of rare events \(\rightarrow\) Poisson</li>
+<li>Continual (small) hazard of an event \(\rightarrow\) Weibull</li>
+</ul>
+
+<p>But minor modifications can break:</p>
+
+<ul>
+<li>Different event rates \(\rightarrow\) overdispersed Poisson</li>
+<li>More zeros than you expect \(\rightarrow\) zero-inflated Poisson</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Example: Poisson</h2>
+  </hgroup>
+  <article>
+    <p>\[ f(y_i | \mu_i) = \frac{e^{-\mu_i} \mu_i^{y_i}}{y_i\!}\]
+\[= e^{y_i \log \mu_i - \mu_i - \log(y_i\!)}\]
+\[=e^{y_i \theta_i - e^{\theta_i} - \log(y_i!)}\]</p>
+
+<p>where \(\theta_i = \log(\mu_i)\), \(b(\theta_i) = e^{\theta_i}\), \(c(y_i) = \log(y_i\!)\)</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>GLM concepts: link and structural component</h2>
+  </hgroup>
+  <article>
+    <p><strong>Link</strong>:</p>
+
+<p>The goal is to &quot;link&quot; the expectation \(\mu_i = {\rm E}[Y_i]\) to the linear predictor \(\eta_i = g(\mu_i)\)</p>
+
+<p><em>Example</em>: \(y_i \sim {\rm Poisson}(\mu_i)\) </p>
+
+<p>\[{\rm E}[y_i] = \mu_i = e^{\theta_i} \implies g(\mu_i) = \log(\mu_i)\]</p>
+
+<p></br></p>
+
+<p><strong>Structural/systematic component</strong></p>
+
+<p>\[{\rm E}[Y_i | x_i] = g(\beta^Tx_i)\]
+In other words, the &quot;systematic component&quot; (i.e. the structure of \({\rm E}[Y | x]\) is linear in \(x\) and \(\beta\) on the given scale.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>GLMs: important properties</h2>
+  </hgroup>
+  <article>
+    <p>\[f(y_i | x_i) = h(x_i, \phi) {\rm E}xp\left(\frac{y_i\theta_i - b(\theta_i,x)}{\phi}\right)\]</p>
+
+<p><strong>Properties</strong> </p>
+
+<ul>
+<li>\({\rm E}ll(\theta_i, \phi | y_i) = \log f(y_i | \theta_i, \phi) = \frac{y_i\theta_i - b(\theta_i)}{a(\phi)} - c(y_i,\phi)\)</li>
+<li>\({\rm E}\left(\frac{\partial {\rm E}ll}{\partial \theta}\right) = {\rm E}\left( \frac{f'(y_i| \theta_i, \phi)}{f(y_i | \theta_i, \phi)}  \right) = \int f'(y_i | \theta_i, \phi) = \frac{\partial }{\partial \theta_i} \int f(y_i | \theta_i, \phi) = 0\)</li>
+<li>So \({\rm E}\left( \frac{y_i - b'(\theta_i)}{a(\phi)}\right) = 0\) or \(\mu_i = {\rm E}[y_i] = b'(\theta_i)\)</li>
+<li>\(\frac{\partial^2 {\rm E}ll}{\partial \theta_i^2} = \frac{-b''(\theta_i)}{a(\phi)}\) and recall \({\rm E}\left(\frac{\partial^2 {\rm E}ll}{\partial \theta_i^2} \right) = - {\rm E}\left[\left(\frac{\partial {\rm E}ll}{\partial \theta_i}\right)^2\right]\)</li>
+<li>\(\implies \frac{b''(\theta_i)}{a(\phi)} = {\rm E}\left(\frac{(y_i - b'(\theta_i))^2}{a(\phi)^2} \right) = \frac{1}{a(\phi)^2}{\rm Var}(y_i)\)</li>
+<li>\(\implies a(\phi)b''(\theta_i) = {\rm Var}(y_i)\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Canonical Link</h2>
+  </hgroup>
+  <article>
+    <p>The \(g()\) such that \(g(\mu_i) = \beta^Tx_i\)</p>
+
+<p><em>Example</em>:</p>
+
+<ul>
+<li>\(Y_i \sim {\rm Poisson}(\mu_i)\)</li>
+<li>\({\rm E}[Y_i] = \mu_i = e^{\theta_i} \implies g(\mu_i) = \log(\mu_i)\)</li>
+</ul>
+
+<p>For the canonical link, \(\eta_i = \theta_i = \sum_j x_{ij} \beta_j\) and the kernel of the log likelihood:</p>
+
+<p>\[L(\theta_i, \phi) = \sum [y_i\theta_i - b(\theta_i)]/a(\phi) + \sum c(y_i | \phi)\]</p>
+
+<p>simplifies to: 
+\[\sum_i y_i (\sum_j x_{ij} \beta_j) = \sum_j \beta_j \underbrace{\sum_i y_i x_{ij}}_{{\rm sufficient \: stat.}}\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Links in R</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/links.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Interpreting coefficients (canonical link)</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Gaussian: The expected one unit change for a one unit change in \(X\)</li>
+<li>Poisson: Expected change in log rate for a one unit change in \(X\)</li>
+<li><p>Binomial: Expected change in log odds ratio for one unit change in \(X\)</p></li>
+<li><p>Note that not expected changes on transformed scale (e.g. \(exp(\beta)\) for Poisson) but sometimes it is still easier to talk about (it is still ML estimate after all!)</p></li>
+<li><p>Often you get good results by transforming \(Y\) (e.g. <a href="http://en.wikipedia.org/wiki/Power_transform">Box-Cox</a> transform) but coefficients have different interpretation (because \({\rm E}[g(Y)] \neq g({\rm E}[Y]))\))</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Interactions - depend on Y-scale</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/interact1.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Interactions - careful even with sign</h2>
+  </hgroup>
+  <article>
+    <p>\(y\) - interaction positive</p>
+
+<p><img class="center" src=../../assets/img/interact4.png height=200></p>
+
+<p>\(\log(y-5.7)\) - interaction negative</p>
+
+<p><img class="center" src=../../assets/img/interact5.png height=200></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Model checking</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><strong>Non-parameteric</strong> - Does parameter usefully summarize superpopulation?</li>
+<li><strong>Parametric</strong> - Are parametric assumptions &quot;right&quot;?</li>
+<li>The mainly-graphical checks we use in either case are similar, although the interpretation changes</li>
+<li>The goal of these checks is to spot major aberrations
+
+<ul>
+<li>Typically very little power to spot anything else, without strong assumptions.</li>
+</ul></li>
+<li>Some things to keep in mind
+
+<ul>
+<li>Changing your model after you see the data messes up all Frequentist guarantees (Bayesian ones too)</li>
+<li>If you do model checking/change your model <em>you must report this</em></li>
+<li>In some applied areas, you are simply not allowed to do model checking (<a href="http://www.nature.com/news/reproducibility-the-risks-of-the-replication-drive-1.14184">maybe nowhere soon</a>)</li>
+<li>Missing something important is Very Bad - but choose where to report it</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>A biased view of model selection</h2>
+  </hgroup>
+  <article>
+    <p><center> Scientific reasons \(>\ldots>\) exploratory analysis w/graphs \(>\) exploratory w/summary stats \(>\) automated techniques</center></p>
+
+<ul>
+<li>We will learn more about these later</li>
+<li>Common automated examples
+
+<ul>
+<li>AIC</li>
+<li>BIC</li>
+<li>Cross-validation</li>
+<li>Penalization</li>
+<li>Analysis of deviance</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Some things you should plot (more in EDA lectures)</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/mcheck1.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Some things you should plot (more in EDA lectures)</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/mcheck2.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Some things you should plot (more in EDA lectures)</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/mcheck3.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Some things you should plot (more in EDA lectures)</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/mcheck4.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Some things you should plot (more in EDA lectures)</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/mcheck6.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Deviance</h2>
+  </hgroup>
+  <article>
+    <p>\[ D = - 2\left[\ell(\hat{\theta}) - \ell(\tilde{\theta})\right]\]</p>
+
+<p>\[D \sim \phi \chi^2_{n-p}\]</p>
+
+<p>where \(n-p\) is the &quot;residual degrees of freedom&quot;, D is sometimes known as &quot;residual deviance&quot;</p>
+
+<ul>
+<li>On its own, deviance tells you nothing about what&#39;s going wrong. Is the mean wrong? Is it the variance? Or something else? (Use of deviance alone is not recommended)</li>
+<li>With large samples, large deviances can result from models which are &quot;wrong but useful&quot;, e.g. a model with the right mean, but which gives slightly conservative inference</li>
+<li>Deviance-based residuals are also available</li>
+<li>If your different fitted models have different \(n\) (perhaps due to missing values being dropped) then comparing their deviances produces garbage</li>
+<li>&quot;Analsis of deviance&quot; (which <code>anova</code> in R produces) compares deviances for a sequence of models. Be aware it estimates the dispersion parameter \(\phi\) from the &quot;biggest&quot; model</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Tricks/extensions</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Too many zeros - zero inflated (Poission, Negative Binomial,...)</li>
+<li>Too much variance - overdispersion</li>
+<li>Case control studies
+
+<ul>
+<li>Can&#39;t estimate probability of disease given exposure</li>
+<li>For small incidence relative risk (Pr(Disease|Exposure)/Pr(Disease | No Exposure)) can be estimated with odds ratio from logistic regression model Slides 22-27 <a href="http://biostat.jhsph.edu/%7Ejleek/teaching/2011/754/lecture5.pdf">http://biostat.jhsph.edu/~jleek/teaching/2011/754/lecture5.pdf</a> give more details</li>
+</ul></li>
+<li>Modeling multiway contingency tables can be done with log-linear models
+
+<ul>
+<li>\(\vec{y} \sim {\rm Poisson}{\mu} \implies y_{+} = \sum_i y_i \sim \rm Poisson}{\sum \mu_i}\)</li>
+<li>You can work out that this means \(\vec{y} | y_{+}\) is multinomial </li>
+<li>Likelihood for Poisson log-linear model conditional on summing some margins is multinomial </li>
+<li>More on pages 28-34 <a href="http://biostat.jhsph.edu/%7Ejleek/teaching/2011/754/lecture5.pdf">http://biostat.jhsph.edu/~jleek/teaching/2011/754/lecture5.pdf</a></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Simpson&#39;s paradox</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src=../../assets/img/simpsons.png height=400></p>
+
+<p>Basic idea: Uh-oh confounding! 
+More explicitly: <a href="http://normaldeviate.wordpress.com/2013/06/20/simpsons-paradox-explained/">http://normaldeviate.wordpress.com/2013/06/20/simpsons-paradox-explained/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Questions?</h2>
+  </hgroup>
+  <article>
+    <p><a href="https://github.com/jtleek/jhsph753and4/lectures">https://github.com/jtleek/jhsph753and4/lectures</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+
+  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+<!-- Grab CDN jQuery, fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Load Javascripts for Widgets -->
+<!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script> -->
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="../../libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+</html>
