@@ -11,4 +11,6 @@ January 28:
 
 January 30: 
 * GLM Odds and Ends [Lecture](http://jtleek.github.io/jhsph753and4/lectures/02_02_glmOddsAndEnds/#1)
+
+February 4: 
 * Getting Data (Part 1/n) [Lecture](http://jtleek.github.io/jhsph753and4/lectures/02_03_gettingData/#1)
