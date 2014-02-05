@@ -16,5 +16,5 @@ February 4:
 * Getting Data [Lecture](http://jtleek.github.io/jhsph753and4/lectures/03_01_gettingData/#1)
 
 February 5: 
-* [In class activity](http://githb.com/jtleek/jhsph753and4/lectures/03_02_inclass.md)
+* [In class activity](https://github.com/jtleek/jhsph753and4/blob/master/lectures/03_02_inclass.md)
 * Cleaning Data [Lecture](http://jtleek.github.io/jhsph753and4/lectures/03_02_cleaningData/#1)
