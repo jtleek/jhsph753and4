@@ -1,0 +1,3292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cleaning data</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Cleaning data">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="../../libraries/frameworks/io2012/js/slides" 
+    src="../../libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+    <link rel="stylesheet" href = "../../assets/css/custom.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BACKUP.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BASE.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.LOCAL.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.orig">
+<link rel="stylesheet" href = "../../assets/css/custom.css.REMOTE.546.css">
+<link rel="stylesheet" href = "../../assets/css/ribbons.css">
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    <!-- END LOGO SLIDE -->
+    
+
+    <!-- TITLE SLIDE -->
+    <!-- Should I move this to a Local Layout File? -->
+    <slide class="title-slide segue nobackground">
+      <aside class="gdbar">
+        <img src="../../assets/img/bloomberg_shield.png">
+      </aside>
+      <hgroup class="auto-fadein">
+        <h1>Cleaning data</h1>
+        <h2></h2>
+        <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+      </hgroup>
+          </slide>
+
+    <!-- SLIDES -->
+      <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro Tip</h2>
+  </hgroup>
+  <article>
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper of the day</h2>
+  </hgroup>
+  <article>
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>The goal is tidy data</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src="../../assets/img/01_DataScientistToolbox/excel.png" height=300 /></p>
+
+<ol>
+<li>Each variable forms a column</li>
+<li>Each observation forms a row</li>
+<li>Each table/file stores data about one kind of observation (e.g. people/hospitals).</li>
+</ol>
+
+<p><a href="http://vita.had.co.nz/papers/tidy-data.pdf">http://vita.had.co.nz/papers/tidy-data.pdf</a></p>
+
+<p><a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0026895">Leek, Taub, and Pineda 2011 PLoS One</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>data.table</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Inherets from data.frame
+
+<ul>
+<li>All functions that accept data.frame work on data.table</li>
+</ul></li>
+<li>Written in C so it is much faster</li>
+<li>Much, much faster at subsetting, group, and updating</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Create data tables just like data frames</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">library(data.table)
+DF = data.frame(x=rnorm(9),y=rep(c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;),each=3),z=rnorm(9))
+head(DF,3)
+</code></pre>
+
+<pre><code>        x y       z
+1 -0.9690 a -0.6361
+2  0.8895 a  0.4879
+3 -1.2139 a -0.1279
+</code></pre>
+
+<pre><code class="r">DT = data.table(x=rnorm(9),y=rep(c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;),each=3),z=rnorm(9))
+head(DT,3)
+</code></pre>
+
+<pre><code>         x y        z
+1: -1.8915 a -0.06235
+2: -0.4859 a  1.37020
+3:  0.2364 a -0.63040
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>See all the data tables in memory</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">tables()
+</code></pre>
+
+<pre><code>     NAME NROW MB COLS  KEY
+[1,] DT      9 1  x,y,z    
+Total: 1MB
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Subsetting rows</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">DT[2,]
+</code></pre>
+
+<pre><code>         x y    z
+1: -0.4859 a 1.37
+</code></pre>
+
+<pre><code class="r">DT[DT$y==&quot;a&quot;,]
+</code></pre>
+
+<pre><code>         x y        z
+1: -1.8915 a -0.06235
+2: -0.4859 a  1.37020
+3:  0.2364 a -0.63040
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Subsetting rows</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">DT[c(2,3)]
+</code></pre>
+
+<pre><code>         x y       z
+1: -0.4859 a  1.3702
+2:  0.2364 a -0.6304
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Subsetting columns!?</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">DT[,c(2,3)]
+</code></pre>
+
+<pre><code>[1] 2 3
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Column subsetting in data.table</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The subsetting function is modified for data.table</li>
+<li>The argument you pass after the comma is called an &quot;expression&quot;</li>
+<li>In R an expression is a collection of statements enclosed in curley brackets </li>
+</ul>
+
+<pre><code class="r">{
+  x = 1
+  y = 2
+}
+k = {print(10); 5}
+</code></pre>
+
+<pre><code>[1] 10
+</code></pre>
+
+<pre><code class="r">print(k)
+</code></pre>
+
+<pre><code>[1] 5
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Calculating values for variables with expressions</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">DT = data.table(x=rnorm(9),y=rep(c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;),each=3),z=rnorm(9))
+DT[,list(mean(x),sum(z))]
+</code></pre>
+
+<pre><code>        V1    V2
+1: -0.5263 -1.42
+</code></pre>
+
+<pre><code class="r">DT[,table(y)]
+</code></pre>
+
+<pre><code>y
+a b c 
+3 3 3 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Adding new columns</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">DT[,w:=z^2]
+</code></pre>
+
+<pre><code>          x y        z        w
+1: -1.23685 a  0.06448 0.004157
+2:  0.94369 a  0.95965 0.920931
+3: -0.79338 a -1.35306 1.830771
+4:  0.06876 b  0.21998 0.048390
+5: -2.52831 b  0.77248 0.596728
+6: -0.25771 b -2.13156 4.543566
+7:  0.44889 c -0.44320 0.196423
+8: -0.68266 c  1.08423 1.175562
+9: -0.69946 c -0.59315 0.351831
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Adding new columns</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">DT2 &lt;- DT
+DT[, y:= 2]
+</code></pre>
+
+<pre><code>          x y        z        w
+1: -1.23685 2  0.06448 0.004157
+2:  0.94369 2  0.95965 0.920931
+3: -0.79338 2 -1.35306 1.830771
+4:  0.06876 2  0.21998 0.048390
+5: -2.52831 2  0.77248 0.596728
+6: -0.25771 2 -2.13156 4.543566
+7:  0.44889 2 -0.44320 0.196423
+8: -0.68266 2  1.08423 1.175562
+9: -0.69946 2 -0.59315 0.351831
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Careful</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">head(DT,n=3)
+</code></pre>
+
+<pre><code>         x y        z        w
+1: -1.2369 a  0.06448 0.004157
+2:  0.9437 a  0.95965 0.920931
+3: -0.7934 a -1.35306 1.830771
+</code></pre>
+
+<pre><code class="r">head(DT2,n=3)
+</code></pre>
+
+<pre><code>         x y        z        w
+1: -1.2369 2  0.06448 0.004157
+2:  0.9437 2  0.95965 0.920931
+3: -0.7934 2 -1.35306 1.830771
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Multiple operations</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">DT[,m:= {tmp &lt;- (x+z); log2(tmp+5)}]
+</code></pre>
+
+<pre><code>          x y        z        w     m
+1: -1.23685 a  0.06448 0.004157 1.936
+2:  0.94369 a  0.95965 0.920931 2.787
+3: -0.79338 a -1.35306 1.830771 1.513
+4:  0.06876 b  0.21998 0.048390 2.403
+5: -2.52831 b  0.77248 0.596728 1.698
+6: -0.25771 b -2.13156 4.543566 1.384
+7:  0.44889 c -0.44320 0.196423 2.324
+8: -0.68266 c  1.08423 1.175562 2.433
+9: -0.69946 c -0.59315 0.351831 1.890
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>plyr like operations</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">DT[,a:=x&gt;0]
+</code></pre>
+
+<pre><code>          x y        z        w     m     a
+1: -1.23685 a  0.06448 0.004157 1.936 FALSE
+2:  0.94369 a  0.95965 0.920931 2.787  TRUE
+3: -0.79338 a -1.35306 1.830771 1.513 FALSE
+4:  0.06876 b  0.21998 0.048390 2.403  TRUE
+5: -2.52831 b  0.77248 0.596728 1.698 FALSE
+6: -0.25771 b -2.13156 4.543566 1.384 FALSE
+7:  0.44889 c -0.44320 0.196423 2.324  TRUE
+8: -0.68266 c  1.08423 1.175562 2.433 FALSE
+9: -0.69946 c -0.59315 0.351831 1.890 FALSE
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>plyr like operations</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">DT[,b:= mean(x+w),by=a]
+</code></pre>
+
+<pre><code>          x y        z        w     m     a      b
+1: -1.23685 a  0.06448 0.004157 1.936 FALSE 0.3840
+2:  0.94369 a  0.95965 0.920931 2.787  TRUE 0.8757
+3: -0.79338 a -1.35306 1.830771 1.513 FALSE 0.3840
+4:  0.06876 b  0.21998 0.048390 2.403  TRUE 0.8757
+5: -2.52831 b  0.77248 0.596728 1.698 FALSE 0.3840
+6: -0.25771 b -2.13156 4.543566 1.384 FALSE 0.3840
+7:  0.44889 c -0.44320 0.196423 2.324  TRUE 0.8757
+8: -0.68266 c  1.08423 1.175562 2.433 FALSE 0.3840
+9: -0.69946 c -0.59315 0.351831 1.890 FALSE 0.3840
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Special variables</h2>
+  </hgroup>
+  <article>
+    <p><code>.N</code> An integer, length 1, containing the numbe r</p>
+
+<pre><code class="r">set.seed(123);
+DT &lt;- data.table(x=sample(letters[1:3], 1E5, TRUE))
+DT[, .N, by=x]
+</code></pre>
+
+<pre><code>   x     N
+1: a 33387
+2: c 33201
+3: b 33412
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Keys</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">DT &lt;- data.table(x=rep(c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;),each=100), y=rnorm(300))
+setkey(DT, x)
+DT[&#39;a&#39;]
+</code></pre>
+
+<pre><code>     x        y
+  1: a  0.25959
+  2: a  0.91751
+  3: a -0.72232
+  4: a -0.80828
+  5: a -0.14135
+  6: a  2.25701
+  7: a -2.37955
+  8: a -0.45425
+  9: a -0.06007
+ 10: a  0.86090
+ 11: a -1.78466
+ 12: a -0.13074
+ 13: a -0.36984
+ 14: a -0.18066
+ 15: a -1.04973
+ 16: a  0.37832
+ 17: a -1.37079
+ 18: a -0.31612
+ 19: a  0.39435
+ 20: a -1.68988
+ 21: a -1.46234
+ 22: a  2.55838
+ 23: a  0.08789
+ 24: a  1.73141
+ 25: a  1.21513
+ 26: a  0.29954
+ 27: a -0.17246
+ 28: a  1.13250
+ 29: a  0.02320
+ 30: a  1.33587
+ 31: a -1.09879
+ 32: a -0.58176
+ 33: a  0.03892
+ 34: a  1.07315
+ 35: a  1.34970
+ 36: a  1.19528
+ 37: a -0.02218
+ 38: a  0.69849
+ 39: a  0.67241
+ 40: a -0.79165
+ 41: a -0.21791
+ 42: a  0.02307
+ 43: a  0.11539
+ 44: a -0.27708
+ 45: a  0.03688
+ 46: a  0.47520
+ 47: a  1.70749
+ 48: a  1.07601
+ 49: a -1.34571
+ 50: a -1.44025
+ 51: a -0.39393
+ 52: a  0.58106
+ 53: a -0.17079
+ 54: a -0.90585
+ 55: a  0.15621
+ 56: a -0.37323
+ 57: a -0.34587
+ 58: a -0.35829
+ 59: a -0.13307
+ 60: a -0.08960
+ 61: a  0.62793
+ 62: a -1.42883
+ 63: a  0.17255
+ 64: a -0.79115
+ 65: a  1.26204
+ 66: a -0.26941
+ 67: a  0.15698
+ 68: a -0.76060
+ 69: a  1.37060
+ 70: a  0.03758
+ 71: a  0.44949
+ 72: a  2.78869
+ 73: a -0.46849
+ 74: a  1.01261
+ 75: a -0.04374
+ 76: a  1.40670
+ 77: a  0.41993
+ 78: a  0.31009
+ 79: a  1.11905
+ 80: a -1.29814
+ 81: a -1.28248
+ 82: a  1.65943
+ 83: a  0.78375
+ 84: a  0.57771
+ 85: a -0.26725
+ 86: a -0.64569
+ 87: a -0.44953
+ 88: a -0.82620
+ 89: a  1.05504
+ 90: a -0.87927
+ 91: a -1.27713
+ 92: a -0.63412
+ 93: a  0.66470
+ 94: a -0.50958
+ 95: a  0.40736
+ 96: a  1.67775
+ 97: a -1.05206
+ 98: a -0.63691
+ 99: a  0.56539
+100: a  0.38016
+     x        y
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Joins</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">DT1 &lt;- data.table(x=c(&#39;a&#39;, &#39;a&#39;, &#39;b&#39;, &#39;dt1&#39;), y=1:4)
+DT2 &lt;- data.table(x=c(&#39;a&#39;, &#39;b&#39;, &#39;dt2&#39;), z=5:7)
+setkey(DT1, x); setkey(DT2, x)
+merge(DT1, DT2)
+</code></pre>
+
+<pre><code>   x y z
+1: a 1 5
+2: a 2 5
+3: b 3 6
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Fast reading</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">big_df &lt;- data.frame(x=rnorm(1E6), y=rnorm(1E6))
+file &lt;- tempfile()
+write.table(big_df, file=file, row.names=FALSE, col.names=TRUE, sep=&quot;\t&quot;, quote=FALSE)
+system.time(fread(file))
+</code></pre>
+
+<pre><code>   user  system elapsed 
+  0.372   0.014   0.386 
+</code></pre>
+
+<pre><code class="r">system.time(read.table(file, header=TRUE, sep=&quot;\t&quot;))
+</code></pre>
+
+<pre><code>   user  system elapsed 
+ 11.935   0.134  12.092 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Summary and further reading</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The latest development version contains new functions like <code>melt</code> and <code>dcast</code> for data.tables 
+
+<ul>
+<li><a href="https://r-forge.r-project.org/scm/viewvc.php/pkg/NEWS?view=markup&amp;root=datatable">https://r-forge.r-project.org/scm/viewvc.php/pkg/NEWS?view=markup&amp;root=datatable</a></li>
+</ul></li>
+<li>Here is a list of differences between data.table and data.frame
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/13618488/what-you-can-do-with-data-frame-that-you-cant-in-data-table">http://stackoverflow.com/questions/13618488/what-you-can-do-with-data-frame-that-you-cant-in-data-table</a></li>
+</ul></li>
+<li>Notes based on Raphael Gottardo&#39;s notes <a href="https://github.com/raphg/Biostat-578/blob/master/Advanced_data_manipulation.Rpres">https://github.com/raphg/Biostat-578/blob/master/Advanced_data_manipulation.Rpres</a>, who got them from Kevin Ushey.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Generate some data</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">set.seed(13435)
+X &lt;- data.frame(&quot;var1&quot;=sample(1:5),&quot;var2&quot;=sample(6:10),&quot;var3&quot;=sample(11:15))
+X &lt;- X[sample(1:5),]; X$var2[c(1,3)] = NA
+X
+</code></pre>
+
+<pre><code>  var1 var2 var3
+1    2   NA   15
+4    1   10   11
+2    3   NA   12
+3    5    6   14
+5    4    9   13
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Sorting</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">sort(X$var1)
+</code></pre>
+
+<pre><code>[1] 1 2 3 4 5
+</code></pre>
+
+<pre><code class="r">sort(X$var1,decreasing=TRUE)
+</code></pre>
+
+<pre><code>[1] 5 4 3 2 1
+</code></pre>
+
+<pre><code class="r">sort(X$var2,na.last=TRUE)
+</code></pre>
+
+<pre><code>[1]  6  9 10 NA NA
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Ordering</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">X[order(X$var1),]
+</code></pre>
+
+<pre><code>  var1 var2 var3
+4    1   10   11
+1    2   NA   15
+2    3   NA   12
+5    4    9   13
+3    5    6   14
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Ordering</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">X[order(X$var1,X$var3),]
+</code></pre>
+
+<pre><code>  var1 var2 var3
+4    1   10   11
+1    2   NA   15
+2    3   NA   12
+5    4    9   13
+3    5    6   14
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Ordering with plyr</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">library(plyr)
+arrange(X,var1)
+</code></pre>
+
+<pre><code>  var1 var2 var3
+1    1   10   11
+2    2   NA   15
+3    3   NA   12
+4    4    9   13
+5    5    6   14
+</code></pre>
+
+<pre><code class="r">arrange(X,desc(var1))
+</code></pre>
+
+<pre><code>  var1 var2 var3
+1    5    6   14
+2    4    9   13
+3    3   NA   12
+4    2   NA   15
+5    1   10   11
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Adding rows and columns</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">X$var4 &lt;- rnorm(5)
+X
+</code></pre>
+
+<pre><code>  var1 var2 var3     var4
+1    2   NA   15  0.18760
+4    1   10   11  1.78698
+2    3   NA   12  0.49669
+3    5    6   14  0.06318
+5    4    9   13 -0.53613
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Adding rows and columns</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">Y &lt;- cbind(X,rnorm(5))
+Y
+</code></pre>
+
+<pre><code>  var1 var2 var3     var4 rnorm(5)
+1    2   NA   15  0.18760  0.62578
+4    1   10   11  1.78698 -2.45084
+2    3   NA   12  0.49669  0.08909
+3    5    6   14  0.06318  0.47839
+5    4    9   13 -0.53613  1.00053
+</code></pre>
+
+<h2>Example data set</h2>
+
+<p><img class=center src="../../assets/img/03_ObtainingData/restaurants.png" height=500 /></p>
+
+<p><a href="https://data.baltimorecity.gov/Community/Restaurants/k5ry-ef3g">https://data.baltimorecity.gov/Community/Restaurants/k5ry-ef3g</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Getting the data from the web</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">if(!file.exists(&quot;./data&quot;)){dir.create(&quot;./data&quot;)}
+fileUrl &lt;- &quot;https://data.baltimorecity.gov/api/views/k5ry-ef3g/rows.csv?accessType=DOWNLOAD&quot;
+download.file(fileUrl,destfile=&quot;./data/restaurants.csv&quot;,method=&quot;curl&quot;)
+restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Look at a bit of the data</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">head(restData,n=3)
+</code></pre>
+
+<pre><code>   name zipCode neighborhood councilDistrict policeDistrict                        Location.1
+1   410   21206    Frankford               2   NORTHEASTERN 4509 BELAIR ROAD\nBaltimore, MD\n
+2  1919   21231  Fells Point               1   SOUTHEASTERN    1919 FLEET ST\nBaltimore, MD\n
+3 SAUTE   21224       Canton               1   SOUTHEASTERN   2844 HUDSON ST\nBaltimore, MD\n
+</code></pre>
+
+<pre><code class="r">tail(restData,n=3)
+</code></pre>
+
+<pre><code>                 name zipCode  neighborhood councilDistrict policeDistrict
+1325 ZINK&#39;S CAF\u0090   21213 Belair-Edison              13   NORTHEASTERN
+1326     ZISSIMOS BAR   21211       Hampden               7       NORTHERN
+1327           ZORBAS   21224     Greektown               2   SOUTHEASTERN
+                             Location.1
+1325 3300 LAWNVIEW AVE\nBaltimore, MD\n
+1326      1023 36TH ST\nBaltimore, MD\n
+1327  4710 EASTERN Ave\nBaltimore, MD\n
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Make summary</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">summary(restData)
+</code></pre>
+
+<pre><code>                           name         zipCode             neighborhood councilDistrict
+ MCDONALD&#39;S                  :   8   Min.   :-21226   Downtown    :128   Min.   : 1.00  
+ POPEYES FAMOUS FRIED CHICKEN:   7   1st Qu.: 21202   Fells Point : 91   1st Qu.: 2.00  
+ SUBWAY                      :   6   Median : 21218   Inner Harbor: 89   Median : 9.00  
+ KENTUCKY FRIED CHICKEN      :   5   Mean   : 21185   Canton      : 81   Mean   : 7.19  
+ BURGER KING                 :   4   3rd Qu.: 21226   Federal Hill: 42   3rd Qu.:11.00  
+ DUNKIN DONUTS               :   4   Max.   : 21287   Mount Vernon: 33   Max.   :14.00  
+ (Other)                     :1293                    (Other)     :863                  
+      policeDistrict                        Location.1      
+ SOUTHEASTERN:385    1101 RUSSELL ST\nBaltimore, MD\n:   9  
+ CENTRAL     :288    201 PRATT ST\nBaltimore, MD\n   :   8  
+ SOUTHERN    :213    2400 BOSTON ST\nBaltimore, MD\n :   8  
+ NORTHERN    :157    300 LIGHT ST\nBaltimore, MD\n   :   5  
+ NORTHEASTERN: 72    300 CHARLES ST\nBaltimore, MD\n :   4  
+ EASTERN     : 67    301 LIGHT ST\nBaltimore, MD\n   :   4  
+ (Other)     :145    (Other)                         :1289  
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Mpre in depth information</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">str(restData)
+</code></pre>
+
+<pre><code>&#39;data.frame&#39;:   1327 obs. of  6 variables:
+ $ name           : Factor w/ 1277 levels &quot;#1 CHINESE KITCHEN&quot;,..: 9 3 992 1 2 4 5 6 7 8 ...
+ $ zipCode        : int  21206 21231 21224 21211 21223 21218 21205 21211 21205 21231 ...
+ $ neighborhood   : Factor w/ 173 levels &quot;Abell&quot;,&quot;Arlington&quot;,..: 53 52 18 66 104 33 98 133 98 157 ...
+ $ councilDistrict: int  2 1 1 14 9 14 13 7 13 1 ...
+ $ policeDistrict : Factor w/ 9 levels &quot;CENTRAL&quot;,&quot;EASTERN&quot;,..: 3 6 6 4 8 3 6 4 6 6 ...
+ $ Location.1     : Factor w/ 1210 levels &quot;1 BIDDLE ST\nBaltimore, MD\n&quot;,..: 835 334 554 755 492 537 505 530 507 569 ...
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Quantiles of quantitative variables</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">quantile(restData$councilDistrict,na.rm=TRUE)
+</code></pre>
+
+<pre><code>  0%  25%  50%  75% 100% 
+   1    2    9   11   14 
+</code></pre>
+
+<pre><code class="r">quantile(restData$councilDistrict,probs=c(0.5,0.75,0.9))
+</code></pre>
+
+<pre><code>50% 75% 90% 
+  9  11  12 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Make table</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">table(restData$zipCode,useNA=&quot;ifany&quot;)
+</code></pre>
+
+<pre><code>
+-21226  21201  21202  21205  21206  21207  21208  21209  21210  21211  21212  21213  21214  21215 
+     1    136    201     27     30      4      1      8     23     41     28     31     17     54 
+ 21216  21217  21218  21220  21222  21223  21224  21225  21226  21227  21229  21230  21231  21234 
+    10     32     69      1      7     56    199     19     18      4     13    156    127      7 
+ 21237  21239  21251  21287 
+     1      3      2      1 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Make table</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">table(restData$councilDistrict,restData$zipCode)
+</code></pre>
+
+<pre><code>
+     -21226 21201 21202 21205 21206 21207 21208 21209 21210 21211 21212 21213 21214 21215 21216
+  1       0     0    37     0     0     0     0     0     0     0     0     2     0     0     0
+  2       0     0     0     3    27     0     0     0     0     0     0     0     0     0     0
+  3       0     0     0     0     0     0     0     0     0     0     0     2    17     0     0
+  4       0     0     0     0     0     0     0     0     0     0    27     0     0     0     0
+  5       0     0     0     0     0     3     0     6     0     0     0     0     0    31     0
+  6       0     0     0     0     0     0     0     1    19     0     0     0     0    15     1
+  7       0     0     0     0     0     0     0     1     0    27     0     0     0     6     7
+  8       0     0     0     0     0     1     0     0     0     0     0     0     0     0     0
+  9       0     1     0     0     0     0     0     0     0     0     0     0     0     0     2
+  10      1     0     1     0     0     0     0     0     0     0     0     0     0     0     0
+  11      0   115   139     0     0     0     1     0     0     0     1     0     0     0     0
+  12      0    20    24     4     0     0     0     0     0     0     0    13     0     0     0
+  13      0     0     0    20     3     0     0     0     0     0     0    13     0     1     0
+  14      0     0     0     0     0     0     0     0     4    14     0     1     0     1     0
+
+     21217 21218 21220 21222 21223 21224 21225 21226 21227 21229 21230 21231 21234 21237 21239
+  1      0     0     0     7     0   140     1     0     0     0     1   124     0     0     0
+  2      0     0     0     0     0    54     0     0     0     0     0     0     0     1     0
+  3      0     3     0     0     0     0     0     0     1     0     0     0     7     0     0
+  4      0     0     0     0     0     0     0     0     0     0     0     0     0     0     3
+  5      0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+  6      0     0     0     0     0     0     0     0     0     0     0     0     0     0     0
+  7     15     6     0     0     0     0     0     0     0     0     0     0     0     0     0
+  8      0     0     0     0     2     0     0     0     2    13     0     0     0     0     0
+  9      8     0     0     0    53     0     0     0     0     0    11     0     0     0     0
+  10     0     0     1     0     0     0    18    18     0     0   133     0     0     0     0
+  11     9     0     0     0     1     0     0     0     0     0    11     0     0     0     0
+  12     0    26     0     0     0     0     0     0     0     0     0     2     0     0     0
+  13     0     0     0     0     0     5     0     0     1     0     0     1     0     0     0
+  14     0    34     0     0     0     0     0     0     0     0     0     0     0     0     0
+
+     21251 21287
+  1      0     0
+  2      0     0
+  3      2     0
+  4      0     0
+  5      0     0
+  6      0     0
+  7      0     0
+  8      0     0
+  9      0     0
+  10     0     0
+  11     0     0
+  12     0     0
+  13     0     1
+  14     0     0
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Check for missing values</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">sum(is.na(restData$councilDistrict))
+</code></pre>
+
+<pre><code>[1] 0
+</code></pre>
+
+<pre><code class="r">any(is.na(restData$councilDistrict))
+</code></pre>
+
+<pre><code>[1] FALSE
+</code></pre>
+
+<pre><code class="r">all(restData$zipCode &gt; 0)
+</code></pre>
+
+<pre><code>[1] FALSE
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>Row and column sums</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">colSums(is.na(restData))
+</code></pre>
+
+<pre><code>           name         zipCode    neighborhood councilDistrict  policeDistrict      Location.1 
+              0               0               0               0               0               0 
+</code></pre>
+
+<pre><code class="r">all(colSums(is.na(restData))==0)
+</code></pre>
+
+<pre><code>[1] TRUE
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>Values with specific characteristics</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">table(restData$zipCode %in% c(&quot;21212&quot;))
+</code></pre>
+
+<pre><code>
+FALSE  TRUE 
+ 1299    28 
+</code></pre>
+
+<pre><code class="r">table(restData$zipCode %in% c(&quot;21212&quot;,&quot;21213&quot;))
+</code></pre>
+
+<pre><code>
+FALSE  TRUE 
+ 1268    59 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>Values with specific characteristics</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">restData[restData$zipCode %in% c(&quot;21212&quot;,&quot;21213&quot;),]
+</code></pre>
+
+<pre><code>                                     name zipCode                neighborhood councilDistrict
+29                      BAY ATLANTIC CLUB   21212                    Downtown              11
+39                            BERMUDA BAR   21213               Broadway East              12
+92                              ATWATER&#39;S   21212   Chinquapin Park-Belvedere               4
+111            BALTIMORE ESTONIAN SOCIETY   21213          South Clifton Park              12
+187                              CAFE ZEN   21212                    Rosebank               4
+220                   CERIELLO FINE FOODS   21212   Chinquapin Park-Belvedere               4
+266    CLIFTON PARK GOLF COURSE SNACK BAR   21213                 Darley Park              14
+276                CLUB HOUSE BAR &amp; GRILL   21213 Orangeville Industrial Area              13
+289                 CLUBHOUSE BAR &amp; GRILL   21213 Orangeville Industrial Area              13
+291                           COCKY LOU&#39;S   21213               Broadway East              12
+362       DREAM TAVERN, CARRIBEAN  U.S.A.   21213               Broadway East              13
+373                         DUNKIN DONUTS   21212                    Homeland               4
+383        EASTSIDE  SPORTS  SOCIAL  CLUB   21213               Broadway East              13
+417                      FIELDS OLD TRAIL   21212                  Mid-Govans               4
+475                             GRAND CRU   21212   Chinquapin Park-Belvedere               4
+545                           RANDY&#39;S BAR   21213               Broadway East              12
+604     MURPHY&#39;S NEIGHBORHOOD BAR &amp; GRILL   21212                  Mid-Govans               4
+616                                NEOPOL   21212   Chinquapin Park-Belvedere               4
+620             NEW CLUB THUNDERBIRD INC.   21213                 Middle East              13
+626                    NEW MAYFIELD, INC.   21213               Belair-Edison              13
+678                          IKAN SEAFOOD   21212   Chinquapin Park-Belvedere               4
+711                          KAY-CEE CLUB   21212                    Homeland               4
+763                                LA&#39;RAE   21213                      Oliver              12
+777                  LEMONGRASS BALTIMORE   21213                Little Italy               1
+779                   LEN&#39;S SANDWICH SHOP   21213               Broadway East              12
+845                            MCDONALD&#39;S   21213          South Clifton Park              12
+852                            MCDONALD&#39;S   21212              Radnor-Winston               4
+873                  NEW REX LIQUORS,INC.   21212                 Wilson Park               4
+895                             OK TAVERN   21213               Biddle Street              13
+919                          PANERA BREAD   21212                 Lake Walker               4
+940                    PEIWEI ASIAN DINER   21212                  Cedarcroft               4
+949                   PERGUSA ENTERPRISES   21212                    Rosebank               4
+957               PHANTOM&#39;S BAR AND GRILL   21213               Belair-Edison               3
+976          POPEYES FAMOUS FRIED CHICKEN   21212              Winston-Govans               4
+994                         ROBBIE&#39;S NEST   21213               Broadway East              12
+1017                          RUTLAND BAR   21213               Broadway East              12
+1018                      RYAN&#39;S DAUGHTER   21212   Chinquapin Park-Belvedere               4
+1022         saigon remembered restaurant   21212                  Mid-Govans               4
+1053                SHIRLEY&#39;S  HONEY HOLE   21213               Broadway East              13
+1120                     STEEPLE CHASE II   21213               Biddle Street              13
+1122                               SUBWAY   21213                      Oliver              12
+1153                              TAM-TAM   21212                  Mid-Govans               4
+1155                                TASTE   21212                  Mid-Govans               4
+1159                         TAYLORS EAST   21213                       Berea              13
+1186                THE EDGE BAR &amp; LOUNGE   21213               Broadway East              12
+1187 THE EDGE BAR &amp; LOUNGE - KITCHEN AREA   21213               Broadway East              12
+1198               THE HOLLOW BAR &amp; GRILL   21212                    Rosebank               4
+1209             THE NEW BUCKETT&#39;S LOUNGE   21213               Broadway East              13
+1232                         THREE  ACE&#39;S   21213               Belair-Edison               3
+1246                 TORAIN&#39;S  HIDE-A-WAY   21213               Broadway East              12
+1259                    TSUNAMI BALTIMORE   21213                Little Italy               1
+1287                         VITO&#39;S PIZZA   21212                  Cedarcroft               4
+1298 WENDY&#39;S OLD FASHIONED HAMBURGERS #96   21212                    Homeland               4
+1304                 WHITTEN&#39;S  (4502-04)   21213           Claremont-Freedom              13
+1312                          wozi lounge   21212                    Guilford               4
+1319           YETI RESTAURANT &amp; CARRYOUT   21212                    Rosebank               4
+1320                     YORK CLUB TAVERN   21212                    Homeland               4
+1323            ZEN WEST ROADSIDE CANTINA   21212                    Rosebank               4
+1325                     ZINK&#39;S CAF\u0090   21213               Belair-Edison              13
+     policeDistrict                           Location.1
+29          CENTRAL      206 REDWOOD ST\nBaltimore, MD\n
+39          EASTERN      1801 NORTH AVE\nBaltimore, MD\n
+92         NORTHERN   529 BELVEDERE AVE\nBaltimore, MD\n
+111         EASTERN      1932 BELAIR RD\nBaltimore, MD\n
+187        NORTHERN   438 BELVEDERE AVE\nBaltimore, MD\n
+220        NORTHERN   529 BELVEDERE AVE\nBaltimore, MD\n
+266    NORTHEASTERN       2701 ST LO DR\nBaltimore, MD\n
+276         EASTERN     4217 ERDMAN AVE\nBaltimore, MD\n
+289         EASTERN     4217 ERDMAN AVE\nBaltimore, MD\n
+291         EASTERN      2101 NORTH AVE\nBaltimore, MD\n
+362         EASTERN  2300 LAFAYETTE AVE\nBaltimore, MD\n
+373        NORTHERN        5422 YORK RD\nBaltimore, MD\n
+383         EASTERN 1203 COLLINGTON AVE\nBaltimore, MD\n
+417        NORTHERN        5723 YORK RD\nBaltimore, MD\n
+475        NORTHERN   527 BELVEDERE AVE\nBaltimore, MD\n
+545         EASTERN      2135 NORTH AVE\nBaltimore, MD\n
+604        NORTHERN        5847 YORK RD\nBaltimore, MD\n
+616        NORTHERN   529 BELVEDERE AVE\nBaltimore, MD\n
+620         EASTERN       2201 CHASE ST\nBaltimore, MD\n
+626    NORTHEASTERN      3349 BELAIR RD\nBaltimore, MD\n
+678        NORTHERN   529 BELVEDERE AVE\nBaltimore, MD\n
+711        NORTHERN    201 HOMELAND AVE\nBaltimore, MD\n
+763         EASTERN     1000 HOFFMAN ST\nBaltimore, MD\n
+777    SOUTHEASTERN    1300 BANK STREET\nBaltimore, MD\n
+779         EASTERN  1500 WASHINGTON ST\nBaltimore, MD\n
+845         EASTERN       2001 BROADWAY\nBaltimore, MD\n
+852        NORTHERN        5100 YORK RD\nBaltimore, MD\n
+873        NORTHERN        4637 YORK RD\nBaltimore, MD\n
+895         EASTERN      2301 BIDDLE ST\nBaltimore, MD\n
+919        NORTHERN    6307 1 2 YORK RD\nBaltimore, MD\n
+940        NORTHERN        6302 YORK RD\nBaltimore, MD\n
+949        NORTHERN        5928 YORK RD\nBaltimore, MD\n
+957    NORTHEASTERN      3539 BELAIR RD\nBaltimore, MD\n
+976        NORTHERN        5002 YORK RD\nBaltimore, MD\n
+994         EASTERN      2250 NORTH AVE\nBaltimore, MD\n
+1017        EASTERN    1508 RUTLAND AVE\nBaltimore, MD\n
+1018       NORTHERN   600 BELVEDERE AVE\nBaltimore, MD\n
+1022       NORTHERN        5857 york rd\nBaltimore, MD\n
+1053        EASTERN      2300 OLIVER ST\nBaltimore, MD\n
+1120        EASTERN       2401 CHASE ST\nBaltimore, MD\n
+1122        EASTERN      1400 NORTH AVE\nBaltimore, MD\n
+1153       NORTHERN        5722 YORK RD\nBaltimore, MD\n
+1155       NORTHERN   510 BELVEDERE AVE\nBaltimore, MD\n
+1159        EASTERN     1201 POTOMAC ST\nBaltimore, MD\n
+1186        EASTERN     2015 FEDERAL ST\nBaltimore, MD\n
+1187        EASTERN     2015 FEDERAL ST\nBaltimore, MD\n
+1198       NORTHERN        5921 YORK RD\nBaltimore, MD\n
+1209        EASTERN     1432 CHESTER ST\nBaltimore, MD\n
+1232   NORTHEASTERN      3534 belair RD\nBaltimore, MD\n
+1246        EASTERN   1701 ELLSWORTH ST\nBaltimore, MD\n
+1259   SOUTHEASTERN        1300 BANK ST\nBaltimore, MD\n
+1287       NORTHERN        6304 YORK RD\nBaltimore, MD\n
+1298       NORTHERN        5615 YORK RD\nBaltimore, MD\n
+1304   NORTHEASTERN     4502 ERDMAN AVE\nBaltimore, MD\n
+1312       NORTHERN        4515 YORK RD\nBaltimore, MD\n
+1319       NORTHERN        5926 YORK RD\nBaltimore, MD\n
+1320       NORTHERN        5407 YORK RD\nBaltimore, MD\n
+1323       NORTHERN        5916 YORK RD\nBaltimore, MD\n
+1325   NORTHEASTERN   3300 LAWNVIEW AVE\nBaltimore, MD\n
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>Cross tabs</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">data(UCBAdmissions)
+DF = as.data.frame(UCBAdmissions)
+summary(DF)
+</code></pre>
+
+<pre><code>      Admit       Gender   Dept       Freq    
+ Admitted:12   Male  :12   A:4   Min.   :  8  
+ Rejected:12   Female:12   B:4   1st Qu.: 80  
+                           C:4   Median :170  
+                           D:4   Mean   :189  
+                           E:4   3rd Qu.:302  
+                           F:4   Max.   :512  
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>Cross tabs</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">xt &lt;- xtabs(Freq ~ Gender + Admit,data=DF)
+xt
+</code></pre>
+
+<pre><code>        Admit
+Gender   Admitted Rejected
+  Male       1198     1493
+  Female      557     1278
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>Flat tables</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">warpbreaks$replicate &lt;- rep(1:9, len = 54)
+xt = xtabs(breaks ~.,data=warpbreaks)
+xt
+</code></pre>
+
+<pre><code>, , replicate = 1
+
+    tension
+wool  L  M  H
+   A 26 18 36
+   B 27 42 20
+
+, , replicate = 2
+
+    tension
+wool  L  M  H
+   A 30 21 21
+   B 14 26 21
+
+, , replicate = 3
+
+    tension
+wool  L  M  H
+   A 54 29 24
+   B 29 19 24
+
+, , replicate = 4
+
+    tension
+wool  L  M  H
+   A 25 17 18
+   B 19 16 17
+
+, , replicate = 5
+
+    tension
+wool  L  M  H
+   A 70 12 10
+   B 29 39 13
+
+, , replicate = 6
+
+    tension
+wool  L  M  H
+   A 52 18 43
+   B 31 28 15
+
+, , replicate = 7
+
+    tension
+wool  L  M  H
+   A 51 35 28
+   B 41 21 15
+
+, , replicate = 8
+
+    tension
+wool  L  M  H
+   A 26 30 15
+   B 20 39 16
+
+, , replicate = 9
+
+    tension
+wool  L  M  H
+   A 67 36 26
+   B 44 29 28
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>Flat tables</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">ftable(xt)
+</code></pre>
+
+<pre><code>             replicate  1  2  3  4  5  6  7  8  9
+wool tension                                     
+A    L                 26 30 54 25 70 52 51 26 67
+     M                 18 21 29 17 12 18 35 30 36
+     H                 36 21 24 18 10 43 28 15 26
+B    L                 27 14 29 19 29 31 41 20 44
+     M                 42 26 19 16 39 28 21 39 29
+     H                 20 21 24 17 13 15 15 16 28
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>Size of a data set</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">fakeData = rnorm(1e5)
+object.size(fakeData)
+</code></pre>
+
+<pre><code>800040 bytes
+</code></pre>
+
+<pre><code class="r">print(object.size(fakeData),units=&quot;Mb&quot;)
+</code></pre>
+
+<pre><code>0.8 Mb
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>Why create new variables?</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Often the raw data won&#39;t have a value you are looking for</li>
+<li>You will need to transform the data to get the values you would like</li>
+<li>Usually you will add those values to the data frames you are working with</li>
+<li>Common variables to create
+
+<ul>
+<li>Missingness indicators</li>
+<li>&quot;Cutting up&quot; quantitative variables</li>
+<li>Applying transforms</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>Example data set</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src="../../assets/img/03_ObtainingData/restaurants.png" height=500 /></p>
+
+<p><a href="https://data.baltimorecity.gov/Community/Restaurants/k5ry-ef3g">https://data.baltimorecity.gov/Community/Restaurants/k5ry-ef3g</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>Getting the data from the web</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">if(!file.exists(&quot;./data&quot;)){dir.create(&quot;./data&quot;)}
+fileUrl &lt;- &quot;https://data.baltimorecity.gov/api/views/k5ry-ef3g/rows.csv?accessType=DOWNLOAD&quot;
+download.file(fileUrl,destfile=&quot;./data/restaurants.csv&quot;,method=&quot;curl&quot;)
+restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>Creating sequences</h2>
+  </hgroup>
+  <article>
+    <p><em>Sometimes you need an index for your data set</em></p>
+
+<pre><code class="r">s1 &lt;- seq(1,10,by=2) ; s1
+</code></pre>
+
+<pre><code>[1] 1 3 5 7 9
+</code></pre>
+
+<pre><code class="r">s2 &lt;- seq(1,10,length=3); s2
+</code></pre>
+
+<pre><code>[1]  1.0  5.5 10.0
+</code></pre>
+
+<pre><code class="r">x &lt;- c(1,3,8,25,100); seq(along = x)
+</code></pre>
+
+<pre><code>[1] 1 2 3 4 5
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-50" style="background:;">
+  <hgroup>
+    <h2>Subsetting variables</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">restData$nearMe = restData$neighborhood %in% c(&quot;Roland Park&quot;, &quot;Homeland&quot;)
+table(restData$nearMe)
+</code></pre>
+
+<pre><code>
+FALSE  TRUE 
+ 1314    13 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-51" style="background:;">
+  <hgroup>
+    <h2>Creating binary variables</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">restData$zipWrong = ifelse(restData$zipCode &lt; 0, TRUE, FALSE)
+table(restData$zipWrong,restData$zipCode &lt; 0)
+</code></pre>
+
+<pre><code>
+        FALSE TRUE
+  FALSE  1326    0
+  TRUE      0    1
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-52" style="background:;">
+  <hgroup>
+    <h2>Creating categorical variables</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">restData$zipGroups = cut(restData$zipCode,breaks=quantile(restData$zipCode))
+table(restData$zipGroups)
+</code></pre>
+
+<pre><code>
+(-2.123e+04,2.12e+04]  (2.12e+04,2.122e+04] (2.122e+04,2.123e+04] (2.123e+04,2.129e+04] 
+                  337                   375                   282                   332 
+</code></pre>
+
+<pre><code class="r">table(restData$zipGroups,restData$zipCode)
+</code></pre>
+
+<pre><code>
+                        -21226 21201 21202 21205 21206 21207 21208 21209 21210 21211 21212 21213
+  (-2.123e+04,2.12e+04]      0   136   201     0     0     0     0     0     0     0     0     0
+  (2.12e+04,2.122e+04]       0     0     0    27    30     4     1     8    23    41    28    31
+  (2.122e+04,2.123e+04]      0     0     0     0     0     0     0     0     0     0     0     0
+  (2.123e+04,2.129e+04]      0     0     0     0     0     0     0     0     0     0     0     0
+
+                        21214 21215 21216 21217 21218 21220 21222 21223 21224 21225 21226 21227
+  (-2.123e+04,2.12e+04]     0     0     0     0     0     0     0     0     0     0     0     0
+  (2.12e+04,2.122e+04]     17    54    10    32    69     0     0     0     0     0     0     0
+  (2.122e+04,2.123e+04]     0     0     0     0     0     1     7    56   199    19     0     0
+  (2.123e+04,2.129e+04]     0     0     0     0     0     0     0     0     0     0    18     4
+
+                        21229 21230 21231 21234 21237 21239 21251 21287
+  (-2.123e+04,2.12e+04]     0     0     0     0     0     0     0     0
+  (2.12e+04,2.122e+04]      0     0     0     0     0     0     0     0
+  (2.122e+04,2.123e+04]     0     0     0     0     0     0     0     0
+  (2.123e+04,2.129e+04]    13   156   127     7     1     3     2     1
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-53" style="background:;">
+  <hgroup>
+    <h2>Easier cutting</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">library(Hmisc)
+restData$zipGroups = cut2(restData$zipCode,g=4)
+table(restData$zipGroups)
+</code></pre>
+
+<pre><code>
+[-21226,21205) [ 21205,21220) [ 21220,21227) [ 21227,21287] 
+           338            375            300            314 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-54" style="background:;">
+  <hgroup>
+    <h2>Creating factor variables</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">restData$zcf &lt;- factor(restData$zipCode)
+restData$zcf[1:10]
+</code></pre>
+
+<pre><code> [1] 21206 21231 21224 21211 21223 21218 21205 21211 21205 21231
+32 Levels: -21226 21201 21202 21205 21206 21207 21208 21209 21210 21211 21212 21213 21214 ... 21287
+</code></pre>
+
+<pre><code class="r">class(restData$zcf)
+</code></pre>
+
+<pre><code>[1] &quot;factor&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-55" style="background:;">
+  <hgroup>
+    <h2>Levels of factor variables</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">yesno &lt;- sample(c(&quot;yes&quot;,&quot;no&quot;),size=10,replace=TRUE)
+yesnofac = factor(yesno,levels=c(&quot;yes&quot;,&quot;no&quot;))
+relevel(yesnofac,ref=&quot;yes&quot;)
+</code></pre>
+
+<pre><code> [1] no  no  yes yes yes no  yes no  yes no 
+Levels: yes no
+</code></pre>
+
+<pre><code class="r">as.numeric(yesnofac)
+</code></pre>
+
+<pre><code> [1] 2 2 1 1 1 2 1 2 1 2
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-56" style="background:;">
+  <hgroup>
+    <h2>Cutting produces factor variables</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">library(Hmisc)
+restData$zipGroups = cut2(restData$zipCode,g=4)
+table(restData$zipGroups)
+</code></pre>
+
+<pre><code>
+[-21226,21205) [ 21205,21220) [ 21220,21227) [ 21227,21287] 
+           338            375            300            314 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-57" style="background:;">
+  <hgroup>
+    <h2>Using the mutate function</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">library(Hmisc); library(plyr)
+restData2 = mutate(restData,zipGroups=cut2(zipCode,g=4))
+table(restData2$zipGroups)
+</code></pre>
+
+<pre><code>
+[-21226,21205) [ 21205,21220) [ 21220,21227) [ 21227,21287] 
+           338            375            300            314 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-58" style="background:;">
+  <hgroup>
+    <h2>Common transforms</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><code>abs(x)</code> absolute value</li>
+<li><code>sqrt(x)</code> square root</li>
+<li><code>ceiling(x)</code> ceiling(3.475) is 4</li>
+<li><code>floor(x)</code> floor(3.475) is 3</li>
+<li><code>round(x,digits=n)</code> roun(3.475,digits=2) is 3.48</li>
+<li><code>signif(x,digits=n)</code> signif(3.475,digits=2) is 3.5</li>
+<li><code>cos(x), sin(x)</code> etc.</li>
+<li><code>log(x)</code> natural logarithm</li>
+<li><code>log2(x)</code>, <code>log10(x)</code> other common logs</li>
+<li><code>exp(x)</code> exponentiating x</li>
+</ul>
+
+<p><a href="http://www.biostat.jhsph.edu/%7Eajaffe/lec_winterR/Lecture%202.pdf">http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%202.pdf</a>
+<a href="http://statmethods.net/management/functions.html">http://statmethods.net/management/functions.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-59" style="background:;">
+  <hgroup>
+    <h2>Notes and further reading</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>A tutorial from the developer of plyr - <a href="http://plyr.had.co.nz/09-user/">http://plyr.had.co.nz/09-user/</a></li>
+<li>Andrew Jaffe&#39;s R notes <a href="http://www.biostat.jhsph.edu/%7Eajaffe/lec_winterR/Lecture%202.pdf">http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%202.pdf</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-60" style="background:;">
+  <hgroup>
+    <h2>Start with reshaping</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">library(reshape2)
+head(mtcars)
+</code></pre>
+
+<pre><code>                   mpg cyl disp  hp drat    wt  qsec vs am gear carb
+Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-61" style="background:;">
+  <hgroup>
+    <h2>Melting data frames</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">mtcars$carname &lt;- rownames(mtcars)
+carMelt &lt;- melt(mtcars,id=c(&quot;carname&quot;,&quot;gear&quot;,&quot;cyl&quot;),measure.vars=c(&quot;mpg&quot;,&quot;hp&quot;))
+head(carMelt,n=3)
+</code></pre>
+
+<pre><code>        carname gear cyl variable value
+1     Mazda RX4    4   6      mpg  21.0
+2 Mazda RX4 Wag    4   6      mpg  21.0
+3    Datsun 710    4   4      mpg  22.8
+</code></pre>
+
+<pre><code class="r">tail(carMelt,n=3)
+</code></pre>
+
+<pre><code>         carname gear cyl variable value
+62  Ferrari Dino    5   6       hp   175
+63 Maserati Bora    5   8       hp   335
+64    Volvo 142E    4   4       hp   109
+</code></pre>
+
+<p><a href="http://www.statmethods.net/management/reshape.html">http://www.statmethods.net/management/reshape.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-62" style="background:;">
+  <hgroup>
+    <h2>Casting data frames</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">cylData &lt;- dcast(carMelt, cyl ~ variable)
+cylData
+</code></pre>
+
+<pre><code>  cyl mpg hp
+1   4  11 11
+2   6   7  7
+3   8  14 14
+</code></pre>
+
+<pre><code class="r">cylData &lt;- dcast(carMelt, cyl ~ variable,mean)
+cylData
+</code></pre>
+
+<pre><code>  cyl   mpg     hp
+1   4 26.66  82.64
+2   6 19.74 122.29
+3   8 15.10 209.21
+</code></pre>
+
+<p><a href="http://www.statmethods.net/management/reshape.html">http://www.statmethods.net/management/reshape.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-63" style="background:;">
+  <hgroup>
+    <h2>Averaging values</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">head(InsectSprays)
+</code></pre>
+
+<pre><code>  count spray
+1    10     A
+2     7     A
+3    20     A
+4    14     A
+5    14     A
+6    12     A
+</code></pre>
+
+<pre><code class="r">tapply(InsectSprays$count,InsectSprays$spray,sum)
+</code></pre>
+
+<pre><code>  A   B   C   D   E   F 
+174 184  25  59  42 200 
+</code></pre>
+
+<p><a href="http://www.r-bloggers.com/a-quick-primer-on-split-apply-combine-problems/">http://www.r-bloggers.com/a-quick-primer-on-split-apply-combine-problems/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-64" style="background:;">
+  <hgroup>
+    <h2>Another way - split</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">spIns =  split(InsectSprays$count,InsectSprays$spray)
+spIns
+</code></pre>
+
+<pre><code>$A
+ [1] 10  7 20 14 14 12 10 23 17 20 14 13
+
+$B
+ [1] 11 17 21 11 16 14 17 17 19 21  7 13
+
+$C
+ [1] 0 1 7 2 3 1 2 1 3 0 1 4
+
+$D
+ [1]  3  5 12  6  4  3  5  5  5  5  2  4
+
+$E
+ [1] 3 5 3 5 3 6 1 1 3 2 6 4
+
+$F
+ [1] 11  9 15 22 15 16 13 10 26 26 24 13
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-65" style="background:;">
+  <hgroup>
+    <h2>Another way - apply</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">sprCount = lapply(spIns,sum)
+sprCount
+</code></pre>
+
+<pre><code>$A
+[1] 174
+
+$B
+[1] 184
+
+$C
+[1] 25
+
+$D
+[1] 59
+
+$E
+[1] 42
+
+$F
+[1] 200
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-66" style="background:;">
+  <hgroup>
+    <h2>Another way - combine</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">unlist(sprCount)
+</code></pre>
+
+<pre><code>  A   B   C   D   E   F 
+174 184  25  59  42 200 
+</code></pre>
+
+<pre><code class="r">sapply(spIns,sum)
+</code></pre>
+
+<pre><code>  A   B   C   D   E   F 
+174 184  25  59  42 200 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-67" style="background:;">
+  <hgroup>
+    <h2>Another way - plyr package</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">ddply(InsectSprays,.(spray),summarise,sum=sum(count))
+</code></pre>
+
+<pre><code>  spray sum
+1     A 174
+2     B 184
+3     C  25
+4     D  59
+5     E  42
+6     F 200
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-68" style="background:;">
+  <hgroup>
+    <h2>Creating a new variable</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">spraySums &lt;- ddply(InsectSprays,.(spray),summarise,sum=ave(count,FUN=sum))
+dim(spraySums)
+</code></pre>
+
+<pre><code>[1] 72  2
+</code></pre>
+
+<pre><code class="r">head(spraySums)
+</code></pre>
+
+<pre><code>  spray sum
+1     A 174
+2     A 174
+3     A 174
+4     A 174
+5     A 174
+6     A 174
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-69" style="background:;">
+  <hgroup>
+    <h2>More information</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>A tutorial from the developer of plyr - <a href="http://plyr.had.co.nz/09-user/">http://plyr.had.co.nz/09-user/</a></li>
+<li>A nice reshape tutorial <a href="http://www.slideshare.net/jeffreybreen/reshaping-data-in-r">http://www.slideshare.net/jeffreybreen/reshaping-data-in-r</a></li>
+<li>A good plyr primer - <a href="http://www.r-bloggers.com/a-quick-primer-on-split-apply-combine-problems/">http://www.r-bloggers.com/a-quick-primer-on-split-apply-combine-problems/</a></li>
+<li>See also the functions
+
+<ul>
+<li>acast - for casting as multi-dimensional arrays</li>
+<li>arrange - for faster reordering without using order() commands</li>
+<li>mutate - adding new variables</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-70" style="background:;">
+  <hgroup>
+    <h2>Peer review data</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">fileUrl1 &lt;- &quot;https://dl.dropboxusercontent.com/u/7710864/data/reviews-apr29.csv&quot;
+fileUrl2 &lt;- &quot;https://dl.dropboxusercontent.com/u/7710864/data/solutions-apr29.csv&quot;
+download.file(fileUrl1,destfile=&quot;./data/reviews.csv&quot;,method=&quot;curl&quot;)
+download.file(fileUrl2,destfile=&quot;./data/solutions.csv&quot;,method=&quot;curl&quot;)
+reviews &lt;- read.csv(&quot;./data/reviews.csv&quot;); solutions &lt;- read.csv(&quot;./data/solutions.csv&quot;)
+head(reviews,2)
+</code></pre>
+
+<pre><code>  id solution_id reviewer_id      start       stop time_left accept
+1  1           3          27 1304095698 1304095758      1754      1
+2  2           4          22 1304095188 1304095206      2306      1
+</code></pre>
+
+<pre><code class="r">head(solutions,2)
+</code></pre>
+
+<pre><code>  id problem_id subject_id      start       stop time_left answer
+1  1        156         29 1304095119 1304095169      2343      B
+2  2        269         25 1304095119 1304095183      2329      C
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-71" style="background:;">
+  <hgroup>
+    <h2>Merging data - merge()</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Merges data frames</li>
+<li>Important parameters: <em>x</em>,<em>y</em>,<em>by</em>,<em>by.x</em>,<em>by.y</em>,<em>all</em></li>
+</ul>
+
+<pre><code class="r">names(reviews)
+</code></pre>
+
+<pre><code>[1] &quot;id&quot;          &quot;solution_id&quot; &quot;reviewer_id&quot; &quot;start&quot;       &quot;stop&quot;        &quot;time_left&quot;  
+[7] &quot;accept&quot;     
+</code></pre>
+
+<pre><code class="r">names(solutions)
+</code></pre>
+
+<pre><code>[1] &quot;id&quot;         &quot;problem_id&quot; &quot;subject_id&quot; &quot;start&quot;      &quot;stop&quot;       &quot;time_left&quot;  &quot;answer&quot;    
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-72" style="background:;">
+  <hgroup>
+    <h2>Merging data - merge()</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">mergedData = merge(reviews,solutions,by.x=&quot;solution_id&quot;,by.y=&quot;id&quot;,all=TRUE)
+head(mergedData)
+</code></pre>
+
+<pre><code>  solution_id id reviewer_id    start.x     stop.x time_left.x accept problem_id subject_id
+1           1  4          26 1304095267 1304095423        2089      1        156         29
+2           2  6          29 1304095471 1304095513        1999      1        269         25
+3           3  1          27 1304095698 1304095758        1754      1         34         22
+4           4  2          22 1304095188 1304095206        2306      1         19         23
+5           5  3          28 1304095276 1304095320        2192      1        605         26
+6           6 16          22 1304095303 1304095471        2041      1        384         27
+     start.y     stop.y time_left.y answer
+1 1304095119 1304095169        2343      B
+2 1304095119 1304095183        2329      C
+3 1304095127 1304095146        2366      C
+4 1304095127 1304095150        2362      D
+5 1304095127 1304095167        2345      A
+6 1304095131 1304095270        2242      C
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-73" style="background:;">
+  <hgroup>
+    <h2>Default - merge all common column names</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">intersect(names(solutions),names(reviews))
+</code></pre>
+
+<pre><code>[1] &quot;id&quot;        &quot;start&quot;     &quot;stop&quot;      &quot;time_left&quot;
+</code></pre>
+
+<pre><code class="r">mergedData2 = merge(reviews,solutions,all=TRUE)
+head(mergedData2)
+</code></pre>
+
+<pre><code>  id      start       stop time_left solution_id reviewer_id accept problem_id subject_id answer
+1  1 1304095119 1304095169      2343          NA          NA     NA        156         29      B
+2  1 1304095698 1304095758      1754           3          27      1         NA         NA   &lt;NA&gt;
+3  2 1304095119 1304095183      2329          NA          NA     NA        269         25      C
+4  2 1304095188 1304095206      2306           4          22      1         NA         NA   &lt;NA&gt;
+5  3 1304095127 1304095146      2366          NA          NA     NA         34         22      C
+6  3 1304095276 1304095320      2192           5          28      1         NA         NA   &lt;NA&gt;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-74" style="background:;">
+  <hgroup>
+    <h2>Using join in the plyr package</h2>
+  </hgroup>
+  <article>
+    <p><em>Faster, but less full featured - defaults to left join, see help file for more</em></p>
+
+<pre><code class="r">df1 = data.frame(id=sample(1:10),x=rnorm(10))
+df2 = data.frame(id=sample(1:10),y=rnorm(10))
+arrange(join(df1,df2),id)
+</code></pre>
+
+<pre><code>   id        x       y
+1   1  2.15231  1.9963
+2   2 -1.05017 -1.8964
+3   3  0.67459 -0.7388
+4   4 -0.02148  0.9996
+5   5  0.91804  2.6998
+6   6 -0.30831  1.7473
+7   7  0.46534  1.0070
+8   8  1.48010 -1.0179
+9   9 -0.29983  0.2366
+10 10 -0.33971 -0.3394
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-75" style="background:;">
+  <hgroup>
+    <h2>If you have multiple data frames</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">df1 = data.frame(id=sample(1:10),x=rnorm(10))
+df2 = data.frame(id=sample(1:10),y=rnorm(10))
+df3 = data.frame(id=sample(1:10),z=rnorm(10))
+dfList = list(df1,df2,df3)
+join_all(dfList)
+</code></pre>
+
+<pre><code>   id        x       y       z
+1   5 -0.75669  0.8900 -0.9236
+2   8 -1.42660  1.5570  1.1704
+3   9 -0.30153  1.6631  1.0485
+4  10 -0.77925  0.3986 -0.1691
+5   2 -1.06585  1.2353 -0.5201
+6   4  0.07436  0.4063  1.0924
+7   3  2.04580  1.5946  0.9850
+8   7  0.64047  0.1239 -1.1864
+9   1  1.16579  2.8547 -0.6123
+10  6  0.92515 -0.3780 -0.5564
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-76" style="background:;">
+  <hgroup>
+    <h2>More on merging data</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The quick R data merging page - <a href="http://www.statmethods.net/management/merging.html">http://www.statmethods.net/management/merging.html</a></li>
+<li>plyr information - <a href="http://plyr.had.co.nz/">http://plyr.had.co.nz/</a></li>
+<li>Types of joins - <a href="http://en.wikipedia.org/wiki/Join_(SQL">http://en.wikipedia.org/wiki/Join_(SQL)</a>)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-77" style="background:;">
+  <hgroup>
+    <h2>Example - Baltimore camera data</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/03_ObtainingData/cameras.png height=500></p>
+
+<p><a href="https://data.baltimorecity.gov/Transportation/Baltimore-Fixed-Speed-Cameras/dz54-2aru">https://data.baltimorecity.gov/Transportation/Baltimore-Fixed-Speed-Cameras/dz54-2aru</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-78" style="background:;">
+  <hgroup>
+    <h2>Fixing character vectors - tolower(), toupper()</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">if(!file.exists(&quot;./data&quot;)){dir.create(&quot;./data&quot;)}
+fileUrl &lt;- &quot;https://data.baltimorecity.gov/api/views/dz54-2aru/rows.csv?accessType=DOWNLOAD&quot;
+download.file(fileUrl,destfile=&quot;./data/cameras.csv&quot;,method=&quot;curl&quot;)
+cameraData &lt;- read.csv(&quot;./data/cameras.csv&quot;)
+names(cameraData)
+</code></pre>
+
+<pre><code>[1] &quot;address&quot;      &quot;direction&quot;    &quot;street&quot;       &quot;crossStreet&quot;  &quot;intersection&quot; &quot;Location.1&quot;  
+</code></pre>
+
+<pre><code class="r">tolower(names(cameraData))
+</code></pre>
+
+<pre><code>[1] &quot;address&quot;      &quot;direction&quot;    &quot;street&quot;       &quot;crossstreet&quot;  &quot;intersection&quot; &quot;location.1&quot;  
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-79" style="background:;">
+  <hgroup>
+    <h2>Fixing character vectors - strsplit()</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Good for automatically splitting variable names</li>
+<li>Important parameters: <em>x</em>, <em>split</em></li>
+</ul>
+
+<pre><code class="r">splitNames = strsplit(names(cameraData),&quot;\\.&quot;)
+splitNames[[5]]
+</code></pre>
+
+<pre><code>[1] &quot;intersection&quot;
+</code></pre>
+
+<pre><code class="r">splitNames[[6]]
+</code></pre>
+
+<pre><code>[1] &quot;Location&quot; &quot;1&quot;       
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-80" style="background:;">
+  <hgroup>
+    <h2>Quick aside - lists</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">mylist &lt;- list(letters = c(&quot;A&quot;, &quot;b&quot;, &quot;c&quot;), numbers = 1:3, matrix(1:25, ncol = 5))
+head(mylist)
+</code></pre>
+
+<pre><code>$letters
+[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;
+
+$numbers
+[1] 1 2 3
+
+[[3]]
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    1    6   11   16   21
+[2,]    2    7   12   17   22
+[3,]    3    8   13   18   23
+[4,]    4    9   14   19   24
+[5,]    5   10   15   20   25
+</code></pre>
+
+<p><a href="http://www.biostat.jhsph.edu/%7Eajaffe/lec_winterR/Lecture%203.pdf">http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%203.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-81" style="background:;">
+  <hgroup>
+    <h2>Quick aside - lists</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">mylist[1]
+</code></pre>
+
+<pre><code>$letters
+[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;
+</code></pre>
+
+<pre><code class="r">mylist$letters
+</code></pre>
+
+<pre><code>[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;
+</code></pre>
+
+<pre><code class="r">mylist[[1]]
+</code></pre>
+
+<pre><code>[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;
+</code></pre>
+
+<p><a href="http://www.biostat.jhsph.edu/%7Eajaffe/lec_winterR/Lecture%203.pdf">http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%203.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-82" style="background:;">
+  <hgroup>
+    <h2>Fixing character vectors - sapply()</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Applies a function to each element in a vector or list</li>
+<li>Important parameters: <em>X</em>,<em>FUN</em></li>
+</ul>
+
+<pre><code class="r">splitNames[[6]][1]
+</code></pre>
+
+<pre><code>[1] &quot;Location&quot;
+</code></pre>
+
+<pre><code class="r">firstElement &lt;- function(x){x[1]}
+sapply(splitNames,firstElement)
+</code></pre>
+
+<pre><code>[1] &quot;address&quot;      &quot;direction&quot;    &quot;street&quot;       &quot;crossStreet&quot;  &quot;intersection&quot; &quot;Location&quot;    
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-83" style="background:;">
+  <hgroup>
+    <h2>Peer review experiment data</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src="../../assets/img/03_ObtainingData/cooperation.png" height=500 /></p>
+
+<p><a href="http://www.plosone.org/article/info:doi/10.1371/journal.pone.0026895">http://www.plosone.org/article/info:doi/10.1371/journal.pone.0026895</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-84" style="background:;">
+  <hgroup>
+    <h2>Fixing character vectors - sub()</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Important parameters: <em>pattern</em>, <em>replacement</em>, <em>x</em></li>
+</ul>
+
+<pre><code class="r">names(reviews)
+</code></pre>
+
+<pre><code>[1] &quot;id&quot;          &quot;solution_id&quot; &quot;reviewer_id&quot; &quot;start&quot;       &quot;stop&quot;        &quot;time_left&quot;  
+[7] &quot;accept&quot;     
+</code></pre>
+
+<pre><code class="r">sub(&quot;_&quot;,&quot;&quot;,names(reviews),)
+</code></pre>
+
+<pre><code>[1] &quot;id&quot;         &quot;solutionid&quot; &quot;reviewerid&quot; &quot;start&quot;      &quot;stop&quot;       &quot;timeleft&quot;   &quot;accept&quot;    
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-85" style="background:;">
+  <hgroup>
+    <h2>Fixing character vectors - gsub()</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">testName &lt;- &quot;this_is_a_test&quot;
+sub(&quot;_&quot;,&quot;&quot;,testName)
+</code></pre>
+
+<pre><code>[1] &quot;thisis_a_test&quot;
+</code></pre>
+
+<pre><code class="r">gsub(&quot;_&quot;,&quot;&quot;,testName)
+</code></pre>
+
+<pre><code>[1] &quot;thisisatest&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-86" style="background:;">
+  <hgroup>
+    <h2>Finding values - grep(),grepl()</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">grep(&quot;Alameda&quot;,cameraData$intersection)
+</code></pre>
+
+<pre><code>[1]  4  5 36
+</code></pre>
+
+<pre><code class="r">table(grepl(&quot;Alameda&quot;,cameraData$intersection))
+</code></pre>
+
+<pre><code>
+FALSE  TRUE 
+   77     3 
+</code></pre>
+
+<pre><code class="r">cameraData2 &lt;- cameraData[!grepl(&quot;Alameda&quot;,cameraData$intersection),]
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-87" style="background:;">
+  <hgroup>
+    <h2>More on grep()</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">grep(&quot;Alameda&quot;,cameraData$intersection,value=TRUE)
+</code></pre>
+
+<pre><code>[1] &quot;The Alameda  &amp; 33rd St&quot;   &quot;E 33rd  &amp; The Alameda&quot;    &quot;Harford \n &amp; The Alameda&quot;
+</code></pre>
+
+<pre><code class="r">grep(&quot;JeffStreet&quot;,cameraData$intersection)
+</code></pre>
+
+<pre><code>integer(0)
+</code></pre>
+
+<pre><code class="r">length(grep(&quot;JeffStreet&quot;,cameraData$intersection))
+</code></pre>
+
+<pre><code>[1] 0
+</code></pre>
+
+<p><a href="http://www.biostat.jhsph.edu/%7Eajaffe/lec_winterR/Lecture%203.pdf">http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%203.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-88" style="background:;">
+  <hgroup>
+    <h2>More useful string functions</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">library(stringr)
+nchar(&quot;Jeffrey Leek&quot;)
+</code></pre>
+
+<pre><code>[1] 12
+</code></pre>
+
+<pre><code class="r">substr(&quot;Jeffrey Leek&quot;,1,7)
+</code></pre>
+
+<pre><code>[1] &quot;Jeffrey&quot;
+</code></pre>
+
+<pre><code class="r">paste(&quot;Jeffrey&quot;,&quot;Leek&quot;)
+</code></pre>
+
+<pre><code>[1] &quot;Jeffrey Leek&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-89" style="background:;">
+  <hgroup>
+    <h2>More useful string functions</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">paste0(&quot;Jeffrey&quot;,&quot;Leek&quot;)
+</code></pre>
+
+<pre><code>[1] &quot;JeffreyLeek&quot;
+</code></pre>
+
+<pre><code class="r">str_trim(&quot;Jeff      &quot;)
+</code></pre>
+
+<pre><code>[1] &quot;Jeff&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-90" style="background:;">
+  <hgroup>
+    <h2>Important points about text in data sets</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Names of variables should be 
+
+<ul>
+<li>All lower case when possible</li>
+<li>Descriptive (Diagnosis versus Dx)</li>
+<li>Not duplicated</li>
+<li>Not have underscores or dots or white spaces</li>
+</ul></li>
+<li>Variables with character values
+
+<ul>
+<li>Should usually be made into factor variables (depends on application)</li>
+<li>Should be descriptive (use TRUE/FALSE instead of 0/1 and Male/Female versus 0/1 or M/F)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-91" style="background:;">
+  <hgroup>
+    <h2>Regular expressions</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Regular expressions can be thought of as a combination of literals and <em>metacharacters</em></li>
+<li>To draw an analogy with natural language, think of literal text forming the words of this language, and the metacharacters defining its grammar</li>
+<li>Regular expressions have a rich set of metacharacters</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-92" style="background:;">
+  <hgroup>
+    <h2>Literals</h2>
+  </hgroup>
+  <article>
+    <p>Simplest pattern consists only of literals. The literal “nuclear” would match to the following lines:</p>
+
+<pre><code class="markdown">Ooh. I just learned that to keep myself alive after a
+nuclear blast! All I have to do is milk some rats
+then drink the milk. Aweosme. :}
+
+Laozi says nuclear weapons are mas macho
+
+Chaos in a country that has nuclear weapons -- not good.
+
+my nephew is trying to teach me nuclear physics, or
+possibly just trying to show me how smart he is
+so I’ll be proud of him [which I am].
+
+lol if you ever say &quot;nuclear&quot; people immediately think
+DEATH by radiation LOL
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-93" style="background:;">
+  <hgroup>
+    <h2>Literals</h2>
+  </hgroup>
+  <article>
+    <p>The literal “Obama” would match to the following lines</p>
+
+<pre><code class="markdown">Politics r dum. Not 2 long ago Clinton was sayin Obama
+was crap n now she sez vote 4 him n unite? WTF?
+Screw em both + Mcain. Go Ron Paul!
+
+Clinton conceeds to Obama but will her followers listen??
+
+Are we sure Chelsea didn’t vote for Obama?
+
+thinking ... Michelle Obama is terrific!
+
+jetlag..no sleep...early mornig to starbux..Ms. Obama
+was moving
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-94" style="background:;">
+  <hgroup>
+    <h2>Regular Expressions</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><p>Simplest pattern consists only of literals; a match occurs if the sequence of literals occurs anywhere in the text being tested</p></li>
+<li><p>What if we only want the word “Obama”? or sentences that end in the word “Clinton”, or “clinton” or “clinto”?</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-95" style="background:;">
+  <hgroup>
+    <h2>Regular Expressions</h2>
+  </hgroup>
+  <article>
+    <p>We need a way to express </p>
+
+<ul>
+<li>whitespace word boundaries </li>
+<li>sets of literals</li>
+<li>the beginning and end of a line </li>
+<li>alternatives (“war” or “peace”)
+Metacharacters to the rescue!</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-96" style="background:;">
+  <hgroup>
+    <h2>Metacharacters</h2>
+  </hgroup>
+  <article>
+    <p>Some metacharacters represent the start of a line</p>
+
+<pre><code class="markdown">^i think
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">i think we all rule for participating
+i think i have been outed
+i think this will be quite fun actually
+i think i need to go to work
+i think i first saw zombo in 1999.
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-97" style="background:;">
+  <hgroup>
+    <h2>Metacharacters</h2>
+  </hgroup>
+  <article>
+    <p>$ represents the end of a line</p>
+
+<pre><code class="markdown">morning$
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">well they had something this morning
+then had to catch a tram home in the morning
+dog obedience school in the morning
+and yes happy birthday i forgot to say it earlier this morning
+I walked in the rain this morning
+good morning
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-98" style="background:;">
+  <hgroup>
+    <h2>Character Classes with []</h2>
+  </hgroup>
+  <article>
+    <p>We can list a set of characters we will accept at a given point in the match</p>
+
+<pre><code class="markdown">[Bb][Uu][Ss][Hh]
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">The democrats are playing, &quot;Name the worst thing about Bush!&quot;
+I smelled the desert creosote bush, brownies, BBQ chicken
+BBQ and bushwalking at Molonglo Gorge
+Bush TOLD you that North Korea is part of the Axis of Evil
+I’m listening to Bush - Hurricane (Album Version)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-99" style="background:;">
+  <hgroup>
+    <h2>Character Classes with []</h2>
+  </hgroup>
+  <article>
+    <pre><code class="markdown">^[Ii] am
+</code></pre>
+
+<p>will match</p>
+
+<pre><code class="markdown">i am so angry at my boyfriend i can’t even bear to
+look at him
+
+i am boycotting the apple store
+
+I am twittering from iPhone
+
+I am a very vengeful person when you ruin my sweetheart.
+
+I am so over this. I need food. Mmmm bacon...
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-100" style="background:;">
+  <hgroup>
+    <h2>Character Classes with []</h2>
+  </hgroup>
+  <article>
+    <p>Similarly, you can specify a range of letters [a-z] or [a-zA-Z]; notice that the order doesn’t matter</p>
+
+<pre><code class="markdown">^[0-9][a-zA-Z]
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">7th inning stretch
+2nd half soon to begin. OSU did just win something
+3am - cant sleep - too hot still.. :(
+5ft 7 sent from heaven
+1st sign of starvagtion
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-101" style="background:;">
+  <hgroup>
+    <h2>Character Classes with []</h2>
+  </hgroup>
+  <article>
+    <p>When used at the beginning of a character class, the “<sup>”</sup> is also a metacharacter and indicates matching characters NOT in the indicated class</p>
+
+<pre><code class="markdown">[^?.]$
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">i like basketballs
+6 and 9
+dont worry... we all die anyway!
+Not in Baghdad
+helicopter under water? hmmm
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-102" style="background:;">
+  <hgroup>
+    <h2>More Metacharacters</h2>
+  </hgroup>
+  <article>
+    <p>“.” is used to refer to any character. So</p>
+
+<pre><code class="markdown">9.11
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">its stupid the post 9-11 rules
+if any 1 of us did 9/11 we would have been caught in days.
+NetBios: scanning ip 203.169.114.66
+Front Door 9:11:46 AM
+Sings: 0118999881999119725...3 !
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-103" style="background:;">
+  <hgroup>
+    <h2>More Metacharacters: |</h2>
+  </hgroup>
+  <article>
+    <p>This does not mean “pipe” in the context of regular expressions; instead it translates to “or”; we can use it to combine two expressions, the subexpressions being called alternatives</p>
+
+<pre><code class="markdown">flood|fire
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">is firewire like usb on none macs?
+the global flood makes sense within the context of the bible
+yeah ive had the fire on tonight
+... and the floods, hurricanes, killer heatwaves, rednecks, gun nuts, etc.
+￼
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-104" style="background:;">
+  <hgroup>
+    <h2>More Metacharacters: |</h2>
+  </hgroup>
+  <article>
+    <p>We can include any number of alternatives...</p>
+
+<pre><code class="markdown">flood|earthquake|hurricane|coldfire
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">Not a whole lot of hurricanes in the Arctic.
+We do have earthquakes nearly every day somewhere in our State
+hurricanes swirl in the other direction
+coldfire is STRAIGHT!
+’cause we keep getting earthquakes
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-105" style="background:;">
+  <hgroup>
+    <h2>More Metacharacters: |</h2>
+  </hgroup>
+  <article>
+    <p>The alternatives can be real expressions and not just literals</p>
+
+<pre><code class="markdown">^[Gg]ood|[Bb]ad
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">good to hear some good knews from someone here
+Good afternoon fellow american infidels!
+good on you-what do you drive?
+Katie... guess they had bad experiences...
+my middle name is trouble, Miss Bad News
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-106" style="background:;">
+  <hgroup>
+    <h2>More Metacharacters: ( and )</h2>
+  </hgroup>
+  <article>
+    <p>Subexpressions are often contained in parentheses to constrain the alternatives</p>
+
+<pre><code class="markdown">^([Gg]ood|[Bb]ad)
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">bad habbit
+bad coordination today
+good, becuase there is nothing worse than a man in kinky underwear
+Badcop, its because people want to use drugs
+Good Monday Holiday
+Good riddance to Limey
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-107" style="background:;">
+  <hgroup>
+    <h2>More Metacharacters: ?</h2>
+  </hgroup>
+  <article>
+    <p>The question mark indicates that the indicated expression is optional</p>
+
+<pre><code class="markdown">[Gg]eorge( [Ww]\.)? [Bb]ush
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">i bet i can spell better than you and george bush combined
+BBC reported that President George W. Bush claimed God told him to invade I
+a bird in the hand is worth two george bushes
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-108" style="background:;">
+  <hgroup>
+    <h2>One thing to note...</h2>
+  </hgroup>
+  <article>
+    <p>In the following</p>
+
+<pre><code class="markdown">[Gg]eorge( [Ww]\.)? [Bb]ush
+</code></pre>
+
+<p>we wanted to match a “.” as a literal period; to do that, we had to “escape” the metacharacter, preceding it with a backslash In general, we have to do this for any metacharacter we want to include in our match</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-109" style="background:;">
+  <hgroup>
+    <h2>More metacharacters: * and +</h2>
+  </hgroup>
+  <article>
+    <p>The * and + signs are metacharacters used to indicate repetition; * means “any number, including none, of the item” and + means “at least one of the item”</p>
+
+<pre><code class="markdown">(.*)
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">anyone wanna chat? (24, m, germany)
+hello, 20.m here... ( east area + drives + webcam )
+(he means older men)
+()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-110" style="background:;">
+  <hgroup>
+    <h2>More metacharacters: * and +</h2>
+  </hgroup>
+  <article>
+    <p>The * and + signs are metacharacters used to indicate repetition; * means “any number, including none, of the item” and + means “at least one of the item”</p>
+
+<pre><code class="markdown">[0-9]+ (.*)[0-9]+
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">working as MP here 720 MP battallion, 42nd birgade
+so say 2 or 3 years at colleage and 4 at uni makes us 23 when and if we fin
+it went down on several occasions for like, 3 or 4 *days*
+Mmmm its time 4 me 2 go 2 bed
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-111" style="background:;">
+  <hgroup>
+    <h2>More metacharacters: { and }</h2>
+  </hgroup>
+  <article>
+    <p>{ and } are referred to as interval quantifiers; the let us specify the minimum and maximum number of matches of an expression</p>
+
+<pre><code class="markdown">[Bb]ush( +[^ ]+ +){1,5} debate
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">Bush has historically won all major debates he’s done.
+in my view, Bush doesn’t need these debates..
+bush doesn’t need the debates? maybe you are right
+That’s what Bush supporters are doing about the debate.
+Felix, I don’t disagree that Bush was poorly prepared for the debate.
+indeed, but still, Bush should have taken the debate more seriously.
+Keep repeating that Bush smirked and scowled during the debate
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-112" style="background:;">
+  <hgroup>
+    <h2>More metacharacters: and</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>m,n means at least m but not more than n matches </li>
+<li>m means exactly m matches</li>
+<li>m, means at least m matches</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-113" style="background:;">
+  <hgroup>
+    <h2>More metacharacters: ( and ) revisited</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>In most implementations of regular expressions, the parentheses not only limit the scope of alternatives divided by a “|”, but also can be used to “remember” text matched by the subexpression enclosed</li>
+<li>We refer to the matched text with \1, \2, etc.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-114" style="background:;">
+  <hgroup>
+    <h2>More metacharacters: ( and ) revisited</h2>
+  </hgroup>
+  <article>
+    <p>So the expression</p>
+
+<pre><code class="markdown">+([a-zA-Z]+) +\1 +
+</code></pre>
+
+<p>will match the lines</p>
+
+<pre><code class="markdown">time for bed, night night twitter!
+blah blah blah blah
+my tattoo is so so itchy today
+i was standing all all alone against the world outside...
+hi anybody anybody at home
+estudiando css css css css.... que desastritooooo
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-115" style="background:;">
+  <hgroup>
+    <h2>More metacharacters: ( and ) revisited</h2>
+  </hgroup>
+  <article>
+    <p>The * is “greedy” so it always matches the <em>longest</em> possible string that satisfies the regular expression. So</p>
+
+<pre><code class="markdown">^s(.*)s
+</code></pre>
+
+<p>matches</p>
+
+<pre><code class="markdown">sitting at starbucks
+setting up mysql and rails
+studying stuff for the exams
+spaghetti with marshmallows
+stop fighting with crackers
+sore shoulders, stupid ergonomics
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-116" style="background:;">
+  <hgroup>
+    <h2>More metacharacters: ( and ) revisited</h2>
+  </hgroup>
+  <article>
+    <p>The greediness of * can be turned off with the ?, as in</p>
+
+<pre><code class="markdown">^s(.*?)s$
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-117" style="background:;">
+  <hgroup>
+    <h2>Summary</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Regular expressions are used in many different languages; not unique to R.</li>
+<li>Regular expressions are composed of literals and metacharacters that represent sets or classes of characters/words</li>
+<li>Text processing via regular expressions is a very powerful way to extract data from “unfriendly” sources (not all data comes as a CSV file)</li>
+<li>Used with the functions <code>grep</code>,<code>grepl</code>,<code>sub</code>,<code>gsub</code> and others that involve searching for text strings
+(Thanks to Mark Hansen for some material in this lecture.)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-118" style="background:;">
+  <hgroup>
+    <h2>Starting simple</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">d1 = date()
+d1
+</code></pre>
+
+<pre><code>[1] &quot;Wed Feb  5 16:52:42 2014&quot;
+</code></pre>
+
+<pre><code class="r">class(d1)
+</code></pre>
+
+<pre><code>[1] &quot;character&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-119" style="background:;">
+  <hgroup>
+    <h2>Date class</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">d2 = Sys.Date()
+d2
+</code></pre>
+
+<pre><code>[1] &quot;2014-02-05&quot;
+</code></pre>
+
+<pre><code class="r">class(d2)
+</code></pre>
+
+<pre><code>[1] &quot;Date&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-120" style="background:;">
+  <hgroup>
+    <h2>Formatting dates</h2>
+  </hgroup>
+  <article>
+    <p><code>%d</code> = day as number (0-31), <code>%a</code> = abbreviated weekday,<code>%A</code> = unabbreviated weekday, <code>%m</code> = month (00-12), <code>%b</code> = abbreviated month,
+<code>%B</code> = unabbrevidated month, <code>%y</code> = 2 digit year, <code>%Y</code> = four digit year</p>
+
+<pre><code class="r">format(d2,&quot;%a %b %d&quot;)
+</code></pre>
+
+<pre><code>[1] &quot;Wed Feb 05&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-121" style="background:;">
+  <hgroup>
+    <h2>Creating dates</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">x = c(&quot;1jan1960&quot;, &quot;2jan1960&quot;, &quot;31mar1960&quot;, &quot;30jul1960&quot;); z = as.Date(x, &quot;%d%b%Y&quot;)
+z
+</code></pre>
+
+<pre><code>[1] &quot;1960-01-01&quot; &quot;1960-01-02&quot; &quot;1960-03-31&quot; &quot;1960-07-30&quot;
+</code></pre>
+
+<pre><code class="r">z[1] - z[2]
+</code></pre>
+
+<pre><code>Time difference of -1 days
+</code></pre>
+
+<pre><code class="r">as.numeric(z[1]-z[2])
+</code></pre>
+
+<pre><code>[1] -1
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-122" style="background:;">
+  <hgroup>
+    <h2>Converting to Julian</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">weekdays(d2)
+</code></pre>
+
+<pre><code>[1] &quot;Wednesday&quot;
+</code></pre>
+
+<pre><code class="r">months(d2)
+</code></pre>
+
+<pre><code>[1] &quot;February&quot;
+</code></pre>
+
+<pre><code class="r">julian(d2)
+</code></pre>
+
+<pre><code>[1] 16106
+attr(,&quot;origin&quot;)
+[1] &quot;1970-01-01&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-123" style="background:;">
+  <hgroup>
+    <h2>Lubridate</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">library(lubridate); ymd(&quot;20140108&quot;)
+</code></pre>
+
+<pre><code>[1] &quot;2014-01-08 UTC&quot;
+</code></pre>
+
+<pre><code class="r">mdy(&quot;08/04/2013&quot;)
+</code></pre>
+
+<pre><code>[1] &quot;2013-08-04 UTC&quot;
+</code></pre>
+
+<pre><code class="r">dmy(&quot;03-04-2013&quot;)
+</code></pre>
+
+<pre><code>[1] &quot;2013-04-03 UTC&quot;
+</code></pre>
+
+<p><a href="http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/">http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-124" style="background:;">
+  <hgroup>
+    <h2>Dealing with times</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">ymd_hms(&quot;2011-08-03 10:15:03&quot;)
+</code></pre>
+
+<pre><code>[1] &quot;2011-08-03 10:15:03 UTC&quot;
+</code></pre>
+
+<pre><code class="r">ymd_hms(&quot;2011-08-03 10:15:03&quot;,tz=&quot;Pacific/Auckland&quot;)
+</code></pre>
+
+<pre><code>[1] &quot;2011-08-03 10:15:03 NZST&quot;
+</code></pre>
+
+<pre><code class="r">?Sys.timezone
+</code></pre>
+
+<p><a href="http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/">http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-125" style="background:;">
+  <hgroup>
+    <h2>Some functions have slightly different syntax</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">x = dmy(c(&quot;1jan2013&quot;, &quot;2jan2013&quot;, &quot;31mar2013&quot;, &quot;30jul2013&quot;))
+wday(x[1])
+</code></pre>
+
+<pre><code>[1] 3
+</code></pre>
+
+<pre><code class="r">wday(x[1],label=TRUE)
+</code></pre>
+
+<pre><code>[1] Tues
+Levels: Sun &lt; Mon &lt; Tues &lt; Wed &lt; Thurs &lt; Fri &lt; Sat
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-126" style="background:;">
+  <hgroup>
+    <h2>Notes and further resources</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>More information in this nice lubridate tutorial <a href="http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/">http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/</a></li>
+<li>The lubridate vignette is the same content <a href="http://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html">http://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html</a></li>
+<li>Ultimately you want your dates and times as class &quot;Date&quot; or the classes &quot;POSIXct&quot;, &quot;POSIXlt&quot;. For more information type <code>?POSIXlt</code></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+
+  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+<!-- Grab CDN jQuery, fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Load Javascripts for Widgets -->
+<!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script> -->
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="../../libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+</html>

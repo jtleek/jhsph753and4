@@ -1,0 +1,1557 @@
+---
+title       : Cleaning data
+subtitle    : 
+author      : Jeffrey Leek
+job         : Johns Hopkins Bloomberg School of Public Health
+logo        : bloomberg_shield.png
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow   # 
+url:
+  lib: ../../libraries
+  assets: ../../assets
+widgets     : [mathjax]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+---
+
+
+```{r setup, cache = F, echo = F, message = F, warning = F, tidy = F}
+# make this an external chunk that can be included in any file
+options(width = 100)
+opts_chunk$set(message = F, error = F, warning = F, comment = NA, fig.align = 'center', dpi = 100, tidy = F, cache.path = '.cache/', fig.path = 'fig/',cache=TRUE)
+
+options(xtable.type = 'html')
+knit_hooks$set(inline = function(x) {
+  if(is.numeric(x)) {
+    round(x, getOption('digits'))
+  } else {
+    paste(as.character(x), collapse = ', ')
+  }
+})
+knit_hooks$set(plot = knitr:::hook_plot_html)
+```
+
+
+## Pro Tip
+
+
+
+---
+
+## Paper of the day
+
+
+
+---
+
+## The goal is tidy data
+
+<img class=center src="../../assets/img/01_DataScientistToolbox/excel.png" height=300 />
+
+
+1. Each variable forms a column
+2. Each observation forms a row
+3. Each table/file stores data about one kind of observation (e.g. people/hospitals).
+
+
+[http://vita.had.co.nz/papers/tidy-data.pdf](http://vita.had.co.nz/papers/tidy-data.pdf)
+
+[Leek, Taub, and Pineda 2011 PLoS One](http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0026895)
+
+---
+
+## data.table
+
+* Inherets from data.frame
+  * All functions that accept data.frame work on data.table
+* Written in C so it is much faster
+* Much, much faster at subsetting, group, and updating
+ 
+
+---
+
+## Create data tables just like data frames
+
+```{r init}
+library(data.table)
+DF = data.frame(x=rnorm(9),y=rep(c("a","b","c"),each=3),z=rnorm(9))
+head(DF,3)
+DT = data.table(x=rnorm(9),y=rep(c("a","b","c"),each=3),z=rnorm(9))
+head(DT,3)
+```
+
+---
+
+## See all the data tables in memory
+
+```{r,dependson="init"}
+tables()
+```
+
+---
+
+## Subsetting rows
+
+```{r,dependson="init"}
+DT[2,]
+DT[DT$y=="a",]
+```
+
+---
+
+## Subsetting rows
+
+```{r,dependson="init"}
+DT[c(2,3)]
+```
+
+
+---
+
+## Subsetting columns!?
+
+```{r,dependson="init"}
+DT[,c(2,3)]
+```
+
+---
+
+## Column subsetting in data.table
+
+* The subsetting function is modified for data.table
+* The argument you pass after the comma is called an "expression"
+* In R an expression is a collection of statements enclosed in curley brackets 
+```{r }
+{
+  x = 1
+  y = 2
+}
+k = {print(10); 5}
+print(k)
+```
+
+---
+
+## Calculating values for variables with expressions
+
+```{r problemchunk,dependson="init"}
+DT = data.table(x=rnorm(9),y=rep(c("a","b","c"),each=3),z=rnorm(9))
+DT[,list(mean(x),sum(z))]
+DT[,table(y)]
+```
+
+---
+
+## Adding new columns
+
+```{r,dependson="init"}
+DT[,w:=z^2]
+```
+
+
+---
+
+## Adding new columns
+
+```{r dt2,dependson="init"}
+DT2 <- DT
+DT[, y:= 2]
+```
+
+---
+
+## Careful
+
+```{r ,dependson="dt2"}
+head(DT,n=3)
+head(DT2,n=3)
+```
+
+
+---
+
+## Multiple operations
+
+```{r,dependson="init"}
+DT[,m:= {tmp <- (x+z); log2(tmp+5)}]
+```
+
+---
+
+## plyr like operations
+
+```{r,dependson="init"}
+DT[,a:=x>0]
+```
+
+
+---
+
+## plyr like operations
+
+```{r,dependson="init"}
+DT[,b:= mean(x+w),by=a]
+```
+
+
+---
+
+## Special variables
+
+`.N` An integer, length 1, containing the numbe r
+
+```{r}
+set.seed(123);
+DT <- data.table(x=sample(letters[1:3], 1E5, TRUE))
+DT[, .N, by=x]
+```
+
+---
+
+## Keys
+
+```{r}
+DT <- data.table(x=rep(c("a","b","c"),each=100), y=rnorm(300))
+setkey(DT, x)
+DT['a']
+```
+
+---
+
+## Joins
+
+```{r}
+DT1 <- data.table(x=c('a', 'a', 'b', 'dt1'), y=1:4)
+DT2 <- data.table(x=c('a', 'b', 'dt2'), z=5:7)
+setkey(DT1, x); setkey(DT2, x)
+merge(DT1, DT2)
+```
+
+
+
+---
+
+## Fast reading
+
+```{r,cache=TRUE}
+big_df <- data.frame(x=rnorm(1E6), y=rnorm(1E6))
+file <- tempfile()
+write.table(big_df, file=file, row.names=FALSE, col.names=TRUE, sep="\t", quote=FALSE)
+system.time(fread(file))
+system.time(read.table(file, header=TRUE, sep="\t"))
+```
+
+
+
+
+---
+
+## Summary and further reading
+
+* The latest development version contains new functions like `melt` and `dcast` for data.tables 
+  * [https://r-forge.r-project.org/scm/viewvc.php/pkg/NEWS?view=markup&root=datatable](https://r-forge.r-project.org/scm/viewvc.php/pkg/NEWS?view=markup&root=datatable)
+* Here is a list of differences between data.table and data.frame
+  * [http://stackoverflow.com/questions/13618488/what-you-can-do-with-data-frame-that-you-cant-in-data-table](http://stackoverflow.com/questions/13618488/what-you-can-do-with-data-frame-that-you-cant-in-data-table)
+* Notes based on Raphael Gottardo's notes [https://github.com/raphg/Biostat-578/blob/master/Advanced_data_manipulation.Rpres](https://github.com/raphg/Biostat-578/blob/master/Advanced_data_manipulation.Rpres), who got them from Kevin Ushey.
+
+
+---
+
+## Generate some data 
+
+```{r subsetting}
+set.seed(13435)
+X <- data.frame("var1"=sample(1:5),"var2"=sample(6:10),"var3"=sample(11:15))
+X <- X[sample(1:5),]; X$var2[c(1,3)] = NA
+X
+```
+
+---
+
+## Sorting
+
+```{r ,dependson="subsetting"}
+sort(X$var1)
+sort(X$var1,decreasing=TRUE)
+sort(X$var2,na.last=TRUE)
+```
+
+
+---
+
+## Ordering
+
+```{r ,dependson="subsetting"}
+X[order(X$var1),]
+```
+
+---
+
+## Ordering
+
+```{r ,dependson="subsetting"}
+X[order(X$var1,X$var3),]
+```
+
+---
+
+## Ordering with plyr
+
+```{r ,dependson="subsetting"}
+library(plyr)
+arrange(X,var1)
+arrange(X,desc(var1))
+```
+
+
+---
+
+## Adding rows and columns
+
+```{r,dependson="subsetting"}
+X$var4 <- rnorm(5)
+X
+```
+
+
+---
+
+## Adding rows and columns
+
+```{r,dependson="subsetting"}
+Y <- cbind(X,rnorm(5))
+Y
+```
+
+
+## Example data set 
+
+<img class=center src="../../assets/img/03_ObtainingData/restaurants.png" height=500 />
+
+
+[https://data.baltimorecity.gov/Community/Restaurants/k5ry-ef3g](https://data.baltimorecity.gov/Community/Restaurants/k5ry-ef3g)
+
+---
+
+## Getting the data from the web
+
+```{r getData1}
+if(!file.exists("./data")){dir.create("./data")}
+fileUrl <- "https://data.baltimorecity.gov/api/views/k5ry-ef3g/rows.csv?accessType=DOWNLOAD"
+download.file(fileUrl,destfile="./data/restaurants.csv",method="curl")
+restData <- read.csv("./data/restaurants.csv")
+```
+
+
+---
+
+## Look at a bit of the data
+
+```{r ,dependson="getData1"}
+head(restData,n=3)
+tail(restData,n=3)
+```
+
+
+---
+
+## Make summary
+
+```{r ,dependson="getData1"}
+summary(restData)
+```
+
+---
+
+## Mpre in depth information
+
+```{r ,dependson="getData1"}
+str(restData)
+```
+
+
+---
+
+## Quantiles of quantitative variables
+
+```{r ,dependson="getData1"}
+quantile(restData$councilDistrict,na.rm=TRUE)
+quantile(restData$councilDistrict,probs=c(0.5,0.75,0.9))
+```
+
+---
+
+## Make table
+
+```{r ,dependson="getData1"}
+table(restData$zipCode,useNA="ifany")
+```
+
+---
+
+## Make table
+
+```{r ,dependson="getData1"}
+table(restData$councilDistrict,restData$zipCode)
+```
+
+---
+
+## Check for missing values
+
+```{r ,dependson="getData1"}
+sum(is.na(restData$councilDistrict))
+any(is.na(restData$councilDistrict))
+all(restData$zipCode > 0)
+```
+
+
+---
+
+## Row and column sums
+
+```{r,dependson="getData1"}
+colSums(is.na(restData))
+all(colSums(is.na(restData))==0)
+```
+
+
+---
+
+## Values with specific characteristics
+
+```{r,dependson="getData1"}
+table(restData$zipCode %in% c("21212"))
+table(restData$zipCode %in% c("21212","21213"))
+
+```
+
+
+---
+
+## Values with specific characteristics
+
+
+```{r,dependson="getData1"}
+restData[restData$zipCode %in% c("21212","21213"),]
+```
+
+
+---
+
+## Cross tabs
+
+```{r adm}
+data(UCBAdmissions)
+DF = as.data.frame(UCBAdmissions)
+summary(DF)
+```
+
+
+---
+
+## Cross tabs
+
+```{r ,dependson="adm"}
+xt <- xtabs(Freq ~ Gender + Admit,data=DF)
+xt
+```
+
+
+---
+
+## Flat tables
+
+```{r wb}
+warpbreaks$replicate <- rep(1:9, len = 54)
+xt = xtabs(breaks ~.,data=warpbreaks)
+xt
+
+```
+
+
+---
+
+## Flat tables
+
+```{r ,dependson="wb"}
+ftable(xt)
+```
+
+
+---
+
+## Size of a data set
+
+```{r}
+fakeData = rnorm(1e5)
+object.size(fakeData)
+print(object.size(fakeData),units="Mb")
+```
+
+---
+
+## Why create new variables?
+
+* Often the raw data won't have a value you are looking for
+* You will need to transform the data to get the values you would like
+* Usually you will add those values to the data frames you are working with
+* Common variables to create
+  * Missingness indicators
+  * "Cutting up" quantitative variables
+  * Applying transforms
+
+
+---
+
+## Example data set 
+
+<img class=center src="../../assets/img/03_ObtainingData/restaurants.png" height=500 />
+
+
+[https://data.baltimorecity.gov/Community/Restaurants/k5ry-ef3g](https://data.baltimorecity.gov/Community/Restaurants/k5ry-ef3g)
+
+---
+
+## Getting the data from the web
+
+```{r getData2}
+if(!file.exists("./data")){dir.create("./data")}
+fileUrl <- "https://data.baltimorecity.gov/api/views/k5ry-ef3g/rows.csv?accessType=DOWNLOAD"
+download.file(fileUrl,destfile="./data/restaurants.csv",method="curl")
+restData <- read.csv("./data/restaurants.csv")
+```
+
+---
+
+## Creating sequences
+
+_Sometimes you need an index for your data set_
+
+```{r}
+s1 <- seq(1,10,by=2) ; s1
+s2 <- seq(1,10,length=3); s2
+x <- c(1,3,8,25,100); seq(along = x)
+```
+
+
+---
+
+## Subsetting variables
+
+```{r,dependson="getData2"}
+restData$nearMe = restData$neighborhood %in% c("Roland Park", "Homeland")
+table(restData$nearMe)
+```
+
+---
+
+## Creating binary variables
+
+```{r,dependson="getData2"}
+restData$zipWrong = ifelse(restData$zipCode < 0, TRUE, FALSE)
+table(restData$zipWrong,restData$zipCode < 0)
+```
+
+
+---
+
+## Creating categorical variables
+
+```{r,dependson="getData2"}
+restData$zipGroups = cut(restData$zipCode,breaks=quantile(restData$zipCode))
+table(restData$zipGroups)
+table(restData$zipGroups,restData$zipCode)
+```
+
+
+---
+
+## Easier cutting
+
+```{r,dependson="getData2"}
+library(Hmisc)
+restData$zipGroups = cut2(restData$zipCode,g=4)
+table(restData$zipGroups)
+```
+
+---
+
+## Creating factor variables
+
+```{r}
+restData$zcf <- factor(restData$zipCode)
+restData$zcf[1:10]
+class(restData$zcf)
+```
+
+
+---
+
+## Levels of factor variables
+
+```{r}
+yesno <- sample(c("yes","no"),size=10,replace=TRUE)
+yesnofac = factor(yesno,levels=c("yes","no"))
+relevel(yesnofac,ref="yes")
+as.numeric(yesnofac)
+```
+
+---
+
+## Cutting produces factor variables
+
+
+```{r,dependson="getData2"}
+library(Hmisc)
+restData$zipGroups = cut2(restData$zipCode,g=4)
+table(restData$zipGroups)
+```
+
+
+---
+
+## Using the mutate function
+
+```{r,dependson="getData2"}
+library(Hmisc); library(plyr)
+restData2 = mutate(restData,zipGroups=cut2(zipCode,g=4))
+table(restData2$zipGroups)
+```
+
+
+---
+
+## Common transforms
+
+* `abs(x)` absolute value
+* `sqrt(x)` square root
+* `ceiling(x)` ceiling(3.475) is 4
+* `floor(x)` floor(3.475) is 3
+* `round(x,digits=n)` roun(3.475,digits=2) is 3.48
+* `signif(x,digits=n)` signif(3.475,digits=2) is 3.5
+* `cos(x), sin(x)` etc.
+* `log(x)` natural logarithm
+* `log2(x)`, `log10(x)` other common logs
+* `exp(x)` exponentiating x
+
+[http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%202.pdf](http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%202.pdf)
+[http://statmethods.net/management/functions.html](http://statmethods.net/management/functions.html)
+
+
+---
+
+## Notes and further reading
+
+* A tutorial from the developer of plyr - [http://plyr.had.co.nz/09-user/](http://plyr.had.co.nz/09-user/)
+* Andrew Jaffe's R notes [http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%202.pdf](http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%202.pdf)
+
+
+---
+
+## Start with reshaping
+
+```{r reshape2}
+library(reshape2)
+head(mtcars)
+```
+
+
+---
+
+## Melting data frames
+
+```{r mtcars,dependson="reshape2"}
+mtcars$carname <- rownames(mtcars)
+carMelt <- melt(mtcars,id=c("carname","gear","cyl"),measure.vars=c("mpg","hp"))
+head(carMelt,n=3)
+tail(carMelt,n=3)
+```
+
+
+[http://www.statmethods.net/management/reshape.html](http://www.statmethods.net/management/reshape.html)
+
+---
+
+## Casting data frames
+
+```{r ,dependson="mtcars"}
+cylData <- dcast(carMelt, cyl ~ variable)
+cylData
+cylData <- dcast(carMelt, cyl ~ variable,mean)
+cylData
+```
+
+[http://www.statmethods.net/management/reshape.html](http://www.statmethods.net/management/reshape.html)
+
+
+---
+
+## Averaging values
+
+```{r}
+head(InsectSprays)
+tapply(InsectSprays$count,InsectSprays$spray,sum)
+```
+
+[http://www.r-bloggers.com/a-quick-primer-on-split-apply-combine-problems/](http://www.r-bloggers.com/a-quick-primer-on-split-apply-combine-problems/)
+
+---
+
+## Another way - split
+
+```{r spIns}
+spIns =  split(InsectSprays$count,InsectSprays$spray)
+spIns
+```
+
+---
+
+## Another way - apply
+
+```{r sprCount,dependson="spIns"}
+sprCount = lapply(spIns,sum)
+sprCount
+```
+
+---
+
+## Another way - combine
+
+```{r ,dependson="sprCount"}
+unlist(sprCount)
+sapply(spIns,sum)
+```
+
+---
+
+## Another way - plyr package
+
+```{r,dependson="sprCount"}
+ddply(InsectSprays,.(spray),summarise,sum=sum(count))
+```
+
+
+---
+
+## Creating a new variable
+
+```{r,dependson="sprCount"}
+spraySums <- ddply(InsectSprays,.(spray),summarise,sum=ave(count,FUN=sum))
+dim(spraySums)
+head(spraySums)
+```
+
+---
+
+## More information
+
+* A tutorial from the developer of plyr - [http://plyr.had.co.nz/09-user/](http://plyr.had.co.nz/09-user/)
+* A nice reshape tutorial [http://www.slideshare.net/jeffreybreen/reshaping-data-in-r](http://www.slideshare.net/jeffreybreen/reshaping-data-in-r)
+* A good plyr primer - [http://www.r-bloggers.com/a-quick-primer-on-split-apply-combine-problems/](http://www.r-bloggers.com/a-quick-primer-on-split-apply-combine-problems/)
+* See also the functions
+  * acast - for casting as multi-dimensional arrays
+  * arrange - for faster reordering without using order() commands
+  * mutate - adding new variables
+
+---
+
+## Peer review data
+
+
+```{r reviewDownload, cache=TRUE}
+fileUrl1 <- "https://dl.dropboxusercontent.com/u/7710864/data/reviews-apr29.csv"
+fileUrl2 <- "https://dl.dropboxusercontent.com/u/7710864/data/solutions-apr29.csv"
+download.file(fileUrl1,destfile="./data/reviews.csv",method="curl")
+download.file(fileUrl2,destfile="./data/solutions.csv",method="curl")
+reviews <- read.csv("./data/reviews.csv"); solutions <- read.csv("./data/solutions.csv")
+head(reviews,2)
+head(solutions,2)
+```
+
+
+
+---
+
+## Merging data - merge()
+
+* Merges data frames
+* Important parameters: _x_,_y_,_by_,_by.x_,_by.y_,_all_
+```{r, dependson="reviewDownload"}
+names(reviews)
+names(solutions)
+```
+
+---
+
+## Merging data - merge()
+
+```{r, dependson="reviewDownload"}
+mergedData = merge(reviews,solutions,by.x="solution_id",by.y="id",all=TRUE)
+head(mergedData)
+```
+
+---
+
+## Default - merge all common column names
+
+```{r, dependson="reviewDownload"}
+intersect(names(solutions),names(reviews))
+mergedData2 = merge(reviews,solutions,all=TRUE)
+head(mergedData2)
+```
+
+---
+
+## Using join in the plyr package 
+
+_Faster, but less full featured - defaults to left join, see help file for more_
+```{r }
+df1 = data.frame(id=sample(1:10),x=rnorm(10))
+df2 = data.frame(id=sample(1:10),y=rnorm(10))
+arrange(join(df1,df2),id)
+```
+
+
+---
+
+## If you have multiple data frames
+
+```{r}
+df1 = data.frame(id=sample(1:10),x=rnorm(10))
+df2 = data.frame(id=sample(1:10),y=rnorm(10))
+df3 = data.frame(id=sample(1:10),z=rnorm(10))
+dfList = list(df1,df2,df3)
+join_all(dfList)
+```
+
+---
+
+## More on merging data
+
+* The quick R data merging page - [http://www.statmethods.net/management/merging.html](http://www.statmethods.net/management/merging.html)
+* plyr information - [http://plyr.had.co.nz/](http://plyr.had.co.nz/)
+* Types of joins - [http://en.wikipedia.org/wiki/Join_(SQL)](http://en.wikipedia.org/wiki/Join_(SQL))
+
+---
+
+## Example - Baltimore camera data
+
+<img class=center src=../../assets/img/03_ObtainingData/cameras.png height=500>
+
+[https://data.baltimorecity.gov/Transportation/Baltimore-Fixed-Speed-Cameras/dz54-2aru](https://data.baltimorecity.gov/Transportation/Baltimore-Fixed-Speed-Cameras/dz54-2aru)
+
+
+---
+
+## Fixing character vectors - tolower(), toupper()
+
+```{r getData3}
+if(!file.exists("./data")){dir.create("./data")}
+fileUrl <- "https://data.baltimorecity.gov/api/views/dz54-2aru/rows.csv?accessType=DOWNLOAD"
+download.file(fileUrl,destfile="./data/cameras.csv",method="curl")
+cameraData <- read.csv("./data/cameras.csv")
+names(cameraData)
+tolower(names(cameraData))
+```
+
+---
+
+## Fixing character vectors - strsplit()
+
+* Good for automatically splitting variable names
+* Important parameters: _x_, _split_
+
+```{r splitNames,dependson="getData3"}
+splitNames = strsplit(names(cameraData),"\\.")
+splitNames[[5]]
+splitNames[[6]]
+```
+
+
+---
+
+## Quick aside - lists
+
+```{r}
+mylist <- list(letters = c("A", "b", "c"), numbers = 1:3, matrix(1:25, ncol = 5))
+head(mylist)
+```
+
+[http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%203.pdf](http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%203.pdf)
+
+
+---
+
+## Quick aside - lists
+
+```{r}
+mylist[1]
+mylist$letters
+mylist[[1]]
+```
+
+[http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%203.pdf](http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%203.pdf)
+
+
+---
+
+## Fixing character vectors - sapply()
+
+* Applies a function to each element in a vector or list
+* Important parameters: _X_,_FUN_
+
+```{r,dependson="splitNames"}
+splitNames[[6]][1]
+firstElement <- function(x){x[1]}
+sapply(splitNames,firstElement)
+```
+
+---
+
+## Peer review experiment data
+
+
+<img class=center src="../../assets/img/03_ObtainingData/cooperation.png" height=500 />
+
+
+[http://www.plosone.org/article/info:doi/10.1371/journal.pone.0026895](http://www.plosone.org/article/info:doi/10.1371/journal.pone.0026895)
+
+
+
+---
+
+## Fixing character vectors - sub()
+
+* Important parameters: _pattern_, _replacement_, _x_
+
+```{r, dependson="reviewDownload"}
+names(reviews)
+sub("_","",names(reviews),)
+
+```
+
+---
+
+## Fixing character vectors - gsub()
+
+```{r, dependson="reviewDownload"}
+testName <- "this_is_a_test"
+sub("_","",testName)
+gsub("_","",testName)
+```
+
+---
+
+## Finding values - grep(),grepl()
+
+```{r,dependson="getData"}
+grep("Alameda",cameraData$intersection)
+table(grepl("Alameda",cameraData$intersection))
+cameraData2 <- cameraData[!grepl("Alameda",cameraData$intersection),]
+```
+
+---
+
+## More on grep()
+
+```{r,dependson="getData"}
+grep("Alameda",cameraData$intersection,value=TRUE)
+grep("JeffStreet",cameraData$intersection)
+length(grep("JeffStreet",cameraData$intersection))
+```
+
+[http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%203.pdf](http://www.biostat.jhsph.edu/~ajaffe/lec_winterR/Lecture%203.pdf)
+
+
+---
+
+## More useful string functions
+
+```{r,dependson="getData"}
+library(stringr)
+nchar("Jeffrey Leek")
+substr("Jeffrey Leek",1,7)
+paste("Jeffrey","Leek")
+```
+
+---
+
+## More useful string functions
+
+```{r,dependson="getData"}
+paste0("Jeffrey","Leek")
+str_trim("Jeff      ")
+```
+
+---
+
+## Important points about text in data sets
+
+* Names of variables should be 
+  * All lower case when possible
+  * Descriptive (Diagnosis versus Dx)
+  * Not duplicated
+  * Not have underscores or dots or white spaces
+* Variables with character values
+  * Should usually be made into factor variables (depends on application)
+  * Should be descriptive (use TRUE/FALSE instead of 0/1 and Male/Female versus 0/1 or M/F)
+
+
+---
+
+## Regular expressions
+
+- Regular expressions can be thought of as a combination of literals and _metacharacters_
+- To draw an analogy with natural language, think of literal text forming the words of this language, and the metacharacters defining its grammar
+- Regular expressions have a rich set of metacharacters
+
+---
+
+## Literals
+
+Simplest pattern consists only of literals. The literal “nuclear” would match to the following lines:
+
+```markdown
+Ooh. I just learned that to keep myself alive after a
+nuclear blast! All I have to do is milk some rats
+then drink the milk. Aweosme. :}
+
+Laozi says nuclear weapons are mas macho
+
+Chaos in a country that has nuclear weapons -- not good.
+
+my nephew is trying to teach me nuclear physics, or
+possibly just trying to show me how smart he is
+so I’ll be proud of him [which I am].
+
+lol if you ever say "nuclear" people immediately think
+DEATH by radiation LOL
+```
+
+---
+
+## Literals
+
+The literal “Obama” would match to the following lines
+
+```markdown
+Politics r dum. Not 2 long ago Clinton was sayin Obama
+was crap n now she sez vote 4 him n unite? WTF?
+Screw em both + Mcain. Go Ron Paul!
+
+Clinton conceeds to Obama but will her followers listen??
+
+Are we sure Chelsea didn’t vote for Obama?
+
+thinking ... Michelle Obama is terrific!
+
+jetlag..no sleep...early mornig to starbux..Ms. Obama
+was moving
+```
+
+---
+
+## Regular Expressions
+
+- Simplest pattern consists only of literals; a match occurs if the sequence of literals occurs anywhere in the text being tested
+
+- What if we only want the word “Obama”? or sentences that end in the word “Clinton”, or “clinton” or “clinto”?
+
+---
+
+## Regular Expressions
+
+We need a way to express 
+- whitespace word boundaries 
+- sets of literals
+- the beginning and end of a line 
+- alternatives (“war” or “peace”)
+Metacharacters to the rescue!
+
+---
+
+## Metacharacters
+
+Some metacharacters represent the start of a line
+
+```markdown
+^i think
+```
+
+will match the lines
+
+```markdown
+i think we all rule for participating
+i think i have been outed
+i think this will be quite fun actually
+i think i need to go to work
+i think i first saw zombo in 1999.
+```
+
+---
+
+## Metacharacters
+
+$ represents the end of a line
+
+```markdown
+morning$
+```
+
+will match the lines
+
+```markdown
+well they had something this morning
+then had to catch a tram home in the morning
+dog obedience school in the morning
+and yes happy birthday i forgot to say it earlier this morning
+I walked in the rain this morning
+good morning
+```
+
+---
+
+## Character Classes with []
+
+We can list a set of characters we will accept at a given point in the match
+
+```markdown
+[Bb][Uu][Ss][Hh]
+```
+
+will match the lines
+
+```markdown
+The democrats are playing, "Name the worst thing about Bush!"
+I smelled the desert creosote bush, brownies, BBQ chicken
+BBQ and bushwalking at Molonglo Gorge
+Bush TOLD you that North Korea is part of the Axis of Evil
+I’m listening to Bush - Hurricane (Album Version)
+```
+
+---
+
+## Character Classes with []
+
+```markdown
+^[Ii] am
+```
+
+will match
+
+```markdown
+i am so angry at my boyfriend i can’t even bear to
+look at him
+
+i am boycotting the apple store
+
+I am twittering from iPhone
+
+I am a very vengeful person when you ruin my sweetheart.
+
+I am so over this. I need food. Mmmm bacon...
+```
+
+---
+
+## Character Classes with []
+
+Similarly, you can specify a range of letters [a-z] or [a-zA-Z]; notice that the order doesn’t matter
+
+```markdown
+^[0-9][a-zA-Z]
+```
+
+will match the lines
+
+```markdown
+7th inning stretch
+2nd half soon to begin. OSU did just win something
+3am - cant sleep - too hot still.. :(
+5ft 7 sent from heaven
+1st sign of starvagtion
+```
+
+---
+
+## Character Classes with []
+
+When used at the beginning of a character class, the “^” is also a metacharacter and indicates matching characters NOT in the indicated class
+
+```markdown
+[^?.]$
+```
+
+will match the lines
+
+```markdown
+i like basketballs
+6 and 9
+dont worry... we all die anyway!
+Not in Baghdad
+helicopter under water? hmmm
+```
+
+---
+
+## More Metacharacters
+
+“.” is used to refer to any character. So
+
+```markdown
+9.11
+```
+
+will match the lines
+
+```markdown
+its stupid the post 9-11 rules
+if any 1 of us did 9/11 we would have been caught in days.
+NetBios: scanning ip 203.169.114.66
+Front Door 9:11:46 AM
+Sings: 0118999881999119725...3 !
+```
+
+---
+
+## More Metacharacters: |
+
+This does not mean “pipe” in the context of regular expressions; instead it translates to “or”; we can use it to combine two expressions, the subexpressions being called alternatives
+
+```markdown
+flood|fire
+```
+
+will match the lines
+
+```markdown
+is firewire like usb on none macs?
+the global flood makes sense within the context of the bible
+yeah ive had the fire on tonight
+... and the floods, hurricanes, killer heatwaves, rednecks, gun nuts, etc.
+￼
+```
+
+---
+
+## More Metacharacters: |
+
+We can include any number of alternatives...
+
+```markdown
+flood|earthquake|hurricane|coldfire
+```
+
+will match the lines
+
+```markdown
+Not a whole lot of hurricanes in the Arctic.
+We do have earthquakes nearly every day somewhere in our State
+hurricanes swirl in the other direction
+coldfire is STRAIGHT!
+’cause we keep getting earthquakes
+```
+
+---
+
+## More Metacharacters: |
+
+The alternatives can be real expressions and not just literals
+
+```markdown
+^[Gg]ood|[Bb]ad
+```
+
+will match the lines
+
+```markdown
+good to hear some good knews from someone here
+Good afternoon fellow american infidels!
+good on you-what do you drive?
+Katie... guess they had bad experiences...
+my middle name is trouble, Miss Bad News
+```
+
+---
+
+## More Metacharacters: ( and )
+
+Subexpressions are often contained in parentheses to constrain the alternatives
+
+```markdown
+^([Gg]ood|[Bb]ad)
+```
+
+will match the lines
+
+```markdown
+bad habbit
+bad coordination today
+good, becuase there is nothing worse than a man in kinky underwear
+Badcop, its because people want to use drugs
+Good Monday Holiday
+Good riddance to Limey
+```
+
+---
+
+## More Metacharacters: ?
+
+The question mark indicates that the indicated expression is optional
+
+```markdown
+[Gg]eorge( [Ww]\.)? [Bb]ush
+```
+
+will match the lines
+
+```markdown
+i bet i can spell better than you and george bush combined
+BBC reported that President George W. Bush claimed God told him to invade I
+a bird in the hand is worth two george bushes
+```
+
+---
+
+## One thing to note...
+
+In the following
+
+```markdown
+[Gg]eorge( [Ww]\.)? [Bb]ush
+```
+
+we wanted to match a “.” as a literal period; to do that, we had to “escape” the metacharacter, preceding it with a backslash In general, we have to do this for any metacharacter we want to include in our match
+
+---
+
+## More metacharacters: * and +
+
+The * and + signs are metacharacters used to indicate repetition; * means “any number, including none, of the item” and + means “at least one of the item”
+
+```markdown
+(.*)
+```
+
+will match the lines
+
+```markdown
+anyone wanna chat? (24, m, germany)
+hello, 20.m here... ( east area + drives + webcam )
+(he means older men)
+()
+```
+
+---
+
+## More metacharacters: * and +
+
+The * and + signs are metacharacters used to indicate repetition; * means “any number, including none, of the item” and + means “at least one of the item”
+
+```markdown
+[0-9]+ (.*)[0-9]+
+```
+
+will match the lines
+
+```markdown
+working as MP here 720 MP battallion, 42nd birgade
+so say 2 or 3 years at colleage and 4 at uni makes us 23 when and if we fin
+it went down on several occasions for like, 3 or 4 *days*
+Mmmm its time 4 me 2 go 2 bed
+```
+
+---
+
+## More metacharacters: { and }
+
+{ and } are referred to as interval quantifiers; the let us specify the minimum and maximum number of matches of an expression
+
+```markdown
+[Bb]ush( +[^ ]+ +){1,5} debate
+```
+
+will match the lines
+
+```markdown
+Bush has historically won all major debates he’s done.
+in my view, Bush doesn’t need these debates..
+bush doesn’t need the debates? maybe you are right
+That’s what Bush supporters are doing about the debate.
+Felix, I don’t disagree that Bush was poorly prepared for the debate.
+indeed, but still, Bush should have taken the debate more seriously.
+Keep repeating that Bush smirked and scowled during the debate
+```
+
+---
+
+## More metacharacters: and
+
+- m,n means at least m but not more than n matches 
+- m means exactly m matches
+- m, means at least m matches
+
+---
+
+## More metacharacters: ( and ) revisited
+
+- In most implementations of regular expressions, the parentheses not only limit the scope of alternatives divided by a “|”, but also can be used to “remember” text matched by the subexpression enclosed
+- We refer to the matched text with \1, \2, etc.
+
+---
+
+## More metacharacters: ( and ) revisited
+
+So the expression
+
+```markdown
++([a-zA-Z]+) +\1 +
+```
+
+will match the lines
+
+```markdown
+time for bed, night night twitter!
+blah blah blah blah
+my tattoo is so so itchy today
+i was standing all all alone against the world outside...
+hi anybody anybody at home
+estudiando css css css css.... que desastritooooo
+```
+
+---
+
+## More metacharacters: ( and ) revisited
+
+The * is “greedy” so it always matches the _longest_ possible string that satisfies the regular expression. So
+
+```markdown
+^s(.*)s
+```
+
+matches
+
+```markdown
+sitting at starbucks
+setting up mysql and rails
+studying stuff for the exams
+spaghetti with marshmallows
+stop fighting with crackers
+sore shoulders, stupid ergonomics
+```
+
+---
+
+## More metacharacters: ( and ) revisited
+
+The greediness of * can be turned off with the ?, as in
+
+```markdown
+^s(.*?)s$
+```
+
+---
+
+## Summary
+
+- Regular expressions are used in many different languages; not unique to R.
+- Regular expressions are composed of literals and metacharacters that represent sets or classes of characters/words
+- Text processing via regular expressions is a very powerful way to extract data from “unfriendly” sources (not all data comes as a CSV file)
+- Used with the functions `grep`,`grepl`,`sub`,`gsub` and others that involve searching for text strings
+(Thanks to Mark Hansen for some material in this lecture.)
+
+---
+
+## Starting simple
+
+```{r}
+d1 = date()
+d1
+class(d1)
+```
+
+---
+
+## Date class
+
+```{r sysDate}
+d2 = Sys.Date()
+d2
+class(d2)
+```
+
+---
+
+## Formatting dates
+
+`%d` = day as number (0-31), `%a` = abbreviated weekday,`%A` = unabbreviated weekday, `%m` = month (00-12), `%b` = abbreviated month,
+`%B` = unabbrevidated month, `%y` = 2 digit year, `%Y` = four digit year
+
+```{r ,dependson="sysDate"}
+format(d2,"%a %b %d")
+```
+
+---
+
+## Creating dates
+
+```{r}
+x = c("1jan1960", "2jan1960", "31mar1960", "30jul1960"); z = as.Date(x, "%d%b%Y")
+z
+z[1] - z[2]
+as.numeric(z[1]-z[2])
+```
+
+---
+
+## Converting to Julian 
+
+```{r,dependson="sysDate"}
+weekdays(d2)
+months(d2)
+julian(d2)
+```
+
+---
+
+## Lubridate 
+
+```{r lub}
+library(lubridate); ymd("20140108")
+mdy("08/04/2013")
+dmy("03-04-2013")
+```
+
+[http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/](http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/)
+
+---
+
+## Dealing with times
+
+```{r ,dependson="lub"}
+ymd_hms("2011-08-03 10:15:03")
+ymd_hms("2011-08-03 10:15:03",tz="Pacific/Auckland")
+?Sys.timezone
+```
+
+[http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/](http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/)
+
+---
+
+## Some functions have slightly different syntax
+
+```{r, dependson="lub"}
+x = dmy(c("1jan2013", "2jan2013", "31mar2013", "30jul2013"))
+wday(x[1])
+wday(x[1],label=TRUE)
+```
+
+---
+
+## Notes and further resources
+
+* More information in this nice lubridate tutorial [http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/](http://www.r-statistics.com/2012/03/do-more-with-dates-and-times-in-r-with-lubridate-1-1-0/)
+* The lubridate vignette is the same content [http://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html](http://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html)
+* Ultimately you want your dates and times as class "Date" or the classes "POSIXct", "POSIXlt". For more information type `?POSIXlt`
+  

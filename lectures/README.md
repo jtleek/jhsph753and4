@@ -13,4 +13,8 @@ January 30:
 * GLM Odds and Ends [Lecture](http://jtleek.github.io/jhsph753and4/lectures/02_02_glmOddsAndEnds/#1)
 
 February 4: 
-* Getting Data (Part 1/n) [Lecture](http://jtleek.github.io/jhsph753and4/lectures/02_03_gettingData/#1)
+* Getting Data [Lecture](http://jtleek.github.io/jhsph753and4/lectures/03_01_gettingData/#1)
+
+February 5: 
+* [In class activity](http://githb.com/jtleek/jhsph753and4/lectures/03_02_inclass.md)
+* Cleaning Data [Lecture](http://jtleek.github.io/jhsph753and4/lectures/03_02_cleaningData/#1)
