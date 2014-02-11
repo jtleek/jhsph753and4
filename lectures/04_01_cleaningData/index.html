@@ -53,13 +53,33 @@
     <h2>Pro tip</h2>
   </hgroup>
   <article>
-    <p>Work on problems that matter. Working on problems that matter means that you will often &quot;fail&quot;, because making positive contributions in science is hard. It is worth it. </p>
-
-<p>In general science is about:</p>
+    <p>The most impactful methods come from answering specific data questions:</p>
 
 <ul>
-<li>Aiming high</li>
-<li>Grinding small</li>
+<li>How do we make better beer?<br>
+
+<ul>
+<li><strong>Data</strong>: Measures of beer quality</li>
+<li><strong>Statistic</strong>:The <a href="http://en.wikipedia.org/wiki/T-statistic">t-statistic</a></li>
+</ul></li>
+<li>What characteristics of field lead to better crops?
+
+<ul>
+<li><strong>Data</strong>: Field characteristics, crop yields</li>
+<li><strong>Statistic</strong>: <a href="http://en.wikipedia.org/wiki/Analysis_of_variance">Analysis of variance (ANOVA)</a></li>
+</ul></li>
+<li>How long do people live?
+
+<ul>
+<li><strong>Data</strong>: Survival times of people (censored)</li>
+<li><strong>Statistic</strong>: <a href="http://en.wikipedia.org/wiki/Kaplan%E2%80%93Meier_estimator">Kaplan-Meier Estimator</a></li>
+</ul></li>
+<li>What movies will you like? 
+
+<ul>
+<li><strong>Data</strong>: Lots of other peoples movie ratings</li>
+<li><strong>Statistic(s)</strong>: <a href="http://en.wikipedia.org/wiki/Recommender_system">Recommender systems</a> </li>
+</ul></li>
 </ul>
 
   </article>
@@ -68,22 +88,62 @@
 
       <slide class="" id="slide-2" style="background:;">
   <hgroup>
-    <h2>Paper of the day</h2>
+    <h2>Papers of the day</h2>
   </hgroup>
   <article>
-    <p><a href="The%20Oregon%20Experiment%20%E2%80%94%20Effects%20of%20Medicaid%20on%20Clinical%20Outcomes">The Oregon Experiment - Effects of medicaid on clinical outcomes</a></p>
+    <p>Data Cleaning is some of the most high-impact work statisticians do. </p>
 
-<p><a href="http://marginalrevolution.com/marginalrevolution/2013/05/a-few-remarks-on-the-oregon-medicaid-study.html">Tyler Cowen</a></p>
+<p><em>Exploration, normalization, and summaries of high density oligonucleotide array probe level data</em></p>
 
-<p><a href="http://www.washingtonpost.com/blogs/wonkblog/wp/2013/05/02/heres-what-the-oregon-medicaid-study-really-said/?wprss=rss_ezra-klein">Ezra Klein</a></p>
+<p><a href="http://biostatistics.oxfordjournals.org/content/4/2/249.long">http://biostatistics.oxfordjournals.org/content/4/2/249.long</a></p>
 
-<p><a href="http://jtleek.github.io/jhsph753/">Class website</a></p>
+<p><em>Capturing Heterogeneity in Gene Expression Studies by Surrogate Variable Analysis</em></p>
+
+<p><a href="http://www.plosgenetics.org/article/info%3Adoi%2F10.1371%2Fjournal.pgen.0030161">http://www.plosgenetics.org/article/info%3Adoi%2F10.1371%2Fjournal.pgen.0030161</a></p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
       <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Synthesized feedback</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Don&#39;t get distracted from the problem of interest
+
+<ul>
+<li>Missing data problem</li>
+</ul></li>
+<li>Careful with your test statistic (median instead of mean)</li>
+<li>More introduction to the problem</li>
+<li>Make sure your analysis focuses on questions, not on methods</li>
+<li>Overlapping confidence intervals \(\neq\) not significant difference</li>
+<li>Figure captions should be <em>long</em> and explicit. They should explain what the figure is. Remember how people read papers. </li>
+<li>Titles should explain what you are working on. </li>
+<li>Don&#39;t use R code to explain models in the writeup. Math or words. </li>
+<li>Sensivity analysis can be useful for missing data</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Some cool data you could apply for</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/twittergrants.png" height=450></p>
+
+<p><a href="https://blog.twitter.com/2014/introducing-twitter-data-grants">https://blog.twitter.com/2014/introducing-twitter-data-grants</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
   <hgroup>
     <h2>The goal is tidy data</h2>
   </hgroup>
@@ -104,7 +164,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-4" style="background:;">
+      <slide class="" id="slide-6" style="background:;">
   <hgroup>
     <h2>data.table</h2>
   </hgroup>
@@ -123,7 +183,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-5" style="background:;">
+      <slide class="" id="slide-7" style="background:;">
   <hgroup>
     <h2>Create data tables just like data frames</h2>
   </hgroup>
@@ -153,7 +213,7 @@ head(DT,3)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-6" style="background:;">
+      <slide class="" id="slide-8" style="background:;">
   <hgroup>
     <h2>See all the data tables in memory</h2>
   </hgroup>
@@ -170,7 +230,7 @@ Total: 1MB
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-7" style="background:;">
+      <slide class="" id="slide-9" style="background:;">
   <hgroup>
     <h2>Subsetting rows</h2>
   </hgroup>
@@ -195,7 +255,7 @@ Total: 1MB
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-8" style="background:;">
+      <slide class="" id="slide-10" style="background:;">
   <hgroup>
     <h2>Subsetting rows</h2>
   </hgroup>
@@ -212,7 +272,7 @@ Total: 1MB
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-9" style="background:;">
+      <slide class="" id="slide-11" style="background:;">
   <hgroup>
     <h2>Subsetting columns!?</h2>
   </hgroup>
@@ -227,7 +287,7 @@ Total: 1MB
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-10" style="background:;">
+      <slide class="" id="slide-12" style="background:;">
   <hgroup>
     <h2>Column subsetting in data.table</h2>
   </hgroup>
@@ -258,7 +318,7 @@ k = {print(10); 5}
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-11" style="background:;">
+      <slide class="" id="slide-13" style="background:;">
   <hgroup>
     <h2>Calculating values for variables with expressions</h2>
   </hgroup>
@@ -283,7 +343,7 @@ a b c
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-12" style="background:;">
+      <slide class="" id="slide-14" style="background:;">
   <hgroup>
     <h2>Adding new columns</h2>
   </hgroup>
@@ -307,7 +367,7 @@ a b c
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-13" style="background:;">
+      <slide class="" id="slide-15" style="background:;">
   <hgroup>
     <h2>Adding new columns</h2>
   </hgroup>
@@ -332,7 +392,7 @@ DT[, y:= 2]
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-14" style="background:;">
+      <slide class="" id="slide-16" style="background:;">
   <hgroup>
     <h2>Careful</h2>
   </hgroup>
@@ -359,7 +419,7 @@ DT[, y:= 2]
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-15" style="background:;">
+      <slide class="" id="slide-17" style="background:;">
   <hgroup>
     <h2>Multiple operations</h2>
   </hgroup>
@@ -383,7 +443,7 @@ DT[, y:= 2]
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-16" style="background:;">
+      <slide class="" id="slide-18" style="background:;">
   <hgroup>
     <h2>plyr like operations</h2>
   </hgroup>
@@ -407,7 +467,7 @@ DT[, y:= 2]
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-17" style="background:;">
+      <slide class="" id="slide-19" style="background:;">
   <hgroup>
     <h2>plyr like operations</h2>
   </hgroup>
@@ -431,7 +491,7 @@ DT[, y:= 2]
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-18" style="background:;">
+      <slide class="" id="slide-20" style="background:;">
   <hgroup>
     <h2>Special variables</h2>
   </hgroup>
@@ -453,7 +513,7 @@ DT[, .N, by=x]
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-19" style="background:;">
+      <slide class="" id="slide-21" style="background:;">
   <hgroup>
     <h2>Keys</h2>
   </hgroup>
@@ -571,7 +631,7 @@ DT[&#39;a&#39;]
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-20" style="background:;">
+      <slide class="" id="slide-22" style="background:;">
   <hgroup>
     <h2>Joins</h2>
   </hgroup>
@@ -592,7 +652,7 @@ merge(DT1, DT2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-21" style="background:;">
+      <slide class="" id="slide-23" style="background:;">
   <hgroup>
     <h2>Fast reading</h2>
   </hgroup>
@@ -618,7 +678,7 @@ system.time(fread(file))
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-22" style="background:;">
+      <slide class="" id="slide-24" style="background:;">
   <hgroup>
     <h2>Summary and further reading</h2>
   </hgroup>
@@ -641,7 +701,7 @@ system.time(fread(file))
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-23" style="background:;">
+      <slide class="" id="slide-25" style="background:;">
   <hgroup>
     <h2>Generate some data</h2>
   </hgroup>
@@ -664,7 +724,7 @@ X
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-24" style="background:;">
+      <slide class="" id="slide-26" style="background:;">
   <hgroup>
     <h2>Sorting</h2>
   </hgroup>
@@ -691,7 +751,7 @@ X
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-25" style="background:;">
+      <slide class="" id="slide-27" style="background:;">
   <hgroup>
     <h2>Ordering</h2>
   </hgroup>
@@ -711,7 +771,7 @@ X
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-26" style="background:;">
+      <slide class="" id="slide-28" style="background:;">
   <hgroup>
     <h2>Ordering</h2>
   </hgroup>
@@ -731,7 +791,7 @@ X
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-27" style="background:;">
+      <slide class="" id="slide-29" style="background:;">
   <hgroup>
     <h2>Ordering with plyr</h2>
   </hgroup>
@@ -763,7 +823,7 @@ arrange(X,var1)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-28" style="background:;">
+      <slide class="" id="slide-30" style="background:;">
   <hgroup>
     <h2>Adding rows and columns</h2>
   </hgroup>
@@ -784,7 +844,7 @@ X
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-29" style="background:;">
+      <slide class="" id="slide-31" style="background:;">
   <hgroup>
     <h2>Adding rows and columns</h2>
   </hgroup>
@@ -801,9 +861,16 @@ Y
 5    4    9   13 -0.53613  1.00053
 </code></pre>
 
-<h2>Example data set</h2>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
 
-<p><img class=center src="../../assets/img/03_ObtainingData/restaurants.png" height=500 /></p>
+      <slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Example data set</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src="../../assets/img/03_ObtainingData/restaurants.png" height=500 /></p>
 
 <p><a href="https://data.baltimorecity.gov/Community/Restaurants/k5ry-ef3g">https://data.baltimorecity.gov/Community/Restaurants/k5ry-ef3g</a></p>
 
@@ -811,7 +878,7 @@ Y
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-30" style="background:;">
+      <slide class="" id="slide-33" style="background:;">
   <hgroup>
     <h2>Getting the data from the web</h2>
   </hgroup>
@@ -826,7 +893,7 @@ restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-31" style="background:;">
+      <slide class="" id="slide-34" style="background:;">
   <hgroup>
     <h2>Look at a bit of the data</h2>
   </hgroup>
@@ -857,7 +924,7 @@ restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-32" style="background:;">
+      <slide class="" id="slide-35" style="background:;">
   <hgroup>
     <h2>Make summary</h2>
   </hgroup>
@@ -887,7 +954,7 @@ restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-33" style="background:;">
+      <slide class="" id="slide-36" style="background:;">
   <hgroup>
     <h2>Mpre in depth information</h2>
   </hgroup>
@@ -908,7 +975,7 @@ restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-34" style="background:;">
+      <slide class="" id="slide-37" style="background:;">
   <hgroup>
     <h2>Quantiles of quantitative variables</h2>
   </hgroup>
@@ -931,7 +998,7 @@ restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-35" style="background:;">
+      <slide class="" id="slide-38" style="background:;">
   <hgroup>
     <h2>Make table</h2>
   </hgroup>
@@ -952,7 +1019,7 @@ restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-36" style="background:;">
+      <slide class="" id="slide-39" style="background:;">
   <hgroup>
     <h2>Make table</h2>
   </hgroup>
@@ -1014,7 +1081,7 @@ restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-37" style="background:;">
+      <slide class="" id="slide-40" style="background:;">
   <hgroup>
     <h2>Check for missing values</h2>
   </hgroup>
@@ -1041,7 +1108,7 @@ restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-38" style="background:;">
+      <slide class="" id="slide-41" style="background:;">
   <hgroup>
     <h2>Row and column sums</h2>
   </hgroup>
@@ -1063,7 +1130,7 @@ restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-39" style="background:;">
+      <slide class="" id="slide-42" style="background:;">
   <hgroup>
     <h2>Values with specific characteristics</h2>
   </hgroup>
@@ -1088,7 +1155,7 @@ FALSE  TRUE
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-40" style="background:;">
+      <slide class="" id="slide-43" style="background:;">
   <hgroup>
     <h2>Values with specific characteristics</h2>
   </hgroup>
@@ -1222,7 +1289,7 @@ FALSE  TRUE
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-41" style="background:;">
+      <slide class="" id="slide-44" style="background:;">
   <hgroup>
     <h2>Cross tabs</h2>
   </hgroup>
@@ -1245,7 +1312,7 @@ summary(DF)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-42" style="background:;">
+      <slide class="" id="slide-45" style="background:;">
   <hgroup>
     <h2>Cross tabs</h2>
   </hgroup>
@@ -1264,7 +1331,7 @@ Gender   Admitted Rejected
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-43" style="background:;">
+      <slide class="" id="slide-46" style="background:;">
   <hgroup>
     <h2>Flat tables</h2>
   </hgroup>
@@ -1342,7 +1409,7 @@ wool  L  M  H
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-44" style="background:;">
+      <slide class="" id="slide-47" style="background:;">
   <hgroup>
     <h2>Flat tables</h2>
   </hgroup>
@@ -1364,7 +1431,7 @@ B    L                 27 14 29 19 29 31 41 20 44
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-45" style="background:;">
+      <slide class="" id="slide-48" style="background:;">
   <hgroup>
     <h2>Size of a data set</h2>
   </hgroup>
@@ -1386,7 +1453,7 @@ object.size(fakeData)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-46" style="background:;">
+      <slide class="" id="slide-49" style="background:;">
   <hgroup>
     <h2>Why create new variables?</h2>
   </hgroup>
@@ -1408,7 +1475,7 @@ object.size(fakeData)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-47" style="background:;">
+      <slide class="" id="slide-50" style="background:;">
   <hgroup>
     <h2>Example data set</h2>
   </hgroup>
@@ -1421,7 +1488,7 @@ object.size(fakeData)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-48" style="background:;">
+      <slide class="" id="slide-51" style="background:;">
   <hgroup>
     <h2>Getting the data from the web</h2>
   </hgroup>
@@ -1436,7 +1503,7 @@ restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-49" style="background:;">
+      <slide class="" id="slide-52" style="background:;">
   <hgroup>
     <h2>Creating sequences</h2>
   </hgroup>
@@ -1465,7 +1532,7 @@ restData &lt;- read.csv(&quot;./data/restaurants.csv&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-50" style="background:;">
+      <slide class="" id="slide-53" style="background:;">
   <hgroup>
     <h2>Subsetting variables</h2>
   </hgroup>
@@ -1483,7 +1550,7 @@ FALSE  TRUE
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-51" style="background:;">
+      <slide class="" id="slide-54" style="background:;">
   <hgroup>
     <h2>Creating binary variables</h2>
   </hgroup>
@@ -1502,7 +1569,7 @@ table(restData$zipWrong,restData$zipCode &lt; 0)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-52" style="background:;">
+      <slide class="" id="slide-55" style="background:;">
   <hgroup>
     <h2>Creating categorical variables</h2>
   </hgroup>
@@ -1543,7 +1610,7 @@ table(restData$zipGroups)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-53" style="background:;">
+      <slide class="" id="slide-56" style="background:;">
   <hgroup>
     <h2>Easier cutting</h2>
   </hgroup>
@@ -1562,7 +1629,7 @@ table(restData$zipGroups)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-54" style="background:;">
+      <slide class="" id="slide-57" style="background:;">
   <hgroup>
     <h2>Creating factor variables</h2>
   </hgroup>
@@ -1585,7 +1652,7 @@ restData$zcf[1:10]
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-55" style="background:;">
+      <slide class="" id="slide-58" style="background:;">
   <hgroup>
     <h2>Levels of factor variables</h2>
   </hgroup>
@@ -1609,7 +1676,7 @@ Levels: yes no
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-56" style="background:;">
+      <slide class="" id="slide-59" style="background:;">
   <hgroup>
     <h2>Cutting produces factor variables</h2>
   </hgroup>
@@ -1628,7 +1695,7 @@ table(restData$zipGroups)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-57" style="background:;">
+      <slide class="" id="slide-60" style="background:;">
   <hgroup>
     <h2>Using the mutate function</h2>
   </hgroup>
@@ -1647,7 +1714,7 @@ table(restData2$zipGroups)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-58" style="background:;">
+      <slide class="" id="slide-61" style="background:;">
   <hgroup>
     <h2>Common transforms</h2>
   </hgroup>
@@ -1672,7 +1739,7 @@ table(restData2$zipGroups)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-59" style="background:;">
+      <slide class="" id="slide-62" style="background:;">
   <hgroup>
     <h2>Notes and further reading</h2>
   </hgroup>
@@ -1686,7 +1753,7 @@ table(restData2$zipGroups)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-60" style="background:;">
+      <slide class="" id="slide-63" style="background:;">
   <hgroup>
     <h2>Start with reshaping</h2>
   </hgroup>
@@ -1708,7 +1775,7 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-61" style="background:;">
+      <slide class="" id="slide-64" style="background:;">
   <hgroup>
     <h2>Melting data frames</h2>
   </hgroup>
@@ -1739,7 +1806,7 @@ head(carMelt,n=3)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-62" style="background:;">
+      <slide class="" id="slide-65" style="background:;">
   <hgroup>
     <h2>Casting data frames</h2>
   </hgroup>
@@ -1770,7 +1837,7 @@ cylData
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-63" style="background:;">
+      <slide class="" id="slide-66" style="background:;">
   <hgroup>
     <h2>Averaging values</h2>
   </hgroup>
@@ -1800,7 +1867,7 @@ cylData
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-64" style="background:;">
+      <slide class="" id="slide-67" style="background:;">
   <hgroup>
     <h2>Another way - split</h2>
   </hgroup>
@@ -1832,7 +1899,7 @@ $F
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-65" style="background:;">
+      <slide class="" id="slide-68" style="background:;">
   <hgroup>
     <h2>Another way - apply</h2>
   </hgroup>
@@ -1864,7 +1931,7 @@ $F
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-66" style="background:;">
+      <slide class="" id="slide-69" style="background:;">
   <hgroup>
     <h2>Another way - combine</h2>
   </hgroup>
@@ -1887,7 +1954,7 @@ $F
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-67" style="background:;">
+      <slide class="" id="slide-70" style="background:;">
   <hgroup>
     <h2>Another way - plyr package</h2>
   </hgroup>
@@ -1908,7 +1975,7 @@ $F
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-68" style="background:;">
+      <slide class="" id="slide-71" style="background:;">
   <hgroup>
     <h2>Creating a new variable</h2>
   </hgroup>
@@ -1936,7 +2003,7 @@ dim(spraySums)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-69" style="background:;">
+      <slide class="" id="slide-72" style="background:;">
   <hgroup>
     <h2>More information</h2>
   </hgroup>
@@ -1958,7 +2025,7 @@ dim(spraySums)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-70" style="background:;">
+      <slide class="" id="slide-73" style="background:;">
   <hgroup>
     <h2>Peer review data</h2>
   </hgroup>
@@ -1988,7 +2055,7 @@ head(reviews,2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-71" style="background:;">
+      <slide class="" id="slide-74" style="background:;">
   <hgroup>
     <h2>Merging data - merge()</h2>
   </hgroup>
@@ -2015,7 +2082,7 @@ head(reviews,2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-72" style="background:;">
+      <slide class="" id="slide-75" style="background:;">
   <hgroup>
     <h2>Merging data - merge()</h2>
   </hgroup>
@@ -2044,7 +2111,7 @@ head(mergedData)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-73" style="background:;">
+      <slide class="" id="slide-76" style="background:;">
   <hgroup>
     <h2>Default - merge all common column names</h2>
   </hgroup>
@@ -2072,7 +2139,7 @@ head(mergedData2)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-74" style="background:;">
+      <slide class="" id="slide-77" style="background:;">
   <hgroup>
     <h2>Using join in the plyr package</h2>
   </hgroup>
@@ -2101,7 +2168,7 @@ arrange(join(df1,df2),id)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-75" style="background:;">
+      <slide class="" id="slide-78" style="background:;">
   <hgroup>
     <h2>If you have multiple data frames</h2>
   </hgroup>
@@ -2130,7 +2197,7 @@ join_all(dfList)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-76" style="background:;">
+      <slide class="" id="slide-79" style="background:;">
   <hgroup>
     <h2>More on merging data</h2>
   </hgroup>
@@ -2145,7 +2212,7 @@ join_all(dfList)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-77" style="background:;">
+      <slide class="" id="slide-80" style="background:;">
   <hgroup>
     <h2>Example - Baltimore camera data</h2>
   </hgroup>
@@ -2158,7 +2225,7 @@ join_all(dfList)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-78" style="background:;">
+      <slide class="" id="slide-81" style="background:;">
   <hgroup>
     <h2>Fixing character vectors - tolower(), toupper()</h2>
   </hgroup>
@@ -2183,7 +2250,7 @@ names(cameraData)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-79" style="background:;">
+      <slide class="" id="slide-82" style="background:;">
   <hgroup>
     <h2>Fixing character vectors - strsplit()</h2>
   </hgroup>
@@ -2210,7 +2277,7 @@ splitNames[[5]]
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-80" style="background:;">
+      <slide class="" id="slide-83" style="background:;">
   <hgroup>
     <h2>Quick aside - lists</h2>
   </hgroup>
@@ -2240,7 +2307,7 @@ $numbers
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-81" style="background:;">
+      <slide class="" id="slide-84" style="background:;">
   <hgroup>
     <h2>Quick aside - lists</h2>
   </hgroup>
@@ -2270,7 +2337,7 @@ $numbers
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-82" style="background:;">
+      <slide class="" id="slide-85" style="background:;">
   <hgroup>
     <h2>Fixing character vectors - sapply()</h2>
   </hgroup>
@@ -2297,7 +2364,7 @@ sapply(splitNames,firstElement)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-83" style="background:;">
+      <slide class="" id="slide-86" style="background:;">
   <hgroup>
     <h2>Peer review experiment data</h2>
   </hgroup>
@@ -2310,7 +2377,7 @@ sapply(splitNames,firstElement)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-84" style="background:;">
+      <slide class="" id="slide-87" style="background:;">
   <hgroup>
     <h2>Fixing character vectors - sub()</h2>
   </hgroup>
@@ -2336,7 +2403,7 @@ sapply(splitNames,firstElement)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-85" style="background:;">
+      <slide class="" id="slide-88" style="background:;">
   <hgroup>
     <h2>Fixing character vectors - gsub()</h2>
   </hgroup>
@@ -2358,7 +2425,7 @@ sub(&quot;_&quot;,&quot;&quot;,testName)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-86" style="background:;">
+      <slide class="" id="slide-89" style="background:;">
   <hgroup>
     <h2>Finding values - grep(),grepl()</h2>
   </hgroup>
@@ -2384,7 +2451,7 @@ FALSE  TRUE
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-87" style="background:;">
+      <slide class="" id="slide-90" style="background:;">
   <hgroup>
     <h2>More on grep()</h2>
   </hgroup>
@@ -2413,7 +2480,7 @@ FALSE  TRUE
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-88" style="background:;">
+      <slide class="" id="slide-91" style="background:;">
   <hgroup>
     <h2>More useful string functions</h2>
   </hgroup>
@@ -2441,7 +2508,7 @@ nchar(&quot;Jeffrey Leek&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-89" style="background:;">
+      <slide class="" id="slide-92" style="background:;">
   <hgroup>
     <h2>More useful string functions</h2>
   </hgroup>
@@ -2462,7 +2529,7 @@ nchar(&quot;Jeffrey Leek&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-90" style="background:;">
+      <slide class="" id="slide-93" style="background:;">
   <hgroup>
     <h2>Important points about text in data sets</h2>
   </hgroup>
@@ -2488,7 +2555,7 @@ nchar(&quot;Jeffrey Leek&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-91" style="background:;">
+      <slide class="" id="slide-94" style="background:;">
   <hgroup>
     <h2>Regular expressions</h2>
   </hgroup>
@@ -2503,7 +2570,7 @@ nchar(&quot;Jeffrey Leek&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-92" style="background:;">
+      <slide class="" id="slide-95" style="background:;">
   <hgroup>
     <h2>Literals</h2>
   </hgroup>
@@ -2530,7 +2597,7 @@ DEATH by radiation LOL
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-93" style="background:;">
+      <slide class="" id="slide-96" style="background:;">
   <hgroup>
     <h2>Literals</h2>
   </hgroup>
@@ -2555,7 +2622,7 @@ was moving
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-94" style="background:;">
+      <slide class="" id="slide-97" style="background:;">
   <hgroup>
     <h2>Regular Expressions</h2>
   </hgroup>
@@ -2569,7 +2636,7 @@ was moving
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-95" style="background:;">
+      <slide class="" id="slide-98" style="background:;">
   <hgroup>
     <h2>Regular Expressions</h2>
   </hgroup>
@@ -2588,7 +2655,7 @@ Metacharacters to the rescue!</li>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-96" style="background:;">
+      <slide class="" id="slide-99" style="background:;">
   <hgroup>
     <h2>Metacharacters</h2>
   </hgroup>
@@ -2611,7 +2678,7 @@ i think i first saw zombo in 1999.
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-97" style="background:;">
+      <slide class="" id="slide-100" style="background:;">
   <hgroup>
     <h2>Metacharacters</h2>
   </hgroup>
@@ -2635,7 +2702,7 @@ good morning
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-98" style="background:;">
+      <slide class="" id="slide-101" style="background:;">
   <hgroup>
     <h2>Character Classes with []</h2>
   </hgroup>
@@ -2658,7 +2725,7 @@ I’m listening to Bush - Hurricane (Album Version)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-99" style="background:;">
+      <slide class="" id="slide-102" style="background:;">
   <hgroup>
     <h2>Character Classes with []</h2>
   </hgroup>
@@ -2684,7 +2751,7 @@ I am so over this. I need food. Mmmm bacon...
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-100" style="background:;">
+      <slide class="" id="slide-103" style="background:;">
   <hgroup>
     <h2>Character Classes with []</h2>
   </hgroup>
@@ -2707,7 +2774,7 @@ I am so over this. I need food. Mmmm bacon...
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-101" style="background:;">
+      <slide class="" id="slide-104" style="background:;">
   <hgroup>
     <h2>Character Classes with []</h2>
   </hgroup>
@@ -2730,7 +2797,7 @@ helicopter under water? hmmm
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-102" style="background:;">
+      <slide class="" id="slide-105" style="background:;">
   <hgroup>
     <h2>More Metacharacters</h2>
   </hgroup>
@@ -2753,7 +2820,7 @@ Sings: 0118999881999119725...3 !
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-103" style="background:;">
+      <slide class="" id="slide-106" style="background:;">
   <hgroup>
     <h2>More Metacharacters: |</h2>
   </hgroup>
@@ -2776,7 +2843,7 @@ yeah ive had the fire on tonight
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-104" style="background:;">
+      <slide class="" id="slide-107" style="background:;">
   <hgroup>
     <h2>More Metacharacters: |</h2>
   </hgroup>
@@ -2799,7 +2866,7 @@ coldfire is STRAIGHT!
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-105" style="background:;">
+      <slide class="" id="slide-108" style="background:;">
   <hgroup>
     <h2>More Metacharacters: |</h2>
   </hgroup>
@@ -2822,7 +2889,7 @@ my middle name is trouble, Miss Bad News
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-106" style="background:;">
+      <slide class="" id="slide-109" style="background:;">
   <hgroup>
     <h2>More Metacharacters: ( and )</h2>
   </hgroup>
@@ -2846,7 +2913,7 @@ Good riddance to Limey
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-107" style="background:;">
+      <slide class="" id="slide-110" style="background:;">
   <hgroup>
     <h2>More Metacharacters: ?</h2>
   </hgroup>
@@ -2867,7 +2934,7 @@ a bird in the hand is worth two george bushes
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-108" style="background:;">
+      <slide class="" id="slide-111" style="background:;">
   <hgroup>
     <h2>One thing to note...</h2>
   </hgroup>
@@ -2883,7 +2950,7 @@ a bird in the hand is worth two george bushes
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-109" style="background:;">
+      <slide class="" id="slide-112" style="background:;">
   <hgroup>
     <h2>More metacharacters: * and +</h2>
   </hgroup>
@@ -2905,7 +2972,7 @@ hello, 20.m here... ( east area + drives + webcam )
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-110" style="background:;">
+      <slide class="" id="slide-113" style="background:;">
   <hgroup>
     <h2>More metacharacters: * and +</h2>
   </hgroup>
@@ -2927,7 +2994,7 @@ Mmmm its time 4 me 2 go 2 bed
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-111" style="background:;">
+      <slide class="" id="slide-114" style="background:;">
   <hgroup>
     <h2>More metacharacters: { and }</h2>
   </hgroup>
@@ -2952,7 +3019,7 @@ Keep repeating that Bush smirked and scowled during the debate
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-112" style="background:;">
+      <slide class="" id="slide-115" style="background:;">
   <hgroup>
     <h2>More metacharacters: and</h2>
   </hgroup>
@@ -2967,7 +3034,7 @@ Keep repeating that Bush smirked and scowled during the debate
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-113" style="background:;">
+      <slide class="" id="slide-116" style="background:;">
   <hgroup>
     <h2>More metacharacters: ( and ) revisited</h2>
   </hgroup>
@@ -2981,7 +3048,7 @@ Keep repeating that Bush smirked and scowled during the debate
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-114" style="background:;">
+      <slide class="" id="slide-117" style="background:;">
   <hgroup>
     <h2>More metacharacters: ( and ) revisited</h2>
   </hgroup>
@@ -3005,7 +3072,7 @@ estudiando css css css css.... que desastritooooo
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-115" style="background:;">
+      <slide class="" id="slide-118" style="background:;">
   <hgroup>
     <h2>More metacharacters: ( and ) revisited</h2>
   </hgroup>
@@ -3029,7 +3096,7 @@ sore shoulders, stupid ergonomics
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-116" style="background:;">
+      <slide class="" id="slide-119" style="background:;">
   <hgroup>
     <h2>More metacharacters: ( and ) revisited</h2>
   </hgroup>
@@ -3043,7 +3110,7 @@ sore shoulders, stupid ergonomics
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-117" style="background:;">
+      <slide class="" id="slide-120" style="background:;">
   <hgroup>
     <h2>Summary</h2>
   </hgroup>
@@ -3060,7 +3127,7 @@ sore shoulders, stupid ergonomics
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-118" style="background:;">
+      <slide class="" id="slide-121" style="background:;">
   <hgroup>
     <h2>Starting simple</h2>
   </hgroup>
@@ -3082,7 +3149,7 @@ d1
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-119" style="background:;">
+      <slide class="" id="slide-122" style="background:;">
   <hgroup>
     <h2>Date class</h2>
   </hgroup>
@@ -3104,7 +3171,7 @@ d2
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-120" style="background:;">
+      <slide class="" id="slide-123" style="background:;">
   <hgroup>
     <h2>Formatting dates</h2>
   </hgroup>
@@ -3122,7 +3189,7 @@ d2
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-121" style="background:;">
+      <slide class="" id="slide-124" style="background:;">
   <hgroup>
     <h2>Creating dates</h2>
   </hgroup>
@@ -3150,7 +3217,7 @@ z
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-122" style="background:;">
+      <slide class="" id="slide-125" style="background:;">
   <hgroup>
     <h2>Converting to Julian</h2>
   </hgroup>
@@ -3179,7 +3246,7 @@ attr(,&quot;origin&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-123" style="background:;">
+      <slide class="" id="slide-126" style="background:;">
   <hgroup>
     <h2>Lubridate</h2>
   </hgroup>
@@ -3208,7 +3275,7 @@ attr(,&quot;origin&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-124" style="background:;">
+      <slide class="" id="slide-127" style="background:;">
   <hgroup>
     <h2>Dealing with times</h2>
   </hgroup>
@@ -3234,7 +3301,7 @@ attr(,&quot;origin&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-125" style="background:;">
+      <slide class="" id="slide-128" style="background:;">
   <hgroup>
     <h2>Some functions have slightly different syntax</h2>
   </hgroup>
@@ -3257,7 +3324,7 @@ Levels: Sun &lt; Mon &lt; Tues &lt; Wed &lt; Thurs &lt; Fri &lt; Sat
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-126" style="background:;">
+      <slide class="" id="slide-129" style="background:;">
   <hgroup>
     <h2>Notes and further resources</h2>
   </hgroup>

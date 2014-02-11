@@ -33,7 +33,8 @@ Assignment 2
 * Assigned: Tuesday, February 11th
 * Due: Tuesday, February 25th
 * Peer Grading Due: March 4th
-* [Assignment link]
+* Data Analysis Assignment: [http://www.crowdgrader.org/crowdgrader/venues/view_venue/267](http://www.crowdgrader.org/crowdgrader/venues/view_venue/267)
+* Homework problems: [https://github.com/jtleek/jhsph753and4/blob/master/assignments/hw2.rmd](https://github.com/jtleek/jhsph753and4/blob/master/assignments/hw2.rmd)
 
 
 Final Project

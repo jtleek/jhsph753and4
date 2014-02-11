@@ -34,26 +34,61 @@ knit_hooks$set(plot = knitr:::hook_plot_html)
 
 ## Pro tip
 
-Work on problems that matter. Working on problems that matter means that you will often "fail", because making positive contributions in science is hard. It is worth it. 
+The most impactful methods come from answering specific data questions:
 
-In general science is about:
+* How do we make better beer?    
+  * __Data__: Measures of beer quality
+  * __Statistic__:The [t-statistic](http://en.wikipedia.org/wiki/T-statistic)
+* What characteristics of field lead to better crops?
+  * __Data__: Field characteristics, crop yields
+  * __Statistic__: [Analysis of variance (ANOVA)](http://en.wikipedia.org/wiki/Analysis_of_variance)
+* How long do people live?
+  * __Data__: Survival times of people (censored)
+  * __Statistic__: [Kaplan-Meier Estimator](http://en.wikipedia.org/wiki/Kaplan%E2%80%93Meier_estimator)
+* What movies will you like? 
+  * __Data__: Lots of other peoples movie ratings
+  * __Statistic(s)__: [Recommender systems](http://en.wikipedia.org/wiki/Recommender_system) 
 
-* Aiming high
-* Grinding small
 
 ---
 
-## Paper of the day
+## Papers of the day
 
-[The Oregon Experiment - Effects of medicaid on clinical outcomes](The Oregon Experiment — Effects of Medicaid on Clinical Outcomes)
+Data Cleaning is some of the most high-impact work statisticians do. 
 
-[Tyler Cowen](http://marginalrevolution.com/marginalrevolution/2013/05/a-few-remarks-on-the-oregon-medicaid-study.html)
+_Exploration, normalization, and summaries of high density oligonucleotide array probe level data_
 
-[Ezra Klein](http://www.washingtonpost.com/blogs/wonkblog/wp/2013/05/02/heres-what-the-oregon-medicaid-study-really-said/?wprss=rss_ezra-klein)
-
-[Class website](http://jtleek.github.io/jhsph753/)
+[http://biostatistics.oxfordjournals.org/content/4/2/249.long](http://biostatistics.oxfordjournals.org/content/4/2/249.long)
 
 
+_Capturing Heterogeneity in Gene Expression Studies by Surrogate Variable Analysis_
+
+[http://www.plosgenetics.org/article/info%3Adoi%2F10.1371%2Fjournal.pgen.0030161](http://www.plosgenetics.org/article/info%3Adoi%2F10.1371%2Fjournal.pgen.0030161)
+
+
+
+---
+
+## Synthesized feedback
+
+* Don't get distracted from the problem of interest
+  * Missing data problem
+* Careful with your test statistic (median instead of mean)
+* More introduction to the problem
+* Make sure your analysis focuses on questions, not on methods
+* Overlapping confidence intervals $\neq$ not significant difference
+* Figure captions should be _long_ and explicit. They should explain what the figure is. Remember how people read papers. 
+* Titles should explain what you are working on. 
+* Don't use R code to explain models in the writeup. Math or words. 
+* Sensivity analysis can be useful for missing data
+
+---
+
+## Some cool data you could apply for
+
+<img class="center" src="../../assets/img/twittergrants.png" height=450>
+
+https://blog.twitter.com/2014/introducing-twitter-data-grants
 
 ---
 
@@ -336,6 +371,7 @@ Y <- cbind(X,rnorm(5))
 Y
 ```
 
+---
 
 ## Example data set 
 
