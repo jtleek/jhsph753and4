@@ -22,3 +22,7 @@ February 5:
 February 11:
 
 * Cleaning Data [Lecture](http://jtleek.github.io/jhsph753and4/lectures/04_01_cleaningData/#1)
+
+February 18:
+
+* Exploratory analysis [Lecture](http://jtleek.github.io/jhsph753and4/lectures/05_01_exploratoryAnalysis/#1)
