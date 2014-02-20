@@ -26,3 +26,7 @@ February 11:
 February 18:
 
 * Exploratory analysis [Lecture](http://jtleek.github.io/jhsph753and4/lectures/05_01_exploratoryAnalysis/#1)
+
+February 20:
+
+* Unsupervised analysis [Lecture](http://jtleek.github.io/jhsph753and4/lectures/05_02_unsupervisedAnalysis/#1)
