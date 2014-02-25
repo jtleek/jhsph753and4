@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exploratory analysis</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Exploratory analysis">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="../../libraries/frameworks/io2012/js/slides" 
+    src="../../libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+    <link rel="stylesheet" href = "../../assets/css/custom.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BACKUP.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BASE.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.LOCAL.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.orig">
+<link rel="stylesheet" href = "../../assets/css/custom.css.REMOTE.546.css">
+<link rel="stylesheet" href = "../../assets/css/ribbons.css">
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    <!-- END LOGO SLIDE -->
+    
+
+    <!-- TITLE SLIDE -->
+    <!-- Should I move this to a Local Layout File? -->
+    <slide class="title-slide segue nobackground">
+      <aside class="gdbar">
+        <img src="../../assets/img/bloomberg_shield.png">
+      </aside>
+      <hgroup class="auto-fadein">
+        <h1>Exploratory analysis</h1>
+        <h2></h2>
+        <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+      </hgroup>
+          </slide>
+
+    <!-- SLIDES -->
+      <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article>
+    <p>It is a weird time in academics. There used to be one track to being well-known</p>
+
+<p><center>Publish good papers -&gt; &quot;Fame&quot;</center></p>
+
+<p>Now there are a lot of other possible routes</p>
+
+<p><center>Blogs, Twitter, Github, R packages, Publish good papers -&gt; &quot;Fame&quot;</center></p>
+
+<p>I like that there is variety. If you want to be taken seriously one <strong>absolutely critical</strong> thing is to have a portfolio of serious work (good R packages, good papers, blog posts that are basicly science papers).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2><del>Papers</del> Blog posts of the day</h2>
+  </hgroup>
+  <article>
+    <p><a href="http://liorpachter.wordpress.com/2014/02/10/the-network-nonsense-of-albert-laszlo-barabasi/">The network nonsense of Albert-László Barabási</a></p>
+
+<p><a href="http://liorpachter.wordpress.com/2014/02/11/the-network-nonsense-of-manolis-kellis/">The network nonsense of Manolis Kellis</a></p>
+
+<p><a href="http://liorpachter.wordpress.com/2014/02/12/why-i-read-the-network-nonsense-papers/">Why I read the network nonsense papers</a></p>
+
+<p><a href="http://nickeriksson.blogspot.com/2014/02/methods-matter-but-incentives-matter.html">Methods matter, but incentives matter more</a></p>
+
+<p>If you read these, you must read the comments as well, including the responses from the authors who were called out. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>A good book</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/tukeyeda.jpg" height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>EDA - plotting</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>During EDA you will often have the choice of performing a statistical test/summary or making a plot. <strong>Make the plot.</strong> </li>
+<li>This doesn&#39;t mean don&#39;t think! </li>
+<li>Choosing how to make plots and using them to convince yourself/others that trends are real is an important skill.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Why plot</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/anscombe.png" height=450></p>
+
+<p><a href="http://en.wikipedia.org/wiki/Anscombe&#x27;s_quartet">http://en.wikipedia.org/wiki/Anscombe&#39;s_quartet</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Characteristics of exploratory graphs</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>They are made quickly</li>
+<li>A large number are made</li>
+<li>The goal is for personal understanding</li>
+<li>Axes/legends are generally cleaned up</li>
+<li>Color/size are primarily used for information</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>EDA</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>EDA is part statistics, part psychology</li>
+<li>Ufortunately we (humans) are designed to find patterns even when there aren&#39;t any</li>
+<li>Visual perception is biased by your humanness. </li>
+<li>The key goal in exploratory EDA is to not trick yourself</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>What optical illusions tell us about EDA</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/illusion1.gif" height=450></p>
+
+<p><a href="http://brainden.com/visual-illusions.htm">http://brainden.com/visual-illusions.htm</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>What optical illusions tell us about EDA</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/illusion2.png" height=450></p>
+
+<p><a href="http://blog.revolutionanalytics.com/2012/12/create-optical-illusions-with-r.html">http://blog.revolutionanalytics.com/2012/12/create-optical-illusions-with-r.html</a>
+<a href="http://rpubs.com/kohske/R-de-illusion">http://rpubs.com/kohske/R-de-illusion</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Plots can be thought of as test statistics</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/graphtest.png" height=450></p>
+
+<p><a href="http://vita.had.co.nz/papers/inference-infovis.pdf">Graphical inference for infovis</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Background - perceptual tasks</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/perceptual.png height=400/></p>
+
+<p><a href="http://www.jstor.org/discover/10.2307/2288400?uid=3739704&amp;uid=2&amp;uid=4&amp;uid=3739256&amp;sid=21101742782357">Graphical perception: Theory, Experimentation, and Applications to the Development of Graphical Models</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Position versus length</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/barcharts.png height=300/></p>
+
+<p><a href="http://www.jstor.org/discover/10.2307/2288400?uid=3739704&amp;uid=2&amp;uid=4&amp;uid=3739256&amp;sid=21101742782357">Graphical perception: Theory, Experimentation, and Applications to the Development of Graphical Models</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Position versus length - results</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/poslength.png height=400/></p>
+
+<p><a href="http://www.jstor.org/discover/10.2307/2288400?uid=3739704&amp;uid=2&amp;uid=4&amp;uid=3739256&amp;sid=21101742782357">Graphical perception: Theory, Experimentation, and Applications to the Development of Graphical Models</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Position versus angle</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/piechart.png height=300/></p>
+
+<p><a href="http://www.jstor.org/discover/10.2307/2288400?uid=3739704&amp;uid=2&amp;uid=4&amp;uid=3739256&amp;sid=21101742782357">Graphical perception: Theory, Experimentation, and Applications to the Development of Graphical Models</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Position versus angle - results</h2>
+  </hgroup>
+  <article>
+    <p><center> This is why statistiicans hate pie charts </center></p>
+
+<p><img class=center src=../../assets/img/posangle.png height=200/></p>
+
+<p><br><br>
+<a href="http://www.jstor.org/discover/10.2307/2288400?uid=3739704&amp;uid=2&amp;uid=4&amp;uid=3739256&amp;sid=21101742782357">Graphical perception: Theory, Experimentation, and Applications to the Development of Graphical Models</a></p>
+
+<p><a href="http://simplystatistics.org/2012/11/27/i-give-up-i-am-embracing-pie-charts/">http://simplystatistics.org/2012/11/27/i-give-up-i-am-embracing-pie-charts/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>In general people are bad at slopes</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/sloperatio.png height=400/></p>
+
+<p><br><br>
+<a href="http://www.jstor.org/discover/10.2307/2288400?uid=3739704&amp;uid=2&amp;uid=4&amp;uid=3739256&amp;sid=21101742782357">Graphical perception: Theory, Experimentation, and Applications to the Development of Graphical Models</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>More experimental results</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/bigexp.png height=400/></p>
+
+<p><a href="http://www.sciencemag.org/content/229/4716/828.refs">Graphical Perception and Graphical Methods for Analyzing Scientific Data</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Scale matters</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/scalematters.png height=450/></p>
+
+<p><a href="http://statweb.stanford.edu/%7Ecgates/PERSI/papers/scatter82.pdf">Variables on Scatterplots Look More Highly Correlated When the Scales are
+Increased</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>People perceive correlations weirdly</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/clevelandcorr.png height=450/></p>
+
+<p><a href="http://statweb.stanford.edu/%7Ecgates/PERSI/papers/scatter82.pdf">Variables on Scatterplots Look More Highly Correlated When the Scales are
+Increased</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Detecting significance</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/pvalexample.png height=450/></p>
+
+<p>Fisher, Anderson, Leek (in prep.)</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>People are bad at this</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/pvaldetect.png height=450/></p>
+
+<p>Fisher, Anderson, Leek (in prep.)</p>
+
+<p>See for yourself: <a href="http://glimmer.rstudio.com/afisher/EDA/">http://glimmer.rstudio.com/afisher/EDA/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Summary</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Use common scales when possible</li>
+<li>When possible use position comparisons</li>
+<li>Angle comparisons are frequently hard to interpret (no piecharts!)</li>
+<li>No 3-D barcharts</li>
+<li>Be careful not to &quot;fool&quot; yourself about significance (either way)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>The most important plots</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><code>plot</code> - scatterplot
+
+<ul>
+<li>ask,mar,mfrow,cex,cex.axis(etc.),col,pch,lwd,lty,las</li>
+</ul></li>
+<li><code>qqplot</code> - Quantile-quantile plot 
+
+<ul>
+<li>use <code>abline(c(0,1))</code></li>
+</ul></li>
+<li><code>boxplot</code> boxplots for distributions
+
+<ul>
+<li>varwidth, col</li>
+</ul></li>
+<li><code>hist</code> for distributions (multiple)
+
+<ul>
+<li>varwdith</li>
+</ul></li>
+<li><code>image</code>, <code>heatmap</code> - multivariate data
+
+<ul>
+<li><code>image(t(dat)[,nrow(dat):1])</code></li>
+<li>x,y,z,zlim,col,breaks</li>
+</ul></li>
+<li><code>stripchart</code> - like boxplot but with points
+
+<ul>
+<li>jitter, metohd, at, add,vertical</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>What is a Graphics Device?</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><p>A graphics device is something where you can make a plot appear</p>
+
+<ul>
+<li>A window on your computer (screen device)</li>
+<li>A PDF file (file device)</li>
+<li>A PNG or JPEG file (file device)</li>
+<li>A scalable vector graphics (SVG) file (file device)</li>
+</ul></li>
+<li><p>When you make a plot in R, it has to be &quot;sent&quot; to a specific
+graphics device</p></li>
+<li><p>The most common place for a plot to be &quot;sent&quot; is the <em>screen device</em></p>
+
+<ul>
+<li>On a Mac the screen device is launched with the <code>quartz()</code></li>
+<li>On Windows the screen device is launched with <code>windows()</code></li>
+<li>On Unix/Linux the screen device is launched with <code>x11()</code></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>How Does a Plot Get Created?</h2>
+  </hgroup>
+  <article>
+    <p>The second approach to plotting is most commonly used for file devices:</p>
+
+<ol>
+<li><p>Explicitly launch a graphics device</p></li>
+<li><p>Call a plotting function to make a plot (Note: if you are using a file
+device, no plot will appear on the screen)</p></li>
+<li><p>Annotate plot if necessary</p></li>
+<li><p>Explicitly close graphics device with <code>dev.off()</code> (this is very important!)</p></li>
+</ol>
+
+<pre><code class="r">pdf(file = &quot;myplot.pdf&quot;)  ## Open PDF device; create &#39;myplot.pdf&#39; in my working directory
+## Create plot and send to a file (no plot appears on screen)
+with(faithful, plot(eruptions, waiting))  
+title(main = &quot;Old Faithful Geyser data&quot;)  ## Annotate plot; still nothing on screen
+dev.off()  ## Close the PDF file device
+## Now you can view the file &#39;myplot.pdf&#39; on your computer
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Graphics File Devices</h2>
+  </hgroup>
+  <article>
+    <p>There are two basic types of file devices: <em>vector</em> and <em>bitmap</em>
+devices</p>
+
+<p>Vector formats:</p>
+
+<ul>
+<li><p><code>pdf</code>: useful for line-type graphics, resizes well, usually
+portable, not efficient if a plot has many objects/points</p></li>
+<li><p><code>svg</code>: XML-based scalable vector graphics; supports animation and
+interactivity, potentially useful for web-based plots</p></li>
+<li><p><code>win.metafile</code>: Windows metafile format (only on Windows)</p></li>
+<li><p><code>postscript</code>: older format, also resizes well, usually portable, can
+be used to create encapsulated postscript files; Windows systems
+often don’t have a postscript viewer</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Graphics File Devices</h2>
+  </hgroup>
+  <article>
+    <p>Bitmap formats</p>
+
+<ul>
+<li><p><code>png</code>: bitmapped format, good for line drawings or images with solid
+colors, uses lossless compression (like the old GIF format), most
+web browsers can read this format natively, good for plotting many
+many many points, does not resize well</p></li>
+<li><p><code>jpeg</code>: good for photographs or natural scenes, uses lossy
+compression, good for plotting many many many points, does not
+resize well, can be read by almost any computer and any web browser,
+not great for line drawings</p></li>
+<li><p><code>tiff</code>: Creates bitmap files in the TIFF format; supports lossless
+compression</p></li>
+<li><p><code>bmp</code>: a native Windows bitmapped format</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Copying Plots</h2>
+  </hgroup>
+  <article>
+    <p>Copying a plot to another device can be useful because some plots
+require a lot of code and it can be a pain to type all that in again
+for a different device.</p>
+
+<ul>
+<li><p><code>dev.copy</code>: copy a plot from one device to another</p></li>
+<li><p><code>dev.copy2pdf</code>: specifically copy a plot to a PDF file </p></li>
+</ul>
+
+<p>NOTE: Copying a plot is not an exact operation, so the result may not
+be identical to the original.</p>
+
+<pre><code class="r">library(datasets)
+with(faithful, plot(eruptions, waiting))  ## Create plot on screen device
+title(main = &quot;Old Faithful Geyser data&quot;)  ## Add a main title
+dev.copy(png, file = &quot;geyserplot.png&quot;)  ## Copy my plot to a PNG file
+dev.off()  ## Don&#39;t forget to close the PNG device!
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Summary</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><p>Plots must be created on a graphics device</p></li>
+<li><p>The default graphics device is almost always the screen device,
+which is most useful for exploratory analysis</p></li>
+<li><p>File devices are useful for creating plots that can be included in
+other documents or sent to other people</p></li>
+<li><p>For file devices, there are vector and bitmap formats</p>
+
+<ul>
+<li>Vector formats are good for line drawings and plots with solid
+colors using a modest number of points</li>
+<li>Bitmap formats are good for plots with a large number of points,
+natural scenes or web-based plots</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Plotting and Color</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The default color schemes for most plots in R are horrendous
+
+<ul>
+<li>I don’t have good taste and even I know that</li>
+</ul></li>
+<li>Recently there have been developments to improve the handling/specifica1on of colors in plots/graphs/etc.</li>
+<li>There are functions in R and in external packages that are very handy</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Colors 1, 2, and 3</h2>
+  </hgroup>
+  <article>
+    <p><img src="../../assets/img/graph1.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Default Image Plots in R</h2>
+  </hgroup>
+  <article>
+    <p><img src="../../assets/img/graph2.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Color U1li1es in R</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The <code>grDevices</code> package has two functions 
+
+<ul>
+<li><code>colorRamp</code></li>
+<li><code>colorRampPalette</code></li>
+</ul></li>
+<li>These functions take palettes of colors and help to interpolate between the colors</li>
+<li>The function colors() lists the names of colors you can use in any plotting function</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Color Palette Utilities in R</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><code>colorRamp</code>: Take a palette of colors and return a function that takes valeus between 0 and 1, indicating the extremes of the color palette (e.g. see the &#39;gray&#39; function)</li>
+<li><code>colorRampPalette</code>: Take a palette of colors and return a function that takes integer arguments and returns a vector of colors interpolating the palette (like <code>heat.colors</code> or <code>topo.colors</code>)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>colorRamp</h2>
+  </hgroup>
+  <article>
+    <p><code>[,1] [,2] [,3]</code> corresponds to <code>[Red] [Blue] [Green]</code></p>
+
+<pre><code class="r">&gt; pal &lt;- colorRamp(c(&quot;red&quot;, &quot;blue&quot;))
+
+&gt; pal(0)
+     [,1] [,2] [,3]
+[1,]  255    0    0
+
+&gt; pal(1)
+     [,1] [,2] [,3]
+[1,]    0    0  255
+
+&gt; pal(0.5)
+      [,1] [,2]  [,3]
+[1,] 127.5    0 127.5
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>colorRamp</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">&gt; pal(seq(0, 1, len = 10))
+                  [,1] [,2]       [,3]
+        [1,] 255.00000    0          0
+        [2,] 226.66667    0   28.33333
+        [3,] 198.33333    0   56.66667
+        [4,] 170.00000    0   85.00000
+        [5,] 141.66667    0  113.33333
+        [6,] 113.33333    0  141.66667
+        [7,]  85.00000    0  170.00000
+        [8,]  56.66667    0  198.33333
+        [9,]  28.33333    0  226.66667
+        [10,]  0.00000    0  255.00000
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>colorRampPalette</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">&gt; pal &lt;- colorRampPalette(c(&quot;red&quot;, &quot;yellow&quot;))
+
+&gt; pal(2)
+[1] &quot;#FF0000&quot; &quot;#FFFF00&quot;
+
+&gt; pal(10)
+ [1] &quot;#FF0000&quot; &quot;#FF1C00&quot; &quot;#FF3800&quot; &quot;#FF5500&quot; &quot;#FF7100&quot;
+ [6] &quot;#FF8D00&quot; &quot;#FFAA00&quot; &quot;#FFC600&quot; &quot;#FFE200&quot; &quot;#FFFF00”
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>RColorBrewer Package</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><p>One package on CRAN that contains interes1ng/useful color palettes</p></li>
+<li><p>There are 3 types of palettes</p>
+
+<ul>
+<li>Sequential</li>
+<li>Diverging</li>
+<li>Qualitative</li>
+</ul></li>
+<li><p>Palette informa1on can be used in conjunction with the <code>colorRamp()</code> and <code>colorRampPalette()</code></p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    
+  </hgroup>
+  <article>
+    <p><img src="../../assets/img/color.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>RColorBrewer and colorRampPalette</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">&gt; library(RColorBrewer)
+
+&gt; cols &lt;- brewer.pal(3, &quot;BuGn&quot;)
+
+&gt; cols
+[1] &quot;#E5F5F9&quot; &quot;#99D8C9&quot; &quot;#2CA25F&quot;
+
+&gt; pal &lt;- colorRampPalette(cols)
+
+&gt; image(volcano, col = pal(20))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>RColorBrewer and colorRampPalette</h2>
+  </hgroup>
+  <article>
+    <p><img src="../../assets/img/color2.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>The smoothScatter function</h2>
+  </hgroup>
+  <article>
+    <p><img src="../../assets/img/color3.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>Some other plotting notes</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The <code>rgb</code> function can be used to produce any color via red, green, blue proportions</li>
+<li>Color transparency can be added via the <code>alpha</code> parameter to <code>rgb</code></li>
+<li>The <code>colorspace</code> package can be used for a different control over colors</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>Scatterplot with no transparency</h2>
+  </hgroup>
+  <article>
+    <p><img src="../../assets/img/scatter1.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>Scatterplot with transparency</h2>
+  </hgroup>
+  <article>
+    <p><img src="../../assets/img/scatter2.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>Summary</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Careful use of colors in plots/maps/etc. can make it easier for the reader to get what you&#39;re trying to say (why make it harder?)</li>
+<li>The <code>RColorBrewer</code> package is an R package that provides color palettes for sequential, categorical, and diverging data</li>
+<li>The <code>colorRamp</code> and <code>colorRampPalette</code> functions can be used in conjunction with color palettes to connect data to colors</li>
+<li>Transparency can sometimes be used to clarify plots with many points</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>What is ggplot2?</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>An implementation of <em>The Grammar of Graphics</em> by Leland Wilkinson</li>
+<li>Written by Hadley Wickham (while he was a graduate student at Iowa State)</li>
+<li>A “third” graphics system for R (along with <strong>base</strong> and <strong>lattice</strong>)</li>
+<li>Available from CRAN via <code>install.packages()</code></li>
+<li>Web site: <a href="http://ggplot2.org">http://ggplot2.org</a> (better documentation)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>What is ggplot2?</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Grammar of graphics represents an abstraction of graphics ideas/objects</li>
+<li>Think “verb”, “noun”, “adjective” for graphics</li>
+<li>Allows for a “theory” of graphics on which to build new graphics and graphics objects</li>
+<li>“Shorten the distance from mind to page”</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>Grammer of Graphics</h2>
+  </hgroup>
+  <article>
+    <h3>“In brief, the grammar tells us that a statistical graphic is a <strong>mapping</strong> from data to <strong>aesthetic</strong> attributes (colour, shape, size) of <strong>geometric</strong> objects (points, lines, bars). The plot may also contain statistical transformations of the data and is drawn on a specific coordinate system”</h3>
+
+<ul>
+<li>from <em>ggplot2</em> book</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-50" style="background:;">
+  <hgroup>
+    <h2>Plotting Systems in R: Base</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>“Artist’s palette” model</li>
+<li>Start with blank canvas and build up from there</li>
+<li>Start with <code>plot</code> function (or similar)</li>
+<li>Use annotation functions to add/modify (<code>text</code>, <code>lines</code>, <code>points</code>, <code>axis</code>)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-51" style="background:;">
+  <hgroup>
+    <h2>Plotting Systems in R: Base</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Convenient, mirrors how we think of building plots and analyzing data</li>
+<li>Can’t go back once plot has started (i.e. to adjust margins); need to plan in advance</li>
+<li>Difficult to “translate” to others once a new plot has been created (no graphical “language”)
+
+<ul>
+<li>Plot is just a series of R commands</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-52" style="background:;">
+  <hgroup>
+    <h2>Plotting Systems in R: Lattice</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Plots are created with a single function call (<code>xyplot</code>, <code>bwplot</code>, etc.)</li>
+<li>Most useful for conditioning types of plots: Looking at how \(y\) changes with \(x\) across levels of \(z\)</li>
+<li>Things like margins/spacing set automatically because entire plot is specified at once</li>
+<li>Good for putting many many plots on a screen</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-53" style="background:;">
+  <hgroup>
+    <h2>Plotting Systems in R: Lattice</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Sometimes awkward to specify an entire plot in a single function call</li>
+<li>Annotation in plot is not intuitive</li>
+<li>Use of panel functions and subscripts difficult to wield and requires intense preparation</li>
+<li>Cannot “add” to the plot once it’s created</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-54" style="background:;">
+  <hgroup>
+    <h2>Plotting Systems in R: ggplot2</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Split the difference between base and lattice</li>
+<li>Automatically deals with spacings, text, titles but also allows you to annotate by “adding”</li>
+<li>Superficial similarity to lattice but generally easier/more intuitive to use</li>
+<li>Default mode makes many choices for you (but you <em>can</em> customize!)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-55" style="background:;">
+  <hgroup>
+    <h2>The Basics: <code>qplot()</code></h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Works much like the <code>plot</code> function in base graphics system</li>
+<li>Looks for data in a data frame, similar to lattice, or in the parent environment</li>
+<li>Plots are made up of <em>aesthetics</em> (size, shape, color) and <em>geoms</em> (points, lines)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-56" style="background:;">
+  <hgroup>
+    <h2>The Basics: <code>qplot()</code></h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Factors are important for indicating subsets of the data (if they are to have different properties); they should be <strong>labeled</strong></li>
+<li>The <code>qplot()</code> hides what goes on underneath, which is okay for most operations</li>
+<li><code>ggplot()</code> is the core function and very flexible for doing things <code>qplot()</code> cannot do</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-57" style="background:;">
+  <hgroup>
+    <h2>Example Dataset</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">library(ggplot2)
+str(mpg)
+</code></pre>
+
+<pre><code>&#39;data.frame&#39;:   234 obs. of  11 variables:
+ $ manufacturer: Factor w/ 15 levels &quot;audi&quot;,&quot;chevrolet&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ model       : Factor w/ 38 levels &quot;4runner 4wd&quot;,..: 2 2 2 2 2 2 2 3 3 3 ...
+ $ displ       : num  1.8 1.8 2 2 2.8 2.8 3.1 1.8 1.8 2 ...
+ $ year        : int  1999 1999 2008 2008 1999 1999 2008 1999 1999 2008 ...
+ $ cyl         : int  4 4 4 4 6 6 6 4 4 4 ...
+ $ trans       : Factor w/ 10 levels &quot;auto(av)&quot;,&quot;auto(l3)&quot;,..: 4 9 10 1 4 9 1 9 4 10 ...
+ $ drv         : Factor w/ 3 levels &quot;4&quot;,&quot;f&quot;,&quot;r&quot;: 2 2 2 2 2 2 2 1 1 1 ...
+ $ cty         : int  18 21 20 21 16 18 18 18 16 20 ...
+ $ hwy         : int  29 29 31 30 26 26 27 26 25 28 ...
+ $ fl          : Factor w/ 5 levels &quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;p&quot;,..: 4 4 4 4 4 4 4 4 4 4 ...
+ $ class       : Factor w/ 7 levels &quot;2seater&quot;,&quot;compact&quot;,..: 2 2 2 2 2 2 2 2 2 2 ...
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-58" style="background:;">
+  <hgroup>
+    <h2>ggplot2 “Hello, world!”</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">qplot(displ, hwy, data = mpg)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-59" style="background:;">
+  <hgroup>
+    <h2>Modifying aesthetics</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">qplot(displ, hwy, data = mpg, color = drv)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-60" style="background:;">
+  <hgroup>
+    <h2>Adding a geom</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">qplot(displ, hwy, data = mpg, geom = c(&quot;point&quot;, &quot;smooth&quot;))
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-61" style="background:;">
+  <hgroup>
+    <h2>Histograms</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">qplot(hwy, data = mpg, fill = drv)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-62" style="background:;">
+  <hgroup>
+    <h2>Facets</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">qplot(displ, hwy, data = mpg, facets = . ~ drv)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-81.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" class="plot" /></div>
+
+<pre><code class="r">qplot(hwy, data = mpg, facets = drv ~ ., binwidth = 2)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-82.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-63" style="background:;">
+  <hgroup>
+    <h2>Summary of qplot()</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The <code>qplot()</code> function is the analog to <code>plot()</code> but with many built-in features</li>
+<li>Syntax somewhere in between base/lattice</li>
+<li>Produces very nice graphics, essentially publication ready (if you like the design)</li>
+<li>Difficult to go against the grain/customize (don’t bother; use full ggplot2 power in that case)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-64" style="background:;">
+  <hgroup>
+    <h2>Resources</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The <em>ggplot2</em> book by Hadley Wickham</li>
+<li>The <em>R Graphics Cookbook</em> by Winston Chang (examples in base plots and in ggplot2)</li>
+<li>ggplot2 web site (<a href="http://ggplot2.org">http://ggplot2.org</a>)</li>
+<li>ggplot2 mailing list (<a href="http://goo.gl/OdW3uB">http://goo.gl/OdW3uB</a>), primarily for developers</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-65" style="background:;">
+  <hgroup>
+    <h2>Why do we use graphs in data analysis?</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>To understand data properties</li>
+<li>To find patterns in data</li>
+<li>To suggest modeling strategies</li>
+<li>To &quot;debug&quot; analyses</li>
+<li>To communicate results</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-66" style="background:;">
+  <hgroup>
+    <h2>Expository graphs</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>To understand data properties</li>
+<li>To find patterns in data</li>
+<li>To suggest modeling strategies</li>
+<li>To &quot;debug&quot; analyses</li>
+<li><redtext> To communicate results </redtex></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-67" style="background:;">
+  <hgroup>
+    <h2>Characteristics of expository graphs</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The goal is to communicate information</li>
+<li>Information density is generally good</li>
+<li>Color/size are used both for aesthetics and communication</li>
+<li>Expository figures have understandable axes, titles, and legends</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-68" style="background:;">
+  <hgroup>
+    <h2>Housing data</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/acs.png height='70%'/></p>
+
+<p><br></p>
+
+<pre><code class="r">pData &lt;- read.csv(&quot;./data/ss06pid.csv&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-69" style="background:;">
+  <hgroup>
+    <h2>Axes</h2>
+  </hgroup>
+  <article>
+    <p>Important parameters: <em>xlab</em>,<em>ylab</em>,<em>cex.lab</em>,<em>cex.axis</em></p>
+
+<pre><code class="r">plot(pData$JWMNP,pData$WAGP,pch=19,col=&quot;blue&quot;,cex=0.5,
+     xlab=&quot;Travel time (min)&quot;,ylab=&quot;Last 12 month wages (dollars)&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-9.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-70" style="background:;">
+  <hgroup>
+    <h2>Axes</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">plot(pData$JWMNP,pData$WAGP,pch=19,col=&quot;blue&quot;,cex=0.5,
+     xlab=&quot;Travel time (min)&quot;,ylab=&quot;Last 12 month wages (dollars)&quot;,cex.lab=2,cex.axis=1.5)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-10.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-71" style="background:;">
+  <hgroup>
+    <h2>Legends</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Important paramters: <em>x</em>,<em>y</em>,<em>legend</em>, <em>other plotting parameters</em></li>
+</ul>
+
+<pre><code class="r">plot(pData$JWMNP,pData$WAGP,pch=19,col=&quot;blue&quot;,cex=0.5,xlab=&quot;TT (min)&quot;,ylab=&quot;Wages (dollars)&quot;)
+legend(100,200000,legend=&quot;All surveyed&quot;,col=&quot;blue&quot;,pch=19,cex=0.5)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-72" style="background:;">
+  <hgroup>
+    <h2>Legends</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">plot(pData$JWMNP,pData$WAGP,pch=19,cex=0.5,xlab=&quot;TT (min)&quot;,ylab=&quot;Wages (dollars)&quot;,col=pData$SEX)
+legend(100,200000,legend=c(&quot;men&quot;,&quot;women&quot;),col=c(&quot;black&quot;,&quot;red&quot;),pch=c(19,19),cex=c(0.5,0.5))
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-12.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-73" style="background:;">
+  <hgroup>
+    <h2>Titles</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">plot(pData$JWMNP,pData$WAGP,pch=19,cex=0.5,xlab=&quot;CT (min)&quot;,
+     ylab=&quot;Wages (dollars)&quot;,col=pData$SEX,main=&quot;Wages earned versus commute time&quot;)
+legend(100,200000,legend=c(&quot;men&quot;,&quot;women&quot;),col=c(&quot;black&quot;,&quot;red&quot;),pch=c(19,19),cex=c(0.5,0.5))
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-74" style="background:;">
+  <hgroup>
+    <h2>Multiple panels</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">par(mfrow=c(1,2))
+hist(pData$JWMNP,xlab=&quot;CT (min)&quot;,col=&quot;blue&quot;,breaks=100,main=&quot;&quot;)
+plot(pData$JWMNP,pData$WAGP,pch=19,cex=0.5,xlab=&quot;CT (min)&quot;,ylab=&quot;Wages (dollars)&quot;,col=pData$SEX)
+legend(100,200000,legend=c(&quot;men&quot;,&quot;women&quot;),col=c(&quot;black&quot;,&quot;red&quot;),pch=c(19,19),cex=c(0.5,0.5))
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-14.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-75" style="background:;">
+  <hgroup>
+    <h2>Adding text</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">par(mfrow=c(1,2))
+hist(pData$JWMNP,xlab=&quot;CT (min)&quot;,col=&quot;blue&quot;,breaks=100,main=&quot;&quot;)
+mtext(text=&quot;(a)&quot;,side=3,line=1)
+plot(pData$JWMNP,pData$WAGP,pch=19,cex=0.5,xlab=&quot;CT (min)&quot;,ylab=&quot;Wages (dollars)&quot;,col=pData$SEX)
+legend(100,200000,legend=c(&quot;men&quot;,&quot;women&quot;),col=c(&quot;black&quot;,&quot;red&quot;),pch=c(19,19),cex=c(0.5,0.5))
+mtext(text=&quot;(b)&quot;,side=3,line=1)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-15.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-76" style="background:;">
+  <hgroup>
+    <h2>Figure captions</h2>
+  </hgroup>
+  <article>
+    <div class="rimage center"><img src="fig/unnamed-chunk-16.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" class="plot" /></div>
+
+<p><strong>Figure 1. Distribution of commute time and relationship to wage earned by sex</strong> <strong>(a)</strong> Commute times in the American Community Survey (ACS) are right skewed. <strong>(b)</strong> Commute times do not appear to be strongly correlated with wage for either sex. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-77" style="background:;">
+  <hgroup>
+    <h2>Colorblindness</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/vischeck.png height=400/></p>
+
+<p><a href="http://www.vischeck.com/vischeck/vischeckImage.php">http://www.vischeck.com/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-78" style="background:;">
+  <hgroup>
+    <h2>Graphical workflow</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Start with a rough plot</li>
+<li>Tweak it to make it expository</li>
+<li><redtext> Save the file </redtext></li>
+<li>Include it in presentations</li>
+</ul>
+
+<p>Saving files in R is done with graphics <em>devices</em>. Use the command ?Devices to see a list. Here we will go over the most popular devices. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-79" style="background:;">
+  <hgroup>
+    <h2>pdf</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Important parameters: <em>file</em>, <em>height</em>,<em>width</em></li>
+</ul>
+
+<pre><code class="r">pdf(file=&quot;twoPanel.pdf&quot;,height=4,width=8)
+par(mfrow=c(1,2))
+hist(pData$JWMNP,xlab=&quot;CT (min)&quot;,col=&quot;blue&quot;,breaks=100,main=&quot;&quot;)
+mtext(text=&quot;(a)&quot;,side=3,line=1)
+plot(pData$JWMNP,pData$WAGP,pch=19,cex=0.5,xlab=&quot;CT (min)&quot;,ylab=&quot;Wages (dollars)&quot;,col=pData$SEX)
+legend(100,200000,legend=c(&quot;men&quot;,&quot;women&quot;),col=c(&quot;black&quot;,&quot;red&quot;),pch=c(19,19),cex=c(0.5,0.5))
+mtext(text=&quot;(b)&quot;,side=3,line=1)
+
+dev.off()
+</code></pre>
+
+<pre><code>pdf 
+  2 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-80" style="background:;">
+  <hgroup>
+    <h2>png</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Important parameters: <em>file</em>, <em>height</em>,<em>width</em></li>
+</ul>
+
+<pre><code class="r">png(file=&quot;twoPanel.png&quot;,height=480,width=(2*480))
+par(mfrow=c(1,2))
+hist(pData$JWMNP,xlab=&quot;CT (min)&quot;,col=&quot;blue&quot;,breaks=100,main=&quot;&quot;)
+mtext(text=&quot;(a)&quot;,side=3,line=1)
+plot(pData$JWMNP,pData$WAGP,pch=19,cex=0.5,xlab=&quot;CT (min)&quot;,ylab=&quot;Wages (dollars)&quot;,col=pData$SEX)
+legend(100,200000,legend=c(&quot;men&quot;,&quot;women&quot;),col=c(&quot;black&quot;,&quot;red&quot;),pch=c(19,19),cex=c(0.5,0.5))
+mtext(text=&quot;(b)&quot;,side=3,line=1)
+dev.off()
+</code></pre>
+
+<pre><code>pdf 
+  2 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-81" style="background:;">
+  <hgroup>
+    <h2>dev.copy2pdf</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">par(mfrow=c(1,2))
+hist(pData$JWMNP,xlab=&quot;CT (min)&quot;,col=&quot;blue&quot;,breaks=100,main=&quot;&quot;)
+plot(pData$JWMNP,pData$WAGP,pch=19,cex=0.5,xlab=&quot;CT (min)&quot;,ylab=&quot;Wages (dollars)&quot;,col=pData$SEX)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-19.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" class="plot" /></div>
+
+<pre><code class="r">dev.copy2pdf(file=&quot;twoPanelv2.pdf&quot;)
+</code></pre>
+
+<pre><code>pdf 
+  2 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-82" style="background:;">
+  <hgroup>
+    <h2>Something to avoid</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=assets/img/broman.png height='80%'/></p>
+
+<p><a href="http://www.biostat.wisc.edu/%7Ekbroman/topten_worstgraphs/">http://www.biostat.wisc.edu/~kbroman/topten_worstgraphs/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-83" style="background:;">
+  <hgroup>
+    <h2>Something to aspire to</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/facebook.png height='80%'/></p>
+
+<p><a href="http://www.facebook.com/notes/facebook-engineering/visualizing-friendships/469716398919">http://www.facebook.com/notes/facebook-engineering/visualizing-friendships/469716398919</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-84" style="background:;">
+  <hgroup>
+    <h2>Further resources</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><a href="http://www.jstor.org/discover/10.2307/2683253?uid=3739704&amp;uid=2&amp;uid=4&amp;uid=3739256&amp;sid=21101619120151">How to display data badly</a></li>
+<li><a href="http://www.amazon.com/exec/obidos/ASIN/0961392142/7210-20">The visual display of quantitative information</a></li>
+<li><a href="http://www.amazon.com/exec/obidos/ASIN/047127402X/7210-20">Creating more effective graphs</a></li>
+<li><a href="http://www.amazon.com/R-Graphics-Cookbook-Winston-Chang/dp/1449316956">R Graphics Cookbook</a></li>
+<li><a href="http://www.amazon.com/ggplot2-Elegant-Graphics-Data-Analysis/dp/0387981403">ggplot2: Elegant Graphics for Data Analysis</a></li>
+<li><a href="http://flowingdata.com/">Flowing Data</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+
+  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+<!-- Grab CDN jQuery, fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Load Javascripts for Widgets -->
+<!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script> -->
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="../../libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+</html>

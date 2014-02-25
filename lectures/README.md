@@ -22,3 +22,17 @@ February 5:
 February 11:
 
 * Cleaning Data [Lecture](http://jtleek.github.io/jhsph753and4/lectures/04_01_cleaningData/#1)
+
+February 18:
+
+* Exploratory analysis [Lecture](http://jtleek.github.io/jhsph753and4/lectures/05_01_exploratoryAnalysis/#1)
+
+February 20:
+
+* Clustering [Lecture](http://jtleek.github.io/jhsph753and4/lectures/05_02_clustering/#1)
+* Clustering Example [Lecture](http://jtleek.github.io/jhsph753and4/lectures/05_02_clusteringExample/#1)
+
+February 25:
+
+* Dimension Reduction [Lecture](http://jtleek.github.io/jhsph753and4/lectures/06_01_dimensionReduction/#1)
+* Examples from your homework [Lecture](http://jtleek.github.io/jhsph753and4/lectures/06_01_examplesHomework/#1)
