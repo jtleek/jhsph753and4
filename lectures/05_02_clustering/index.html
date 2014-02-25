@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clustering</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Clustering">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="../../libraries/frameworks/io2012/js/slides" 
+    src="../../libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+    <link rel="stylesheet" href = "../../assets/css/custom.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BACKUP.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BASE.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.LOCAL.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.orig">
+<link rel="stylesheet" href = "../../assets/css/custom.css.REMOTE.546.css">
+<link rel="stylesheet" href = "../../assets/css/ribbons.css">
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    <!-- END LOGO SLIDE -->
+    
+
+    <!-- TITLE SLIDE -->
+    <!-- Should I move this to a Local Layout File? -->
+    <slide class="title-slide segue nobackground">
+      <aside class="gdbar">
+        <img src="../../assets/img/bloomberg_shield.png">
+      </aside>
+      <hgroup class="auto-fadein">
+        <h1>Clustering</h1>
+        <h2></h2>
+        <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+      </hgroup>
+          </slide>
+
+    <!-- SLIDES -->
+      <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article>
+    <p>Meet with seminar speakers. When you go on the job market face recognition is priceless. I met Scott Zeger at UW when I was a student. When I came for an interview I already knew him (and Ingo, and Rafa, and ...)</p>
+
+<p>Related: ask a question in seminar. </p>
+
+<p>Related: <a href="http://jcs.biologists.org/content/121/11/1771.full">The importance of stupidity in scientific research</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper(s) of the day</h2>
+  </hgroup>
+  <article>
+    <p><a href="https://www.sciencemag.org/content/334/6062/1518">Detecting novel assocations in large data sets</a></p>
+
+<p><a href="http://www.broadinstitute.org/news-and-publications/mine-detecting-novel-associations-large-data-sets">Over-the-top promo video</a></p>
+
+<p><a href="http://statweb.stanford.edu/%7Etibs/reshef/comment.pdf">Simon and Tibshirani reply</a></p>
+
+<p><a href="http://www.pnas.org/content/early/2014/02/14/1309933111.full.pdf">Kinney and Atwal reply (more thoroughly)</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Types of Data Analysis Questions</h2>
+  </hgroup>
+  <article>
+    <p><strong>In approximate order of difficulty</strong></p>
+
+<ul>
+<li>Descriptive</li>
+<li>Exploratory</li>
+<li>Inferential</li>
+<li>Predictive</li>
+<li>Causal</li>
+<li>Mechanistic</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>About descriptive analyses</h2>
+  </hgroup>
+  <article>
+    <p><strong>Goal</strong>: Describe a set of data</p>
+
+<ul>
+<li>The first kind of data analysis performed</li>
+<li>Commonly applied to census data</li>
+<li>The description and interpretation are different steps</li>
+<li>Descriptions can usually not be generalized without additional statistical modeling</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Descriptive analysis</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/census2010.png height=450/></p>
+
+<p><a href="http://www.census.gov/2010census/">http://www.census.gov/2010census/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Descriptive analysis</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/ngrams.png height=450/></p>
+
+<p><a href="http://books.google.com/ngrams">http://books.google.com/ngrams</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>About exploratory analysis</h2>
+  </hgroup>
+  <article>
+    <p><strong>Goal</strong>: Find relationships you didn&#39;t know about</p>
+
+<ul>
+<li>Exploratory models are good for discovering new connections</li>
+<li>They are also useful for defining future studies</li>
+<li>Exploratory analyses are usually not the final say</li>
+<li>Exploratory analyses alone should not be used for generalizing/predicting</li>
+<li><a href="http://en.wikipedia.org/wiki/Correlation_does_not_imply_causation">Correlation does not imply causation</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Exploratory analysis</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/brain.jpg width='90%'/></p>
+
+<p><a href="http://www.nature.com/srep/2012/121115/srep00834/full/srep00834.html">Liu et al. (2012) Scientific Reports</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Exploratory analysis</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/sloan.png height=450/></p>
+
+<p><a href="http://www.sdss.org/">http://www.sdss.org/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>About inferential analysis</h2>
+  </hgroup>
+  <article>
+    <p><strong>Goal</strong>: Use a relatively small sample of data to say something about a bigger population</p>
+
+<ul>
+<li>Inference is commonly the goal of statistical models</li>
+<li>Inference involves estimating both the quantity you care about and your uncertainty about your estimate</li>
+<li>Inference depends heavily on both the population and the sampling scheme</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Inferential analysis</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/pollution.png height=450/></p>
+
+<p><a href="http://journals.lww.com/epidem/Fulltext/2013/01000/Effect_of_Air_Pollution_Control_on_Life_Expectancy.4.aspx">Correia et al. (2013) Epidemiology</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>About predictive analysis</h2>
+  </hgroup>
+  <article>
+    <p><strong>Goal</strong>: To use the data on some objects to predict values for another object</p>
+
+<ul>
+<li>If \(X\) predicts \(Y\) it does not mean that \(X\) causes \(Y\)</li>
+<li>Accurate prediction depends heavily on measuring the right variables</li>
+<li>Although there are better and worse prediction models, more data and a simple model <a href="http://www.youtube.com/watch?v=yvDCzhbjYWs">works really well</a></li>
+<li>Prediction is very hard, especially about the future <a href="http://www.larry.denenberg.com/predictions.html">references</a> </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Predictive analysis</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/fivethirtyeight.png height=450/></p>
+
+<p><a href="http://fivethirtyeight.blogs.nytimes.com/">http://fivethirtyeight.blogs.nytimes.com/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Predictive analysis</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/target.png height=450/></p>
+
+<p><a href="http://www.forbes.com/sites/kashmirhill/2012/02/16/how-target-figured-out-a-teen-girl-was-pregnant-before-her-father-did/">http://www.forbes.com/sites/kashmirhill/2012/02/16/how-target-figured-out-a-teen-girl-was-pregnant-before-her-father-did/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>About causal analysis</h2>
+  </hgroup>
+  <article>
+    <p><strong>Goal</strong>: To find out what happens to one variable when you make another variable change. </p>
+
+<ul>
+<li>Usually randomized studies are required to identify causation</li>
+<li>There are approaches to inferring causation in non-randomized studies, but they are complicated and sensitive to assumptions</li>
+<li>Causal relationships are usually identified as average effects, but may not apply to every individual</li>
+<li>Causal models are usually the &quot;gold standard&quot; for data analysis</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Causal analysis</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/feces.png height=450/></p>
+
+<p><a href="http://www.nejm.org/doi/full/10.1056/NEJMoa1205037?query=featured_home">van Nood et al. (2013) NEJM</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>About mechanistic analysis</h2>
+  </hgroup>
+  <article>
+    <p><strong>Goal</strong>: Understand the exact changes in variables that lead to changes in other variables for individual objects.</p>
+
+<ul>
+<li>Incredibly hard to infer, except in simple situations</li>
+<li>Usually modeled by a deterministic set of equations (physical/engineering science)</li>
+<li>Generally the random component of the data is measurement error</li>
+<li>If the equations are known but the parameters are not, they may be inferred with data analysis</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Mechanistic analysis</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/mechanistic.png height=450/></p>
+
+<p><a href="http://www.fhwa.dot.gov/resourcecenter/teams/pavement/pave_3pdg.pdf">http://www.fhwa.dot.gov/resourcecenter/teams/pavement/pave_3pdg.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>A more rough dichotomy</h2>
+  </hgroup>
+  <article>
+    <p><strong>In approximate order of difficulty</strong></p>
+
+<ul>
+<li><rt>Descriptive</rt></li>
+<li><rt>Exploratory</rt></li>
+<li><bt>Inferential</bt></li>
+<li><bt>Predictive</bt></li>
+<li><bt>Causal</bt></li>
+<li><bt>Mechanistic</bt></li>
+</ul>
+
+<p><center><rt> Unsupervised </rt></center>
+<center><bt> Supervised </bt></center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Supervised versus unsupervised</h2>
+  </hgroup>
+  <article>
+    <p><strong>Supervised</strong></p>
+
+<ul>
+<li>You have an outcome \(Y\) and some covariates \(X\)</li>
+<li>You typically want to solve something like $argmin_f E\left[(Y-f(X))<sup>2\right]</sup> $</li>
+</ul>
+
+<p><strong>Unsupervised</strong></p>
+
+<ul>
+<li>You have a bunch of observations \(X\) and you want to understand the relationships between them. </li>
+<li>You are usually trying to understand patterns in \(X\) or group the variables in \(X\) in some way</li>
+</ul>
+
+<p><strong>Semi-supervised</strong></p>
+
+<ul>
+<li>Things like &quot;deep learning&quot; - <a href="http://en.wikipedia.org/wiki/Deep_learning">http://en.wikipedia.org/wiki/Deep_learning</a></li>
+<li>Two cool examples: <a href="http://static.googleusercontent.com/media/research.google.com/en/us/archive/unsupervised_icml2012.pdf">Cat recognizer from Youtube videos</a>, <a href="http://people.csail.mit.edu/mhcoen/Papers/birdsong.pdf">Learning to sing like a bird</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>A few techniques for unsupervised analysis</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Kernel density estimation</li>
+<li>Clustering</li>
+<li>Principal components analysis/svd</li>
+<li>Factor analysis</li>
+<li>MDS/ICA/MFPCA/...</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Estimating a univariate density</h2>
+  </hgroup>
+  <article>
+    <p>You have some data</p>
+
+<pre><code class="r">library(bootstrap)
+data(stamp)
+str(stamp)
+</code></pre>
+
+<pre><code>&#39;data.frame&#39;:   485 obs. of  1 variable:
+ $ Thickness: num  0.06 0.064 0.064 0.065 0.066 0.068 0.069 0.069 0.069 0.069 ...
+</code></pre>
+
+<pre><code class="r">thick = stamp$Thickness
+</code></pre>
+
+<p>You want to know what this distribution looks like. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>You could calculate summary statistics</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">boxplot(thick)
+stripchart(thick,add=T,vertical=T,jitter=0.1,method=&quot;jitter&quot;,pch=19,col=rgb(0,0,1,0.25))
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-1.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Binning</h2>
+  </hgroup>
+  <article>
+    <p>\(X_1,\ldots,X_n \sim F\) with density \(f(\cdot)\) and you want an estimator \(\hat{f}\)</p>
+
+<p>First idea - bin the data. In math this is what this looks like:</p>
+
+<p>\[I_j = (x_0 + j\times h,x_0+(j+1)\times h],j=-1,0,1,\ldots\]</p>
+
+<p>Calculate counts in bins</p>
+
+<p>\[C_j = \sum_{i=1}^n I(x_i \in I_j)\]</p>
+
+<p>Parameters are \(x_0\), \(h\).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>You&#39;ve seen this</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">par(mfrow=c(1,2))
+hist(thick,col=&quot;blue&quot;); hist(thick,breaks=100,col=&quot;blue&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Estimating the density</h2>
+  </hgroup>
+  <article>
+    <p>Suppose you want an actual estimate of \(f(\cdot)\), then we need to estimate probability of being in a bin. </p>
+
+<p>\[\hat{f}(x) = \frac{1}{2hn} \#\{i; X_i \in (x-h,x+h]\}\]</p>
+
+<p>You can think of this as an approximation to this representation of the density:</p>
+
+<p>\[f(x) = \lim_{h \rightarrow 0} \frac{1}{2h} \mathbb{P}[x-h < X \leq x+h]\]</p>
+
+<p>This should look familiar, we are just replacing limits/expectations/etc with their empirical counterparts. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>The kernel density estimator</h2>
+  </hgroup>
+  <article>
+    <p>\[\hat{f}(x) = \frac{1}{2hn} \#\{i; X_i \in (x-h,x+h]\}\]</p>
+
+<p>can be written as</p>
+
+<p>\[ \hat{f}(x) = \frac{1}{nh} \sum_{i=1}^n w \left(\frac{x-X_i}{h}\right)\]</p>
+
+<p>\[ w(x) = \left\{ \begin{array}{lr} 1/2 & if |x| < 1 \\ 0 & else\end{array}\right.\]</p>
+
+<p>In general you can can write a kernel smoother as: </p>
+
+<p>\[ \hat{f}(x) = \frac{1}{nh} \sum_{i=1}^n K\left(\frac{x-X_i}{h}\right)\]</p>
+
+<p>where \(\int K(x) dx =1\) (this guarantees that \(\int \hat{f}(x) dx = 1\)) and \(h\) is the bandwidth.  </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>About the kernel and bandwidth</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The bandwidth can be chosen in a large number of ways</li>
+<li>Typically it is automatically chosen (e.g. in statistical software)</li>
+<li>Popular kernels add more weight to nearby points:
+
+<ul>
+<li>\(K_{\lambda}(x_0,x_i) = D\left(\frac{|x_0 -x_i|}{\lambda}\right)\); \(D(t) = (2\pi)^{-1/2}e^{-t^2/2}\) (Gaussian)</li>
+<li>\(K_{\lambda}(x_0,x_i) = D\left(\frac{|x_0 -x_i|}{\lambda}\right)\);  \(D(t) = (1-t^2)^2\) if \(t \leq 1\) (Tukey Biweight)</li>
+</ul></li>
+</ul>
+
+<p><a href="http://longor.public.iastate.edu/Stat516S13/slides/04.smoothing1.pdf">http://longor.public.iastate.edu/Stat516S13/slides/04.smoothing1.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>The kernel density estimator</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">dens = density(thick); 
+plot(dens,col=&quot;blue&quot;,lwd=3); 
+</code></pre>
+
+<div class="rimage center"><img src="fig/density.png" title="plot of chunk density" alt="plot of chunk density" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Create our own KDE</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">dvals = rep(0,length(dens$x))
+for(i in 1:length(thick)){
+  dvals = dvals + dnorm(dens$x,mean=thick[i],sd=dens$bw)/length(thick)
+}
+plot(dens,col=&quot;red&quot;,lwd=3); points(dens$x,dvals,col=&quot;blue&quot;,pch=19,cex=0.5)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-3.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Bias variance tradeoff</h2>
+  </hgroup>
+  <article>
+    <p>We often care about things like MSE:</p>
+
+<p>\[ MSE(x) = \mathbb{E}\left[\left(\hat{f}(x) - f(x)\right)^2\right]\]</p>
+
+<p>\[=\left(\mathbb{E}[\hat{f}(x)] - f(x)\right)^2 + {\rm Var}(\hat{f}(x))\]</p>
+
+<ul>
+<li>The bias of \(\hat{f}\) increases and the variance of \(\hat{f}\) decreases as \(h\) increases. </li>
+<li>This is the &quot;bias variance&quot; tradeoff in smoothing </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>You can do this with supervised learning too</h2>
+  </hgroup>
+  <article>
+    <p>\[E_{\hat{F}}[Y|X=x_0] = {\rm a.v.e.} \{ y_i; x_i = x_0\}\]</p>
+
+<ul>
+<li><p>If the values of \(x_i\) are categorical we can estimate this directly. </p></li>
+<li><p>If not we need to &quot;borrow strength&quot;</p></li>
+<li><p>You&#39;ve seen this before for linear regression</p></li>
+</ul>
+
+<p>Define \(\{W_i(x)\}_{i=1}^{n}\) for each \(x\) and let</p>
+
+<p>\[s(x) = \sum_{i=1}^n W_i(x) y_i\]</p>
+
+<p><a href="http://www.biostat.jhsph.edu/%7Eririzarr/Teaching/754/">http://www.biostat.jhsph.edu/~ririzarr/Teaching/754/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Why this works (intuitively)</h2>
+  </hgroup>
+  <article>
+    <p>\[ E[ Y | X ] = \int y f_{X,Y}(x,y) \, dy / f_X(x)\]</p>
+
+<p>\[s(x) = \frac{ n^{-1}\sum_{i=1}^n K\left( \frac{x - x_i}{h} \right) y_i }
+  { n^{-1}\sum_{i=1}^n K\left   ( \frac{ x - x_i }{h} \right)}\]</p>
+
+<p>Again we are basically just taking integrals and replacing them with sums. Noticing a theme here? Write down the theoretical parameter you are trying to estimate and then substitute empirical analogs. </p>
+
+<p><a href="http://www.biostat.jhsph.edu/%7Eririzarr/Teaching/754/">http://www.biostat.jhsph.edu/~ririzarr/Teaching/754/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Back to univariate smoothing for the moment</h2>
+  </hgroup>
+  <article>
+    <p>\[Bias(x) = \int K(z) (f(x-hz) - f(z))dz\]</p>
+
+<p>\[Var(x) = n^{-1} \int \frac{1}{h^2} K\left(\frac{x-y}{h}\right)^2 f(y)dy - n^{-1} \left(\int \frac{1}{h}K\left(\frac{x-y}{h}\right)f(y)dy \right)^2\]</p>
+
+<p>Assume \(h = h_n \rightarrow 0\) with \(nh_n \rightarrow 0\). If this is true then bias/variance go to zero as \(n\rightarrow \infty\).</p>
+
+<p>You can asymptotically minimize \(MSE(X)\) by solving \(\frac{\partial}{\partial h} MSE(x) = 0\) </p>
+
+<p>You get something like this:</p>
+
+<p>\[h_{opt} = n^{-1/5} \left(\frac{f(x)\int K^2(z)dz}{(f''(x)^2 (\int z^2 K(z)dz)^2)}\right)^{1/5}\]</p>
+
+<p>Derivation: <a href="http://stat.ethz.ch/education/semesters/SS_2006/CompStat/sk-ch2.pdf">http://stat.ethz.ch/education/semesters/SS_2006/CompStat/sk-ch2.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Class exercises</h2>
+  </hgroup>
+  <article>
+    <ol>
+<li>What are some cases where density estimation might give you trouble? </li>
+<li>How would we estimate the number of modes in a density estimate as a function of \(h\)? </li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Answer to question 2</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">nmodes &lt;- function(y){
+       x &lt;- diff(y)
+       n &lt;- length(x)
+       sum(x[2:n] &lt; 0  &amp; x[1:(n-1)] &gt;  0)
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>In higher dimensions</h2>
+  </hgroup>
+  <article>
+    <p>\(X_1, \ldots, X_n \sim f(x_1,\ldots,x_d)\)</p>
+
+<p>We can estimate a multivariate smoother</p>
+
+<p>\[ \hat{f}(x) = \frac{1}{nh^d} \sum_{i=1}^n K\left(\frac{x_i-X_i}{h}\right)\]</p>
+
+<p>wher the kernel \(K(\cdot)\) is now a function on a d-dimensional vector satisfying</p>
+
+<p>\(K(u) \geq 0\), \(\int_{\mathbb{R}^d} K(u)du = 1\), \(\int_{\mathbb{R}^d}uK(u)du = 0\) and 
+\(\int_{\mathbb{R}^d} uu^T K(u)du = I_d\)</p>
+
+<p>Usually you use a product kernel like \(K(u) = \prod_{j=1}^d k(u_j)\). </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>Curse of dimensionality</h2>
+  </hgroup>
+  <article>
+    <p>Best possible MSE rate is \(O(n^{-4/(4+d)})\)</p>
+
+<p><img class="center" src="../../assets/img/cursedim.png" height=450></p>
+
+<p><a href="http://statweb.stanford.edu/%7Etibs/ElemStatLearn/">http://statweb.stanford.edu/~tibs/ElemStatLearn/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>Clustering</h2>
+  </hgroup>
+  <article>
+    <p>Clustering organizes things that are <strong>close</strong> into groups</p>
+
+<ul>
+<li>How do we define close?</li>
+<li>How do we group things?</li>
+<li>How do we visualize the grouping? </li>
+<li>How do we interpret the grouping? </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>Hugely important/impactful</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/cluster.png height=450></p>
+
+<p><a href="http://scholar.google.com/scholar?hl=en&amp;q=cluster+analysis&amp;btnG=&amp;as_sdt=1%2C21&amp;as_sdtp=">http://scholar.google.com/scholar?hl=en&amp;q=cluster+analysis&amp;btnG=&amp;as_sdt=1%2C21&amp;as_sdtp=</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>Hierarchical clustering</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>An agglomerative approach
+
+<ul>
+<li>Find closest two things</li>
+<li>Put them together</li>
+<li>Find next closest</li>
+</ul></li>
+<li>Requires
+
+<ul>
+<li>A defined distance</li>
+<li>A merging approach</li>
+</ul></li>
+<li>Produces
+
+<ul>
+<li>A tree showing how close things are to each other</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>How do we define close?</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Most important step
+
+<ul>
+<li>Garbage in -&gt; garbage out</li>
+</ul></li>
+<li>Distance or similarity
+
+<ul>
+<li>Continuous - euclidean distance</li>
+<li>Continuous - correlation similarity</li>
+<li>Binary - manhattan distance</li>
+</ul></li>
+<li>Pick a distance/similarity that makes sense for your problem</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>Example distances - Euclidean</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/distance.png height=450></p>
+
+<p><a href="http://rafalab.jhsph.edu/688/lec/lecture5-clustering.pdf">http://rafalab.jhsph.edu/688/lec/lecture5-clustering.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>Example distances - Euclidean</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/distance2.png height=300></p>
+
+<p>In general:</p>
+
+<p>\[\sqrt{(A_1-A_2)^2 + (B_1-B_2)^2 + \ldots + (Z_1-Z_2)^2}\]
+<a href="http://rafalab.jhsph.edu/688/lec/lecture5-clustering.pdf">http://rafalab.jhsph.edu/688/lec/lecture5-clustering.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>Example distances - Manhattan</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/manhattan.svg height=300></p>
+
+<p>In general:</p>
+
+<p>\[|A_1-A_2| + |B_1-B_2| + \ldots + |Z_1-Z_2|\]</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Taxicab_geometry">http://en.wikipedia.org/wiki/Taxicab_geometry</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>Hierarchical clustering - example</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">set.seed(1234); par(mar=c(0,0,0,0))
+x &lt;- rnorm(12,mean=rep(1:3,each=4),sd=0.2)
+y &lt;- rnorm(12,mean=rep(c(1,2,1),each=4),sd=0.2)
+plot(x,y,col=&quot;blue&quot;,pch=19,cex=2)
+text(x+0.05,y+0.05,labels=as.character(1:12))
+</code></pre>
+
+<div class="rimage center"><img src="fig/createData.png" title="plot of chunk createData" alt="plot of chunk createData" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>Hierarchical clustering - <code>dist</code></h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Important parameters: <em>x</em>,<em>method</em></li>
+</ul>
+
+<pre><code class="r">dataFrame &lt;- data.frame(x=x,y=y)
+dist(dataFrame)
+</code></pre>
+
+<pre><code>         1       2       3       4       5       6       7       8       9      10      11
+2  0.34121                                                                                
+3  0.57494 0.24103                                                                        
+4  0.26382 0.52579 0.71862                                                                
+5  1.69425 1.35818 1.11953 1.80667                                                        
+6  1.65813 1.31960 1.08339 1.78081 0.08150                                                
+7  1.49823 1.16621 0.92569 1.60132 0.21110 0.21667                                        
+8  1.99149 1.69093 1.45649 2.02849 0.61704 0.69792 0.65063                                
+9  2.13630 1.83168 1.67836 2.35676 1.18350 1.11500 1.28583 1.76461                        
+10 2.06420 1.76999 1.63110 2.29239 1.23848 1.16550 1.32063 1.83518 0.14090                
+11 2.14702 1.85183 1.71074 2.37462 1.28154 1.21077 1.37370 1.86999 0.11624 0.08318        
+12 2.05664 1.74663 1.58659 2.27232 1.07701 1.00777 1.17740 1.66224 0.10849 0.19129 0.20803
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>Hierarchical clustering - #1</h2>
+  </hgroup>
+  <article>
+    <div class="rimage center"><img src="fig/unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>Hierarchical clustering - #2</h2>
+  </hgroup>
+  <article>
+    <div class="rimage center"><img src="fig/unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-50" style="background:;">
+  <hgroup>
+    <h2>Hierarchical clustering - #3</h2>
+  </hgroup>
+  <article>
+    <div class="rimage center"><img src="fig/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-51" style="background:;">
+  <hgroup>
+    <h2>Hierarchical clustering - hclust</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">dataFrame &lt;- data.frame(x=x,y=y)
+distxy &lt;- dist(dataFrame)
+hClustering &lt;- hclust(distxy)
+plot(hClustering)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-9.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-52" style="background:;">
+  <hgroup>
+    <h2>Prettier dendrograms</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">myplclust &lt;- function( hclust, lab=hclust$labels, lab.col=rep(1,length(hclust$labels)), hang=0.1,...){
+  ## modifiction of plclust for plotting hclust objects *in colour*!
+  ## Copyright Eva KF Chan 2009
+  ## Arguments:
+  ##    hclust:    hclust object
+  ##    lab:        a character vector of labels of the leaves of the tree
+  ##    lab.col:    colour for the labels; NA=default device foreground colour
+  ##    hang:     as in hclust &amp; plclust
+  ## Side effect:
+  ##    A display of hierarchical cluster with coloured leaf labels.
+  y &lt;- rep(hclust$height,2); x &lt;- as.numeric(hclust$merge)
+  y &lt;- y[which(x&lt;0)]; x &lt;- x[which(x&lt;0)]; x &lt;- abs(x)
+  y &lt;- y[order(x)]; x &lt;- x[order(x)]
+  plot( hclust, labels=FALSE, hang=hang, ... )
+  text( x=x, y=y[hclust$order]-(max(hclust$height)*hang),
+        labels=lab[hclust$order], col=lab.col[hclust$order], 
+        srt=90, adj=c(1,0.5), xpd=NA, ... )
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-53" style="background:;">
+  <hgroup>
+    <h2>Pretty dendrograms</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">dataFrame &lt;- data.frame(x=x,y=y)
+distxy &lt;- dist(dataFrame)
+hClustering &lt;- hclust(distxy)
+myplclust(hClustering,lab=rep(1:3,each=4),lab.col=rep(1:3,each=4))
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-10.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-54" style="background:;">
+  <hgroup>
+    <h2>Even Prettier dendrograms</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/prettydendro.png height=450></p>
+
+<p><a href="http://gallery.r-enthusiasts.com/RGraphGallery.php?graph=79">http://gallery.r-enthusiasts.com/RGraphGallery.php?graph=79</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-55" style="background:;">
+  <hgroup>
+    <h2>Merging points - complete</h2>
+  </hgroup>
+  <article>
+    <div class="rimage center"><img src="fig/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-56" style="background:;">
+  <hgroup>
+    <h2>Merging points - average</h2>
+  </hgroup>
+  <article>
+    <div class="rimage center"><img src="fig/unnamed-chunk-12.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-57" style="background:;">
+  <hgroup>
+    <h2><code>heatmap()</code></h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">dataFrame &lt;- data.frame(x=x,y=y)
+set.seed(143)
+dataMatrix &lt;- as.matrix(dataFrame)[sample(1:12),]
+heatmap(dataMatrix)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-58" style="background:;">
+  <hgroup>
+    <h2>K-means clustering</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>A partioning approach
+
+<ul>
+<li>Fix a number of clusters</li>
+<li>Get &quot;centroids&quot; of each cluster</li>
+<li>Assign things to closest centroid</li>
+<li>Reclaculate centroids</li>
+</ul></li>
+<li>Requires
+
+<ul>
+<li>A defined distance metric</li>
+<li>A number of clusters</li>
+<li>An initial guess as to cluster centroids</li>
+</ul></li>
+<li>Produces
+
+<ul>
+<li>Final estimate of cluster centroids</li>
+<li>An assignment of each point to clusters</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-59" style="background:;">
+  <hgroup>
+    <h2>K-means clustering -  example</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">set.seed(1234); par(mar=c(0,0,0,0))
+x &lt;- rnorm(12,mean=rep(1:3,each=4),sd=0.2)
+y &lt;- rnorm(12,mean=rep(c(1,2,1),each=4),sd=0.2)
+plot(x,y,col=&quot;blue&quot;,pch=19,cex=2)
+text(x+0.05,y+0.05,labels=as.character(1:12))
+</code></pre>
+
+<div class="rimage center"><img src="fig/createDataK.png" title="plot of chunk createDataK" alt="plot of chunk createDataK" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-60" style="background:;">
+  <hgroup>
+    <h2>K-means clustering -  starting centroids</h2>
+  </hgroup>
+  <article>
+    <div class="rimage center"><img src="fig/unnamed-chunk-14.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-61" style="background:;">
+  <hgroup>
+    <h2>K-means clustering -  assign to closest centroid</h2>
+  </hgroup>
+  <article>
+    <div class="rimage center"><img src="fig/unnamed-chunk-15.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-62" style="background:;">
+  <hgroup>
+    <h2>K-means clustering -  recalculate centroids</h2>
+  </hgroup>
+  <article>
+    <div class="rimage center"><img src="fig/unnamed-chunk-16.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-63" style="background:;">
+  <hgroup>
+    <h2>K-means clustering -  reassign values</h2>
+  </hgroup>
+  <article>
+    <div class="rimage center"><img src="fig/unnamed-chunk-17.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-64" style="background:;">
+  <hgroup>
+    <h2>K-means clustering -  update centroids</h2>
+  </hgroup>
+  <article>
+    <div class="rimage center"><img src="fig/unnamed-chunk-18.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-65" style="background:;">
+  <hgroup>
+    <h2><code>kmeans()</code></h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Important parameters: <em>x</em>, <em>centers</em>, <em>iter.max</em>, <em>nstart</em></li>
+</ul>
+
+<pre><code class="r">dataFrame &lt;- data.frame(x,y)
+kmeansObj &lt;- kmeans(dataFrame,centers=3)
+names(kmeansObj)
+</code></pre>
+
+<pre><code>[1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot; &quot;betweenss&quot;   
+[7] &quot;size&quot;        
+</code></pre>
+
+<pre><code class="r">kmeansObj$cluster
+</code></pre>
+
+<pre><code> [1] 3 3 3 3 1 1 1 1 2 2 2 2
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-66" style="background:;">
+  <hgroup>
+    <h2><code>kmeans()</code></h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">par(mar=rep(0.2,4))
+plot(x,y,col=kmeansObj$cluster,pch=19,cex=2)
+points(kmeansObj$centers,col=1:3,pch=3,cex=3,lwd=3)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-19.png" title="plot of chunk unnamed-chunk-19" alt="plot of chunk unnamed-chunk-19" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-67" style="background:;">
+  <hgroup>
+    <h2>Heatmaps</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">set.seed(1234)
+dataMatrix &lt;- as.matrix(dataFrame)[sample(1:12),]
+kmeansObj2 &lt;- kmeans(dataMatrix,centers=3)
+par(mfrow=c(1,2), mar = c(2, 4, 0.1, 0.1))
+image(t(dataMatrix)[,nrow(dataMatrix):1],yaxt=&quot;n&quot;)
+image(t(dataMatrix)[,order(kmeansObj$cluster)],yaxt=&quot;n&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-20.png" title="plot of chunk unnamed-chunk-20" alt="plot of chunk unnamed-chunk-20" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-68" style="background:;">
+  <hgroup>
+    <h2>H-clustering aglomeration choices</h2>
+  </hgroup>
+  <article>
+    <p>Single </p>
+
+<p>\[d_{SL}(G,H) = \min_{i\in G, i' \in H} d_{ii'}\]</p>
+
+<p>Complete</p>
+
+<p>\[d_{SL}(G,H) = \max_{i\in G, i' \in H} d_{ii'}\]</p>
+
+<p>Average</p>
+
+<p>\[d_{GA}(G,H) = \frac{1}{N_G N_H} \sum_{i \in G} \sum_{i' \in H} d_{ii'}\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-69" style="background:;">
+  <hgroup>
+    <h2>What this looks like on real data</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/hclusttypes.png height=450></p>
+
+<p><a href="https://statistics.stanford.edu/%7Etibs/ElemStatLearn">https://statistics.stanford.edu/~tibs/ElemStatLearn</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-70" style="background:;">
+  <hgroup>
+    <h2>Consistency</h2>
+  </hgroup>
+  <article>
+    <p>Assuming that the data vector \(X_p \sim p_k(x)\) for some \(k=1,\ldots,K\)
+then as \(N \rightarrow \infty\)</p>
+
+<p>\[d_{SL}(G,H) \rightarrow 0\] 
+\[d_{CL}(G,H) \rightarrow \infty\]
+\[d_{GA}(G,H) \rightarrow \int \int d(x,x')p_{G}(x)p_{H}(x')dxdx'\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-71" style="background:;">
+  <hgroup>
+    <h2>Another way to view clustering</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/clustertree.png height=300></p>
+
+<ul>
+<li>Can use plug-in estimate of the tree</li>
+<li>Piecewise constant in low dimensions</li>
+<li>Trouble with curse of dimensionality in large dimensions</li>
+</ul>
+
+<p><a href="http://www.stat.cmu.edu/%7Ernugent/teaching/CMU729/Lectures/NPClust.pdf">http://www.stat.cmu.edu/~rnugent/teaching/CMU729/Lectures/NPClust.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-72" style="background:;">
+  <hgroup>
+    <h2>K-means</h2>
+  </hgroup>
+  <article>
+    <p>Given initial clusters \(m^{(1)}_1,\ldots,m^{(1)}_k\) we iterate between:</p>
+
+<p><strong>Assign each point to a cluster</strong></p>
+
+<p>\[S_i^{(t)} = \left\{x_p: ||x_p - m_i^{(t)}||^2 \leq ||x_p - m_j^{(t)}||^2, \forall j\right\}\]</p>
+
+<p><strong>Update means</strong></p>
+
+<p>\[m_{i}^{(t+1)}=\frac{1}{|S_i^{(t)}|} \sum_{x_j \in S_i^{(t)}} x_j\]</p>
+
+<p>Stop when the \(m_i\) have converged to local modes. </p>
+
+<p>Similar to an <a href="http://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm">EM algorithm</a>.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-73" style="background:;">
+  <hgroup>
+    <h2>K-means is matrix factorization</h2>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/kmeansmat1.png height=450></p>
+
+<p><a href="https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf">https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-74" style="background:;">
+  <hgroup>
+    <h1>K-means is matrix factorization</h1>
+  </hgroup>
+  <article>
+    <p><img class=center src=../../assets/img/kmeansmat2.png height=250></p>
+
+<p>Let \(X_{m \times n}\) be the data matrix \(B_{n \times k}\) be the matrix of weights and \(A_{k \times n}\) be the assignment matrix. Then</p>
+
+<p>\[XBA = MA\] </p>
+
+<p>realizes the assignment</p>
+
+<p>\(x_i \rightarrow m_j\), where \(m_j = X b_j\).</p>
+
+<p><a href="https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf">https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-75" style="background:;">
+  <hgroup>
+    <h2>K-means final details</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>K-means is trying to solve the constrained optimization problem
+
+<ul>
+<li>\(E = \min_{B,A} ||X-XBA||^2\)</li>
+<li>where \(B\) is stochastic and \(A\) is binary</li>
+</ul></li>
+<li>You can write this down in a model based way
+
+<ul>
+<li>Gaussian assumption \(\rightarrow\) EM algorithm solution</li>
+</ul></li>
+<li>Finding an optimal k-means partitioning of the data is <a href="http://en.wikipedia.org/wiki/NP-hard">NP hard</a> in general. </li>
+<li>You will get different answers with different starting points!</li>
+<li>Usually start with multiple starting points and average (<a href="http://en.wikipedia.org/wiki/Bootstrap_aggregating">bagging</a>, more on this later)</li>
+</ul>
+
+<p><a href="https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf">https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-76" style="background:;">
+  <hgroup>
+    <h2>Model based clustering</h2>
+  </hgroup>
+  <article>
+    <p>Assume the data are drawn from a distribution:</p>
+
+<p>\[f(x | \pi,\mu,\Sigma) = \sum_{g=1}^G \pi_g \phi(X | \mu_g,\Sigma_g)\]</p>
+
+<p>where \(\pi_g\) is the probability a point belongs to group \(g\) and \(\phi(x|\mu_g,\Sigma_g\)) is the multivariate Guassian density. </p>
+
+<ul>
+<li>You can do this with other densities but you usually have to &quot;roll your own&quot;</li>
+<li>Gaussian densities are surprisingly flexible in many cases</li>
+<li>Nice summary in <a href="http://ftp.stat.washington.edu/raftery/Research/PDF/fraley1998.pdf">Fraley and Raftery 1998 The Computer Journal</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-77" style="background:;">
+  <hgroup>
+    <h2>Estimating parameters</h2>
+  </hgroup>
+  <article>
+    <p>\[\pi_{ik}^{(s)} = \frac{\pi_k^{s-1} \phi(x_i; \mu_k^{s-1},\Sigma_k^{s-1})}{\sum_{k'=1}^K \pi_{k'}^{s-1} \phi(x_i; \mu_k^{s-1}, \Sigma_{k'}^{(s-1)})}\]</p>
+
+<p>\[\pi_k^{(s)} = \frac{1}{n} \sum_{i=1}^n \pi_{ik}^{(s)}\]</p>
+
+<p>\[ \mu_k^{(s)} = \frac{\sum_{i=1}^n \pi_{ik}^{(s)}x_i}{\sum_{i=1}^n \pi_{ik}^{(s)}}\]</p>
+
+<p>\[ \Sigma_{k}^{(s)} = \frac{\sum_{i=1}^n \pi_{ik}^{(s)} (x_i - \mu_k^{(s)})}{\sum_{i=1}^n \pi_{ik}^{(s)}}\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-78" style="background:;">
+  <hgroup>
+    <h2>Selecting the model with Bayes factors</h2>
+  </hgroup>
+  <article>
+    <p>\[B = \frac{p(X | M_1)}{p(x | M_2)}\]</p>
+
+<p>\[p(X | M_k) = \int p(X | \theta_k, M_k) p(\theta_k | M_k) d\theta_k\]</p>
+
+<ul>
+<li>\(\theta_k\) is the vector of parameters for model \(M_k\)</li>
+<li>\(p(\theta_k | M_k)\) is the prior distribution for \(M_k\). </li>
+</ul>
+
+<p><img class=center src=../../assets/img/bic.png height=250></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-79" style="background:;">
+  <hgroup>
+    <h2>Implemented in mclust package</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">library(mclust); data(faithful); faithfulMclust &lt;- Mclust(faithful)
+summary(faithfulMclust,parameters=TRUE)
+</code></pre>
+
+<pre><code>----------------------------------------------------
+Gaussian finite mixture model fitted by EM algorithm 
+----------------------------------------------------
+
+Mclust EEE (elliposidal, equal volume, shape and orientation) model with 3 components:
+
+ log.likelihood   n df   BIC   ICL
+          -1126 272 11 -2314 -2361
+
+Clustering table:
+  1   2   3 
+130  97  45 
+
+Mixing probabilities:
+     1      2      3 
+0.4619 0.3565 0.1816 
+
+Means:
+            [,1]   [,2]  [,3]
+eruptions  4.476  2.038  3.82
+waiting   80.892 54.493 77.67
+
+Variances:
+[,,1]
+          eruptions waiting
+eruptions   0.07728  0.4765
+waiting     0.47650 33.7485
+[,,2]
+          eruptions waiting
+eruptions   0.07728  0.4765
+waiting     0.47650 33.7485
+[,,3]
+          eruptions waiting
+eruptions   0.07728  0.4765
+waiting     0.47650 33.7485
+</code></pre>
+
+<p><a href="http://www.stat.washington.edu/mclust/">http://www.stat.washington.edu/mclust/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-80" style="background:;">
+  <hgroup>
+    <h2>Pathological example</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">clust1 = data.frame(x=rnorm(100),y=rnorm(100))
+a = runif(100,0,2*pi)
+clust2 = data.frame(x=8*cos(a) + rnorm(100),y=8*sin(a) + rnorm(100))
+plot(clust2,col=&#39;blue&#39;,pch=19); points(clust1,col=&#39;green&#39;,pch=19)
+</code></pre>
+
+<div class="rimage center"><img src="fig/pathdata.png" title="plot of chunk pathdata" alt="plot of chunk pathdata" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-81" style="background:;">
+  <hgroup>
+    <h2>Pathological example</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">dat = rbind(clust1,clust2)
+kk = kmeans(dat,centers=2)
+plot(dat,col=(kk$clust+2),pch=19)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-22.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-82" style="background:;">
+  <hgroup>
+    <h2>Clustering wrap up</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Useful for exploring multivariate relationships</li>
+<li>Things that have a bigger than expected impact
+
+<ul>
+<li>Scaling</li>
+<li>Outliers</li>
+<li>Starting values (k-means)</li>
+</ul></li>
+<li>Selecting the number of clusters is an &quot;openish&quot; problem.</li>
+<li>Usually there is a local maxima/minima in the tuning parameter</li>
+<li>Better to visualize!</li>
+<li>As always when the model is (approximately) true you get nice properties from model based approaches</li>
+<li>Clusters must be interpreted and are often very hard to interpret. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-83" style="background:;">
+  <hgroup>
+    <h2>Further resources</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Sources of lecture notes
+
+<ul>
+<li><a href="http://stat.ethz.ch/education/semesters/SS_2006/CompStat/sk-ch2.pdf">http://stat.ethz.ch/education/semesters/SS_2006/CompStat/sk-ch2.pdf</a></li>
+<li><a href="http://www.cbcb.umd.edu/%7Ehcorrada/PracticalML/">http://www.cbcb.umd.edu/~hcorrada/PracticalML/</a></li>
+<li> <a href="http://www.youtube.com/watch?v=wQhVWUcXM0A">Rafa&#39;s Distances and Clustering Video</a></li>
+<li><a href="http://www-stat.stanford.edu/%7Etibs/ElemStatLearn/">Elements of statistical learning</a></li>
+<li><a href="https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf">Vadim&#39;s lecture notes</a> </li>
+<li><a href="http://www.public.iastate.edu/%7Emaitra/stat501/lectures/ModelBasedClustering.pdf">http://www.public.iastate.edu/~maitra/stat501/lectures/ModelBasedClustering.pdf</a></li>
+<li><a href="http://www.ics.uci.edu/%7Esmyth/courses/cs274/readings/fraley_raftery.pdf">http://www.ics.uci.edu/~smyth/courses/cs274/readings/fraley_raftery.pdf</a></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+
+  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+<!-- Grab CDN jQuery, fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Load Javascripts for Widgets -->
+<!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script> -->
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="../../libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+</html>
