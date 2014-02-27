@@ -50,6 +50,30 @@
     <!-- SLIDES -->
       <slide class="" id="slide-1" style="background:;">
   <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article>
+    <p>Learn how to write papers in a very clear and simple style. Whenever you can write in plain english and make the approach you are using understandable and clear. This can (sometimes) make it harder to get your papers into journals. But simple, clear language leads to much higher use/citation of your work. Examples of great writers are: John Storey, Brad Efron, Robert May, Martin Nowak, etc.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper(s) of the day</h2>
+  </hgroup>
+  <article>
+    <p><a href="http://www.ped.fas.harvard.edu/people/faculty/publications_nowak/DreberRand_Nature08.pdf">Winners don&#39;t punish</a></p>
+
+<p><a href="http://irl.cs.ucla.edu/papers/right-size.html">On being the right size</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-3" style="background:;">
+  <hgroup>
     <h2>Samsung Galaxy S3</h2>
   </hgroup>
   <article>
@@ -61,7 +85,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-2" style="background:;">
+      <slide class="" id="slide-4" style="background:;">
   <hgroup>
     <h2>Samsung Data</h2>
   </hgroup>
@@ -74,7 +98,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-3" style="background:;">
+      <slide class="" id="slide-5" style="background:;">
   <hgroup>
     <h2>Slightly processed data</h2>
   </hgroup>
@@ -102,7 +126,7 @@ names(samsungData)[1:12]
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-4" style="background:;">
+      <slide class="" id="slide-6" style="background:;">
   <hgroup>
     <h2>Plotting average acceleration for first subject</h2>
   </hgroup>
@@ -121,7 +145,7 @@ legend(&quot;bottomright&quot;, legend = unique(sub1$activity), col = unique(sub
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-5" style="background:;">
+      <slide class="" id="slide-7" style="background:;">
   <hgroup>
     <h2>Clustering based just on average acceleration</h2>
   </hgroup>
@@ -140,7 +164,7 @@ myplclust(hclustering, lab.col = unclass(sub1$activity))
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-6" style="background:;">
+      <slide class="" id="slide-8" style="background:;">
   <hgroup>
     <h2>Plotting max acceleration for the first subject</h2>
   </hgroup>
@@ -156,7 +180,7 @@ plot(sub1[,11],pch=19,col = sub1$activity,ylab=names(sub1)[11])
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-7" style="background:;">
+      <slide class="" id="slide-9" style="background:;">
   <hgroup>
     <h2>Clustering based on maximum acceleration</h2>
   </hgroup>
@@ -173,7 +197,7 @@ myplclust(hclustering,lab.col=unclass(sub1$activity))
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-8" style="background:;">
+      <slide class="" id="slide-10" style="background:;">
   <hgroup>
     <h2>Singular Value Decomposition</h2>
   </hgroup>
@@ -190,7 +214,7 @@ plot(svd1$u[, 2], col = sub1$activity, pch = 19)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-9" style="background:;">
+      <slide class="" id="slide-11" style="background:;">
   <hgroup>
     <h2>Find maximum contributor</h2>
   </hgroup>
@@ -204,7 +228,7 @@ plot(svd1$u[, 2], col = sub1$activity, pch = 19)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-10" style="background:;">
+      <slide class="" id="slide-12" style="background:;">
   <hgroup>
     <h2>New clustering with maximum contributer</h2>
   </hgroup>
@@ -221,7 +245,7 @@ myplclust(hclustering, lab.col = unclass(sub1$activity))
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-11" style="background:;">
+      <slide class="" id="slide-13" style="background:;">
   <hgroup>
     <h2>New clustering with maximum contributer</h2>
   </hgroup>
@@ -236,7 +260,7 @@ myplclust(hclustering, lab.col = unclass(sub1$activity))
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-12" style="background:;">
+      <slide class="" id="slide-14" style="background:;">
   <hgroup>
     <h2>K-means clustering (nstart=1, first try)</h2>
   </hgroup>
@@ -259,7 +283,7 @@ table(kClust$cluster,sub1$activity)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-13" style="background:;">
+      <slide class="" id="slide-15" style="background:;">
   <hgroup>
     <h2>K-means clustering (nstart=1, second try)</h2>
   </hgroup>
@@ -282,7 +306,7 @@ table(kClust$cluster, sub1$activity)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-14" style="background:;">
+      <slide class="" id="slide-16" style="background:;">
   <hgroup>
     <h2>K-means clustering (nstart=100, first try)</h2>
   </hgroup>
@@ -305,7 +329,7 @@ table(kClust$cluster,sub1$activity)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-15" style="background:;">
+      <slide class="" id="slide-17" style="background:;">
   <hgroup>
     <h2>K-means clustering (nstart=100, second try)</h2>
   </hgroup>
@@ -328,7 +352,7 @@ table(kClust$cluster, sub1$activity)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-16" style="background:;">
+      <slide class="" id="slide-18" style="background:;">
   <hgroup>
     <h2>Cluster 1 Variable Centers (Laying)</h2>
   </hgroup>
@@ -342,7 +366,7 @@ table(kClust$cluster, sub1$activity)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-17" style="background:;">
+      <slide class="" id="slide-19" style="background:;">
   <hgroup>
     <h2>Cluster 2 Variable Centers (Walking)</h2>
   </hgroup>

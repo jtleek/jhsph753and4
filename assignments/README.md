@@ -40,6 +40,14 @@ Assignment 2
 Final Project
 --------------
 
-Assigned: Tuesday, January 21st
+Assigned: Thursday, February 27th
 Due: Friday, March 14th
-[Project link]
+
+You are to create a [swirl](http://swirlstats.com/) tutorial on an advanced statistical method. I will make a list of acceptable methods. Your tutorial should:
+
+* Introduce the basic idea
+* Help the user understand the properties with simple examples
+* Show at least one real data example
+* Describe the potential issues with using this method 
+
+
