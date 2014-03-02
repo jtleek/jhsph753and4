@@ -55,7 +55,7 @@ You are to create a [swirl](http://swirlstats.com/) tutorial on an advanced stat
 * Text data cleaning with regular expressions
 * Clustering (hierarchical/k-means/etc.)
 * __Matrix decomposition (taken) (PCA/SVD/etc.)__
-* Generalized linear models (Poisson/Logistic special cases)
+* __Generalized linear models (Poisson/Logistic special cases)__
 * Generalized estimating equations
 * Mixed effects models
 * Quantile regression
@@ -65,16 +65,16 @@ You are to create a [swirl](http://swirlstats.com/) tutorial on an advanced stat
 * The boostrap
 * Bagging
 * Boosting
-* Multiple testing
+* __Multiple testing__
 * Classification and regression trees
 * Prediction study design (test/training sets/cross validation)
 * Random forests
-* Linear discriminant analysis
+* __Linear discriminant analysis__
 * Cross validation 
-* Automated model selection (AIC, BIC,etc.)
+* __Automated model selection (AIC, BIC,etc.)__
 * __Regularized regression (ridge regression, lasso, etc.)__
 * Expectation maximization algorithm
-* Directed acyclic graphs for causal inference
+* __Directed acyclic graphs for causal inference__
 * Principal strata 
 * Multiple imputation for missing data
 * Any other idea you have 
