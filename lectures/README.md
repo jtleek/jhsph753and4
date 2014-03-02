@@ -36,3 +36,7 @@ February 25:
 
 * Dimension Reduction [Lecture](http://jtleek.github.io/jhsph753and4/lectures/06_01_dimensionReduction/#1)
 * Examples from your homework [Lecture](http://jtleek.github.io/jhsph753and4/lectures/06_01_examplesHomework/#1)
+
+February 27: 
+
+[Lecture](http://jtleek.github.io/jhsph753and4/lectures/06_01_dimensionReduction/#1)

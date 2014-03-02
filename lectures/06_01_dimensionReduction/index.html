@@ -50,10 +50,10 @@
     <!-- SLIDES -->
       <slide class="" id="slide-1" style="background:;">
   <hgroup>
-    <h2>Pro tip</h2>
+    <h2>Pro Tip</h2>
   </hgroup>
   <article>
-    <p>Learn how to write papers in a very clear and simple style. Whenever you can write in plain english and make the approach you are using understandable and clear. This can (sometimes) make it harder to get your papers into journals. But simple, clear language leads to much higher use/citation of your work. Examples of great writers are: John Storey, Brad Efron, Robert May, Martin Nowak, etc.</p>
+    <p>The person who comes to the meeting with the most hard data/work done wins. Most people (your instructor included) are so discombobulated/busy that they will show up with more opinions than facts. If you show up with solid, carefully considered evidence you are way ahead. You will go to a ton of meetings in your career. The way to not be disappointed is to be the most prepared person in the room.</p>
 
   </article>
   <!-- Presenter Notes -->
@@ -61,18 +61,34 @@
 
       <slide class="" id="slide-2" style="background:;">
   <hgroup>
-    <h2>Paper(s) of the day</h2>
+    <h2>Papers of the day</h2>
   </hgroup>
   <article>
-    <p><a href="http://www.ped.fas.harvard.edu/people/faculty/publications_nowak/DreberRand_Nature08.pdf">Winners don&#39;t punish</a></p>
+    <p><a href="http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf">The PageRank Citation Ranking: Bringing order to the web</a></p>
 
-<p><a href="http://irl.cs.ucla.edu/papers/right-size.html">On being the right size</a></p>
+<p>Abstract:</p>
+
+<p><em>The importance of a Web page is an inherently sub jective matter, which depends on the
+readers interests, knowledge and attitudes. But there is still much that can be said ob jectively about the relative importance of Web pages. This paper describes PageRank, a method for rating Web pages ob jectively and mechanically, effectively measuring the human interest and attention devoted to them. We compare PageRank to an idealized random Web surfer. We show how to effciently compute PageRank for large numbers of pages. And, we show how to apply PageRank to search and to user navigation.</em></p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
       <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Not a multibillion dollar company but</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/svd.png" height=275></p>
+
+<p><img class="center" src="../../assets/img/eigenstrat.png" height=275></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
   <hgroup>
     <h2>Matrix data</h2>
   </hgroup>
@@ -88,7 +104,7 @@ image(1:10,1:40,t(dataMatrix)[,nrow(dataMatrix):1])
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-4" style="background:;">
+      <slide class="" id="slide-5" style="background:;">
   <hgroup>
     <h2>Cluster the data</h2>
   </hgroup>
@@ -103,7 +119,7 @@ heatmap(dataMatrix)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-5" style="background:;">
+      <slide class="" id="slide-6" style="background:;">
   <hgroup>
     <h2>What if we add a pattern?</h2>
   </hgroup>
@@ -123,7 +139,7 @@ for(i in 1:40){
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-6" style="background:;">
+      <slide class="" id="slide-7" style="background:;">
   <hgroup>
     <h2>What if we add a pattern? - the data</h2>
   </hgroup>
@@ -138,7 +154,7 @@ image(1:10,1:40,t(dataMatrix)[,nrow(dataMatrix):1])
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-7" style="background:;">
+      <slide class="" id="slide-8" style="background:;">
   <hgroup>
     <h2>What if we add a pattern? - the clustered data</h2>
   </hgroup>
@@ -153,7 +169,7 @@ heatmap(dataMatrix)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-8" style="background:;">
+      <slide class="" id="slide-9" style="background:;">
   <hgroup>
     <h2>Patterns in rows and columns</h2>
   </hgroup>
@@ -171,7 +187,7 @@ plot(colMeans(dataMatrixOrdered),xlab=&quot;Column&quot;,ylab=&quot;Column Mean&
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-9" style="background:;">
+      <slide class="" id="slide-10" style="background:;">
   <hgroup>
     <h2>Related problems</h2>
   </hgroup>
@@ -189,7 +205,23 @@ plot(colMeans(dataMatrixOrdered),xlab=&quot;Column&quot;,ylab=&quot;Column Mean&
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-10" style="background:;">
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Same thing, now with more math</h2>
+  </hgroup>
+  <article>
+    <p>Suppose we have \(n\) measurements on each of \(m\) variables \(X_j\), \(j=1,\ldots,n\). There are (at least) two equivalent ways to set up the problem</p>
+
+<ul>
+<li>Produce a derived (and small) set of uncorrelated variables \(Z_k = \alpha_k X\), \(k=1,2,\ldots,q < m\) that are linear combinations of the original variables, and that explain most of the variation in the original data</li>
+<li>Approximate the \(n \times m\) matrix \(X\) by the best rank-\(q\) matrix \(\hat{X}_{(q)}\). </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
   <hgroup>
     <h2>Related solutions - PCA/SVD</h2>
   </hgroup>
@@ -210,7 +242,250 @@ plot(colMeans(dataMatrixOrdered),xlab=&quot;Column&quot;,ylab=&quot;Column Mean&
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-11" style="background:;">
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>The idea behind PCA</h2>
+  </hgroup>
+  <article>
+    <p>If \(X\) is a random vector with mean \(0\) and covariance matrix \(\Sigma\) then the variance of the linear combination \(Z = \alpha^T X\) is given by:</p>
+
+<p>\[{\rm Var}(Z) = \alpha^T\Sigma\alpha\]</p>
+
+<p>We are seeking an \(\alpha\) such that \({\rm Var}(Z)\) is large; clearly we must impose a scale restriction on \(\alpha\). This leads to the principal-component criterion:</p>
+
+<p>\(\max_{\alpha} \alpha^T\Sigma\alpha\) subject to \(||\alpha|| = 1\)</p>
+
+<p>The solution \(\alpha\) is the largest eigenvector of \(\Sigma\):</p>
+
+<p>\[\Sigma \alpha = d^2 \alpha\]</p>
+
+<p>and \({\rm Var}(Z) = {\rm Var}(\alpha^T X) = d^2\).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>PCA derived variables</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/pcs1.png" height=400></p>
+
+<p>\(Z_1 = \alpha_1^T X\) is the projection of the data onto the longest direction, and has the largest variance amongst all such normalized projections. \(\alpha_1\) is the largest eigenvalue of \(\hat{\Sigma}\), the sample covariance matrix of \(X\). \(Z_2\) and \(\alpha_2\) correspond to the second-largest eigenvector.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Singular value decomposition</h2>
+  </hgroup>
+  <article>
+    <p>For any \(n \times m\) matrix \(X\) (assume \(n > m\)):
+\[X = UDV^T\]
+is the SVD of \(X\) where</p>
+
+<ul>
+<li>\(U\) is \(n \times m\) orthogonal, the left singular vectors</li>
+<li>\(V\) is \(m \times m\) orthogonal, the right singular vectors</li>
+<li>\(D\) is diagonal with \(d_1 \geq d_2 \geq \cdots \geq d_m \geq 0\), the singular </li>
+</ul>
+
+<p>The SVD always exists, and is unique (up to signs and ties). </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>SVD is the best rank \(q\) approximation</h2>
+  </hgroup>
+  <article>
+    <p>Let \(D_q\) be \(D\) but all but the first \(q\) diagonal elements set to zero. Then \(\hat{X}_q = UD_qV^T\) solves:</p>
+
+<p>\[\min_{{\rm rank}(\hat{X}_q) = q} || X - \hat{X}_q||_F\]</p>
+
+<p>here \(||\cdot||_F\) is the Frobenius norm: \(||X||_F = \sqrt{\sum_{i,j} x_{ij}^2}\) \(= \sqrt{{\rm tr}(X^TX)}\)</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Some important mathematical facts</h2>
+  </hgroup>
+  <article>
+    <p>\[X = UDV^T = \sum_{j=1}^r \sigma_j u_j v_j^T\] </p>
+
+<p>where \(r\) is the rank of \(X\). Since \(\min_{r(Z) = k} ||X-Z||_F\) is</p>
+
+<p>\[Z = \hat{X}_k = \sum_{j=1}^k \sigma_j u_j v_j^T\]</p>
+
+<p>the truncation error is:</p>
+
+<p>\[|| X - \hat{X}_k||^2 = \sum_{j=k+1}^r \sigma^2_j\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>SVD dimensions in pictures</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/svddim1.png" height=300></p>
+
+<p><img class="center" src="../../assets/img/svddim2.png" height=150></p>
+
+<p><a href="https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf">https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>SVD and residuals</h2>
+  </hgroup>
+  <article>
+    <p>\(\hat{X}_k = \sum_{j=1}^k \sigma u_jv_j^T\) and \(R = \sum_{k+1}^n \sigma u_j v_j^T\) for \(k=\{1,3,9,18,36,72,144\}\)</p>
+
+<p><img class="center" src="../../assets/img/svdresid2.png" height=150></p>
+
+<p><img class="center" src="../../assets/img/svdresid1.png" height=300></p>
+
+<p><a href="https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf">https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Data compression from SVD</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Instead of storing \(\hat{X}_k\) as \(m \times n\) matrix store \(k \times m + k \times n + k = k \times (m+n+1)\) values.</li>
+<li>Since often \(r(X) = \min(m,n)\)</li>
+<li>Typically \(k << r(X)\)</li>
+<li>Typically \(k \times (m + n + 1) << mn\) </li>
+<li>In this sense matrix reduction is equivalent to data compression</li>
+</ul>
+
+<p><a href="https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf">https://dl.dropboxusercontent.com/u/7710864/jhsph753/lectures/vadim.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Important fact</h2>
+  </hgroup>
+  <article>
+    <p>\[ X^TX = VDU^T UDV^T = VD^2V^T\]
+\[ XX^T  = UDV^T VDU^T = UD^2U^T\]</p>
+
+<p>\(X^TX\) and \(XX^T\) are symmetric matrices. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Spectral theorem</h2>
+  </hgroup>
+  <article>
+    <p>Every symmetric matrix \(\Sigma\) can be decomposed</p>
+
+<p>\[ \Sigma = W \Lambda W^T\] </p>
+
+<ul>
+<li>\(W\) are orthogonal eigenvectors</li>
+<li>\(\Lambda\) are a diagonal matrix of real valued eigenvectors</li>
+<li>\(CW = W\Lambda\) so \(Cw_j = \lambda_i w_j\) (eigenvector definition)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Relationship to PCA</h2>
+  </hgroup>
+  <article>
+    <p>If \(X\) is centered (column means zero). Then </p>
+
+<p>\[C = \frac{1}{n}\sum_i x_i x_i^T = \frac{1}{n}XX^T\]</p>
+
+<p>is an estimator of covariance. \(C\) is symmetric and we are looking for the largest eigenvalue. Recall that</p>
+
+<p>\[C = W\Lambda W = VD^{2}V^T\]</p>
+
+<p>For \(X\) is centered (column means zero)</p>
+
+<ul>
+<li>The columns of \(V\) are the principal components, </li>
+<li>\(Z_j = U_j d_j\) are the scores</li>
+<li>\(\frac{d_i^2}{\sum_{j=1}^m d_j^2}\) is the ``fraction of variation explained&#39;&#39; by the $i$th singular vector</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Linear-Bilinear regression</h2>
+  </hgroup>
+  <article>
+    <p>Gabriel 1978 JRSSB showed how to do this with covariates. Suppose we want to minimize:</p>
+
+<p>\[\min_{{\rm rank}(\hat{X}_q) = q} || X - \beta Z - \hat{X}_q||_F\]</p>
+
+<p>We can do this in three steps:</p>
+
+<ul>
+<li>Calculate the least squares estimator \(\hat{\beta}\) minimizing  \(|| X - \beta Z |_F\)</li>
+<li>Calculate the residuals \(R = X - \hat{\beta}Z\)</li>
+<li>Take the singular value decomposition of \(R = UDV^T\). Set all but the first \(q\) diagonal elements of \(D\) to zero. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>A blessing of dimensionality</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/blessdim.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>A property of imbalanced dimensions</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/leekstoreythm1.png" height=300></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-27" style="background:;">
   <hgroup>
     <h2>Components of the SVD - \(u\) and \(v\)</h2>
   </hgroup>
@@ -228,7 +503,7 @@ plot(svd1$v[,1],xlab=&quot;Column&quot;,ylab=&quot;First right singular vector&q
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-12" style="background:;">
+      <slide class="" id="slide-28" style="background:;">
   <hgroup>
     <h2>Components of the SVD - Variance explained</h2>
   </hgroup>
@@ -244,7 +519,7 @@ plot(svd1$d^2/sum(svd1$d^2),xlab=&quot;Column&quot;,ylab=&quot;Prop. of variance
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-13" style="background:;">
+      <slide class="" id="slide-29" style="background:;">
   <hgroup>
     <h2>Relationship to principal components</h2>
   </hgroup>
@@ -261,7 +536,7 @@ abline(c(0,1))
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-14" style="background:;">
+      <slide class="" id="slide-30" style="background:;">
   <hgroup>
     <h2>Components of the SVD - variance explained</h2>
   </hgroup>
@@ -281,7 +556,7 @@ plot(svd1$d^2/sum(svd1$d^2),xlab=&quot;Column&quot;,ylab=&quot;Prop. of variance
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-15" style="background:;">
+      <slide class="" id="slide-31" style="background:;">
   <hgroup>
     <h2>What if we add a second pattern?</h2>
   </hgroup>
@@ -306,7 +581,7 @@ hh &lt;- hclust(dist(dataMatrix)); dataMatrixOrdered &lt;- dataMatrix[hh$order,]
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-16" style="background:;">
+      <slide class="" id="slide-32" style="background:;">
   <hgroup>
     <h2>Singular value decomposition - true patterns</h2>
   </hgroup>
@@ -324,7 +599,7 @@ plot(rep(c(0,1),5),pch=19,xlab=&quot;Column&quot;,ylab=&quot;Pattern 2&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-17" style="background:;">
+      <slide class="" id="slide-33" style="background:;">
   <hgroup>
     <h2>\(v\) and patterns of variance in rows</h2>
   </hgroup>
@@ -342,9 +617,9 @@ plot(svd2$v[,2],pch=19,xlab=&quot;Column&quot;,ylab=&quot;Second right singular 
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-18" style="background:;">
+      <slide class="" id="slide-34" style="background:;">
   <hgroup>
-    <h2>\(d\) and variance explained</h2>
+    <h2>\(d\) and variance explained (scree plot)</h2>
   </hgroup>
   <article>
     <pre><code class="r">svd1 &lt;- svd(scale(dataMatrixOrdered))
@@ -359,7 +634,47 @@ plot(svd1$d^2/sum(svd1$d^2),xlab=&quot;Column&quot;,ylab=&quot;Percent of varian
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-19" style="background:;">
+      <slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>A pathological case</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">dataMatrix &lt;- matrix(rnorm(400),nrow=40)
+dataMatrix[1,] = 50*rep(c(0,1),each=5)
+ss = svd(dataMatrix - rowMeans(dataMatrix)); plot(ss$v[,1])
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Choosing the number of components</h2>
+  </hgroup>
+  <article>
+    <p>If \(m\) is large:
+<img class="center" src="../../assets/img/acsv.png" height=150></p>
+
+<p>Otherwise:</p>
+
+<ul>
+<li>Calculate observed statistics \(s_i = \frac{d_i^2}{\sum_{j=1}^m d_j^2}\), \(i=1,\ldots,m\)</li>
+<li>Permute each row or column of the data separately to get null matrices \(X^{0b}\), \(b=1,\ldots,B\)</li>
+<li>Recalculate the SVD and get null statistics \(s_i^0 = \frac{d_i^{02}}{\sum_{j=1}^m d_j^{02}}\), \(i=1,\ldots,m\)</li>
+<li>Calculate \(p\)-values for each component:
+\[ p_i = \frac{1+\sum_{b=1}^B I(s_i^0 > s_i)}{B+1}\]</li>
+</ul>
+
+<p>Buja, A. and Eyuboglu, N. (1992). Remarks on parallel analysis.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-37" style="background:;">
   <hgroup>
     <h2>Missing values</h2>
   </hgroup>
@@ -377,7 +692,7 @@ svd1 &lt;- svd(scale(dataMatrix2))  ## Doesn&#39;t work!
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-20" style="background:;">
+      <slide class="" id="slide-38" style="background:;">
   <hgroup>
     <h2>Imputing {impute}</h2>
   </hgroup>
@@ -390,13 +705,13 @@ svd1 &lt;- svd(scale(dataMatrixOrdered)); svd2 &lt;- svd(scale(dataMatrix2))
 par(mfrow=c(1,2)); plot(svd1$v[,1],pch=19); plot(svd2$v[,1],pch=19)
 </code></pre>
 
-<div class="rimage center"><img src="fig/unnamed-chunk-12.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" class="plot" /></div>
+<div class="rimage center"><img src="fig/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" class="plot" /></div>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-21" style="background:;">
+      <slide class="" id="slide-39" style="background:;">
   <hgroup>
     <h2>Face example</h2>
   </hgroup>
@@ -413,7 +728,7 @@ image(t(faceData)[,nrow(faceData):1])
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-22" style="background:;">
+      <slide class="" id="slide-40" style="background:;">
   <hgroup>
     <h2>Face example - variance explained</h2>
   </hgroup>
@@ -422,13 +737,13 @@ image(t(faceData)[,nrow(faceData):1])
 plot(svd1$d^2/sum(svd1$d^2),pch=19,xlab=&quot;Singular vector&quot;,ylab=&quot;Variance explained&quot;)
 </code></pre>
 
-<div class="rimage center"><img src="fig/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" class="plot" /></div>
+<div class="rimage center"><img src="fig/unnamed-chunk-14.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" class="plot" /></div>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-23" style="background:;">
+      <slide class="" id="slide-41" style="background:;">
   <hgroup>
     <h2>Face example - create approximations</h2>
   </hgroup>
@@ -449,7 +764,7 @@ approx10 &lt;- svd1$u[,1:10] %*% diag(svd1$d[1:10])%*% t(svd1$v[,1:10])
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-24" style="background:;">
+      <slide class="" id="slide-42" style="background:;">
   <hgroup>
     <h2>Face example - plot approximations</h2>
   </hgroup>
@@ -461,13 +776,139 @@ image(t(approx10)[,nrow(approx10):1], main = &quot;(c)&quot;)
 image(t(faceData)[,nrow(faceData):1], main = &quot;(d)&quot;)  ## Original data
 </code></pre>
 
-<div class="rimage center"><img src="fig/unnamed-chunk-14.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" class="plot" /></div>
+<div class="rimage center"><img src="fig/unnamed-chunk-15.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" class="plot" /></div>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-      <slide class="" id="slide-25" style="background:;">
+      <slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>Digits example</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/digits.png" height=400></p>
+
+<p>130 threes, a subset of 638 such threes and part of the handwritten digit dataset used in the Elements of Statistical learning. Each three is a \(16\times 16\) greyscale image and the variables \(X_j\) \(j =1,\ldots 256\) are the grey scale values for each pixel. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>Digits example</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/digits2.png" height=400></p>
+
+<p>Two-component model has the form:</p>
+
+<p>\[\hat{f}(\lambda)  = \bar{X} + \lambda_1 v_1 + \lambda_2 v_2\]</p>
+
+<p><img class="center" src="../../assets/img/equation.png" height=50></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>Example application: Pagerank</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/pagerank.png" height=400></p>
+
+<p><a href="http://statweb.stanford.edu/%7Etibs/ElemStatLearn/">http://statweb.stanford.edu/~tibs/ElemStatLearn/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>Random surfer model</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>\(L_{ij} = 1\) if page \(j\) points to page \(i\)</li>
+<li>\(c_j = \sum_{i=1}^N L_{ij}\) equal the number of pages pointed to by page \(j\)</li>
+<li>Think about a &quot;random surfer&quot; who starts on a page and clicks a link at random</li>
+<li>What ist he probability they end up on any specific page?</li>
+<li>This is a <a href="http://en.wikipedia.org/wiki/Markov_chain">Markov Chain</a></li>
+</ul>
+
+<p>\[p_i = (1-d)/N + d \sum_{j=1}^N \left(\frac{L_{ij}}{c_j} p_j\right)\]</p>
+
+<p><a href="http://statweb.stanford.edu/%7Etibs/ElemStatLearn/">http://statweb.stanford.edu/~tibs/ElemStatLearn/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>Pagerank as an eigenvalue problem</h2>
+  </hgroup>
+  <article>
+    <p>\[p = (1-d) e + d LD_c^{-1}p\]</p>
+
+<p>where \(e\) is a vector of ones and \(D_c = diag(c)\) is a diagonal matrix with elements \(c_j\). If we assume \(e^Tp = N\) (so the average PageRank is 1) then:</p>
+
+<p>\[p = [(1-d)ee^T/N+ dLD_c^{-1}]p\]
+\[ = Ap\]</p>
+
+<ul>
+<li>\(A\) has largest eigenvalue equal to 1 (properties of Markov Chain)</li>
+<li>So you can solve for the eigenvector using the <a href="http://en.wikipedia.org/wiki/Power_iteration">power method</a></li>
+<li>\(p_k \leftarrow A p_{k-1}\) ; \(p_k \leftarrow N \frac{p_k}{e^Tp_k}\)</li>
+</ul>
+
+<p><a href="http://statweb.stanford.edu/%7Etibs/ElemStatLearn/">http://statweb.stanford.edu/~tibs/ElemStatLearn/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>Back to the example</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/pagerank.png" height=200></p>
+
+<p>\[L = \left(\begin{array}{cccc} 0 & 0 & 1 & 0 \\ 1 & 0 & 0 & 0 \\ 1 & 1& 0 & 1 \\ 0 & 0 & 0& 0 \end{array}\right)\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>Doing PageRank in R</h2>
+  </hgroup>
+  <article>
+    <pre><code class="r">L = matrix(c(0,0,1,0,1,0,0,0,1,1,0,1,0,0,0,0),byrow=T,nrow=4)
+cc = colSums(L); d = 0.85; e = rep(1,4); N = 4
+A = (1-d) * e %*% t(e) + d * L %*% solve(diag(cc))
+Re(eigen(A)$values)
+</code></pre>
+
+<pre><code>[1]  1.450e+00 -4.250e-01 -4.250e-01  1.761e-17
+</code></pre>
+
+<pre><code class="r">phat = Re(eigen(A)$vectors[1,]); phat = (N* phat/(t(e) %*% phat))
+phat
+</code></pre>
+
+<pre><code>[1]  1.185e+00  1.408e+00  1.408e+00 -7.284e-16
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-50" style="background:;">
   <hgroup>
     <h2>Notes and further resources</h2>
   </hgroup>

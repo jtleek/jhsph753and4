@@ -19,6 +19,21 @@ mode        : selfcontained # {standalone, draft}
 
 
 
+## Pro tip
+
+Learn how to write papers in a very clear and simple style. Whenever you can write in plain english and make the approach you are using understandable and clear. This can (sometimes) make it harder to get your papers into journals. But simple, clear language leads to much higher use/citation of your work. Examples of great writers are: John Storey, Brad Efron, Robert May, Martin Nowak, etc.
+
+---
+
+## Paper(s) of the day
+
+[Winners don't punish](http://www.ped.fas.harvard.edu/people/faculty/publications_nowak/DreberRand_Nature08.pdf)
+
+[On being the right size](http://irl.cs.ucla.edu/papers/right-size.html)
+
+
+---
+
 ## Samsung Galaxy S3
 
 <img class=center src=../../assets/img/samsung.png height=450>
