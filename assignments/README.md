@@ -72,7 +72,7 @@ You are to create a [swirl](http://swirlstats.com/) tutorial on an advanced stat
 * Linear discriminant analysis
 * Cross validation 
 * Automated model selection (AIC, BIC,etc.)
-* Regularized regression (ridge regression, lasso, etc.)
+* __Regularized regression (ridge regression, lasso, etc.)__
 * Expectation maximization algorithm
 * Directed acyclic graphs for causal inference
 * Principal strata 
