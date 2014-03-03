@@ -57,7 +57,7 @@ You are to create a [swirl](http://swirlstats.com/) tutorial on an advanced stat
 * __Matrix decomposition (taken) (PCA/SVD/etc.)__
 * __Generalized linear models (Poisson/Logistic special cases)__
 * Generalized estimating equations
-* Mixed effects models
+* __Mixed effects models__
 * Quantile regression
 * Generalized additive models
 * Kernel smoothing
