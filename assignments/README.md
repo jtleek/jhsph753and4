@@ -52,8 +52,8 @@ You are to create a [swirl](http://swirlstats.com/) tutorial on an advanced stat
 
 ### Acceptable methods
 
-* Text data cleaning with regular expressions
-* Clustering (hierarchical/k-means/etc.)
+* __Text data cleaning with regular expressions__
+* __Clustering (hierarchical/k-means/etc.)__
 * __Matrix decomposition (taken) (PCA/SVD/etc.)__
 * __Generalized linear models (Poisson/Logistic special cases)__
 * Generalized estimating equations
