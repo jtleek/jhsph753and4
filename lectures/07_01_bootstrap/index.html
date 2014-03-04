@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bootstrapping</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Bootstrapping">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="../../libraries/frameworks/io2012/js/slides" 
+    src="../../libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+    <link rel="stylesheet" href = "../../assets/css/custom.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BACKUP.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BASE.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.LOCAL.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.orig">
+<link rel="stylesheet" href = "../../assets/css/custom.css.REMOTE.546.css">
+<link rel="stylesheet" href = "../../assets/css/ribbons.css">
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    <!-- END LOGO SLIDE -->
+    
+
+    <!-- TITLE SLIDE -->
+    <!-- Should I move this to a Local Layout File? -->
+    <slide class="title-slide segue nobackground">
+      <aside class="gdbar">
+        <img src="../../assets/img/bloomberg_shield.png">
+      </aside>
+      <hgroup class="auto-fadein">
+        <h1>Bootstrapping</h1>
+        <h2></h2>
+        <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+      </hgroup>
+          </slide>
+
+    <!-- SLIDES -->
+      <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article>
+    <p>Science is run by humans. Science is also not one thing, but a lot of things. Keeping this in mind can save you a lot of headache. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Papers of the day</h2>
+  </hgroup>
+  <article>
+    <p><a href="http://arxiv.org/abs/1402.1894">R Markdown: Integrating A Reproducible Analysis Tool into Introductory Statistics</a></p>
+
+<p><a href="http://blogs.plos.org/everyone/2014/02/24/plos-new-data-policy-public-access-data/">PloS Data Sharing Policy</a></p>
+
+<ul>
+<li><a href="http://scientopia.org/blogs/neuropolarbear/2014/02/28/9-questions-plos-clarification/">9 questions about the new PLoS clarification</a></li>
+<li><a href="http://rxnm.wordpress.com/2014/03/03/plos-clarification-confuses-me-more/">PLoS Clarification confuses me more</a></li>
+<li><a href="http://smallpondscience.com/2014/03/03/i-own-my-data-until-i-dont/">I own my data until I don&#39;t</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>The bootstrap - the 30,000 foot view</h2>
+  </hgroup>
+  <article>
+    <p>Bootstrapping is a computational procedure for:</p>
+
+<ul>
+<li>Calculating standard errors</li>
+<li>Forming confidence intervals</li>
+<li>Performing hypothesis tests</li>
+<li>Improving predictors (called bagging)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>A bit of history</h2>
+  </hgroup>
+  <article>
+    <p>The basic idea behind bootstrapping is to treat the sample of data you observe (or some appropriate function of the data) as
+if it was the super-population you were sampling from. Then you sample from the observed set of values to try to approximate
+the sampling variation in the whole population. </p>
+
+<p>The idea of the bootstrap was originally proposed by <a href="http://projecteuclid.org/DPubS?service=UI&amp;version=1.0&amp;verb=Display&amp;handle=euclid.aos/1176344552">Efron in 1979</a> </p>
+
+<p>Related ideas are very old by the standards of statistics (Quenouille, 1956 Notes on bias in estimation. Tukey, 1958 Bias and confidence in not-quite large samples) </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>The Frequentist &quot;Central Dogma&quot;</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/frequentist.jpg" height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>The Bootstrap &quot;Central Dogma&quot;</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/bootstrap.jpg" height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>The plug in principal and ECDF</h2>
+  </hgroup>
+  <article>
+    <p>The <strong>plug-in</strong> principle states that if we have a parameter \(\theta = t(F)\), then we estimate the parameter
+by applying the same functional to an estimate of the distribution function \(\hat{\theta} = t(\hat{F}_n)\). Although
+other estimates can also be used\vsp
+The default \(\hat{F}_n = {\mathbb F}_n\) is the empirical distribution \[ {\mathbb F}_n(y) = \frac{1}{n} \sum_{i=1}^n 1(Y_i \leq y)\]
+A sample \(Y_i^*\) from \({\mathbb F}_n\) has the property that \(Y_i^* = Y_j\) with probability \(1/n\) for \(1 \leq j \leq n\)\vsp
+Why \({\mathbb F}_n\)?</p>
+
+<ul>
+<li>Glivenko-Cantelli (\(||{\mathbb F}_n-F||_\infty  = \sup_{y\in \mathbb{R}}|{\mathbb F}_n(y) - F(y)| \rightarrow_{a.s.} 0\))</li>
+<li>\({\mathbb F}_n\) is a maximum likelihood estimate (see e.g. <a href="http://www.cs.huji.ac.il/%7Eshashua/papers/class3-ML-MaxEnt.pdf">http://www.cs.huji.ac.il/~shashua/papers/class3-ML-MaxEnt.pdf</a>)</li>
+<li>It is reasonable </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>An example of the plug in principle</h2>
+  </hgroup>
+  <article>
+    <p>Suppose \(Y_i > 0\) are <em>i.i.d.</em> from \(F\). We might be interested in:
+\[ \theta = {\rm E}_F \log(Y)\]</p>
+
+<ul>
+<li>the log of the geometric mean of F. A plug in estimate of \(\theta\) is:
+\[\hat{\theta} = {\rm E}_{{\mathbb F}_n} \log(Y^*)\]
+which is actually available in closed form:
+\[\hat{\theta} = \frac{1}{n} \sum_{i=1}^n \log(Y_i)\]
+We never specified \(F\) parametrically, hence this is a model-agnostic estimate and robustness can be expected, in large samples. (Also note \(e^{\hat{\theta}}\) is the sample geometric
+mean)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Another example</h2>
+  </hgroup>
+  <article>
+    <p>Let \(Y\) be a binary variable and suppose
+\[\theta(F) = Pr(Y = 1) = {\rm e}_F[1(Y_i = 1)]\]
+We can find the estimate of \(\theta(F)\) using the plug-in principle:
+\[\hat{\theta} = {\rm e}_{{\mathbb F}_n}[1(Y_i^* = 1)] = \bar{Y}\]
+Suppose we wanted an estimate for the variance \[{\rm Var}(\hat{\theta}) = {\rm Var}(\bar{Y}) = {\rm Var}(Y_i)/n\]</p>
+
+<p>We could use the plug in estimator
+\[{\rm Var}_{{\mathbb F}_n}(Y_i)/n = {\rm e}_{{\mathbb F}_n}[(Y_i^* - \bar{Y})^2]/n = \frac{\bar{Y}(1-\bar{Y})}{n}\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>The algebra for \({\rm Var}_{{\mathbb F}_n}(Y_i)\)</h2>
+  </hgroup>
+  <article>
+    <p>\[{\rm Var}_{{\mathbb F}_n}(Y_i)/n = {\rm E}_{{\mathbb F}_n}[(Y_i^* - \bar{Y})^2]/n\]
+\[= \sum_{j=1}^n \frac{1}{n}(Y_j - \bar{Y})^2\]
+\[=\frac{1}{n}\left[(1-\bar{Y})^2 \sum_{j=1}^n Y_j + \bar{Y}^2 \sum_{j=1}^n(1- Y_j)\right]\]
+\[=\frac{1}{n} \left[\sum_{j=1}^n Y_j - 2\bar{Y} \sum_{j=1}^n Y_j + n\bar{Y}^2\right]\]
+\[= \bar{Y}^2 - \bar{Y} = \bar{Y}(1-\bar{Y})\]</p>
+
+<p>When evaluating \({\rm E}_{{\mathbb F}_n}\), \(\bar{Y}\) is a ``parameter&#39;&#39; and treated as fixed. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Bootstrap - usually no closed form</h2>
+  </hgroup>
+  <article>
+    <p>Usually, no closed form evaluation will exist (we sort of &quot;got lucky&quot; in the previous examples). How did we get lucky? The plug-in estimate ended up being an expectation of a single random variable \(Y_i^*\).</p>
+
+<ul>
+<li><p>What if we were unlucky and the plug in estimate was a function of all of the values \(Y_1^{*},\ldots,Y_n^{*}\)?</p></li>
+<li><p>For example, suppose we wanted to estimate the variance of the sample median \(\hat{\theta} = {\mathbb F}_n^{-1}(1/2)\)?</p></li>
+<li><p>In this case, the variance \({\rm Var}_{{\mathbb F}_n}(\hat{\theta})\) is an expectation of a function of \(Y_1^*,\ldots,Y_n^*\).</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Too many bootstrap samples</h2>
+  </hgroup>
+  <article>
+    <p>It isn&#39;t clear there is a pretty formula for the variance of the median, but if we let \(X_j\) denote the number of times \(Y_j\) occurs in a bootstrap sample, then: \((X_1,\ldots,X_n) \sim Mult(n; 1/n,\ldots, 1/n)\) so:
+\[ \sum_{Y^*\in \mathcal{S}} \left\{{\mathbb F}_n^{*-1}(1/2) - {\rm E}_{{\mathbb F}_n}[{\mathbb F}_n^{-1}(1/2)]\right\}^2 \frac{n!}{\prod_{i=1}^n x_i!} (1/n)^n\]
+where \({\mathbb F}_n^{*-1}(1/2)\) is the sample median for each bootstrap sample and \(\mathcal{S}\) is the set of all unique
+bootstrap samples from \(Y_1,\ldots,Y_n\). </p>
+
+<ul>
+<li>There are \({2n -1}\choose{n}\) unique bootstrap samples.</li>
+<li>For \(n = 10\) there are 92,378 unique values. For \(n=25\) there are 63.2 trillion or so. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Monte carlo bootstrap</h2>
+  </hgroup>
+  <article>
+    <p>Most of the time, you&#39;ll use the bootstrap for parameters where a closed form doesn&#39;t necessarily exist. 
+Instead we use a <strong>Monte Carlo</strong> approach. 
+For the variance of the sample median you would:</p>
+
+<ul>
+<li>Select \(B\) independent bootstrap samples \(Y^{*b}\) from \({\mathbb F}_n\). </li>
+<li>Recalculate the statistic for each sample \(\hat{\theta}^{*b} = {\mathbb F}_n^{*b-1}(1/2)\)</li>
+<li>Approximate \(\sum_{Y^*\in \mathcal{S}} \left\{{\mathbb F}_n^{*-1}(1/2) - {\rm E}_{{\mathbb F}_n}[{\mathbb F}_n^{-1}(1/2)]\right\}^2 \frac{n!}{\prod_{i=1}^n x_i!} (1/n)^n\)
+by \[\frac{1}{B} \sum_{b=1}^B \left\{{\mathbb F}_n^{*b-1}(1/2) - \bar{{\mathbb F}}_n^{*-1}(1/2)\right\}^2\] where \(\bar{{\mathbb F}}_n^{*-1}(1/2) = \frac{1}{B}\sum_{i=1}^b {\mathbb F}_n^{*b-1}(1/2)\)</li>
+</ul>
+
+<p>As \(b \rightarrow \infty\) you get closer and closer to the exact or ``ideal bootstrap&#39;&#39;. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Bootstrap - Monte Carlo standard error</h2>
+  </hgroup>
+  <article>
+    <p>The general form for calculating bootstrap standard errors is similar:</p>
+
+<ul>
+<li>Select \(B\) independent bootstrap samples \(Y^{*b}\) from \({\mathbb F}_n\). </li>
+<li>Recalculate the statistic for each sample \(\hat{\theta}^{*b}\)</li>
+<li>Approximate \({\rm E}_{{\mathbb F}_n}[(\hat{\theta*} - \hat{\theta})^2]\)
+by \[\frac{1}{B} \sum_{b=1}^B (\hat{\theta}^{*b} - \bar{\hat{\theta}}^{*})\]
+where \(\bar{\hat{\theta}}^* = \frac{1}{B}\sum_{i=1}^b \hat{\theta}^{*b}\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Bootstrap - Monte Carlo coverage estimates</h2>
+  </hgroup>
+  <article>
+    <p>For a confidence interval \(a(Y), b(Y)\) based on a sample of size n, we may want to estimate coverage \[E_F 1_{[a < \theta < b]} = Pr(a < \theta < b | F)\]. The bootstrap estimate is
+\[E_{{\mathbb F}_n} 1_{[a < \hat{\theta} < b]} = Pr(a < \hat{\theta} < b | {\mathbb F}_n)\]
+The Monte-Carlo version of this calculation is: </p>
+
+<ul>
+<li>Select \(B\) independent bootstrap samples \(Y^{*b}\) from \({\mathbb F}_n\)</li>
+<li>Approximate the coverage by:
+\[ \hat{{\rm Coverage}}_{BOOT} = \frac{1}{B} \sum_{b=1}^B 1_{[\ell(Y^{*b}) < \hat{\theta} < u(Y^{*b})]}\]</li>
+</ul>
+
+<p>Note this means you need two steps of calculation</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+
+  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+<!-- Grab CDN jQuery, fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Load Javascripts for Widgets -->
+<!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script> -->
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="../../libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+</html>
