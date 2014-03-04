@@ -79,3 +79,10 @@ You are to create a [swirl](http://swirlstats.com/) tutorial on an advanced stat
 * Multiple imputation for missing data
 * Any other idea you have 
 
+### Info from Nick on Swirl
+
+* Presentation: http://rpubs.com/ncarchedi/author-swirl-content
+
+* Website: http://swirlstats.com
+
+* GitHub: https://github.com/swirldev/swirl
