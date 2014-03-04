@@ -44,4 +44,4 @@ February 27:
 March 4:
 
 [Lecture](http://biostat.jhsph.edu/~jleek/teaching/2011/754/lecture9.pdf)
-[Lecture in new format][(http://jtleek.github.io/jhsph753and4/lectures/07_01_bootstrap/#1]
+[Lecture in new format](http://jtleek.github.io/jhsph753and4/lectures/07_01_bootstrap/#1)
