@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Testing digression</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Testing digression">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="../../libraries/frameworks/io2012/js/slides" 
+    src="../../libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+    <link rel="stylesheet" href = "../../assets/css/custom.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BACKUP.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.BASE.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.LOCAL.546.css">
+<link rel="stylesheet" href = "../../assets/css/custom.css.orig">
+<link rel="stylesheet" href = "../../assets/css/custom.css.REMOTE.546.css">
+<link rel="stylesheet" href = "../../assets/css/ribbons.css">
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    <!-- END LOGO SLIDE -->
+    
+
+    <!-- TITLE SLIDE -->
+    <!-- Should I move this to a Local Layout File? -->
+    <slide class="title-slide segue nobackground">
+      <aside class="gdbar">
+        <img src="../../assets/img/bloomberg_shield.png">
+      </aside>
+      <hgroup class="auto-fadein">
+        <h1>Testing digression</h1>
+        <h2></h2>
+        <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+      </hgroup>
+          </slide>
+
+    <!-- SLIDES -->
+      <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article>
+    <p>Be a finisher. The key to getting a Ph.D. (or do anything important) is the ability to sit down and just power through and get it done. This means sometimes you will have to work late or on a weekend. The people who are the most successful in grad school are the people that just find a way to get it done. If it was easy...anyone would do it. </p>
+
+<p><strong>Related tip</strong>: Be aware of overwork. Academics right now is a job that can eat you up if you aren&#39;t careful. People who claim academics are lazy, or should just be happy because they are &quot;doing what they love&quot; are ignorant and should be ignored. <a href="http://jeffarchibald.ca/60-hour-work-week-badge-honour/">Your 60 hour workweek is not a badge of honor</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper of the day</h2>
+  </hgroup>
+  <article>
+    <p><a href="http://statweb.stanford.edu/%7Enzhang/Stat366/Felsenstein85.pdf">Confidence limits on phylogenies: An approach using the bootstrap</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Testing background</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>In many scientific applications, producing/interpreting estimates and intervals will be your default. But hypothesis testing (for better or worse) plays a major role in the scientific enterprise.</li>
+<li>There is a huge literature bashing P-values and hypothesis tests. Search &quot;NHST&quot; on Google or read anything by Jim Berger, Andrew Gelman, Steve Goodman, etc. etc. </li>
+<li>I personally think the problem is that people don&#39;t understand (or willfully misinterpret) the P-value.</li>
+<li>Doing tests is simple; based on the available data, we make a binary decision. Frequentist calibration of the testing &quot;rule&quot; considers replications of the experiment.</li>
+<li>Interpretation of testing results is trickier. You may need to
+be flexible about how testing is viewedit may change as you
+work in different areas of science. </li>
+<li>Different statisticians lend more or less credibility to p-values/testing (although they are used extensively by e.g. lab scientists, the FDA, etc.)</li>
+<li>We will discuss permutation/bootstrap hypothesis tests today. However, similar ideas
+apply to parametric testing. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>P-values: most popular statistic ever</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>If properly credited R.A. Fisher would have at least 3 million citations for p-value paper</li>
+<li>Calculated using Google Scholar using the formula: <strong>Number of P-value Citations = # of papers with exact phrase &quot;P &lt; 0.05&quot; + (# of papers with exact phrase &quot;P &lt; 0.01&quot; and not exact phrase &quot;P &lt; 0.05&quot;&quot;) +  (# of papers with exact phrase &quot;P &lt; 0.001&quot; and not exact phrase 
+&quot;P &lt; 0.05&quot; or &quot;P &lt; 0.01&quot;)= 1,320,000 + 1,030,000 + 662,500</strong></li>
+<li>This is probably even conservative and is at least 12 times the most cited paper <a href="http://www.jbc.org/content/280/28/e25.full#">Protein Measurement with the Folin Phenol Reagent</a></li>
+<li>Related idea: if you do something important expect major criticism/ripoffs.</li>
+<li>Related: <a href="http://simplystatistics.org/2014/02/14/on-the-scalability-of-statistical-procedures-why-the-p-value-bashers-just-dont-get-it/">Scalability of statistical procedures</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Archers</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/test1.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Archers</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/test2.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Archers</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/test3.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Archers</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/test4.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Implementing a test</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><p>To implement testing, we choose a <strong>test statistic</strong> \(T(X,Y)\). We use it to make
+a binary decision D, where convention is that:
+\[ D = \left\{\begin{array}{ccc}0, & T(X,Y) \leq c & {\rm ``not \; significant''}\\ 1, & T(X,Y) > c & {\rm ``significant''} \end{array}\right.\]
+for some pre-chosen &quot;critical value&quot; \(c\). Calibration of the test (ie. choosing \(c\)) is done under the null hypothesis \(H_0\) a statement about the true state of Nature. </p></li>
+<li><p>Typical null hypotheses are \(H_0: \theta = 0\) or perhaps \(H_0: \theta < 0\) - in fact any well-defined statement about the superpopulation could be used. We will focus on \(H_0\) with some regression-based meaning. </p></li>
+<li><p>I will write \(F|H_0\) to denote sampling from a superpopulation where the null holds, in expressions such as \({\rm E}_{F|H_0}[D]\). This is known as sampling ``under the null&#39;&#39;</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Frequentist calibration</h2>
+  </hgroup>
+  <article>
+    <p>The &quot;size&quot; or &quot;Type I error rate&quot;&quot; of a test is defined as:
+\[{\rm E}_{F|H_0}[D] = Pr_{F|H_0}[D=1]\]
+i.e. the probability of getting \(D=1\) under the null.</p>
+
+<p><img class="center" src="../../assets/img/t1e.png" height=100></p>
+
+<p>In practice, we choose \(c\) to give a desired size, then do the test. The target Type I error rate is denoted \(\alpha\). Results with \(D=1\) are &quot;significant at the \(\alpha\) level&quot;. </p>
+
+<p>We say tests are &quot;valid at the nominal \(\alpha\)&quot; if \({\rm E}_{F|H_0}[D] \leq \alpha\) and &quot;exact&quot; if \({\rm E}_{F|H_0}[D] = \alpha\)..., but some authors reverse these terms. Tests with \({\rm E}_{F|H_0}[D] \leq \alpha\) &quot;control the Type I error rate below \(\alpha\)&quot;</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Tests and intervals</h2>
+  </hgroup>
+  <article>
+    <p>Suppose you had a valid confidence interval &quot;recipe&quot; \(CI(Y,X)\) for parameter \(\theta\), to be used in replicate experiments. A simple binary decision for testing \(H_0:  \theta = \theta_0\) is the indicator function \(D=1_{\{\theta_0 \notin CI\}}\). As \(Pr_{F}[\theta \in CI]  = 1-\alpha\)</p>
+
+<p>\[Pr_{F}[\theta \notin CI] = \alpha\]
+\[\Rightarrow Pr_{F|\theta = \theta_0}[1_{\{\theta_0 \notin CI\}} = 1] = \alpha\]
+\[\Rightarrow {\rm E}_{F|\theta=\theta_0}[D] = \alpha\]
+.. and we have a test of size \(\alpha\). </p>
+
+<ul>
+<li>On its own, this result does not imply sanity! What&#39;s the size, for a CI which covers \(\mathbb{R}\) with probability \(0.95\), and returns the value of 42 with probability 0.05? </li>
+<li>Of course, sane estimates/intervals give sane tests</li>
+<li>You can do the reverse as well converting tests into CI&#39;s</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>P-values</h2>
+  </hgroup>
+  <article>
+    <p>P-values, although not essential for doing tests, are nearly ubiquitous in applied work. They are a very useful &quot;shorthand&quot; and you should understand them.</p>
+
+<p>Under the convention that larger test statistics occur farther from \(H_0\), for observed data \(Y\) we  define:
+\[p = p(Y) = Pr_{Y'\sim F|H_0}[T(Y') > T(Y)]\]
+i.e. the long-run proportion of datasets, under the null, which are &quot;more extreme&quot; than the observed \(Y\).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Notes on p-values</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>If \(p < \alpha\), the result is &quot;significant&quot; otherwise it is &quot;not significant&quot; \(p\) is the &quot;largest \(\alpha\) at which the result would be significant&quot; - i.e. it summarizes the tests you could do. </li>
+<li>If \(p\) is small, you could say the data are &quot;inconsistent&quot; with \(H_0\) (not the same as an inconsistent estimator). Avoid writing about &quot;evidence&quot; or &quot;support&quot;, unless these terms express what you really mean. Writing that the data &quot;suggest&quot; conclusions is safe(r). </li>
+<li>Small \(p\) occur
+
+<ol>
+<li>when \(H_0\) is true and something unusual happened, </li>
+<li>when \(H_0\) is not true.<br></li>
+</ol></li>
+<li>On its own, a small \(p\) does not distinguish these two things</li>
+<li> For discrete \(Y\), \(T(Y) = T(Y')\) can happen, discreteness of \(p\) is only interesting in small samples, and is often ignored</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Distribution of P-values</h2>
+  </hgroup>
+  <article>
+    <p>What&#39;s the distribution of a \(p\)-value? Under the null:</p>
+
+<p>\[Pr_{Y \sim F|H_0}[p(Y) < \alpha] = Pr_{Y \sim F|H_0}\left[Pr_{Y' \sim F|H_0}[T(Y') > T(Y)] \leq \alpha \right]\]
+\[= Pr{Y \sim F|H_0}[ 1 - \mathcal{F}(T(Y)) \leq \alpha]\]
+\[= Pr{Y \sim F|H_0}[T(Y) > \mathcal{F}^{-1}(1-\alpha)]\]
+\[= 1 - \mathcal{F}(\mathcal{F}^{-1}(1-\alpha)) = \alpha\]</p>
+
+<p>where \(\mathcal{F}(\cdot)\) denotes the cumulative distribution function of \(T(Y)\) under the null. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Important properties of p-values</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>\(p\)-values are uniform on \([0,1]\) under the null </li>
+<li>\(p\)-values are given by the &quot;tail area&quot; of the distribution of (replicate) \(T(Y')\) beyond observed \(T(Y)\) under the null</li>
+<li> \(p\)-values are (complicated) functions of the observed data</li>
+<li>Just as with intervals, if your assumptions about \(F\) are wrong, your putative \(p\)-values
+will not have &quot;nominal&quot; behavior. As with intervals, approximations are widely used. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>P-values as functions</h2>
+  </hgroup>
+  <article>
+    <p>People often forget \(p\)-values are just functions of the data. Formally, the \(p\) value is a 1-1 function of \(T(Y)\)
+<img class="center" src="../../assets/img/test6.png" height=200>
+<img class="center" src="../../assets/img/test7.png" height=200>
+We usually focus on how the lower quantiles of \(p(Y)\) depends on \(\theta\) - but the spread can also be useful to know. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>P-values, useful but not the whole story</h2>
+  </hgroup>
+  <article>
+    <p>The simplicity of calculating \(p(Y)\), seeing if its \(< 0.05\) and reporting on the underlying &quot;truth&quot; means that many non-experts think that inference is entirely \(p\)&#39;s and \(t\)&#39;s</p>
+
+<p>You know this isn&#39;t true. P-values can be a useful summary of the data, with nice properties (particularly useful in applications where confidence intervals may be unwieldy).</p>
+
+<p>But...at the end of the day as sane applied statisticians you are looking for sensible/scientifically meaningful patterns, which are often more usefully summarized by confidence intervals and point estimates.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Testing: different decisions</h2>
+  </hgroup>
+  <article>
+    <p>Frequentist tests report \(D=1\) whenever \(p \leq \alpha\). You should report \(p\), so your reader can pick their own \(\alpha\). </p>
+
+<p>But what \(\alpha\)? And what does &quot;significant&quot; mean practically? Testing output may be used for different goals. We may want:</p>
+
+<ul>
+<li>A summary of whether the data is consistent with a particular hypothesis (a pure significance test - just calculate \(p\))</li>
+<li>A decision (yes/no) whether the data is consistent with a particular hypothesis (a test of significance  - if \(p < \alpha\) we reject \(H_0\))</li>
+<li>A decision (yes/no) on which of two hypotheses is best supported by the data (a hypothesis test - if \(p < \alpha\) we reject \(H_0\) in favor of \(H_1\), else ``accept&#39;&#39; \(H_0\). \(H_1\) is the alternative hypothesis. )</li>
+</ul>
+
+<p>These goals are all different!</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Significance tests</h2>
+  </hgroup>
+  <article>
+    <p>For either type of &quot;significance&quot; test</p>
+
+<ul>
+<li>There is no alternative hypothesis. Informally, you can view these as a screening tool indicating how noteworthy the data is, or whether (yes/no) we declare it interesting</li>
+<li> You must choose \(T(\cdot)\) to detect deviations from \(H_0\) which are of interest!</li>
+<li>Power = \(Pr_F[D=1]\), the probability of rejecting when \(H_0\) does not hold. In regression settings, this is a function of the true \(\theta\) and \(n\). </li>
+<li>Power = \(1-Pr_F[D=0]\) i.e. 1-the probability of a Type II error. </li>
+<li>Think about power before doing tests! In a lower power setting, if \(D=0\) what two things <strong>may</strong> have happened? When \(n\) is huge and \(D=1\) what may have happened? </li>
+<li>Unthinking adherence to \(p\) is not good statistics/science. Don&#39;t expect readers to &quot;reject the null&quot; without convincing science (the more money on the line, the more this is true). </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Hypothesis tests</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>There has to be an alternative hypothesis, \(H_1\). You should choose \(T(\cdot)\) based on this alternative</li>
+<li>The test is calibrated under \(H_0\), not \(H_1\). it is not an &quot;evan handed&quot; comparison. \(H_0\) represents a &quot;default&quot; outcome. </li>
+<li>Power matters, and real-world interpretations should use your prior knowledge</li>
+<li>In e.g. drug licensing, getting \(p < \alpha\) (twice!) is necessary but not sufficient for a &quot;yes&quot; decision, even with well-powered studies. Some scientific justification is again required; \(p\) alone will not convince competent reviewers. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Testing: different decisions</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>You work with a mouse lab. They did an experiment to assess whether a specific &quot;candidate&quot; gene is essential to life.</li>
+<li>A consulting client comes to you with a totally novel chemical process. They have some (unanalyzed) provisional data, and want to know whether to proceed with more experiments. </li>
+<li>Prior to analysis of a new risk factor, your co-authors want to check if age, sex, etc. are unusual in your sample (this is known as a &quot;Table 1&quot; analysis in some circles)</li>
+<li>A consulting client provides you with a complex dataset and wants to know &quot;what&#39;s interesting&quot;?</li>
+<li>In a large trial, you obtain data consistent with a new drug being moderately effective (not strongly, not weakly). You are asked, &quot;is it significant&quot;?</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>What p-values are not</h2>
+  </hgroup>
+  <article>
+    <p>There is a tremendous confusion over \(p\)-values. The following hold very generally</p>
+
+<ul>
+<li>They do not represent \(Pr(H_0 {\rm is \; true})\) or \(Pr(\theta > 0)\). Statements like this don&#39;t even make sense in a frequentist setting - so avoid writing them or something that could be interpreted this way. </li>
+<li> The are not &quot;measures of evidence&quot;. They are a summary of the testing decision you could make, a and a potentially useful function of the data. &quot;Evidence&quot; is a loaded word to some statisticians!</li>
+<li>\(p \leq 0.05\) is not &quot;proof&quot; of anything. </li>
+<li>\(p \neq 0\) (Why?) - don&#39;t round \(p\) values down. You can write, e.g. \(p < 10^{-4}\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Calculating a p-value (parametric)</h2>
+  </hgroup>
+  <article>
+    <p>Suppose we calculate a statistic \(T(Y)\) to test the null hypothesis \(H_0: \theta = 0\) and we know that under the null \(T(Y') \sim t_{19}\). How do we calculate the p-value? </p>
+
+<p><img class="center" src="../../assets/img/tstat1.png" height=400></p>
+
+<p>This calculation presumes we know the distribution \(t_{19}\), what if we want to make fewer assumptions about the null distribution? </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Calculating a p-value (permutation)</h2>
+  </hgroup>
+  <article>
+    <p>Suppose we observe survival times on 16 mice in a treatment and a control group: 
+\[X = (94, 197, 16, 38, 99, 141, 23)\] 
+\[Y = (52, 104, 146, 10, 51, 30, 40, 27, 46)\] 
+\(X \sim F\) and the values \(Y \sim G\) and we want to test: \(H_0: F = G\). \vsp
+The difference of means is \(\hat{\theta} = \bar{x} - \bar{y} = 30.63\). One way to calculate a p-value would be to make a parametric assumption. \vsp </p>
+
+<p>Another clever way, devised by Fisher is <strong>permutation</strong>. Define the vector \(g\) to be the group labels \(g_i = 1\) if treatment (X) and \(g_i = 0\) if control (Y). Then pool all of the observations together into a vector \(v = (94, 197, 16, 38, 99, 141, 23, 52, 104, 146, 10, 51, 30, 40, 27, 46)\)</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>P-value permutations</h2>
+  </hgroup>
+  <article>
+    <p>If there are \(n\) samples from \(F\) and \(m\) samples from \(y\) for a total of \(N = m + n\) samples, then there are \({N}\choose{n}\) possible ways to assign the group labels. </p>
+
+<p>Under \(F = G\) it is possible to show that - conditional on the observed values - each of these is equally likely. So we can write our statistic \[\hat{\theta} = \bar{x} - \bar{y} = \frac{1}{n} \sum_{g_i = 1} v_i - \frac{1}{m}\sum_{g_i=0} v_i\]</p>
+
+<p>The permutation null distribution of \(\hat{\theta}\) is calculated by forming all permutations of \(g\) and recalculating the statistic: </p>
+
+<p>\[\hat{\theta}^' = \frac{1}{n} \sum_{g^'_i = 1} v_i - \frac{1}{m}\sum_{g^'_i=0} v_i\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>P-value permutations</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Then a permutation p-value is the permutation probability that \(|\hat{\theta}^'|\) exceeds \(|\hat{\theta}|\). \(Pr(\hat{\theta}^'  \geq \hat{\theta})  = \#\{|\hat{\theta}^'| \geq |\hat{\theta}| \} / {{N}\choose{n}}\). \vsp</li>
+<li><p>This is an <em>exact</em> calculation, just like we did before with the exact plug-in estimator. But usually \({N}\choose{n}\) is humongous, so we use Monte Carlo.</p></li>
+<li><p>Sample the labels \(g_i\) <em>with replacement</em> to get \(B\) permuted sets of group labels \(g_i^{'b}\)</p></li>
+<li><p>Evaluate the permutation statistics \(\hat{\theta}^{'b} = \frac{1}{n} \sum_{g^{'b}_i = 1} v_i - \frac{1}{m}\sum_{g^{'b}_i=0} v_i\)</p></li>
+<li><p>Calculate the permutation p-value:
+\[\hat{p}_{perm} =  \#\{|\hat{\theta}^{'b}| \geq |\hat{\theta}| \} /B\]</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Tail area again</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/perm1.png" height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>P-value Bootstrap</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>Draw \(B\) samples with replacement of size \(n + m\) from the values \(v = [ x ; y]\). Call the first \(n\) observations \(x{'b}\) and the last \(m\) observations \(y{'b}\). </li>
+<li> Evaluate \(\hat{\theta}^{'b}  = \bar{x}^{'b} - \bar{y}^{'b}\) on each sample. </li>
+<li><p>Approximate the \(p\)-value by:
+\[\hat{p}_{boot} = \#\{|\hat{\theta}^{'b}| \geq |\hat{\theta}| \} /B\]</p></li>
+<li><p>Note this is very similar to the permutation based approach. We just sample with replacement. </p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>A note on studentizing</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li><p>We could studentize the statistic
+\[\hat{\theta} = \frac{\bar{x} - \bar{y}}{\bar{\sigma} \sqrt{1/n + 1/m}}\]</p></li>
+<li><p>In the case of the permutation test we would get the same permutation p-value.</p></li>
+<li><p>For the bootstrap this doesn&#39;t hold (why?)</p></li>
+<li><p>You get more accurate testing with the studentized statistic. </p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Flexibility of bootstrap for p-values</h2>
+  </hgroup>
+  <article>
+    <p>This algorithm still tests the null hypothesis that \(F = G\). What if we wanted to be more specific? Say if we wanted to test that \(\mu_F = \mu_G\)?</p>
+
+<p>We could use this algorithm: </p>
+
+<ul>
+<li><p>Let \(\hat{F}\) put equal probability on the points \(\tilde{x}_i = x_i - \bar{x} + \bar{v}\) \(i=1,2,\ldots,n\) and \(\hat{G}\) put equal probability on the points \(\tilde{y}_i = y_i - \bar{y} + \bar{v}\) \(i = 1,2,\ldots,m\), where \(\bar{x}\) and \(\bar{y}\) are the group means and \(\bar{v}\) is the mean of the combined sample. </p></li>
+<li><p>Form \(B\) bootstrap data sets \((x^{'b},y^{'b})\) where \(x^{'b}\) is sampled with replacement from \(\{\tilde{x}_i\}\) and \(y^{'b}\) is sampled with replacement from \(\{\tilde{y}_i\}\). </p></li>
+<li><p>Evaluate \(T = \frac{\bar{x}^{'b} - \bar{y}^{'b}}{\sqrt{\bar{\sigma}_1^{2'b} + \bar{\sigma}_2^{2'b}}}\)</p></li>
+<li><p>Approximate the \(p\)-value by:
+\[\hat{p}_{boot} = \#\{|\hat{\theta}^{'b}| \geq |\hat{\theta}| \} /B\]</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>When using bootstrap for significance/hypothesis testing</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>The goal is to &quot;mimic the null&quot;</li>
+<li>This can be complicated and takes some thinking</li>
+<li>If you come up with an algorithm it is worth testing on obvious simulated data</li>
+<li>The most flexible approach for doing hypothesis testing currently available</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Bootstrap versus permutation</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>A permutation test exploits a special symmetry that exists under the null hypothesis to create a permutation distribution. </li>
+<li>The permutation test is exact, it is the exact probability of obtaining a test statistic as extreme, having fixed the values of the combined sample. </li>
+<li>In contrast, the bootstrap estimates the probability mechanism under the null hypothesis, and then samples from it. </li>
+<li> The estimate is not an exact probability, but does not require the special symmetry, so can be applied much more generally. </li>
+<li>For instance, in the two-sample problem a permutation test can only test the null hypothesis \(F = G\), while the bootstrap can test equal means with possibly unequal variances. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Bootstrap hypothesis tests for linear models</h2>
+  </hgroup>
+  <article>
+    <p>Suppose we assume a mean model of the form: 
+\[{\rm E}[Y_i | X_i =x_i, Z_i=z_i ] = \beta_0 + \underbrace{\sum_{j=1}^J \beta_j x_{ij}}_{{\rm covariates \; of \; interest}} + \underbrace{\sum_{k=1}^K \gamma_k z_{ik}}_{{\rm adjustment \; covariates}}\]
+using least squares. Suppose we wish to test the null hypothesis that \(\beta_1 = \beta_2 = \cdots = \beta_J = 0\). </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Bootstrap hypothesis tests for linear model</h2>
+  </hgroup>
+  <article>
+    <p>One approach would be to form the F-like-statistic: 
+\[ F = \frac{RSS^{0} - RSS}{RSS}\]
+Where:
+\[RSS_{0} = \sum_{i=1}^n \left(y_i - \hat{\beta}_{0}^{0} - \sum_{k=1}^K \hat{\gamma}^0_k z_{ik}\right)^2\]
+\[RSS = \sum_{i=1}^n \left(y_i - \hat{\beta}_{0}- \sum_{j=1}^J \hat{\beta}_j x_{ij} - \sum_{k=1}^K \hat{\gamma}_k z_{ik}\right)^2\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Estimated coefficients</h2>
+  </hgroup>
+  <article>
+    <p>Here \(\beta_0^0\) and \(\gamma_k^0\) are obtained when fitting the null model: 
+\[{\rm E}[Y_i | X_i =x_i, Z_i=z_i ] = \beta_0 + \underbrace{\sum_{k=1}^K \gamma_k z_{ik}}_{{\rm adjustment \; covariates}}\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Significance test for linear model</h2>
+  </hgroup>
+  <article>
+    <p>Then an algorithm for testing the significance of \(F\) could be the following</p>
+
+<ul>
+<li>Calculate the residuals from the full model \(\epsilon_i = y_i -\hat{\beta}_{0}- \sum_{j=1}^J \hat{\beta}_j x_{ij} - \sum_{k=1}^K \hat{\gamma}_k z_{ik}\)</li>
+<li>Calculate the fitted values under the null \(\hat{y}_i^0 =  \hat{\beta}_{0}^{0} + \sum_{k=1}^K \hat{\gamma}^0_k z_{ik}\)</li>
+<li>Sample \(B\) times with replacement from \(\epsilon_i\) and add the values back to the null fit to generate null data: \(y_i^{'b} = \hat{y}_i^0 + \epsilon_i^{'b}\)</li>
+<li>Recalculate the statistic \(F^{'b}\) on all bootstrap samples</li>
+<li>Approximate the \(p\)-value by:
+\[\hat{p}_{boot} = \#\{|\hat{\theta}^{'b}| \geq |\hat{\theta}| \} /B\]</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Notes on bootstrapping linear models</h2>
+  </hgroup>
+  <article>
+    <ul>
+<li>These tests are common in some areas (like genomics) where the null distribution is frequently not clearly known. </li>
+<li>They still make assumptions (e.g., the data are i.i.d. \(F\))</li>
+<li>The big problem here is creating \(Y^'\) that are sampled under the null hypothesis. The standard bootstrap doesn&#39;t do this, it samples under the <strong>truth</strong> approximately. </li>
+<li>The \(\alpha\)-level accuracy of these procedures is not exact (upsets e.g. the FDA)</li>
+<li>Also &quot;fiddling&quot;&quot; with \(\tilde{F}\) requires choices, try not to be influenced by ``peeking&#39;&#39; at the data. The FDA will not let you do this; they demand code in advance.</li>
+<li>There are now permutation based approaches to the same problem: <a href="http://www.bepress.com/jhubiostat/paper187/">COVARIATE-ADJUSTED NONPARAMETRIC ANALYSIS OF MAGNETIC RESONANCE IMAGES USING MARKOV CHAIN MONTE CARLO</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>For more information</h2>
+  </hgroup>
+  <article>
+    <p><img class="center" src="../../assets/img/tsh.png" height=500></p>
+
+<p><a href="http://www.amazon.com/Testing-Statistical-Hypotheses-Springer-Statistics/dp/0387988645">http://www.amazon.com/Testing-Statistical-Hypotheses-Springer-Statistics/dp/0387988645</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>One of the hottest areas of debate</h2>
+  </hgroup>
+  <article>
+    <p>Fisher (JASA, 1943): &quot;It is not my purpose to make Dr. Berkson
+seem ridiculous, nor, of course, to prevent him from providing innocent
+amusement. Had he looked up Hersh’s original paper he would have
+been spared a blunder,...&quot;</p>
+
+<p>Berkson (Biometrics, 1954): &quot;I consented to comment on the
+remarks of Sir Ronald Fisher only with considerable reluctance. The
+passages of his article that have to do with my work are so far out
+of the bounds of reasonableness or relevancey that on ﬁrst reading
+them I could only believe that he had heen misinformed regarding my
+statement&quot;</p>
+
+<p><a href="http://people.stat.sfu.ca/%7Elockhart/richard/Talks/UBC_SFU.pdf">http://people.stat.sfu.ca/~lockhart/richard/Talks/UBC_SFU.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>One of the hottest areas of debate</h2>
+  </hgroup>
+  <article>
+    <p>Fisher (Biometrics,1954): &quot;It is a great pity that Cochran in this
+paper does not clearly point out that such adjustments have no useful
+function, at least ﬁnally, if it is intended to perform a correct analysis.
+The subsequent papers (5, 6) by Bartlett (1947) and Anscombe
+(1948)) show no such consciousness of the situation as they would
+have obtained had Cochran expressed himself more deﬁnitely.&quot;</p>
+
+<p>&quot;It is unfortunate that Bartlett did not restate his own views on
+this topic without making misleading allusions to mine.&quot;</p>
+
+<p>Fisher (JRSS-B, 1957): &quot;If Professor Neyman were in the habit of
+learning from others he might proﬁt from...&quot;</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>One of the hottest areas of debate</h2>
+  </hgroup>
+  <article>
+    <p>Neyman (1951) &quot;In particular, three major concepts were
+introduced by Fisher and consistently propagandized by him in a
+number of publications. These are mathematical likelihood as
+a measure of the conﬁdence in a hypothesis, suﬃcient statistics,
+and ﬁducial probability. Unfortunately, in conceptual mathematical
+statistics Fisher was much less successful than in manipulatory, and
+of the three above concepts only one, that of a suﬃcient statistic,
+continues to be of substantial interest. The other two proved to be
+either futile or self-contradictory and have been more or less generally
+abandoned.&quot;</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>One of the hottest areas of debate</h2>
+  </hgroup>
+  <article>
+    <p>Pearson in another review: &quot;Most readers will regret the inclusion of the Note on Paper
+(29,1937) which, if nothing more, shows in its last sentences, a
+profound ignorance of Karl Pearson’s character and, indeed, of his
+contemporaries.&quot;</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+      <slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>More recently</h2>
+  </hgroup>
+  <article>
+    <p>Ioannidis: &quot;A reproducibility check of the raw data shows that much of the data Jager and Leek used are either wrong or make no sense: most of the usable data were missed by their script, 94% of the abstracts that reported ≥2 P-values had high correlation/overlap between reported outcomes, and only a minority of P-values corresponded to relevant primary outcomes. The Jager and Leek paper exemplifies the dreadful combination of using automated scripts with wrong methods and unreliable data. Sadly, this combination is common in the medical literature.&quot; </p>
+
+<p>Gelman and O&#39;Rourke: &quot;We think what Jager and Leek are trying to do is hopeless, at least if applied outside a very narrow range of randomized clinical trials with prechosen endpoints&quot;</p>
+
+<p>Talking about our paper <a href="http://biostatistics.oxfordjournals.org/content/15/1/1">An estimate of the science-wise false discovery rate and application to the top medical literature</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+
+  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+<!-- Grab CDN jQuery, fall back to local if offline -->
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../libraries/widgets/quiz/js/jquery-1.7.min.js"><\/script>')</script>
+<!-- Load Javascripts for Widgets -->
+<!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script> -->
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+<script src="../../libraries/highlighters/highlight.js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+</html>
