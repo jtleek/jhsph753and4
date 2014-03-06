@@ -1,5 +1,5 @@
 ---
-title       : Testing digression
+title       : Testing 
 subtitle    : 
 author      : Jeffrey Leek
 job         : Johns Hopkins Bloomberg School of Public Health
@@ -430,6 +430,12 @@ $$\hat{p}_{boot} = \#\{|\hat{\theta}^{'b}| \geq |\hat{\theta}| \} /B$$
 <img class="center" src="../../assets/img/tsh.png" height=500>
 
 [http://www.amazon.com/Testing-Statistical-Hypotheses-Springer-Statistics/dp/0387988645](http://www.amazon.com/Testing-Statistical-Hypotheses-Springer-Statistics/dp/0387988645)
+
+---
+
+## Researcher degrees of freedom
+
+<img class="center" src="../../assets/img/rdf.png" height=400>
 
 ---
 

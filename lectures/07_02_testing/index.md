@@ -420,6 +420,12 @@ $$\hat{p}_{boot} = \#\{|\hat{\theta}^{'b}| \geq |\hat{\theta}| \} /B$$
 
 ---
 
+## Researcher degrees of freedom
+
+<img class="center" src="../../assets/img/rdf.png" height=400>
+
+---
+
 ## One of the hottest areas of debate
 
 Fisher (JASA, 1943): "It is not my purpose to make Dr. Berkson
