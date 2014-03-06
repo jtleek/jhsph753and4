@@ -294,24 +294,24 @@ be interested in analytically difficult functions of $F$, e.g. medians, ranks, .
 
 * We discussed resampling cases, the default bootstrap method.
 * In linear regression we can consider resampling residuals. 
-* Consider the model $$ Y_i = \mu(x_i,\beta) + {\rm E}psilon_i$$ where the residuals ${\rm E}psilon_i$ are such that ${\rm E}[{\rm E}psilon_i] = 0$ for $i = 1,\ldots,n$ and are independent.
+* Consider the model $$ Y_i = \mu(x_i,\beta) + \epsilon_i$$ where the residuals $\epsilon_i$ are such that ${\rm E}[\epsilon_i] = 0$ for $i = 1,\ldots,n$ and are independent.
 * Assume $F$is the distribution of $Y$ only. We assume $x_i$ is fixed, for our data and all replications. 
-* The bootstrap datasets are formed as $$Y_i^{'b} = \mu(x_i,\hat{\beta}) + {\rm E}psilon_i^{'b}$$
-where a number of options are available for sampling ${\rm E}psilon_i^{'(b)}$, $b=1,\ldots,B$, $i=1,\ldots,n$.  
+* The bootstrap datasets are formed as $$Y_i^{'b} = \mu(x_i,\hat{\beta}) + \epsilon_i^{'b}$$
+where a number of options are available for sampling $\epsilon_i^{'(b)}$, $b=1,\ldots,B$, $i=1,\ldots,n$.  
 
 ---
 
 ## Parametric versus non-parametric
 
-* The non-parametric version samples ${\rm E}psilon_i^{'(b)}$ with replacement from:
+* The non-parametric version samples $\epsilon_i^{'(b)}$ with replacement from:
 $$e_i = y_i - \mu(x_i, \hat{\beta}) - \left(\frac{1}{n} \sum_{j=1}^n y_j - f(x_j, \hat{\beta})\right)$$
-* The second term centers the $e_i$, (should be minor, if ${\rm E}[{\rm E}psilon_i] = 0$). 
+* The second term centers the $e_i$, (should be minor, if ${\rm E}[\epsilon_i] = 0$). 
 
-* If we assumed that ${\rm E}psilon_i \sim_{ind} N(0,\sigma^2)$ then a parametric resampling residuals method samples from 
-$${\rm E}psilon_i^' \sim_{ind} N(0, {\rm Var}\{e_1,e_2,\ldots,e_n\})$$
+* If we assumed that $\epsilon_i \sim_{ind} N(0,\sigma^2)$ then a parametric resampling residuals method samples from 
+$$\epsilon_i^' \sim_{ind} N(0, {\rm Var}\{e_1,e_2,\ldots,e_n\})$$
 
 * Both methods respect the "design" of the $x_i$
-* Both methods break any relationship between $x_i$ and ${\rm E}psilon_i$, so they assume
+* Both methods break any relationship between $x_i$ and $\epsilon_i$, so they assume
 homoskedasticity. This is a big assumption, often violated by real data. It is violated by assumption of you believe $Y_i \sim Pois(\lambda_i)$. 
 
 ---
