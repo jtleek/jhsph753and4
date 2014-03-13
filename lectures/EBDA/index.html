@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Evidence-based Data Analysis</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Evidence-based Data Analysis">
+  <meta name="author" content="Roger D. Peng, Associate Professor of Biostatistics">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="assets/img/bloomberg_shield.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Evidence-based Data Analysis</h1>
+    <h2></h2>
+    <p>Roger D. Peng, Associate Professor of Biostatistics<br/>Johns Hopkins Bloomberg School of Public Health</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>An Email from This Morning</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre>
+I have a quick question on your paper, A Bayesian hierarchical
+distributed lag model for estimating the time course of risk of
+hospitalization associated with particulate matter air pollution
+
+
+What is the degree of freedom did you give for the long-term and
+seasonal variation? and what is the justification?
+
+
+After reading your 2006 JRSS-A paper, I am still not sure about which
+method to choose to adjust for the long-term and seasonal variation.
+Can you tell me your preference?
+</pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Problem 1</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>You are given a vector of 200 numbers (continuous) that represent
+measurements that will eventually become an outcome in a regression
+model (i.e. a blood biomarker). You want to determine if the
+distribution of the set of numbers is right-skewed (i.e. possibly in
+need of transformation). Assume the data are uni-modal.</p>
+
+<p>Describe a process to determine if the sample is skewed or not.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Problem 2</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>You have a sample of 300 observations on a continuous morbidity
+outcome \(Y\) and a predictor \(X\) that is continuous biomarker.</p>
+
+<p>Describe a process to determine the magnitude of the linear
+association between \(X\) and \(Y\).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Problem 3</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>You have a sample of 750 observations of a continuous outcome \(Y\),
+an explanatory predictor \(X\) (continuous), and a third variable \(Z\)
+(binary).</p>
+
+<p>Describe a process to determine if the relationship between \(X\) and
+\(Y\) changes across different levels of \(Z\) (i.e. is there an
+interaction between \(X\) and \(Z\)).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Problem 1: Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Obtain the data from <code>http://goo.gl/dkTfpE</code>.</p>
+
+<pre><code class="r">load(url(&quot;http://goo.gl/dkTfpE&quot;))
+str(x)
+</code></pre>
+
+<pre><code>##  num [1:200] 0.825 2.11 0.425 0.504 1.488 ...
+</code></pre>
+
+<p>Run your algorithm to determine if the data in <code>x</code> are skewed.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Problem 2: Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Obtain the data from <code>http://goo.gl/jrBE7G</code>.</p>
+
+<pre><code class="r">load(url(&quot;http://goo.gl/jrBE7G&quot;))
+head(x)
+</code></pre>
+
+<pre><code>##        y     x
+## [1,] 141 15.56
+## [2,] 124 34.37
+## [3,] 126 38.95
+## [4,] 164 33.25
+## [5,]  99 27.06
+## [6,]  68 18.89
+</code></pre>
+
+<p>Run your algorithm to determine if <code>x</code> is linearly associated with
+<code>y</code>.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Problem 3: Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Obtain the data from <code>http://goo.gl/efM6Jx</code>.</p>
+
+<pre><code class="r">load(url(&quot;http://goo.gl/efM6Jx&quot;))
+str(maacs)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    750 obs. of  3 variables:
+##  $ eno  : num  141 124 126 164 99 68 41 50 12 30 ...
+##  $ pm25 : num  15.6 34.4 39 33.2 27.1 ...
+##  $ mopos: Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+</code></pre>
+
+<p>Run your algorithm to determine if the relationship between <code>eno</code> and
+<code>pm25</code> changes across levels of <code>mopos</code>.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Problem 1 (Solutions)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p><b>Elizabeth Stuart</b>: Make histogram; Do I care? If yes, Google test for
+skewness, run test.</p></li>
+<li><p><b>Margaret Taub</b>: Look at mean vs. median; make histogram,
+visually assess.</p></li>
+<li><p><b>Ingo Ruczinski</b>: Make histogram; visually assess.</p></li>
+<li><p><b>Ani Eloyan</b>: Make histogram with breaks = \(n/2\); make a Q-Q
+plot vs. Normal; run a test of Normality; if reject, run a skewness
+test (\(p < 0.05\)).</p></li>
+<li><p><b>Scott Zeger</b>: Calculate Tukey \(gh\) statistic; make a Q-Q plot</p></li>
+<li><p><b>Elizabeth Colantuoni</b>: Make a histogram; visually assess; Q-Q
+plot vs. \(t\)-distribution; bootstrap test of significance of
+quantiles</p></li>
+<li><p><b>Betsy Ogburn</b>: Do nothing (use robust methods subsequently)</p></li>
+<li><p><b>John McGready</b>: Histogram and a boxplot; visually assess.</p></li>
+<li><p><b>Me</b>: Run <code>agostino.test()</code> in R and check if \(p < 0.05\).</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Replication and Reproducibility</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Replication</p>
+
+<ul>
+<li><p>Focuses on the validity of the scientific claim</p></li>
+<li><p>&quot;Is this claim true?&quot;</p></li>
+<li><p>The ultimate standard for strengthening scientific evidence</p></li>
+<li><p>New investigators, data, analytical methods, laboratories, instruments, etc.</p></li>
+<li><p>Particularly important in studies that can impact broad policy or
+regulatory decisions</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Replication and Reproducibility</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Reproducibility</p>
+
+<ul>
+<li><p>Focuses on the validity of the data analysis</p></li>
+<li><p>&quot;Can we trust this analysis?&quot;</p></li>
+<li><p>Arguably a minimum standard for any scientific study</p></li>
+<li><p>New investigators, same data, same methods</p></li>
+<li><p>Important when replication is impossible</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Result of Data Revolution</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Even basic analyses are difficult to describe</p></li>
+<li><p>Heavy computational requirements are thrust upon people without adequate training in statistics and computing</p></li>
+<li><p>Errors are more easily introduced into long analysis pipelines</p></li>
+<li><p>Knowledge transfer is inhibited</p></li>
+<li><p>Results are difficult to replicate or reproduce</p></li>
+<li><p>Complicated analyses cannot be trusted</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>What Problem Does Reproducibility Solve?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>What we get</p>
+
+<ul>
+<li>Transparency</li>
+<li>Data Availability</li>
+<li>Software / Methods Availability</li>
+<li>Improved Transfer of Knowledge</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>What Problem Does Reproducibility Solve?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>What we get</p>
+
+<ul>
+<li>Transparency</li>
+<li>Data Availability</li>
+<li>Software / Methods Availability</li>
+<li>Improved Transfer of Knowledge</li>
+</ul>
+
+<p>What we do NOT get</p>
+
+<ul>
+<li>Validity / Correctness of the analysis</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>What Problem Does Reproducibility Solve?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>What we get</p>
+
+<ul>
+<li>Transparency</li>
+<li>Data Availability</li>
+<li>Software / Methods Availability</li>
+<li>Improved Transfer of Knowledge</li>
+</ul>
+
+<p>What we do NOT get</p>
+
+<ul>
+<li>Validity / Correctness of the analysis</li>
+</ul>
+
+<p>An analysis can be reproducible and still be wrong</p>
+
+<p>We want to know “can we trust this analysis?”</p>
+
+<p>Does requiring reproducibility deter bad analysis?</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Problems with Reproducibility</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The premise of reproducible research is that with data/code available,
+people can check each other and the whole system is self-correcting</p>
+
+<ul>
+<li><p>Addresses the most “downstream” aspect of the research process –
+post-publication</p></li>
+<li><p>Assumes everyone plays by the same rules and wants to achieve the
+same goals (i.e. scientific discovery)</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>An Analogy from Asthma</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/asthma1.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>An Analogy from Asthma</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/asthma2.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>An Analogy from Asthma</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/asthma3.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Scientific Dissemination Process</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/publication1.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Scientific Dissemination Process</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/publication2.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Scientific Dissemination Process</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/publication3.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Scientific Dissemination Process</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/publication4.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Scientific Dissemination Process</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/publication5.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Who Reproduces Research?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>For reproducibility to be effective as a means to check validity, someone needs to do something</p>
+
+<ul>
+<li>Re-run the analysis; check results match</li>
+<li>Check the code for bugs/errors</li>
+<li>Try alternate approaches; check sensitivity</li>
+</ul></li>
+<li><p>The need for someone to do something is inherited from traditional
+notion of replication</p></li>
+<li><p>Who is &quot;someone&quot; and what are their goals?</p></li>
+<li><p>Why does this process need to be manual and post-publication?</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Who Reproduces Research?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/reproduce1.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Who Reproduces Research?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/reproduce2.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Who Reproduces Research?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/reproduce3.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Who Reproduces Research?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/reproduce4.png" class="center" height="500" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>The Story So Far</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Reproducibility brings transparency (wrt code+data) and increased transfer of knowledge</li>
+<li>A lot of discussion about how to get people to share data</li>
+<li>Key question of &quot;can we trust this analysis?&quot; is not addressed by reproducibility</li>
+<li>Reproducibility addresses potential problems long after they’ve occurred (&quot;downstream&quot;)</li>
+<li>Secondary analyses are inevitably coloured by the interests/motivations of others</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Evidence-based Data Analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Most data analyses involve stringing together many different tools and methods</li>
+<li>Some methods may be standard for a given field, but others are often applied ad hoc</li>
+<li>We should apply thoroughly studied (via statistical research), mutually agreed upon methods to analyze data whenever possible</li>
+<li>There should be evidence to justify the application of a given method</li>
+<li>Hardware vs. software; Clinical trials vs. genomics</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Future of Statistical Software</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="NRC_report.png" width=900 /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Building &quot;Expert Systems&quot;</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="pregibon_title.png" width=900 /></p>
+
+<blockquote>
+"Nearly 10 years have passed since initial efforts to put statistical expertise into data analysis software were reported. It is fair to say that the ambitious goals articulated then have not yet been realized."
+</blockquote>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Incorporating Statistical Expertise into Software</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>&quot;Accomplished statisticians argue that alternative model formulations,
+diagnostics, plots, and so on are necessary for a proper analysis of
+data. <b>Inexperienced users of statistical software are
+overwhelmed</b>. Initial efforts to incorporate statistical expertise
+into software were aimed at helping inexperienced users navigate
+through the statistical software jungle that had been created.&quot;</p>
+
+<p>--Pregibon, 1991</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Incorporating Statistical Expertise into Software</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>&quot;Throughout American or even global industry, there is much advocacy
+of statistical process control and of understanding
+processes. <b>Statisticians have a process they espouse but do not
+know anything about</b>. It is the process of putting together many
+tiny pieces, the process called data analysis, and is not really
+understood. Encoding these pieces provides a platform from which to
+study this process that was invented to tell people what to do, and
+about which little is known.&quot;</p>
+
+<p>--Pregibon, 1991</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Evidence-based Data Analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/histogram1.png" class="center" height="400" /></p>
+
+<p><code>hist(x)</code></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Evidence-based Data Analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/histogram2.png" class="center" height="400" /></p>
+
+<p><code>hist(x)</code></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Evidence-based Data Analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Create analytic pipelines from evidence-based components – standardize it</li>
+<li><p>A Deterministic Statistical Machine <a href="http://goo.gl/Qvlhuv">http://goo.gl/Qvlhuv</a></p></li>
+<li><p>Once an evidence-based analytic pipeline is established, we shouldn’t mess with it</p></li>
+<li><p>Analysis with a “transparent box”</p></li>
+<li><p>Reduce the &quot;researcher degrees of freedom&quot;</p></li>
+<li><p>Analogous to a pre-specified clinical trial protocol</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>Deterministic Statistical Machine</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/DSM.png" class="center" height="400" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>Case Study: Estimating Acute Effects of Ambient Air Pollution Exposure</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Acute/short-term effects typically estimated via panel studies or time series studies</li>
+<li>Work originated in late 1970s early 1980s</li>
+<li>Key question: &quot;Are short-term changes in pollution associated with short-term changes in a population health outcome?&quot;</li>
+<li>Studies usually conducted at community level</li>
+<li>Long history of statistical research investigating proper methods of analysis</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>Data from New York City</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="img/NewYorkData.png" class="center" height="400" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>Case Study: Estimating Acute Effects of Ambient Air Pollution Exposure</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Can we encode everything that we have found in statistical/epidemiological research into a single package?</li>
+<li>Time series studies do not have a huge range of variation; typically involves similar types of data and similar questions</li>
+<li>We can create a deterministic statistical machine for this area?<br></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>DSM Modules for Time Series Studies of Air Pollution and Health</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li><p>Check for outliers, high leverage, overdispersion</p></li>
+<li><p>Fill in missing data? NO!</p></li>
+<li><p>Model selection: Estimate degrees of freedom to adjust for unmeasured confounders</p>
+
+<ul>
+<li>Other aspects of model not as critical</li>
+</ul></li>
+<li><p>Multiple lag analysis</p></li>
+<li><p>Sensitivity analysis wrt</p>
+
+<ul>
+<li>Unmeasured confounder adjustment</li>
+<li>Influential points</li>
+</ul></li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>Summary</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Reproducible research is important, but does not necessarily solve the critical question of whether a data analysis is trustworthy</li>
+<li>Reproducible research focuses on the most &quot;downstream&quot; aspect of research dissemination</li>
+<li>Evidence-based data analysis would provide standardized, best practices for given scientific areas and questions</li>
+<li>Gives reviewers an important tool without dramatically increasing the burden on them</li>
+<li>More effort should be put into improving the quality of &quot;upstream&quot; aspects of scientific research</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='An Email from This Morning'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Problem 1'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Problem 2'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Problem 3'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Problem 1: Data'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Problem 2: Data'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Problem 3: Data'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Problem 1 (Solutions)'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Replication and Reproducibility'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Replication and Reproducibility'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Result of Data Revolution'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='What Problem Does Reproducibility Solve?'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='What Problem Does Reproducibility Solve?'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='What Problem Does Reproducibility Solve?'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Problems with Reproducibility'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='An Analogy from Asthma'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='An Analogy from Asthma'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='An Analogy from Asthma'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Scientific Dissemination Process'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Scientific Dissemination Process'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Scientific Dissemination Process'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Scientific Dissemination Process'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Scientific Dissemination Process'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Who Reproduces Research?'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Who Reproduces Research?'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Who Reproduces Research?'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Who Reproduces Research?'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Who Reproduces Research?'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='The Story So Far'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='Evidence-based Data Analysis'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='Future of Statistical Software'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='Building &quot;Expert Systems&quot;'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='Incorporating Statistical Expertise into Software'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='Incorporating Statistical Expertise into Software'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='Evidence-based Data Analysis'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='Evidence-based Data Analysis'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='Evidence-based Data Analysis'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='Deterministic Statistical Machine'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='Case Study: Estimating Acute Effects of Ambient Air Pollution Exposure'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='Data from New York City'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='Case Study: Estimating Acute Effects of Ambient Air Pollution Exposure'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='DSM Modules for Time Series Studies of Air Pollution and Health'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='Summary'>
+         43
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
