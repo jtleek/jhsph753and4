@@ -53,3 +53,11 @@ March 6:
 
 * Testing [Lecture](http://jtleek.github.io/jhsph753and4/lectures/07_02_testing/#1)
 * [In class activity](https://github.com/jtleek/jhsph753and4/blob/master/lectures/07_02_inclass.md)
+
+March 11: 
+
+* Cancelled
+
+March 13: 
+
+* Guest lecture by Roger Peng [Lecture](http://jtleek.github.io/jhsph753and4/lectures/EBDA/#1)
