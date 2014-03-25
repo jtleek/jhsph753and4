@@ -14,7 +14,7 @@ Course Information
 	* http://biostat.jhsph.edu/~jleek/teaching/2011/754/ (2011)
 	* http://biostat.jhsph.edu/~jleek/teaching/appliedstat/ (2012)
 	* http://jtleek.github.io/jhsph753/ (2013)
-* Room: W2009
+* Room: W2009 (3rd Term), W4007 (4th term)
 * Time: TuTh 10:30am-11:50am
 
 This course is the third term of the intensive introduction to methods for applied statistics. The goal of this sequence is to develop Ph.D. level biostatisticians who are capable of both applied data analysis and developing the next generation of statistical methods. Both data analysis and methods development require substantial hands on experience, so the focus of this class will be on hands on data analysis. 

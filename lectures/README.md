@@ -61,3 +61,10 @@ March 11:
 March 13: 
 
 * Guest lecture by Roger Peng [Lecture](http://jtleek.github.io/jhsph753and4/lectures/EBDA/#1)
+
+
+Biostat 754
+-------------
+
+March 25: [Lecture](http://jtleek.github.io/jhsph753and4/lectures/09_01_testing/#1)
+* [In class activity](https://github.com/jtleek/jhsph753and4/blob/master/lectures/07_02_inclass.md)
