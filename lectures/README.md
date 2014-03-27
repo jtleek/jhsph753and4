@@ -68,3 +68,4 @@ Biostat 754
 
 March 25: [Lecture](http://jtleek.github.io/jhsph753and4/lectures/09_01_penalized/#1)
 * [In class activity](https://github.com/jtleek/jhsph753and4/blob/master/lectures/07_02_inclass.md)
+* [Code for in-class](https://github.com/jtleek/jhsph753and4/blob/master/lectures/stamps.R)
