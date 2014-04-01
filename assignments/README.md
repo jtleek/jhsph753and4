@@ -18,6 +18,11 @@ How to submit data analyses
 
 Late submissions are not accepted unless agreed to _in advance by at least one week_. The only acceptable formats for submissions are pdf files for text/math and R Markdown files for code. 
 
+
+JHSPH 753
+=============================
+
+
 Assignment 1
 --------------
 
@@ -86,3 +91,19 @@ You are to create a [swirl](http://swirlstats.com/) tutorial on an advanced stat
 * Website: http://swirlstats.com
 
 * GitHub: https://github.com/swirldev/swirl
+
+
+
+JHSPH 754
+=============================
+
+Assignment 1
+--------------
+
+* Assigned: Tuesday, April 1st
+* Due: Tuesday, April 15h
+* Peer Grading Due: April 22nd 
+* Data Analysis Assignment: 
+* Homework problems: 
+
+
