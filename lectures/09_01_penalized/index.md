@@ -19,17 +19,48 @@ mode        : selfcontained # {standalone, draft}
 
 
 
-## Pro tip
+## Old pro tip
 
 Be judicious in your choice of dependencies (theoretical, software, career). Every dependency you add is one more potential failing point of your (theorem,software,career). That being said, no dependencies is the surest path to disaster. Ramnath whenever possible (build incredible things at high speed by repurposing old tools in the most creative way possible) 
 
 ---
 
-## Paper of the day
+## Old paper of the day
 
 [Automatic decoding of facial movements reveals deceptive pain expressions](http://bit.ly/OPlUEM)
 
 <img class="center" src="../../assets/img/painga.jpg" height="450">
+
+
+
+----
+
+## New pro tip
+
+One of the most important components of a research career is building relationships. There are obvious tangible reasons:
+
+* Grant panels
+* Tenure review letters
+* Referees of papers
+
+There are also intangible reasons:
+
+* Learning opportunities
+* Friendships
+
+There is a temptation when "making a name for yourself" to put other people down. In the long run this hurts you way more than you would expect it to. 
+
+
+---
+
+## Blogs of the day 
+
+
+[Why I, a founder of PLOS, am forsaking open access](http://www.michaeleisen.org/blog/?p=1580)
+
+[The most cited statistis papers ever](http://andrewgelman.com/2014/03/31/cited-statistics-papers-ever/)
+
+
 
 ---
 

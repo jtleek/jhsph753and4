@@ -103,7 +103,7 @@ Assignment 1
 * Assigned: Tuesday, April 1st
 * Due: Tuesday, April 15h
 * Peer Grading Due: April 22nd 
-* Data Analysis Assignment: 
-* Homework problems: 
+* Data Analysis Assignment: http://www.crowdgrader.org/crowdgrader/venues/view_venue/313/
+* Homework problems: https://github.com/jtleek/jhsph753and4/blob/master/assignments/hw1-754.md
 
 
