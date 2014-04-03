@@ -76,4 +76,7 @@ March 27: Betsy Ogburn
 April 1:
 
 * Regularized regression [Lecture](http://jtleek.github.io/jhsph753and4/lectures/09_01_penalized/#1)
+
+April 3: 
+
 * Multiple testing [Lecture](http://jtleek.github.io/jhsph753and4/lectures/10_01_multipleTesting/#1)
