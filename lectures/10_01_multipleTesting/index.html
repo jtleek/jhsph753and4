@@ -44,13 +44,30 @@
 
     <!-- SLIDES -->
     <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
   <article data-timings="">
-    
+    <p>Fail fearlessly. Learning things is about trying not to fail. Discovering things is about failing all the time and getting back up and trying again. Research is about failing over and over and keeping your spirits up.</p>
+
+<p><a href="http://simplystatistics.org/2012/08/09/a-non-exhaustive-list-of-things-i-have-failed-to/">List of stuff Jeff failed at</a></p>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
 
 <slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper of the day</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><a href="http://www.pnas.org/content/100/16/9440.full">Statistical significance for genomewide studies</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
   <hgroup>
     <h2>Three eras of statistics</h2>
   </hgroup>
@@ -67,7 +84,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-3" style="background:;">
+<slide class="" id="slide-4" style="background:;">
   <hgroup>
     <h2>Why I am the one true heir of multiple testing</h2>
   </hgroup>
@@ -78,7 +95,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-4" style="background:;">
+<slide class="" id="slide-5" style="background:;">
   <hgroup>
     <h2>Reasons for multiple testing</h2>
   </hgroup>
@@ -89,7 +106,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-5" style="background:;">
+<slide class="" id="slide-6" style="background:;">
   <hgroup>
     <h2>Why correct for multiple tests?</h2>
   </hgroup>
@@ -102,7 +119,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-6" style="background:;">
+<slide class="" id="slide-7" style="background:;">
   <hgroup>
     <h2>Why correct for multiple tests?</h2>
   </hgroup>
@@ -115,7 +132,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-7" style="background:;">
+<slide class="" id="slide-8" style="background:;">
   <hgroup>
     <h2>Types of errors</h2>
   </hgroup>
@@ -161,7 +178,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-8" style="background:;">
+<slide class="" id="slide-9" style="background:;">
   <hgroup>
     <h2>Error rates</h2>
   </hgroup>
@@ -180,7 +197,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-9" style="background:;">
+<slide class="" id="slide-10" style="background:;">
   <hgroup>
     <h2>Controlling the false positive rate</h2>
   </hgroup>
@@ -199,7 +216,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-10" style="background:;">
+<slide class="" id="slide-11" style="background:;">
   <hgroup>
     <h2>Controlling family-wise error rate (FWER)</h2>
   </hgroup>
@@ -223,7 +240,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-11" style="background:;">
+<slide class="" id="slide-12" style="background:;">
   <hgroup>
     <h2>Bonferroni and FWER</h2>
   </hgroup>
@@ -243,7 +260,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-12" style="background:;">
+<slide class="" id="slide-13" style="background:;">
   <hgroup>
     <h2>The Bonferroni Correction Control the FWER</h2>
   </hgroup>
@@ -258,7 +275,22 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-13" style="background:;">
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Bonferroni adjusted p-values</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[ p^{bon}_i = \inf\{\alpha : p \in S_{\alpha}^{bon}\}\]
+\[ = \inf\{\alpha : p_i \leq \alpha/m\}\]
+\[ = \min\{m p_i,1\}\]</p>
+
+<p>The adjusted p-value is no longer uniform under the null, but the adjusted p-value is attractive, because of the interpretation that \(p_i^{bon} \leq \alpha\) implies that FWER \(\leq \alpha\). See <code>p.adjust</code> in R. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
   <hgroup>
     <h2>Independendent test statistics</h2>
   </hgroup>
@@ -276,14 +308,14 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-14" style="background:;">
+<slide class="" id="slide-16" style="background:;">
   <hgroup>
     <h2>Bonferroni and dependence</h2>
   </hgroup>
   <article data-timings="">
     <p>In the extreme case; all tests have almost the same \(p_j\); if one is small, they&#39;re all small. so:</p>
 
-<p>\[ P ({\rm any\; null\;} p_i < \alpha/m) &\approx& m_0/m P(p_1 < \alpha/m)\]
+<p>\[ P ({\rm any\; null\;} p_i < \alpha/m) \approx m_0/m P(p_1 < \alpha/m)\]
 \[ = (m_0/m) (\alpha/m)\]
 \[ \approx \alpha/m\]</p>
 
@@ -295,32 +327,376 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-15" style="background:;">
+<slide class="" id="slide-17" style="background:;">
   <hgroup>
-    <h2>Controlling false discovery rate (FDR)</h2>
+    <h2>A common application of Bonferroni</h2>
   </hgroup>
   <article data-timings="">
-    <p>This is the most popular correction when performing <em>lots</em> of tests say in genomics, imagining, astronomy, or other signal-processing disciplines. </p>
+    <p>&quot;A genome-wide association study identifies three loci associated with susceptibility to uterine fibroids&quot; </p>
 
-<p><strong>Basic idea</strong>: </p>
+<p>For each of \(\sim 1\times10^7\) SNPs with data \(X_i\) fit the model:
+\[ {\rm logit}(P(Y_j = 1 | X_ij))  = \beta_{0i} + \beta_{1i} X_{ij}\]</p>
 
-<ul>
-<li>Suppose you do \(m\) tests</li>
-<li>You want to control FDR at level \(\alpha\) so \(E\left[\frac{V}{R}\right]\)</li>
-<li>Calculate P-values normally</li>
-<li>Order the P-values from smallest to largest \(P_{(1)},...,P_{(m)}\)</li>
-<li>Call any \(P_{(i)} \leq \alpha \times \frac{i}{m}\) significant</li>
-</ul>
-
-<p><strong>Pros</strong>: Still pretty easy to calculate, less conservative (maybe much less)</p>
-
-<p><strong>Cons</strong>: Allows for more false positives, may behave strangely under dependence</p>
+<p><img class=center src=../../assets/img/manhattan.png height=300/></p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-16" style="background:;">
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Why use Bonferroni?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/cdcv2.png height=200/>
+<img class=center src=../../assets/img/cdcv1.png height=200/></p>
+
+<ul>
+<li> Only a small number of the covariates should show significant association</li>
+<li> We <strong>really</strong> don&#39;t want false positives</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>A little known fact</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center>
+Bonferroni correction at level \(k/m\) gives \(EFP \leq k\) regardless of any dependence between tests. 
+</center></p>
+
+<ul>
+<li>Some people argue this is how we should interpret Bonferroni (see e.g. Gordon 2007)</li>
+<li>This way of interpreting high-throughput data is recommended; \(k=1\) is easy to think about (and explain) </li>
+<li>Sometimes called genomewise error rate-k, \(GWER_k\) (see e.g. Chen and Storey 2006)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Back to our 2 x 2 table</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[ Y = \beta_{0i} + \beta_{1i}X_i + \epsilon_i\]</p>
+
+<p>Calculate a P-value for each \(\{p_1,\ldots,p_m\}\).</p>
+
+<table><thead>
+<tr>
+<th></th>
+<th>\(\beta=0\)</th>
+<th>\(\beta\neq0\)</th>
+<th>Hypotheses</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Claim \(\beta=0\)</td>
+<td>\(U\)</td>
+<td>\(T\)</td>
+<td>\(m-R\)</td>
+</tr>
+<tr>
+<td>Claim \(\beta\neq 0\)</td>
+<td>\(V\)</td>
+<td>\(S\)</td>
+<td>\(R\)</td>
+</tr>
+<tr>
+<td>Claims</td>
+<td>\(m_0\)</td>
+<td>\(m-m_0\)</td>
+<td>\(m\)</td>
+</tr>
+</tbody></table>
+
+<p>&quot;Classic&quot; Bonferroni limits \(\p(V \geq 1 | m)\); any \(V \geq 1\) is &quot;equally bad&quot;</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>False discovery rates</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>A less conservative measure of (hypothetical) embarrassment
+\[\frac{V}{R\vee1} = \frac{\#{\rm false \; positives}}{\#{\rm declared \; positives}}\]</p>
+
+<ul>
+<li>This is the <strong>realized</strong> False Discovery Rate</li>
+<li>&quot;Badness&quot; of each Type I error depends on \(R\)</li>
+<li> \(R \vee 1\) stops \(0/0\), sets embarrassment  = 0 when \(R = 0\)</li>
+<li> For a given decision rule, define its \(FDR = E\left[\frac{V}{R\vee 1}\right]\)</li>
+</ul>
+
+<p>This is the most popular correction when performing <em>lots</em> of tests say in genomics, imagining, astronomy, or other signal-processing disciplines. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Benjamini and Hochberg</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Benjamini and Hochberg (1995) defined a set of rules which control the \(FDR\), for independent tests</p>
+
+<ul>
+<li>Calculate and order the P-values \(p_{(1)},\ldots,p_{(m)}\)</li>
+<li> Find the max \(i\) : \(p_{(i)} \leq \alpha i/m\)</li>
+<li>Decide &quot;false&quot; for all tests with \(p_i\) below this threshold, and &quot;true&quot; otherwise. </li>
+</ul>
+
+<p>This <strong>set</strong> of decisions will have \(FDR  =E \left[\frac{V}{R \vee 1}\right]  \leq (m_0/m) \alpha\), for an \(m_0,m\). </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Proof of control</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The original proof of FDR control based on the BH algorithm was based on an induction argument. Storey, Taylor and Siegmund (2004) gave an elegant and generalizable alternative proof based on martingales that we will study. The basic steps are:</p>
+
+<ul>
+<li>Show that the BH procedure is equivalent to a random stopping rule. </li>
+<li>Show that the false discovery proportion can be written as a martingale.</li>
+<li>Use the optional stopping theorem to prove FDR control.<br></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Martingale digression</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>_<em>Definition (Billingsley, adapted): _</em> Let \(X_t\) be a stochastic process on a probability space \((\Omega, \mathcal{F}, P)\) and let \(\{\mathcal{F}_t\}\) be an increasing set of \(\sigma\) algebras such that \(\mathcal{F}_s \subset \mathcal{F}_t\) when \(s < t\). Then \(X_t\) is a <em>martingale</em> with respect to the <em>filtration</em> \(\{\mathcal{F}_t\}\) if:</p>
+
+<ul>
+<li>\(X_t\) is measurable \(\mathcal{F}_t\).<br></li>
+<li>\(E[|X_t|] < \infty\)</li>
+<li>Almost surely: \(E[X_t | \mathcal{F}_s] = X_s\), \(s < t\). </li>
+</ul>
+
+<p>Put simply if \(X_t\) is a stochastic process such that the conditions hold, then \(E[X_t | X_s] = X_s\) for \(s < t\). </p>
+
+<p><strong>Definition</strong>: A stopping time with respect to \(\{X_t\}\) is a random variable \(\tau\) such that the event \(\{\tau = t\}\) is measurable with respect to \(\mathcal{F}_t\) and \(P(\tau < \infty) = 1\) almost surely. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>An example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Suppose a gambler wins 1 dollar every time a flipped coin lands heads and loses 1 dollar every time it comes up tails. After the $t$th flip he has \(X_t\) dollars. Then his expected winnings after the next flip is:
+\[ E[X_{t+1} | X_{t}] = (X_t + 1)\times \frac{1}{2}  + (X_t - 1) \times \frac{1}{2} = X_t \]</p>
+
+<p>So \(X_t\) is a martingale. Some examples of stopping rules are:</p>
+
+<ul>
+<li>The gambler quits after a fixed number of turns. </li>
+<li>Playing until he runs out of money.</li>
+</ul>
+
+<p>Examples of things that aren&#39;t stopping rules:</p>
+
+<ul>
+<li>Playing until he is the maximum ahead he ever will be (depends on the future). </li>
+<li>Playing until he doubles his money (it may never happen). </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Optional stopping theorem</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>If \(\{X_t\}\) is a martingale with respect to the filtration \(\{\mathcal{F}_t\}\) and \(\tau\) is a stopping time for the martingale, then if \(E[\tau] < \infty\) and \(X_t\) is an integrable random variable then:</p>
+
+<p>\[E[X_t ] = E[X_0]\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Proof of control</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The original proof of FDR control based on the BH algorithm was based on an induction argument. Storey, Taylor and Siegmund (2004) gave an elegant and generalizable alternative proof based on martingales that we will study. The basic steps are:</p>
+
+<ul>
+<li><em>Show that the BH procedure is equivalent to a random stopping rule.</em></li>
+<li>Show that the false discovery proportion can be written as a martingale.</li>
+<li>Use the optional stopping theorem to prove FDR control.<br></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Equivalence of BH procedure and \(T_{\alpha}(\widehat{FDR}(t))\)</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We start off with an estimate of the false discovery rate:</p>
+
+<p>\[\widehat{FDR}(t) = \frac{\pi_0 t}{(R(t) \vee 1)/m}\]</p>
+
+<p>To be conservative we can let \(\pi_0 = 1\) (but we could use a conservative estimate of \(\pi_0\) and the proof would still hold). Then define the random cutoff:</p>
+
+<p>\[T_{\alpha}(\widehat{FDR}(t)) = \sup\{0\leq t \leq 1: \widehat{FDR}(t) \leq \alpha\}\]</p>
+
+<p>Calling all \(\hat{p}_i < T_{\alpha}(\widehat{FDR}(t))\) significant is equivalent to the Benjamin-Hochberg procedure.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Proof</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We need to show that 
+\[p_{\hat{k}} \leq T_{\alpha}(\widehat{FDR}(t)) < p_{\hat{k} + 1}\] where \(\hat{k}\) is the BH cutoff. But \[\widehat{FDR}(p_{(k)}) = \frac{p_{(k)}}{k/m}\] so the BH cutoff is \[\hat{k} = \max\{k: p_{(k)} \leq \frac{k}{m}\alpha \} = \max\{k : \widehat{FDR}(p_{(k)}) \leq \alpha\}\] For \(k > \hat{k}\) we have \(\widehat{FDR}(p_{(k)}) > \alpha\) and for \(k \leq \hat{k}\) we have \(\widehat{FDR}(p_{(k)}) \leq \alpha\). So \(p_{\hat{k}} \leq T_{\alpha}(\widehat{FDR}(t)) < p_{\hat{k} + 1}\)</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Proof of control</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The original proof of FDR control based on the BH algorithm was based on an induction argument. Storey, Taylor and Siegmund (2004) gave an elegant and generalizable alternative proof based on martingales that we will study. The basic steps are:</p>
+
+<ul>
+<li>Show that the BH procedure is equivalent to a random stopping rule.</li>
+<li><em>Show that the false discovery proportion can be written as a martingale.</em></li>
+<li>Use the optional stopping theorem to prove FDR control.<br></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Write FDP as Martingale</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The false discovery proportion at cutoff \(t\) is \[\frac{V(t)}{R(t)}\]</p>
+
+<p>But \(T_{\alpha}(\widehat{FDR}(t)) = \sup\{0\leq t \leq 1: \frac{mt}{R(t) \vee 1} \leq \alpha\}\) and since \((m\times t)/R(t)\) has only positive jumps and a final value of 1, we have that \[\alpha = \frac{T_{\alpha}(\widehat{FDR}(t))\times m}{R[T_{\alpha}(\widehat{FDR}(t))]} \implies R[T_{\alpha}(\widehat{FDR}(t))] = T_{\alpha}(\widehat{FDR}(t)) \times m/\alpha\]</p>
+
+<p>Therefore \[\frac{V[T_{\alpha}(\widehat{FDR}(t))]}{R[T_{\alpha}(\widehat{FDR}(t))]} = \frac{\alpha}{m} \frac{V[T_{\alpha}(\widehat{FDR}(t))]}{T_{\alpha}(\widehat{FDR}(t))}\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Proof of control</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The original proof of FDR control based on the BH algorithm was based on an induction argument. Storey, Taylor and Siegmund (2004) gave an elegant and generalizable alternative proof based on martingales that we will study. The basic steps are:</p>
+
+<ul>
+<li>Show that the BH procedure is equivalent to a random stopping rule.</li>
+<li>Show that the false discovery proportion can be written as a martingale.</li>
+<li><em>Use the optional stopping theorem to prove FDR control.</em><br></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Some results from STS</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Lemma 1</strong>: If the p-values of the \(m_0\) null hypotheses are independent then \(\frac{V(t)}{t} = \frac{\sum_{i=1}^{m_0} 1(p_i \leq t)}{t}\) for \(0 \leq t \leq 1\) is a martingale with time running backward with respect to the filtration \(\mathcal{F}_t = \sigma(1\{p_i \leq s\}, t \leq s \leq 1,i=1,\ldots,m)\), in other words for \(s \leq t\) we have \(E[V(s)/s | \mathcal{F}_t] = V(t)/t\). </p>
+
+<p><strong>Lemma 2</strong>: The random variable \(T_{\alpha}(\widehat{FDR}(t))\) is a stopping time with respect to \(\mathcal{F}_t = \sigma(1\{p_i \leq s\}, t \leq s \leq 1,i=1,\ldots,m)\). </p>
+
+<p>So finally, since the process \(V(t)/t\) stopped at \(T_{\alpha}(\widehat{FDR}(t))\) is bounded by \(m/\alpha\) the optional stopping theorem gives us:</p>
+
+<p>\[FDR[T_{\alpha}(\widehat{FDR}(t))] = \frac{\alpha}{m} E\left[\frac{V[T_{\alpha}(\widehat{FDR}(t))]}{T_{\alpha}(\widehat{FDR}(t))}\right] = \frac{\alpha}{m} E[V(1)] = \frac{m_0}{m}\alpha\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Storey&#39;s approach - less conservative than BH</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We could estimate \(m_0\) to get a better FDR controlling procedure</li>
+<li>Storey&#39;s algorithm starts by estimating \(\pi_0 = \frac{m_0}{m}\) then:</li>
+<li>Calculate and order the P-values \(p_{(1)},\ldots,p_{(m)}\)</li>
+<li>Find the max \(i\) : \(p_{(i)} \leq \frac{\alpha i}{\hat{\pi}_0 m}\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Estimating \(\pi0\)</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/pi0hat.png height='70%'/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>pFDR and Q-value</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The positive false discovery rate is: \[{\rm pFDR} = E\left[\frac{V}{R} | R > 0\right]\] which can be compared to the FDR \[{\rm FDR} = E\left[\frac{V}{R} | R > 0\right] P(R > 0)\] The q-value is the pFDR analog of the p-value</p>
+
+<p>\[\hat{p} = \hat{p}(X) = \inf\{\alpha : X \in S_\alpha\}\] 
+\[\hat{q} = \hat{q}(X) = \inf\{{\rm pFDR}(S) : X \in S\}\] </p>
+
+<p>See the <code>qvalue</code> package in R. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-37" style="background:;">
   <hgroup>
     <h2>Example with 10 P-values</h2>
   </hgroup>
@@ -333,31 +709,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-17" style="background:;">
-  <hgroup>
-    <h2>Adjusted P-values</h2>
-  </hgroup>
-  <article data-timings="">
-    <ul>
-<li>One approach is to adjust the threshold \(\alpha\)</li>
-<li>A different approach is to calculate &quot;adjusted p-values&quot;</li>
-<li>They <em>are not p-values</em> anymore</li>
-<li>But they can be used directly without adjusting \(\alpha\)</li>
-</ul>
-
-<p><strong>Example</strong>: </p>
-
-<ul>
-<li>Suppose P-values are \(P_1,\ldots,P_m\)</li>
-<li>You could adjust them by taking \(P_i^{fwer} = \max{m \times P_i,1}\) for each P-value.</li>
-<li>Then if you call all \(P_i^{fwer} < \alpha\) significant you will control the FWER. </li>
-</ul>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="" id="slide-18" style="background:;">
+<slide class="" id="slide-38" style="background:;">
   <hgroup>
     <h2>Case study I: no true positives</h2>
   </hgroup>
@@ -381,7 +733,7 @@ sum(pValues &lt; 0.05)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-19" style="background:;">
+<slide class="" id="slide-39" style="background:;">
   <hgroup>
     <h2>Case study I: no true positives</h2>
   </hgroup>
@@ -404,7 +756,7 @@ sum(p.adjust(pValues,method=&quot;BH&quot;) &lt; 0.05)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-20" style="background:;">
+<slide class="" id="slide-40" style="background:;">
   <hgroup>
     <h2>Case study II: 50% true positives</h2>
   </hgroup>
@@ -431,7 +783,7 @@ table(pValues &lt; 0.05, trueStatus)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-21" style="background:;">
+<slide class="" id="slide-41" style="background:;">
   <hgroup>
     <h2>Case study II: 50% true positives</h2>
   </hgroup>
@@ -460,7 +812,7 @@ table(p.adjust(pValues,method=&quot;BH&quot;) &lt; 0.05,trueStatus)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-22" style="background:;">
+<slide class="" id="slide-42" style="background:;">
   <hgroup>
     <h2>Case study II: 50% true positives</h2>
   </hgroup>
@@ -478,7 +830,7 @@ plot(pValues,p.adjust(pValues,method=&quot;BH&quot;),pch=19)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-23" style="background:;">
+<slide class="" id="slide-43" style="background:;">
   <hgroup>
     <h2>Notes and resources</h2>
   </hgroup>
@@ -513,31 +865,31 @@ plot(pValues,p.adjust(pValues,method=&quot;BH&quot;),pch=19)
     <ul>
       <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=1 title=''>
+        data-slide=1 title='Pro tip'>
          1
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='Three eras of statistics'>
+        data-slide=2 title='Paper of the day'>
          2
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='Why I am the one true heir of multiple testing'>
+        data-slide=3 title='Three eras of statistics'>
          3
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='Reasons for multiple testing'>
+        data-slide=4 title='Why I am the one true heir of multiple testing'>
          4
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=5 title='Why correct for multiple tests?'>
+        data-slide=5 title='Reasons for multiple testing'>
          5
       </a>
     </li>
@@ -549,104 +901,224 @@ plot(pValues,p.adjust(pValues,method=&quot;BH&quot;),pch=19)
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=7 title='Types of errors'>
+        data-slide=7 title='Why correct for multiple tests?'>
          7
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=8 title='Error rates'>
+        data-slide=8 title='Types of errors'>
          8
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=9 title='Controlling the false positive rate'>
+        data-slide=9 title='Error rates'>
          9
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=10 title='Controlling family-wise error rate (FWER)'>
+        data-slide=10 title='Controlling the false positive rate'>
          10
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=11 title='Bonferroni and FWER'>
+        data-slide=11 title='Controlling family-wise error rate (FWER)'>
          11
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=12 title='The Bonferroni Correction Control the FWER'>
+        data-slide=12 title='Bonferroni and FWER'>
          12
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=13 title='Independendent test statistics'>
+        data-slide=13 title='The Bonferroni Correction Control the FWER'>
          13
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=14 title='Bonferroni and dependence'>
+        data-slide=14 title='Bonferroni adjusted p-values'>
          14
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=15 title='Controlling false discovery rate (FDR)'>
+        data-slide=15 title='Independendent test statistics'>
          15
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=16 title='Example with 10 P-values'>
+        data-slide=16 title='Bonferroni and dependence'>
          16
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=17 title='Adjusted P-values'>
+        data-slide=17 title='A common application of Bonferroni'>
          17
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=18 title='Case study I: no true positives'>
+        data-slide=18 title='Why use Bonferroni?'>
          18
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=19 title='Case study I: no true positives'>
+        data-slide=19 title='A little known fact'>
          19
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=20 title='Case study II: 50% true positives'>
+        data-slide=20 title='Back to our 2 x 2 table'>
          20
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=21 title='Case study II: 50% true positives'>
+        data-slide=21 title='False discovery rates'>
          21
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=22 title='Case study II: 50% true positives'>
+        data-slide=22 title='Benjamini and Hochberg'>
          22
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=23 title='Notes and resources'>
+        data-slide=23 title='Proof of control'>
          23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Martingale digression'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='An example'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Optional stopping theorem'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Proof of control'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Equivalence of BH procedure and \(T_{\alpha}(\widehat{FDR}(t))\)'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='Proof'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='Proof of control'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='Write FDP as Martingale'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='Proof of control'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='Some results from STS'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='Storey&#39;s approach - less conservative than BH'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='Estimating \(\pi0\)'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='pFDR and Q-value'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='Example with 10 P-values'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='Case study I: no true positives'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='Case study I: no true positives'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='Case study II: 50% true positives'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='Case study II: 50% true positives'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='Case study II: 50% true positives'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='Notes and resources'>
+         43
       </a>
     </li>
   </ul>
