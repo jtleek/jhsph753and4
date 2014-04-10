@@ -1,0 +1,2329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prediction</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Prediction">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../librariesNew/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../librariesNew/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="../../librariesNew/frameworks/io2012/js/slides" 
+    src="../../librariesNew/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="../../assets/img/bloomberg_shield.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Prediction</h1>
+    <h2></h2>
+    <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>A major competitive edge right now in statistics is to not care about the method and to just do what works. It seems like a really simple thing, but our field values people who invent methods and so people are often very attached to the thing they invented. If you aren&#39;t attached and just care about using a method that gives a good answer, you have a major competitive advantage in real data analysis.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Papers of the day</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>&quot;Comparative Meta-analysis of Prognostic Gene Signatures for Late-Stage Ovarian Cancer.&quot;
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/24700801">http://www.ncbi.nlm.nih.gov/pubmed/24700801</a></p>
+
+<p>&quot;Risk Prediction for Late-Stage Ovarian Cancer by Meta-analysis of 1525 Patient Samples.&quot;</p>
+
+<p><a href="http://www.ncbi.nlm.nih.gov/pubmed/24700803">http://www.ncbi.nlm.nih.gov/pubmed/24700803</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Who predicts?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Local governments -&gt; pension payments</li>
+<li>Google -&gt; whether you will click on an ad</li>
+<li>Amazon -&gt; what movies you will watch</li>
+<li>Insurance companies -&gt; what your risk of death is</li>
+<li>Johns Hopkins -&gt; who will succeed in their programs</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Why predict? Glory!</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/volinsky.png height=450></p>
+
+<p><a href="http://www.zimbio.com/photos/Chris+Volinsky">http://www.zimbio.com/photos/Chris+Volinsky</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Why predict? Riches!</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/heritage.png height=450></p>
+
+<p><a href="http://www.heritagehealthprize.com/c/hhp">http://www.heritagehealthprize.com/c/hhp</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Why predict? For sport!</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/kaggle.png height=350></p>
+
+<p><a href="http://www.kaggle.com/">http://www.kaggle.com/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Why predict? To save lives!</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/oncotype.png height=350></p>
+
+<p><a href="http://www.oncotypedx.com/en-US/Home">http://www.oncotypedx.com/en-US/Home</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>A useful (if a bit advanced) book</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/elemlearn.png height=350></p>
+
+<p><a href="http://statweb.stanford.edu/%7Etibs/ElemStatLearn/">The elements of statistical learning</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>A useful package</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/caret.png height=350></p>
+
+<p><a href="http://caret.r-forge.r-project.org/">http://caret.r-forge.r-project.org/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>The central dogma of prediction</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/centraldogma.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Components of a predictor</h2>
+  </hgroup>
+  <article data-timings="">
+    <p></br></p>
+
+<p><center> question -&gt; input data -&gt; features -&gt; algorithm -&gt; parameters -&gt; evaluation  </center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>SPAM Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p></br></p>
+
+<p><center> <redtext>question</redtext> -&gt; input data -&gt; features -&gt; algorithm -&gt; parameters -&gt; evaluation  </center></p>
+
+<p></br></p>
+
+<p><strong>Start with a general question</strong></p>
+
+<p>Can I automatically detect emails that are SPAM that are not?</p>
+
+<p><strong>Make it concrete</strong></p>
+
+<p>Can I use quantitative characteristics of the emails to classify them as SPAM/HAM?</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>SPAM Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p></br></p>
+
+<p><center> question -&gt; <redtext>input data </redtext> -&gt; features -&gt; algorithm -&gt; parameters -&gt; evaluation  </center></p>
+
+<p><img class=center src=../../assets/img/spamR.png height='400' /></p>
+
+<p><a href="http://rss.acs.unt.edu/Rdoc/library/kernlab/html/spam.html">http://rss.acs.unt.edu/Rdoc/library/kernlab/html/spam.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>SPAM Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p></br></p>
+
+<p><center> question -&gt; input data  -&gt; <redtext>features</redtext> -&gt; algorithm -&gt; parameters -&gt; evaluation  </center></p>
+
+<p></br></p>
+
+<p><b>
+Dear Jeff, </p>
+
+<p>Can you send me your address so I can send you the invitation? </p>
+
+<p>Thanks,</p>
+
+<p>Ben
+</b></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>SPAM Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p></br></p>
+
+<p><center> question -&gt; input data  -&gt; <redtext>features</redtext> -&gt; algorithm -&gt; parameters -&gt; evaluation  </center></p>
+
+<p></br></p>
+
+<p><b> </p>
+
+<p>Dear Jeff, </p>
+
+<p>Can <rt>you</rt> send me your address so I can send <rt>you</rt> the invitation? </p>
+
+<p>Thanks,</p>
+
+<p>Ben
+</b></p>
+
+<p></br></p>
+
+<p>Frequency of you \(= 2/17 = 0.118\)</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>SPAM Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p></br></p>
+
+<p><center> question -&gt; input data  -&gt; <redtext>features</redtext> -&gt; algorithm -&gt; parameters -&gt; evaluation  </center></p>
+
+<pre><code class="r">library(kernlab)
+data(spam)
+head(spam)
+</code></pre>
+
+<pre><code>  make address  all num3d  our over remove internet order mail receive will people report addresses
+1 0.00    0.64 0.64     0 0.32 0.00   0.00     0.00  0.00 0.00    0.00 0.64   0.00   0.00      0.00
+2 0.21    0.28 0.50     0 0.14 0.28   0.21     0.07  0.00 0.94    0.21 0.79   0.65   0.21      0.14
+3 0.06    0.00 0.71     0 1.23 0.19   0.19     0.12  0.64 0.25    0.38 0.45   0.12   0.00      1.75
+4 0.00    0.00 0.00     0 0.63 0.00   0.31     0.63  0.31 0.63    0.31 0.31   0.31   0.00      0.00
+5 0.00    0.00 0.00     0 0.63 0.00   0.31     0.63  0.31 0.63    0.31 0.31   0.31   0.00      0.00
+6 0.00    0.00 0.00     0 1.85 0.00   0.00     1.85  0.00 0.00    0.00 0.00   0.00   0.00      0.00
+  free business email  you credit your font num000 money hp hpl george num650 lab labs telnet
+1 0.32     0.00  1.29 1.93   0.00 0.96    0   0.00  0.00  0   0      0      0   0    0      0
+2 0.14     0.07  0.28 3.47   0.00 1.59    0   0.43  0.43  0   0      0      0   0    0      0
+3 0.06     0.06  1.03 1.36   0.32 0.51    0   1.16  0.06  0   0      0      0   0    0      0
+4 0.31     0.00  0.00 3.18   0.00 0.31    0   0.00  0.00  0   0      0      0   0    0      0
+5 0.31     0.00  0.00 3.18   0.00 0.31    0   0.00  0.00  0   0      0      0   0    0      0
+6 0.00     0.00  0.00 0.00   0.00 0.00    0   0.00  0.00  0   0      0      0   0    0      0
+  num857 data num415 num85 technology num1999 parts pm direct cs meeting original project   re  edu
+1      0    0      0     0          0    0.00     0  0   0.00  0       0     0.00       0 0.00 0.00
+2      0    0      0     0          0    0.07     0  0   0.00  0       0     0.00       0 0.00 0.00
+3      0    0      0     0          0    0.00     0  0   0.06  0       0     0.12       0 0.06 0.06
+4      0    0      0     0          0    0.00     0  0   0.00  0       0     0.00       0 0.00 0.00
+5      0    0      0     0          0    0.00     0  0   0.00  0       0     0.00       0 0.00 0.00
+6      0    0      0     0          0    0.00     0  0   0.00  0       0     0.00       0 0.00 0.00
+  table conference charSemicolon charRoundbracket charSquarebracket charExclamation charDollar
+1     0          0          0.00            0.000                 0           0.778      0.000
+2     0          0          0.00            0.132                 0           0.372      0.180
+3     0          0          0.01            0.143                 0           0.276      0.184
+4     0          0          0.00            0.137                 0           0.137      0.000
+5     0          0          0.00            0.135                 0           0.135      0.000
+6     0          0          0.00            0.223                 0           0.000      0.000
+  charHash capitalAve capitalLong capitalTotal type
+1    0.000      3.756          61          278 spam
+2    0.048      5.114         101         1028 spam
+3    0.010      9.821         485         2259 spam
+4    0.000      3.537          40          191 spam
+5    0.000      3.537          40          191 spam
+6    0.000      3.000          15           54 spam
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>SPAM Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> question -&gt; input data  -&gt; features -&gt; <redtext>algorithm</redtext> -&gt; parameters -&gt; evaluation  </center></p>
+
+<pre><code class="r">plot(density(spam$your[spam$type==&quot;nonspam&quot;]),
+     col=&quot;blue&quot;,main=&quot;&quot;,xlab=&quot;Frequency of &#39;your&#39;&quot;)
+lines(density(spam$your[spam$type==&quot;spam&quot;]),col=&quot;red&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-1.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>SPAM Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> question -&gt; input data  -&gt; features -&gt; <redtext>algorithm</redtext> -&gt; parameters -&gt; evaluation  </center></p>
+
+<p></br></br></p>
+
+<p><strong>Our algorithm</strong></p>
+
+<ul>
+<li>Find a value \(C\). </li>
+<li><strong>frequency of &#39;your&#39; \(>\) C</strong> predict &quot;spam&quot;</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>SPAM Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> question -&gt; input data  -&gt; features -&gt; algorithm -&gt; <redtext>parameters</redtext> -&gt; evaluation  </center></p>
+
+<pre><code class="r">plot(density(spam$your[spam$type==&quot;nonspam&quot;]),
+     col=&quot;blue&quot;,main=&quot;&quot;,xlab=&quot;Frequency of &#39;your&#39;&quot;)
+lines(density(spam$your[spam$type==&quot;spam&quot;]),col=&quot;red&quot;)
+abline(v=0.5,col=&quot;black&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>SPAM Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> question -&gt; input data  -&gt; features -&gt; algorithm -&gt; parameters -&gt; <redtext>evaluation</redtext></center></p>
+
+<pre><code class="r">prediction &lt;- ifelse(spam$your &gt; 0.5,&quot;spam&quot;,&quot;nonspam&quot;)
+table(prediction,spam$type)/length(spam$type)
+</code></pre>
+
+<pre><code>
+prediction nonspam   spam
+   nonspam  0.4590 0.1017
+   spam     0.1469 0.2923
+</code></pre>
+
+<p>Accuracy$ \approx 0.459 + 0.292 = 0.751$</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>An important point</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><q>The combination of some data and an aching desire for an answer does not ensure that a reasonable answer can be extracted from a given body of data.</q></p>
+
+<p><center> John Tukey </center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Garbage in = Garbage out</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> question -&gt; <rt>input data</rt> -&gt; features -&gt; algorithm -&gt; parameters -&gt; evaluation  </center></p>
+
+<ol>
+<li>May be easy (movie ratings -&gt; new movie ratings)</li>
+<li>May be harder (gene expression data -&gt; disease)</li>
+<li>Depends on what is a &quot;good prediction&quot;.</li>
+<li>Often <a href="http://www.youtube.com/watch?v=yvDCzhbjYWs">more data &gt; better models</a></li>
+<li>The most important step!</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Features matter!</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> question -&gt; input data -&gt; <rt>features</rt> -&gt; algorithm -&gt; parameters -&gt; evaluation  </center></p>
+
+<p><strong>Properties of good features</strong></p>
+
+<ul>
+<li>Lead to data compression</li>
+<li>Retain relevant information</li>
+<li>Are created based on expert application knowledge</li>
+</ul>
+
+<p><strong>Common mistakes</strong></p>
+
+<ul>
+<li>Trying to automate feature selection</li>
+<li>Not paying attention to data-specific quirks</li>
+<li>Throwing away information unnecessarily</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>May be automated with care</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> question -&gt; input data -&gt; <rt>features</rt> -&gt; algorithm -&gt; parameters -&gt; evaluation  </center></p>
+
+<p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/autofeatures.jpeg height=300></p>
+
+<p><a href="http://arxiv.org/pdf/1112.6209v5.pdf">http://arxiv.org/pdf/1112.6209v5.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Algorithms matter less than you&#39;d think</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> question -&gt; input data -&gt; features -&gt; <rt>algorithm</rt> -&gt; parameters -&gt; evaluation  </center></p>
+
+<p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/illusiontable.png height=400></p>
+
+<p><a href="http://arxiv.org/pdf/math/0606441.pdf">http://arxiv.org/pdf/math/0606441.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Issues to consider</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/mlconsiderations.jpg height=400></p>
+
+<p><a href="http://strata.oreilly.com/2013/09/gaining-access-to-the-best-machine-learning-methods.html">http://strata.oreilly.com/2013/09/gaining-access-to-the-best-machine-learning-methods.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Prediction is about accuracy tradeoffs</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Interpretability versus accuracy</li>
+<li>Speed versus accuracy</li>
+<li>Simplicity versus accuracy</li>
+<li>Scalability versus accuracy</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Interpretability matters</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/interpretable.png height=150></p>
+
+<p></br></br></br></p>
+
+<p><a href="http://www.cs.cornell.edu/%7Echenhao/pub/mldg-0815.pdf">http://www.cs.cornell.edu/~chenhao/pub/mldg-0815.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Scalability matters</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/netflixno.png height=250>
+</br></br></br></p>
+
+<p><a href="http://www.techdirt.com/blog/innovation/articles/20120409/03412518422/">http://www.techdirt.com/blog/innovation/articles/20120409/03412518422/</a></p>
+
+<p><a href="http://techblog.netflix.com/2012/04/netflix-recommendations-beyond-5-stars.html">http://techblog.netflix.com/2012/04/netflix-recommendations-beyond-5-stars.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>In sample versus out of sample</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>In Sample Error</strong>: The error rate you get on the same
+data set you used to build your predictor. Sometimes
+called resubstitution error.</p>
+
+<p><strong>Out of Sample Error</strong>: The error rate you get on a new
+data set. Sometimes called generalization error. </p>
+
+<p><strong>Key ideas</strong></p>
+
+<ol>
+<li>Out of sample error is what you care about</li>
+<li>In sample error \(<\) out of sample error</li>
+<li>The reason is overfitting
+
+<ul>
+<li>Matching your algorithm to the data you have</li>
+</ul></li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>In sample versus out of sample errors</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(kernlab); data(spam); set.seed(333)
+smallSpam &lt;- spam[sample(dim(spam)[1],size=10),]
+spamLabel &lt;- (smallSpam$type==&quot;spam&quot;)*1 + 1
+plot(smallSpam$capitalAve,col=spamLabel)
+</code></pre>
+
+<div class="rimage center"><img src="fig/loadDataII.png" title="plot of chunk loadDataII" alt="plot of chunk loadDataII" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Prediction rule 1</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>capitalAve \(>\) 2.7 = &quot;spam&quot;</li>
+<li>capitalAve \(<\) 2.40 = &quot;nonspam&quot;</li>
+<li>capitalAve between 2.40 and 2.45 = &quot;spam&quot;</li>
+<li>capitalAve between 2.45 and 2.7 = &quot;nonspam&quot;</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Apply Rule 1 to smallSpam</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">rule1 &lt;- function(x){
+  prediction &lt;- rep(NA,length(x))
+  prediction[x &gt; 2.7] &lt;- &quot;spam&quot;
+  prediction[x &lt; 2.40] &lt;- &quot;nonspam&quot;
+  prediction[(x &gt;= 2.40 &amp; x &lt;= 2.45)] &lt;- &quot;spam&quot;
+  prediction[(x &gt; 2.45 &amp; x &lt;= 2.70)] &lt;- &quot;nonspam&quot;
+  return(prediction)
+}
+table(rule1(smallSpam$capitalAve),smallSpam$type)
+</code></pre>
+
+<pre><code>
+          nonspam spam
+  nonspam       5    0
+  spam          0    5
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Prediction rule 2</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>capitalAve \(>\) 2.40 = &quot;spam&quot;</li>
+<li>capitalAve \(\leq\) 2.40 = &quot;nonspam&quot;</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Apply Rule 2 to smallSpam</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">rule2 &lt;- function(x){
+  prediction &lt;- rep(NA,length(x))
+  prediction[x &gt; 2.8] &lt;- &quot;spam&quot;
+  prediction[x &lt;= 2.8] &lt;- &quot;nonspam&quot;
+  return(prediction)
+}
+table(rule2(smallSpam$capitalAve),smallSpam$type)
+</code></pre>
+
+<pre><code>
+          nonspam spam
+  nonspam       5    1
+  spam          0    4
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Apply to complete spam data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">table(rule1(spam$capitalAve),spam$type)
+</code></pre>
+
+<pre><code>
+          nonspam spam
+  nonspam    2141  588
+  spam        647 1225
+</code></pre>
+
+<pre><code class="r">table(rule2(spam$capitalAve),spam$type)
+</code></pre>
+
+<pre><code>
+          nonspam spam
+  nonspam    2224  642
+  spam        564 1171
+</code></pre>
+
+<pre><code class="r">mean(rule1(spam$capitalAve)==spam$type)
+</code></pre>
+
+<pre><code>[1] 0.7316
+</code></pre>
+
+<pre><code class="r">mean(rule2(spam$capitalAve)==spam$type)
+</code></pre>
+
+<pre><code>[1] 0.7379
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Look at accuracy</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">sum(rule1(spam$capitalAve)==spam$type)
+</code></pre>
+
+<pre><code>[1] 3366
+</code></pre>
+
+<pre><code class="r">sum(rule2(spam$capitalAve)==spam$type)
+</code></pre>
+
+<pre><code>[1] 3395
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>Basic terms</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>In general, <strong>Positive</strong> = identified and <strong>negative</strong> = rejected. Therefore:</p>
+
+<p><strong>True positive</strong> = correctly identified</p>
+
+<p><strong>False positive</strong> = incorrectly identified</p>
+
+<p><strong>True negative</strong> = correctly rejected</p>
+
+<p><strong>False negative</strong> = incorrectly rejected</p>
+
+<p><em>Medical testing example</em>:</p>
+
+<p><strong>True positive</strong> = Sick people correctly diagnosed as sick</p>
+
+<p><strong>False positive</strong>= Healthy people incorrectly identified as sick</p>
+
+<p><strong>True negative</strong> = Healthy people correctly identified as healthy</p>
+
+<p><strong>False negative</strong> = Sick people incorrectly identified as healthy.</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Sensitivity_and_specificity">http://en.wikipedia.org/wiki/Sensitivity_and_specificity</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>Define your error rate</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/sensspec.png height=400></p>
+
+<p><a href="http://en.wikipedia.org/wiki/Sensitivity_and_specificity">http://en.wikipedia.org/wiki/Sensitivity_and_specificity</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>Key quantities</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/keyquantities.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>Key quantities as fractions</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/keyquantfrac.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>Screening tests</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/predpos1.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>General population</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/predpos2.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>General population as fractions</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/predpos3.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>At risk subpopulation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/predpos4.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>At risk subpopulation as fraction</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/predpos5.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>Key public health issue</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/mammograms.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>Key public health issue</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/prostatescreen.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>For continuous data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Mean squared error (MSE)</strong>:</p>
+
+<p>\[\frac{1}{n} \sum_{i=1}^n (Prediction_i - Truth_i)^2\]</p>
+
+<p><strong>Root mean squared error (RMSE)</strong>:</p>
+
+<p>\[\sqrt{\frac{1}{n} \sum_{i=1}^n(Prediction_i - Truth_i)^2}\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-50" style="background:;">
+  <hgroup>
+    <h2>Common error measures</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>Mean squared error (or root mean squared error)
+
+<ul>
+<li>Continuous data, sensitive to outliers</li>
+</ul></li>
+<li>Median absolute deviation 
+
+<ul>
+<li>Continuous data, often more robust</li>
+</ul></li>
+<li>Sensitivity (recall)
+
+<ul>
+<li>If you want few missed positives</li>
+</ul></li>
+<li>Specificity
+
+<ul>
+<li>If you want few negatives called positives</li>
+</ul></li>
+<li>Accuracy
+
+<ul>
+<li>Weights false positives/negatives equally</li>
+</ul></li>
+<li>Concordance
+
+<ul>
+<li>One example is <a href="http://en.wikipedia.org/wiki/Cohen%27s_kappa">kappa</a></li>
+</ul></li>
+<li><p>Predictive value of a positive (precision)</p>
+
+<ul>
+<li>When you are screeing and prevelance is low</li>
+</ul>
+
+<h2>ROC curves</h2></li>
+</ol>
+
+<p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/roc1.png height=400></p>
+
+<p><a href="http://en.wikipedia.org/wiki/Receiver_operating_characteristic">http://en.wikipedia.org/wiki/Receiver_operating_characteristic</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-51" style="background:;">
+  <hgroup>
+    <h2>ROC Curve example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/roc2.png height=400></p>
+
+<p><a href="http://en.wikipedia.org/wiki/Receiver_operating_characteristic">http://en.wikipedia.org/wiki/Receiver_operating_characteristic</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-52" style="background:;">
+  <hgroup>
+    <h2>Area under the curve</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/roc1.png height=200></p>
+
+<ul>
+<li>AUC = 0.5: random guessing</li>
+<li>AUC = 1: perfect classifer</li>
+<li>In general AUC of above 0.8 considered &quot;good&quot;</li>
+</ul>
+
+<p><a href="http://en.wikipedia.org/wiki/Receiver_operating_characteristic">http://en.wikipedia.org/wiki/Receiver_operating_characteristic</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-53" style="background:;">
+  <hgroup>
+    <h2>Prediction and association</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/predandassoc.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-54" style="background:;">
+  <hgroup>
+    <h2>What is good?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/roc3.png height=400></p>
+
+<p><a href="http://en.wikipedia.org/wiki/Receiver_operating_characteristic">http://en.wikipedia.org/wiki/Receiver_operating_characteristic</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-55" style="background:;">
+  <hgroup>
+    <h2>Study design</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/studyDesign.png height=400></p>
+
+<p><a href="http://www2.research.att.com/%7Evolinsky/papers/ASAStatComp.pdf">http://www2.research.att.com/~volinsky/papers/ASAStatComp.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-56" style="background:;">
+  <hgroup>
+    <h2>Key idea</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>Accuracy on the training set (resubstitution accuracy) is optimistic</li>
+<li>A better estimate comes from an independent set (test set accuracy)</li>
+<li>But we can&#39;t use the test set when building the model or it becomes part of the training set</li>
+<li>So we estimate the test set accuracy with the training set. </li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-57" style="background:;">
+  <hgroup>
+    <h2>Cross-validation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><em>Approach</em>:</p>
+
+<ol>
+<li><p>Use the training set</p></li>
+<li><p>Split it into training/test sets </p></li>
+<li><p>Build a model on the training set</p></li>
+<li><p>Evaluate on the test set</p></li>
+<li><p>Repeat and average the estimated errors</p></li>
+</ol>
+
+<p><em>Used for</em>:</p>
+
+<ol>
+<li><p>Picking variables to include in a model</p></li>
+<li><p>Picking the type of prediction function to use</p></li>
+<li><p>Picking the parameters in the prediction function</p></li>
+<li><p>Comparing different predictors</p></li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-58" style="background:;">
+  <hgroup>
+    <h2>Random subsampling</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/random.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-59" style="background:;">
+  <hgroup>
+    <h2>K-fold</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/kfold.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-60" style="background:;">
+  <hgroup>
+    <h2>Leave one out</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/loocv.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-61" style="background:;">
+  <hgroup>
+    <h2>Considerations</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>For time series data data must be used in &quot;chunks&quot;</li>
+<li>For k-fold cross validation
+
+<ul>
+<li>Larger k = less bias, more variance</li>
+<li>Smaller k = more bias, less variance</li>
+</ul></li>
+<li>Random sampling must be done <em>without replacement</em></li>
+<li>Random sampling with replacement is the <em>bootstrap</em>
+
+<ul>
+<li>Underestimates of the error</li>
+<li>Can be corrected, but it is complicated (<a href="http://www.jstor.org/discover/10.2307/2965703?uid=2&amp;uid=4&amp;sid=21103054448997">0.632 Bootstrap</a>)</li>
+</ul></li>
+<li>If you cross-validate to pick predictors estimate you must estimate errors on independent data. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-62" style="background:;">
+  <hgroup>
+    <h2>A succcessful predictor</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/fivethirtyeight.png height=400></p>
+
+<p><a href="fivethirtyeight.com">fivethirtyeight.com</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-63" style="background:;">
+  <hgroup>
+    <h2>Polling data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/gallup.png height=400></p>
+
+<p><a href="http://www.gallup.com/">http://www.gallup.com/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-64" style="background:;">
+  <hgroup>
+    <h2>Weighting the data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/538.png height=400></p>
+
+<p><a href="http://www.fivethirtyeight.com/2010/06/pollster-ratings-v40-methodology.html">http://www.fivethirtyeight.com/2010/06/pollster-ratings-v40-methodology.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-65" style="background:;">
+  <hgroup>
+    <h2>Key idea</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center>To predict X use data related to X</center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-66" style="background:;">
+  <hgroup>
+    <h2>Key idea</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center>To predict player performance use data about player performance</center></p>
+
+<p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/moneyball.jpg height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-67" style="background:;">
+  <hgroup>
+    <h2>Key idea</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center>To predict movie preferences use data about movie preferences</center></p>
+
+<p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/netflix.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-68" style="background:;">
+  <hgroup>
+    <h2>Key idea</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center>To predict hospitalizations use data about hospitalizations</center></p>
+
+<p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/heritage.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-69" style="background:;">
+  <hgroup>
+    <h2>Not a hard rule</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center>To predict flu outbreaks use Google searches</center></p>
+
+<p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/flutrends.png height=400></p>
+
+<p><a href="http://www.google.org/flutrends/">http://www.google.org/flutrends/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-70" style="background:;">
+  <hgroup>
+    <h2>Looser connection = harder prediction</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/oncotype.png height=300></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-71" style="background:;">
+  <hgroup>
+    <h2>Data properties matter</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/fluproblems.jpg height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-72" style="background:;">
+  <hgroup>
+    <h2>Unrelated data is the most common mistake</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/choc.png height=400></p>
+
+<p><a href="http://www.nejm.org/doi/full/10.1056/NEJMon1211064">http://www.nejm.org/doi/full/10.1056/NEJMon1211064</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-73" style="background:;">
+  <hgroup>
+    <h2>The caret R package</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/caret.png height=400></p>
+
+<p><a href="http://caret.r-forge.r-project.org/">http://caret.r-forge.r-project.org/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-74" style="background:;">
+  <hgroup>
+    <h2>Caret functionality</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Some preprocessing (cleaning)
+
+<ul>
+<li>preProcess</li>
+</ul></li>
+<li>Data splitting
+
+<ul>
+<li>createDataPartition</li>
+<li>createResample</li>
+<li>createTimeSlices</li>
+</ul></li>
+<li>Training/testing functions
+
+<ul>
+<li>train</li>
+<li>predict</li>
+</ul></li>
+<li>Model comparison
+
+<ul>
+<li>confusionMatrix</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-75" style="background:;">
+  <hgroup>
+    <h2>Machine learning algorithms in R</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Linear discriminant analysis</li>
+<li>Regression</li>
+<li>Naive Bayes</li>
+<li>Support vector machines</li>
+<li>Classification and regression trees</li>
+<li>Random forests</li>
+<li>Boosting</li>
+<li>etc. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-76" style="background:;">
+  <hgroup>
+    <h2>Why caret?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/predicttable.png height=250></p>
+
+<p><a href="??">add link</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-77" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Data splitting</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(caret); library(kernlab); data(spam)
+inTrain &lt;- createDataPartition(y=spam$type,
+                              p=0.75, list=FALSE)
+training &lt;- spam[inTrain,]
+testing &lt;- spam[-inTrain,]
+dim(training)
+</code></pre>
+
+<pre><code>[1] 3451   58
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-78" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Fit a model</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(32343)
+modelFit &lt;- train(type ~.,data=training, method=&quot;glm&quot;)
+modelFit
+</code></pre>
+
+<pre><code>Generalized Linear Model 
+
+3451 samples
+  57 predictors
+   2 classes: &#39;nonspam&#39;, &#39;spam&#39; 
+
+No pre-processing
+Resampling: Bootstrapped (25 reps) 
+
+Summary of sample sizes: 3451, 3451, 3451, 3451, 3451, 3451, ... 
+
+Resampling results
+
+  Accuracy  Kappa  Accuracy SD  Kappa SD
+  0.9       0.8    0.02         0.05    
+
+
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-79" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Final model</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">modelFit &lt;- train(type ~.,data=training, method=&quot;glm&quot;)
+modelFit$finalModel
+</code></pre>
+
+<pre><code>
+Call:  NULL
+
+Coefficients:
+      (Intercept)               make            address                all              num3d  
+        -1.38e+14          -2.32e+14          -1.30e+14           7.97e+13           7.80e+13  
+              our               over             remove           internet              order  
+         2.23e+14           1.19e+14           3.08e+14           2.50e+14           2.88e+14  
+             mail            receive               will             people             report  
+        -3.15e+13           1.06e+14          -7.04e+13          -2.16e+14          -4.49e+13  
+        addresses               free           business              email                you  
+        -1.10e+13           1.87e+14           9.34e+13           1.57e+14           4.47e+13  
+           credit               your               font             num000              money  
+         2.63e+13           2.33e+14           5.36e+13           3.28e+14           1.87e+14  
+               hp                hpl             george             num650                lab  
+        -2.27e+14          -1.08e+14          -2.17e+14           1.06e+14          -1.76e+14  
+             labs             telnet             num857               data             num415  
+        -3.17e+13          -7.70e+14           2.23e+14          -2.00e+14          -4.32e+14  
+            num85         technology            num1999              parts                 pm  
+        -1.30e+14           2.70e+14          -2.87e+12          -2.24e+14          -1.21e+14  
+           direct                 cs            meeting           original            project  
+         7.15e+13          -3.50e+14          -2.84e+14          -3.52e+14          -3.33e+14  
+               re                edu              table         conference      charSemicolon  
+        -2.23e+14          -3.06e+14          -4.65e+14          -5.71e+14          -5.09e+14  
+ charRoundbracket  charSquarebracket    charExclamation         charDollar           charHash  
+        -1.67e+14          -1.78e+14           1.88e+14           1.23e+15           3.03e+14  
+       capitalAve        capitalLong       capitalTotal  
+         4.12e+12           5.61e+11           2.18e+11  
+
+Degrees of Freedom: 3450 Total (i.e. Null);  3393 Residual
+Null Deviance:      4630 
+Residual Deviance: 30900    AIC: 31000
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-80" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Prediction</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">predictions &lt;- predict(modelFit,newdata=testing)
+predictions
+</code></pre>
+
+<pre><code>   [1] spam    spam    spam    spam    nonspam spam    spam    spam    spam    spam    spam   
+  [12] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+  [23] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+  [34] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+  [45] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+  [56] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+  [67] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+  [78] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+  [89] spam    spam    spam    spam    spam    spam    nonspam spam    spam    spam    spam   
+ [100] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [111] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [122] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [133] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [144] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [155] spam    spam    spam    spam    nonspam spam    spam    spam    spam    spam    spam   
+ [166] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [177] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [188] spam    spam    spam    spam    spam    spam    spam    nonspam spam    spam    spam   
+ [199] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [210] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [221] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [232] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [243] spam    nonspam spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [254] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [265] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [276] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [287] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [298] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [309] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [320] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [331] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [342] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [353] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [364] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [375] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [386] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [397] spam    spam    nonspam spam    spam    spam    nonspam spam    spam    nonspam nonspam
+ [408] nonspam spam    spam    spam    nonspam spam    spam    spam    nonspam spam    spam   
+ [419] spam    spam    nonspam spam    spam    spam    spam    spam    spam    spam    spam   
+ [430] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [441] spam    spam    spam    spam    spam    spam    spam    spam    spam    nonspam spam   
+ [452] spam    spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [463] spam    nonspam spam    nonspam spam    spam    nonspam nonspam nonspam spam    nonspam
+ [474] nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam spam    nonspam nonspam
+ [485] nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [496] nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam
+ [507] nonspam nonspam spam    nonspam spam    nonspam nonspam nonspam nonspam nonspam spam   
+ [518] spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [529] nonspam spam    nonspam nonspam nonspam nonspam spam    spam    nonspam nonspam nonspam
+ [540] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam
+ [551] nonspam spam    nonspam nonspam nonspam nonspam nonspam spam    nonspam spam    spam   
+ [562] nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam spam   
+ [573] spam    nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [584] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam
+ [595] nonspam spam    spam    nonspam nonspam spam    nonspam nonspam nonspam spam    nonspam
+ [606] nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam
+ [617] nonspam spam    nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam
+ [628] nonspam nonspam nonspam nonspam spam    nonspam nonspam spam    nonspam nonspam nonspam
+ [639] spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [650] nonspam spam    nonspam nonspam spam    nonspam nonspam spam    nonspam nonspam nonspam
+ [661] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [672] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam
+ [683] nonspam nonspam spam    spam    spam    nonspam spam    nonspam nonspam nonspam nonspam
+ [694] nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam
+ [705] nonspam nonspam nonspam spam    nonspam spam    nonspam nonspam nonspam nonspam nonspam
+ [716] nonspam nonspam spam    nonspam nonspam nonspam nonspam spam    nonspam nonspam spam   
+ [727] nonspam nonspam nonspam spam    nonspam spam    nonspam nonspam nonspam nonspam nonspam
+ [738] spam    spam    spam    nonspam nonspam nonspam nonspam spam    spam    nonspam spam   
+ [749] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [760] nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam
+ [771] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [782] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [793] nonspam spam    nonspam nonspam nonspam nonspam spam    spam    nonspam nonspam nonspam
+ [804] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam spam   
+ [815] nonspam nonspam nonspam spam    nonspam nonspam spam    nonspam spam    spam    nonspam
+ [826] spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [837] nonspam nonspam spam    spam    spam    nonspam nonspam nonspam nonspam nonspam nonspam
+ [848] nonspam nonspam nonspam nonspam spam    spam    nonspam nonspam spam    nonspam nonspam
+ [859] nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam spam   
+ [870] nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam
+ [881] nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam   
+ [892] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [903] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [914] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam   
+ [925] nonspam nonspam spam    nonspam nonspam nonspam spam    nonspam spam    nonspam nonspam
+ [936] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [947] spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [958] nonspam nonspam nonspam nonspam nonspam spam    nonspam spam    nonspam nonspam nonspam
+ [969] nonspam spam    nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam spam   
+ [980] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [991] nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam
+[1002] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1013] nonspam spam    nonspam nonspam spam    nonspam spam    nonspam spam    nonspam nonspam
+[1024] nonspam spam    spam    nonspam nonspam nonspam nonspam spam    nonspam nonspam spam   
+[1035] nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam
+[1046] nonspam nonspam spam    spam    spam    nonspam spam    nonspam nonspam nonspam spam   
+[1057] nonspam spam    spam    spam    spam    spam    spam    spam    spam    nonspam nonspam
+[1068] nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam spam    nonspam
+[1079] nonspam spam    nonspam nonspam nonspam spam    nonspam spam    nonspam nonspam spam   
+[1090] spam    spam    nonspam spam    nonspam spam    nonspam nonspam nonspam spam    nonspam
+[1101] nonspam nonspam nonspam spam    spam    spam    spam    spam    spam    spam    nonspam
+[1112] spam    nonspam nonspam nonspam nonspam nonspam spam    nonspam spam    nonspam nonspam
+[1123] nonspam spam    spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1134] nonspam nonspam spam    nonspam nonspam spam    nonspam nonspam nonspam nonspam spam   
+[1145] nonspam nonspam nonspam nonspam spam    nonspam
+Levels: nonspam spam
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-81" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Confusion Matrix</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">confusionMatrix(predictions,testing$type)
+</code></pre>
+
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction nonspam spam
+   nonspam     555   14
+   spam        142  439
+
+               Accuracy : 0.864         
+                 95% CI : (0.843, 0.884)
+    No Information Rate : 0.606         
+    P-Value [Acc &gt; NIR] : &lt;2e-16        
+
+                  Kappa : 0.729         
+ Mcnemar&#39;s Test P-Value : &lt;2e-16        
+
+            Sensitivity : 0.796         
+            Specificity : 0.969         
+         Pos Pred Value : 0.975         
+         Neg Pred Value : 0.756         
+             Prevalence : 0.606         
+         Detection Rate : 0.483         
+   Detection Prevalence : 0.495         
+      Balanced Accuracy : 0.883         
+
+       &#39;Positive&#39; Class : nonspam       
+
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-82" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Data splitting</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(caret); library(kernlab); data(spam)
+inTrain &lt;- createDataPartition(y=spam$type,
+                              p=0.75, list=FALSE)
+training &lt;- spam[inTrain,]
+testing &lt;- spam[-inTrain,]
+dim(training)
+</code></pre>
+
+<pre><code>[1] 3451   58
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-83" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: K-fold</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(32323)
+folds &lt;- createFolds(y=spam$type,k=10,
+                             list=TRUE,returnTrain=TRUE)
+sapply(folds,length)
+</code></pre>
+
+<pre><code>Fold01 Fold02 Fold03 Fold04 Fold05 Fold06 Fold07 Fold08 Fold09 Fold10 
+  4141   4140   4141   4142   4140   4142   4141   4141   4140   4141 
+</code></pre>
+
+<pre><code class="r">folds[[1]][1:10]
+</code></pre>
+
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-84" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Return test</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(32323)
+folds &lt;- createFolds(y=spam$type,k=10,
+                             list=TRUE,returnTrain=FALSE)
+sapply(folds,length)
+</code></pre>
+
+<pre><code>Fold01 Fold02 Fold03 Fold04 Fold05 Fold06 Fold07 Fold08 Fold09 Fold10 
+   460    461    460    459    461    459    460    460    461    460 
+</code></pre>
+
+<pre><code class="r">folds[[1]][1:10]
+</code></pre>
+
+<pre><code> [1] 24 27 32 40 41 43 55 58 63 68
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-85" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Resampling</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(32323)
+folds &lt;- createResample(y=spam$type,times=10,
+                             list=TRUE)
+sapply(folds,length)
+</code></pre>
+
+<pre><code>Resample01 Resample02 Resample03 Resample04 Resample05 Resample06 Resample07 Resample08 Resample09 
+      4601       4601       4601       4601       4601       4601       4601       4601       4601 
+Resample10 
+      4601 
+</code></pre>
+
+<pre><code class="r">folds[[1]][1:10]
+</code></pre>
+
+<pre><code> [1]  1  2  3  3  3  5  5  7  8 12
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-86" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Time Slices</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(32323)
+tme &lt;- 1:1000
+folds &lt;- createTimeSlices(y=tme,initialWindow=20,
+                          horizon=10)
+names(folds)
+</code></pre>
+
+<pre><code>[1] &quot;train&quot; &quot;test&quot; 
+</code></pre>
+
+<pre><code class="r">folds$train[[1]]
+</code></pre>
+
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+</code></pre>
+
+<pre><code class="r">folds$test[[1]]
+</code></pre>
+
+<pre><code> [1] 21 22 23 24 25 26 27 28 29 30
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-87" style="background:;">
+  <hgroup>
+    <h2>Further information</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Caret tutorials:
+
+<ul>
+<li><a href="http://www.edii.uclm.es/%7EuseR-2013/Tutorials/kuhn/user_caret_2up.pdf">http://www.edii.uclm.es/~useR-2013/Tutorials/kuhn/user_caret_2up.pdf</a></li>
+<li><a href="http://cran.r-project.org/web/packages/caret/vignettes/caret.pdf">http://cran.r-project.org/web/packages/caret/vignettes/caret.pdf</a></li>
+</ul></li>
+<li>A paper introducing the caret package
+
+<ul>
+<li><a href="http://www.jstatsoft.org/v28/i05/paper">http://www.jstatsoft.org/v28/i05/paper</a></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Pro tip'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Papers of the day'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Who predicts?'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Why predict? Glory!'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Why predict? Riches!'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Why predict? For sport!'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Why predict? To save lives!'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='A useful (if a bit advanced) book'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='A useful package'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='The central dogma of prediction'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Components of a predictor'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='SPAM Example'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='SPAM Example'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='SPAM Example'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='SPAM Example'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='SPAM Example'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='SPAM Example'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='SPAM Example'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='SPAM Example'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='SPAM Example'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='An important point'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Garbage in = Garbage out'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Features matter!'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='May be automated with care'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Algorithms matter less than you&#39;d think'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Issues to consider'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Prediction is about accuracy tradeoffs'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Interpretability matters'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='Scalability matters'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='In sample versus out of sample'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='In sample versus out of sample errors'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='Prediction rule 1'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='Apply Rule 1 to smallSpam'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='Prediction rule 2'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='Apply Rule 2 to smallSpam'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='Apply to complete spam data'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='Look at accuracy'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='Basic terms'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='Define your error rate'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='Key quantities'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='Key quantities as fractions'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='Screening tests'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='General population'>
+         43
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=44 title='General population as fractions'>
+         44
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=45 title='At risk subpopulation'>
+         45
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=46 title='At risk subpopulation as fraction'>
+         46
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=47 title='Key public health issue'>
+         47
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=48 title='Key public health issue'>
+         48
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=49 title='For continuous data'>
+         49
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=50 title='Common error measures'>
+         50
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=51 title='ROC Curve example'>
+         51
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=52 title='Area under the curve'>
+         52
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=53 title='Prediction and association'>
+         53
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=54 title='What is good?'>
+         54
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=55 title='Study design'>
+         55
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=56 title='Key idea'>
+         56
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=57 title='Cross-validation'>
+         57
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=58 title='Random subsampling'>
+         58
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=59 title='K-fold'>
+         59
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=60 title='Leave one out'>
+         60
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=61 title='Considerations'>
+         61
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=62 title='A succcessful predictor'>
+         62
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=63 title='Polling data'>
+         63
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=64 title='Weighting the data'>
+         64
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=65 title='Key idea'>
+         65
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=66 title='Key idea'>
+         66
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=67 title='Key idea'>
+         67
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=68 title='Key idea'>
+         68
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=69 title='Not a hard rule'>
+         69
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=70 title='Looser connection = harder prediction'>
+         70
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=71 title='Data properties matter'>
+         71
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=72 title='Unrelated data is the most common mistake'>
+         72
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=73 title='The caret R package'>
+         73
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=74 title='Caret functionality'>
+         74
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=75 title='Machine learning algorithms in R'>
+         75
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=76 title='Why caret?'>
+         76
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=77 title='SPAM Example: Data splitting'>
+         77
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=78 title='SPAM Example: Fit a model'>
+         78
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=79 title='SPAM Example: Final model'>
+         79
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=80 title='SPAM Example: Prediction'>
+         80
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=81 title='SPAM Example: Confusion Matrix'>
+         81
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=82 title='SPAM Example: Data splitting'>
+         82
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=83 title='SPAM Example: K-fold'>
+         83
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=84 title='SPAM Example: Return test'>
+         84
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=85 title='SPAM Example: Resampling'>
+         85
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=86 title='SPAM Example: Time Slices'>
+         86
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=87 title='Further information'>
+         87
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../librariesNew/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="../../librariesNew/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

@@ -80,3 +80,7 @@ April 1:
 April 3: 
 
 * Multiple testing [Lecture](http://jtleek.github.io/jhsph753and4/lectures/10_01_multipleTesting/#1)
+
+April 10: 
+
+* Prediction I [Lecture](http://jtleek.github.io/jhsph753and4/lectures/11_01_predictionI/#1)
