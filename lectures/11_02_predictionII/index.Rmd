@@ -47,7 +47,14 @@ Classifier Technology and the Illusion of Progress
 
 http://arxiv.org/pdf/math/0606441.pdf
 
+
 ---
+
+## The caret R package
+
+<img class=center src=../../assets/img/08_PredictionAndMachineLearning/caret.png height=400>
+
+[http://caret.r-forge.r-project.org/](http://caret.r-forge.r-project.org/)
 
 ---
 
@@ -779,6 +786,9 @@ modFit
 
 
 ---
+
+## Naive Bayes in R
+
 
 ```{r nb, dependson="irisData",fig.height=4,fig.width=4}
 modFit <- train(Species~ .,data=training,method="nb",verbose=FALSE)

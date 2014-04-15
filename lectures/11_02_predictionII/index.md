@@ -34,7 +34,14 @@ Classifier Technology and the Illusion of Progress
 
 http://arxiv.org/pdf/math/0606441.pdf
 
+
 ---
+
+## The caret R package
+
+<img class=center src=../../assets/img/08_PredictionAndMachineLearning/caret.png height=400>
+
+[http://caret.r-forge.r-project.org/](http://caret.r-forge.r-project.org/)
 
 ---
 
@@ -1444,6 +1451,9 @@ The final values used for the model were n.trees = 50, interaction.depth = 1 and
 
 
 ---
+
+## Naive Bayes in R
+
 
 
 ```r
