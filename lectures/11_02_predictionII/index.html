@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prediction II</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Prediction II">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../librariesNew/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../librariesNew/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="../../librariesNew/frameworks/io2012/js/slides" 
+    src="../../librariesNew/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="../../assets/img/bloomberg_shield.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Prediction II</h1>
+    <h2></h2>
+    <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Perfect is the enemy of good.</strong></p>
+
+<p><img class=center src=../../assets/img/voltaire.jpg height='50%'/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Papers of the day</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Classifier Technology and the Illusion of Progress</p>
+
+<p>&quot;A large number of comparative studies have been conducted in attempts to establish the relative superiority of these methods. This paper argues that these comparisons often fail to take into account important aspects of real problems, so that the apparent superiority of more sophisticated methods may be something of an illusion. In particular, simple methods typically yield performance almost as good as more sophisticated methods, to the extent that the difference in performance may be swamped by other sources of uncertainty that generally are not considered in the classical supervised classification paradigm.&quot;</p>
+
+<p><a href="http://arxiv.org/pdf/math/0606441.pdf">http://arxiv.org/pdf/math/0606441.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Caret functionality</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Some preprocessing (cleaning)
+
+<ul>
+<li>preProcess</li>
+</ul></li>
+<li>Data splitting
+
+<ul>
+<li>createDataPartition</li>
+<li>createResample</li>
+<li>createTimeSlices</li>
+</ul></li>
+<li>Training/testing functions
+
+<ul>
+<li>train</li>
+<li>predict</li>
+</ul></li>
+<li>Model comparison
+
+<ul>
+<li>confusionMatrix</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Machine learning algorithms in R</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Linear discriminant analysis</li>
+<li>Regression</li>
+<li>Naive Bayes</li>
+<li>Support vector machines</li>
+<li>Classification and regression trees</li>
+<li>Random forests</li>
+<li>Boosting</li>
+<li>etc. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Why caret?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/predicttable.png height=250></p>
+
+<p><a href="??">add link</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Data splitting</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(caret); library(kernlab); data(spam)
+inTrain &lt;- createDataPartition(y=spam$type,
+                              p=0.75, list=FALSE)
+training &lt;- spam[inTrain,]
+testing &lt;- spam[-inTrain,]
+dim(training)
+</code></pre>
+
+<pre><code>[1] 3451   58
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Fit a model</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(32343)
+modelFit &lt;- train(type ~.,data=training, method=&quot;glm&quot;)
+modelFit
+</code></pre>
+
+<pre><code>Generalized Linear Model 
+
+3451 samples
+  57 predictors
+   2 classes: &#39;nonspam&#39;, &#39;spam&#39; 
+
+No pre-processing
+Resampling: Bootstrapped (25 reps) 
+
+Summary of sample sizes: 3451, 3451, 3451, 3451, 3451, 3451, ... 
+
+Resampling results
+
+  Accuracy  Kappa  Accuracy SD  Kappa SD
+  0.9       0.8    0.007        0.01    
+
+
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Final model</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">modelFit &lt;- train(type ~.,data=training, method=&quot;glm&quot;)
+modelFit$finalModel
+</code></pre>
+
+<pre><code>
+Call:  NULL
+
+Coefficients:
+      (Intercept)               make            address                all              num3d  
+          -1.7536            -0.2804            -0.1262             0.1796             2.7105  
+              our               over             remove           internet              order  
+           0.6459             0.7168             2.5395             0.6152             0.5839  
+             mail            receive               will             people             report  
+           0.0634            -0.6195            -0.1218            -0.0531             0.4610  
+        addresses               free           business              email                you  
+           1.1532             0.8979             0.9198             0.1447             0.0671  
+           credit               your               font             num000              money  
+           0.8881             0.2555             0.2274             2.5074             0.3407  
+               hp                hpl             george             num650                lab  
+          -3.4071            -0.3876           -17.3160             0.8427            -1.8310  
+             labs             telnet             num857               data             num415  
+          -0.0679            -0.0810             2.3615            -0.5636             0.7861  
+            num85         technology            num1999              parts                 pm  
+          -1.6326             1.3727             0.1826            -0.5185            -0.8755  
+           direct                 cs            meeting           original            project  
+          -0.3939           -45.7628            -3.1452            -1.5388            -1.6014  
+               re                edu              table         conference      charSemicolon  
+          -0.9592            -1.2066            -2.7229            -4.2604            -1.3984  
+ charRoundbracket  charSquarebracket    charExclamation         charDollar           charHash  
+          -0.0641            -0.6246             0.2715             5.2137             2.1093  
+       capitalAve        capitalLong       capitalTotal  
+           0.0552             0.0119             0.0008  
+
+Degrees of Freedom: 3450 Total (i.e. Null);  3393 Residual
+Null Deviance:      4630 
+Residual Deviance: 1330     AIC: 1440
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Prediction</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">predictions &lt;- predict(modelFit,newdata=testing)
+predictions
+</code></pre>
+
+<pre><code>   [1] spam    spam    spam    spam    spam    spam    nonspam spam    nonspam spam    spam   
+  [12] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+  [23] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+  [34] spam    spam    nonspam spam    nonspam spam    spam    spam    nonspam spam    spam   
+  [45] spam    spam    spam    spam    spam    spam    spam    nonspam spam    spam    spam   
+  [56] spam    nonspam spam    spam    spam    spam    spam    spam    spam    spam    spam   
+  [67] spam    spam    spam    spam    nonspam spam    spam    spam    spam    nonspam nonspam
+  [78] spam    spam    nonspam spam    spam    nonspam spam    spam    nonspam spam    spam   
+  [89] spam    spam    spam    nonspam spam    spam    nonspam spam    spam    spam    spam   
+ [100] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [111] spam    spam    spam    spam    spam    spam    spam    nonspam nonspam spam    nonspam
+ [122] spam    nonspam spam    spam    spam    spam    spam    nonspam spam    spam    spam   
+ [133] spam    spam    spam    spam    nonspam spam    spam    spam    spam    spam    spam   
+ [144] nonspam nonspam spam    spam    spam    spam    spam    spam    spam    spam    nonspam
+ [155] nonspam spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [166] spam    spam    nonspam spam    spam    spam    spam    nonspam spam    nonspam spam   
+ [177] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [188] spam    spam    spam    nonspam spam    spam    spam    spam    spam    spam    spam   
+ [199] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [210] spam    spam    nonspam spam    spam    spam    spam    spam    spam    spam    spam   
+ [221] spam    spam    spam    spam    nonspam spam    spam    spam    nonspam spam    spam   
+ [232] spam    spam    nonspam spam    spam    spam    spam    spam    spam    spam    spam   
+ [243] spam    spam    spam    spam    spam    nonspam spam    spam    spam    spam    spam   
+ [254] spam    spam    nonspam spam    spam    spam    spam    spam    spam    spam    spam   
+ [265] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [276] spam    spam    spam    spam    spam    spam    spam    nonspam spam    spam    spam   
+ [287] spam    spam    spam    spam    spam    spam    spam    nonspam spam    spam    spam   
+ [298] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [309] spam    spam    spam    nonspam spam    spam    spam    spam    spam    spam    spam   
+ [320] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [331] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [342] spam    spam    spam    spam    spam    spam    spam    nonspam spam    spam    spam   
+ [353] spam    spam    nonspam spam    spam    nonspam spam    spam    spam    spam    spam   
+ [364] spam    spam    spam    spam    spam    spam    spam    nonspam spam    spam    spam   
+ [375] spam    nonspam spam    nonspam spam    spam    nonspam spam    spam    nonspam spam   
+ [386] spam    nonspam nonspam nonspam spam    spam    spam    nonspam spam    spam    nonspam
+ [397] spam    spam    nonspam spam    spam    spam    spam    spam    spam    nonspam nonspam
+ [408] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [419] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [430] spam    spam    nonspam spam    spam    spam    spam    spam    nonspam spam    spam   
+ [441] spam    spam    spam    spam    spam    spam    spam    spam    spam    spam    spam   
+ [452] nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [463] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [474] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    spam   
+ [485] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [496] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam
+ [507] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [518] nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam
+ [529] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam
+ [540] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam   
+ [551] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [562] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [573] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [584] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [595] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [606] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [617] nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [628] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [639] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [650] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam   
+ [661] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [672] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam   
+ [683] nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam
+ [694] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [705] nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [716] nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [727] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [738] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [749] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [760] nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam
+ [771] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [782] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [793] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [804] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [815] nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [826] spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam
+ [837] nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam
+ [848] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [859] nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam
+ [870] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [881] nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam
+ [892] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [903] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [914] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [925] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [936] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [947] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [958] nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam nonspam
+ [969] nonspam nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [980] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+ [991] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1002] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1013] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1024] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1035] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    spam    nonspam
+[1046] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1057] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1068] nonspam nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1079] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1090] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    nonspam nonspam
+[1101] nonspam nonspam nonspam nonspam nonspam nonspam nonspam spam    spam    nonspam nonspam
+[1112] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1123] nonspam spam    nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1134] nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam nonspam
+[1145] nonspam nonspam nonspam nonspam nonspam nonspam
+Levels: nonspam spam
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Confusion Matrix</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">confusionMatrix(predictions,testing$type)
+</code></pre>
+
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction nonspam spam
+   nonspam     669   57
+   spam         28  396
+
+               Accuracy : 0.926         
+                 95% CI : (0.909, 0.941)
+    No Information Rate : 0.606         
+    P-Value [Acc &gt; NIR] : &lt; 2e-16       
+
+                  Kappa : 0.843         
+ Mcnemar&#39;s Test P-Value : 0.00239       
+
+            Sensitivity : 0.960         
+            Specificity : 0.874         
+         Pos Pred Value : 0.921         
+         Neg Pred Value : 0.934         
+             Prevalence : 0.606         
+         Detection Rate : 0.582         
+   Detection Prevalence : 0.631         
+      Balanced Accuracy : 0.917         
+
+       &#39;Positive&#39; Class : nonspam       
+
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Data splitting</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(caret); library(kernlab); data(spam)
+inTrain &lt;- createDataPartition(y=spam$type,
+                              p=0.75, list=FALSE)
+training &lt;- spam[inTrain,]
+testing &lt;- spam[-inTrain,]
+dim(training)
+</code></pre>
+
+<pre><code>[1] 3451   58
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: K-fold</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(32323)
+folds &lt;- createFolds(y=spam$type,k=10,
+                             list=TRUE,returnTrain=TRUE)
+sapply(folds,length)
+</code></pre>
+
+<pre><code>Fold01 Fold02 Fold03 Fold04 Fold05 Fold06 Fold07 Fold08 Fold09 Fold10 
+  4141   4140   4141   4142   4140   4142   4141   4141   4140   4141 
+</code></pre>
+
+<pre><code class="r">folds[[1]][1:10]
+</code></pre>
+
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Return test</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(32323)
+folds &lt;- createFolds(y=spam$type,k=10,
+                             list=TRUE,returnTrain=FALSE)
+sapply(folds,length)
+</code></pre>
+
+<pre><code>Fold01 Fold02 Fold03 Fold04 Fold05 Fold06 Fold07 Fold08 Fold09 Fold10 
+   460    461    460    459    461    459    460    460    461    460 
+</code></pre>
+
+<pre><code class="r">folds[[1]][1:10]
+</code></pre>
+
+<pre><code> [1] 24 27 32 40 41 43 55 58 63 68
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Resampling</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(32323)
+folds &lt;- createResample(y=spam$type,times=10,
+                             list=TRUE)
+sapply(folds,length)
+</code></pre>
+
+<pre><code>Resample01 Resample02 Resample03 Resample04 Resample05 Resample06 Resample07 Resample08 Resample09 
+      4601       4601       4601       4601       4601       4601       4601       4601       4601 
+Resample10 
+      4601 
+</code></pre>
+
+<pre><code class="r">folds[[1]][1:10]
+</code></pre>
+
+<pre><code> [1]  1  2  3  3  3  5  5  7  8 12
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>SPAM Example: Time Slices</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(32323)
+tme &lt;- 1:1000
+folds &lt;- createTimeSlices(y=tme,initialWindow=20,
+                          horizon=10)
+names(folds)
+</code></pre>
+
+<pre><code>[1] &quot;train&quot; &quot;test&quot; 
+</code></pre>
+
+<pre><code class="r">folds$train[[1]]
+</code></pre>
+
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+</code></pre>
+
+<pre><code class="r">folds$test[[1]]
+</code></pre>
+
+<pre><code> [1] 21 22 23 24 25 26 27 28 29 30
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">library(caret); library(kernlab); data(spam)
+inTrain &lt;- createDataPartition(y=spam$type,
+                              p=0.75, list=FALSE)
+training &lt;- spam[inTrain,]
+testing &lt;- spam[-inTrain,]
+hist(training$capitalAve,main=&quot;&quot;,xlab=&quot;ave. capital run length&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/loadPackage.png" title="plot of chunk loadPackage" alt="plot of chunk loadPackage" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Why preprocess?</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">mean(training$capitalAve)
+</code></pre>
+
+<pre><code>[1] 5.689
+</code></pre>
+
+<pre><code class="r">sd(training$capitalAve)
+</code></pre>
+
+<pre><code>[1] 36.07
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Standardizing</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">trainCapAve &lt;- training$capitalAve
+trainCapAveS &lt;- (trainCapAve  - mean(trainCapAve))/sd(trainCapAve) 
+mean(trainCapAveS)
+</code></pre>
+
+<pre><code>[1] -1.111e-17
+</code></pre>
+
+<pre><code class="r">sd(trainCapAveS)
+</code></pre>
+
+<pre><code>[1] 1
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Standardizing - test set</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">testCapAve &lt;- testing$capitalAve
+testCapAveS &lt;- (testCapAve  - mean(trainCapAve))/sd(trainCapAve) 
+mean(testCapAveS)
+</code></pre>
+
+<pre><code>[1] -0.05523
+</code></pre>
+
+<pre><code class="r">sd(testCapAveS)
+</code></pre>
+
+<pre><code>[1] 0.3047
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Standardizing - <em>preProcess</em> function</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">preObj &lt;- preProcess(training[,-58],method=c(&quot;center&quot;,&quot;scale&quot;))
+trainCapAveS &lt;- predict(preObj,training[,-58])$capitalAve
+mean(trainCapAveS)
+</code></pre>
+
+<pre><code>[1] -1.111e-17
+</code></pre>
+
+<pre><code class="r">sd(trainCapAveS)
+</code></pre>
+
+<pre><code>[1] 1
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Standardizing - <em>preProcess</em> function</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">testCapAveS &lt;- predict(preObj,testing[,-58])$capitalAve
+mean(testCapAveS)
+</code></pre>
+
+<pre><code>[1] -0.05523
+</code></pre>
+
+<pre><code class="r">sd(testCapAveS)
+</code></pre>
+
+<pre><code>[1] 0.3047
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Standardizing - <em>preProcess</em> argument</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(32343)
+modelFit &lt;- train(type ~.,data=training,
+                  preProcess=c(&quot;center&quot;,&quot;scale&quot;),method=&quot;glm&quot;)
+modelFit
+</code></pre>
+
+<pre><code>Generalized Linear Model 
+
+3451 samples
+  57 predictors
+   2 classes: &#39;nonspam&#39;, &#39;spam&#39; 
+
+Pre-processing: centered, scaled 
+Resampling: Bootstrapped (25 reps) 
+
+Summary of sample sizes: 3451, 3451, 3451, 3451, 3451, 3451, ... 
+
+Resampling results
+
+  Accuracy  Kappa  Accuracy SD  Kappa SD
+  0.9       0.8    0.01         0.02    
+
+
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Standardizing - Box-Cox transforms</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">preObj &lt;- preProcess(training[,-58],method=c(&quot;BoxCox&quot;))
+trainCapAveS &lt;- predict(preObj,training[,-58])$capitalAve
+par(mfrow=c(1,2)); hist(trainCapAveS); qqnorm(trainCapAveS)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Standardizing - Imputing data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">set.seed(13343)
+
+# Make some values NA
+training$capAve &lt;- training$capitalAve
+selectNA &lt;- rbinom(dim(training)[1],size=1,prob=0.05)==1
+training$capAve[selectNA] &lt;- NA
+
+# Impute and standardize
+preObj &lt;- preProcess(training[,-58],method=&quot;knnImpute&quot;)
+capAve &lt;- predict(preObj,training[,-58])$capAve
+
+# Standardize true values
+capAveTruth &lt;- training$capitalAve
+capAveTruth &lt;- (capAveTruth-mean(capAveTruth))/sd(capAveTruth)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Standardizing - Imputing data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">quantile(capAve - capAveTruth)
+</code></pre>
+
+<pre><code>       0%       25%       50%       75%      100% 
+-6.923481 -0.008209 -0.004463  0.003379  5.821216 
+</code></pre>
+
+<pre><code class="r">quantile((capAve - capAveTruth)[selectNA])
+</code></pre>
+
+<pre><code>       0%       25%       50%       75%      100% 
+-6.923481 -0.017066 -0.001588  0.012707  0.975760 
+</code></pre>
+
+<pre><code class="r">quantile((capAve - capAveTruth)[!selectNA])
+</code></pre>
+
+<pre><code>       0%       25%       50%       75%      100% 
+-0.011267 -0.008090 -0.004497  0.003066  5.821216 
+</code></pre>
+
+<h2>Correlated predictors</h2>
+
+<pre><code class="r">library(caret); library(kernlab); data(spam)
+inTrain &lt;- createDataPartition(y=spam$type,
+                              p=0.75, list=FALSE)
+training &lt;- spam[inTrain,]
+testing &lt;- spam[-inTrain,]
+
+M &lt;- abs(cor(training[,-58]))
+diag(M) &lt;- 0
+which(M &gt; 0.8,arr.ind=T)
+</code></pre>
+
+<pre><code>       row col
+num415  34  32
+direct  40  32
+num857  32  34
+direct  40  34
+num857  32  40
+num415  34  40
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Correlated predictors</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">names(spam)[c(34,32)]
+</code></pre>
+
+<pre><code>[1] &quot;num415&quot; &quot;num857&quot;
+</code></pre>
+
+<pre><code class="r">plot(spam[,34],spam[,32])
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Basic PCA idea</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We might not need every predictor</li>
+<li>A weighted combination of predictors might be better</li>
+<li>We should pick this combination to capture the &quot;most information&quot; possible</li>
+<li>Benefits
+
+<ul>
+<li>Reduced number of predictors</li>
+<li>Reduced noise (due to averaging)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>We could rotate the plot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[ X = 0.71 \times {\rm num 415} + 0.71 \times {\rm num857}\]</p>
+
+<p>\[ Y = 0.71 \times {\rm num 415} - 0.71 \times {\rm num857}\]</p>
+
+<pre><code class="r">X &lt;- 0.71*training$num415 + 0.71*training$num857
+Y &lt;- 0.71*training$num415 - 0.71*training$num857
+plot(X,Y)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Related problems</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>You have multivariate variables \(X_1,\ldots,X_n\) so \(X_1 = (X_{11},\ldots,X_{1m})\)</p>
+
+<ul>
+<li>Find a new set of multivariate variables that are uncorrelated and explain as much variance as possible.</li>
+<li>If you put all the variables together in one matrix, find the best matrix created with fewer variables (lower rank) that explains the original data.</li>
+</ul>
+
+<p>The first goal is <font color="#330066">statistical</font> and the second goal is <font color="#993300">data compression</font>.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Related solutions - PCA/SVD</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>SVD</strong></p>
+
+<p>If \(X\) is a matrix with each variable in a column and each observation in a row then the SVD is a &quot;matrix decomposition&quot;</p>
+
+<p>\[ X = UDV^T\]</p>
+
+<p>where the columns of \(U\) are orthogonal (left singular vectors), the columns of \(V\) are orthogonal (right singluar vectors) and \(D\) is a diagonal matrix (singular values). </p>
+
+<p><strong>PCA</strong></p>
+
+<p>The principal components are equal to the right singular values if you first scale (subtract the mean, divide by the standard deviation) the variables.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Principal components in R - prcomp</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">smallSpam &lt;- spam[,c(34,32)]
+prComp &lt;- prcomp(smallSpam)
+plot(prComp$x[,1],prComp$x[,2])
+</code></pre>
+
+<div class="rimage center"><img src="fig/prcomp.png" title="plot of chunk prcomp" alt="plot of chunk prcomp" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Principal components in R - prcomp</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">prComp$rotation
+</code></pre>
+
+<pre><code>          PC1     PC2
+num415 0.7081  0.7061
+num857 0.7061 -0.7081
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>PCA on SPAM data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">typeColor &lt;- ((spam$type==&quot;spam&quot;)*1 + 1)
+prComp &lt;- prcomp(log10(spam[,-58]+1))
+plot(prComp$x[,1],prComp$x[,2],col=typeColor,xlab=&quot;PC1&quot;,ylab=&quot;PC2&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/spamPC.png" title="plot of chunk spamPC" alt="plot of chunk spamPC" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>PCA with caret</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">preProc &lt;- preProcess(log10(spam[,-58]+1),method=&quot;pca&quot;,pcaComp=2)
+spamPC &lt;- predict(preProc,log10(spam[,-58]+1))
+plot(spamPC[,1],spamPC[,2],col=typeColor)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-10.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Preprocessing with PCA</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">preProc &lt;- preProcess(log10(training[,-58]+1),method=&quot;pca&quot;,pcaComp=2)
+trainPC &lt;- predict(preProc,log10(training[,-58]+1))
+modelFit &lt;- train(training$type ~ .,method=&quot;glm&quot;,data=trainPC)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Preprocessing with PCA</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">testPC &lt;- predict(preProc,log10(testing[,-58]+1))
+confusionMatrix(testing$type,predict(modelFit,testPC))
+</code></pre>
+
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction nonspam spam
+   nonspam     636   61
+   spam         54  399
+
+               Accuracy : 0.9           
+                 95% CI : (0.881, 0.917)
+    No Information Rate : 0.6           
+    P-Value [Acc &gt; NIR] : &lt;2e-16        
+
+                  Kappa : 0.791         
+ Mcnemar&#39;s Test P-Value : 0.576         
+
+            Sensitivity : 0.922         
+            Specificity : 0.867         
+         Pos Pred Value : 0.912         
+         Neg Pred Value : 0.881         
+             Prevalence : 0.600         
+         Detection Rate : 0.553         
+   Detection Prevalence : 0.606         
+      Balanced Accuracy : 0.895         
+
+       &#39;Positive&#39; Class : nonspam       
+
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>Alternative (sets # of PCs)</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">modelFit &lt;- train(training$type ~ .,method=&quot;glm&quot;,preProcess=&quot;pca&quot;,data=training)
+confusionMatrix(testing$type,predict(modelFit,testing))
+</code></pre>
+
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction nonspam spam
+   nonspam     652   45
+   spam         39  414
+
+               Accuracy : 0.927        
+                 95% CI : (0.91, 0.941)
+    No Information Rate : 0.601        
+    P-Value [Acc &gt; NIR] : &lt;2e-16       
+
+                  Kappa : 0.847        
+ Mcnemar&#39;s Test P-Value : 0.585        
+
+            Sensitivity : 0.944        
+            Specificity : 0.902        
+         Pos Pred Value : 0.935        
+         Neg Pred Value : 0.914        
+             Prevalence : 0.601        
+         Detection Rate : 0.567        
+   Detection Prevalence : 0.606        
+      Balanced Accuracy : 0.923        
+
+       &#39;Positive&#39; Class : nonspam      
+
+</code></pre>
+
+<h2>Predicting with trees</h2>
+
+<ul>
+<li>Iteratively split variables into groups</li>
+<li>Split where maximally predictive</li>
+<li>Evaluate &quot;homogeneity&quot; within each branch</li>
+<li>Fitting multiple trees often works better (forests)</li>
+</ul>
+
+<p><strong>Pros</strong>:</p>
+
+<ul>
+<li>Easy to implement</li>
+<li>Easy to interpret</li>
+<li>Better performance in nonlinear settings</li>
+</ul>
+
+<p><strong>Cons</strong>:</p>
+
+<ul>
+<li>Without pruning/cross-validation can lead to overfitting</li>
+<li>Harder to estimate uncertainty</li>
+<li>Results may be variable</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>Example Tree</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/obamaTree.png height=450></p>
+
+<p><a href="http://graphics8.nytimes.com/images/2008/04/16/us/0416-nat-subOBAMA.jpg">http://graphics8.nytimes.com/images/2008/04/16/us/0416-nat-subOBAMA.jpg</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>Basic algorithm</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>Start with all variables in one group</li>
+<li>Find the variable/split that best separates the outcomes</li>
+<li>Divide the data into two groups (&quot;leaves&quot;) on that split (&quot;node&quot;)</li>
+<li>Within each split, find the best variable/split that separates the outcomes</li>
+<li>Continue until the groups are too small or sufficiently &quot;pure&quot;</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>Measures of impurity</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[\hat{p}_{mk} = \frac{1}{N_m}\sum_{x_i\; in \; Leaf \; m}\mathbb{1}(y_i = k)\]</p>
+
+<p><strong>Misclassification Error</strong>: 
+\[ 1 - \hat{p}_{mk(m)}\]</p>
+
+<p><strong>Gini index</strong>:
+\[ \sum_{k \neq k'} \hat{p}_{mk} \times \hat{p}_{mk'} = \sum_{k=1}^K \hat{p}_{mk}(1-\hat{p}_{mk}) \]</p>
+
+<p><strong>Cross-entropy or deviance</strong>:</p>
+
+<p>\[ -\sum_{k=1}^K \hat{p}_{mk} \ln\hat{p}_{mk} \]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>Example: Iris Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">data(iris); library(ggplot2)
+names(iris)
+</code></pre>
+
+<pre><code>[1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot; &quot;Petal.Width&quot;  &quot;Species&quot;     
+</code></pre>
+
+<pre><code class="r">table(iris$Species)
+</code></pre>
+
+<pre><code>
+    setosa versicolor  virginica 
+        50         50         50 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>Create training and test sets</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">inTrain &lt;- createDataPartition(y=iris$Species,
+                              p=0.7, list=FALSE)
+training &lt;- iris[inTrain,]
+testing &lt;- iris[-inTrain,]
+dim(training); dim(testing)
+</code></pre>
+
+<pre><code>[1] 45  5
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>Iris petal widths/sepal width</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">qplot(Petal.Width,Sepal.Width,colour=Species,data=training)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>Iris petal widths/sepal width</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(caret)
+modFit &lt;- train(Species ~ .,method=&quot;rpart&quot;,data=training)
+print(modFit$finalModel)
+</code></pre>
+
+<pre><code>n= 105 
+
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+1) root 105 70 setosa (0.33333 0.33333 0.33333)  
+  2) Petal.Length&lt; 2.5 35  0 setosa (1.00000 0.00000 0.00000) *
+  3) Petal.Length&gt;=2.5 70 35 versicolor (0.00000 0.50000 0.50000)  
+    6) Petal.Length&lt; 5.05 38  4 versicolor (0.00000 0.89474 0.10526) *
+    7) Petal.Length&gt;=5.05 32  1 virginica (0.00000 0.03125 0.96875) *
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>Plot tree</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(modFit$finalModel, uniform=TRUE, 
+      main=&quot;Classification Tree&quot;)
+text(modFit$finalModel, use.n=TRUE, all=TRUE, cex=.8)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-14.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>Prettier plots</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(rattle)
+fancyRpartPlot(modFit$finalModel)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-15.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>Predicting new values</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">predict(modFit,newdata=testing)
+</code></pre>
+
+<pre><code> [1] setosa     setosa     setosa     setosa     setosa     setosa     setosa     setosa    
+ [9] setosa     setosa     setosa     setosa     setosa     setosa     setosa     versicolor
+[17] versicolor versicolor versicolor versicolor versicolor versicolor versicolor versicolor
+[25] versicolor versicolor versicolor versicolor versicolor versicolor virginica  virginica 
+[33] virginica  versicolor virginica  versicolor versicolor virginica  versicolor virginica 
+[41] virginica  virginica  virginica  virginica  versicolor
+Levels: setosa versicolor virginica
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>Bootstrap aggregating (bagging)</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Basic idea</strong>: </p>
+
+<ol>
+<li>Resample cases and recalculate predictions</li>
+<li>Average or majority vote</li>
+</ol>
+
+<p><strong>Notes</strong>:</p>
+
+<ul>
+<li>Similar bias </li>
+<li>Reduced variance</li>
+<li>More useful for non-linear functions</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-50" style="background:;">
+  <hgroup>
+    <h2>Ozone data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(ElemStatLearn); data(ozone,package=&quot;ElemStatLearn&quot;)
+ozone &lt;- ozone[order(ozone$ozone),]
+head(ozone)
+</code></pre>
+
+<pre><code>    ozone radiation temperature wind
+17      1         8          59  9.7
+19      4        25          61  9.7
+14      6        78          57 18.4
+45      7        48          80 14.3
+106     7        49          69 10.3
+7       8        19          61 20.1
+</code></pre>
+
+<p><a href="http://en.wikipedia.org/wiki/Bootstrap_aggregating">http://en.wikipedia.org/wiki/Bootstrap_aggregating</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-51" style="background:;">
+  <hgroup>
+    <h2>Bagged loess</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">ll &lt;- matrix(NA,nrow=10,ncol=155)
+for(i in 1:10){
+  ss &lt;- sample(1:dim(ozone)[1],replace=T)
+  ozone0 &lt;- ozone[ss,]; ozone0 &lt;- ozone0[order(ozone0$ozone),]
+  loess0 &lt;- loess(temperature ~ ozone,data=ozone0,span=0.2)
+  ll[i,] &lt;- predict(loess0,newdata=data.frame(ozone=1:155))
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-52" style="background:;">
+  <hgroup>
+    <h2>Bagged loess</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">plot(ozone$ozone,ozone$temperature,pch=19,cex=0.5)
+for(i in 1:10){lines(1:155,ll[i,],col=&quot;grey&quot;,lwd=2)}
+lines(1:155,apply(ll,2,mean),col=&quot;red&quot;,lwd=2)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-16.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-53" style="background:;">
+  <hgroup>
+    <h2>Random forests</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>Bootstrap samples</li>
+<li>At each split, bootstrap variables</li>
+<li>Grow multiple trees and vote</li>
+</ol>
+
+<p><strong>Pros</strong>:</p>
+
+<ol>
+<li>Accuracy</li>
+</ol>
+
+<p><strong>Cons</strong>:</p>
+
+<ol>
+<li>Speed</li>
+<li>Interpretability</li>
+<li>Overfitting</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-54" style="background:;">
+  <hgroup>
+    <h2>Random forests</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/forests.png height=400></p>
+
+<p><a href="http://www.robots.ox.ac.uk/%7Eaz/lectures/ml/lect5.pdf">http://www.robots.ox.ac.uk/~az/lectures/ml/lect5.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-55" style="background:;">
+  <hgroup>
+    <h2>Iris data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">data(iris); library(ggplot2)
+inTrain &lt;- createDataPartition(y=iris$Species,
+                              p=0.7, list=FALSE)
+training &lt;- iris[inTrain,]
+testing &lt;- iris[-inTrain,]
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-56" style="background:;">
+  <hgroup>
+    <h2>Random forests</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(caret)
+modFit &lt;- train(Species~ .,data=training,method=&quot;rf&quot;,prox=TRUE)
+modFit
+</code></pre>
+
+<pre><code>Random Forest 
+
+105 samples
+  4 predictors
+  3 classes: &#39;setosa&#39;, &#39;versicolor&#39;, &#39;virginica&#39; 
+
+No pre-processing
+Resampling: Bootstrapped (25 reps) 
+
+Summary of sample sizes: 105, 105, 105, 105, 105, 105, ... 
+
+Resampling results across tuning parameters:
+
+  mtry  Accuracy  Kappa  Accuracy SD  Kappa SD
+  2     0.9       0.9    0.03         0.05    
+  3     0.9       0.9    0.03         0.05    
+  4     0.9       0.9    0.03         0.05    
+
+Accuracy was used to select the optimal model using  the largest value.
+The final value used for the model was mtry = 3. 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-57" style="background:;">
+  <hgroup>
+    <h2>Getting a single tree</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">getTree(modFit$finalModel,k=2)
+</code></pre>
+
+<pre><code>  left daughter right daughter split var split point status prediction
+1             2              3         3        2.60      1          0
+2             0              0         0        0.00     -1          1
+3             4              5         4        1.75      1          0
+4             6              7         1        4.95      1          0
+5             0              0         0        0.00     -1          3
+6             0              0         0        0.00     -1          3
+7             8              9         1        7.00      1          0
+8             0              0         0        0.00     -1          2
+9             0              0         0        0.00     -1          3
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-58" style="background:;">
+  <hgroup>
+    <h2>Class &quot;centers&quot;</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">irisP &lt;- classCenter(training[,c(3,4)], training$Species, modFit$finalModel$prox)
+irisP &lt;- as.data.frame(irisP); irisP$Species &lt;- rownames(irisP)
+p &lt;- qplot(Petal.Width, Petal.Length, col=Species,data=training)
+p + geom_point(aes(x=Petal.Width,y=Petal.Length,col=Species),size=5,shape=4,data=irisP)
+</code></pre>
+
+<div class="rimage center"><img src="fig/centers.png" title="plot of chunk centers" alt="plot of chunk centers" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-59" style="background:;">
+  <hgroup>
+    <h2>Predicting new values</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">pred &lt;- predict(modFit,testing); testing$predRight &lt;- pred==testing$Species
+table(pred,testing$Species)
+</code></pre>
+
+<pre><code>
+pred         setosa versicolor virginica
+  setosa         15          0         0
+  versicolor      0         15         1
+  virginica       0          0        14
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-60" style="background:;">
+  <hgroup>
+    <h2>Predicting new values</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">qplot(Petal.Width,Petal.Length,colour=predRight,data=testing,main=&quot;newdata Predictions&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-18.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-61" style="background:;">
+  <hgroup>
+    <h2>Notes and further resources</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Notes</strong>:</p>
+
+<ul>
+<li>Random forests are usually one of the two top
+performing algorithms along with boosting in prediction contests.</li>
+<li>Random forests are difficult to interpret but often very accurate. </li>
+<li>Care should be taken to avoid overfitting (see <a href="http://cran.r-project.org/web/packages/randomForest/randomForest.pdf">rfcv</a> funtion)</li>
+</ul>
+
+<p><strong>Further resources</strong>:</p>
+
+<ul>
+<li><a href="http://www.stat.berkeley.edu/%7Ebreiman/RandomForests/cc_home.htm">Random forests</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Random_forest">Random forest Wikipedia</a></li>
+<li><a href="http://www-stat.stanford.edu/%7Etibs/ElemStatLearn/">Elements of Statistical Learning</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-62" style="background:;">
+  <hgroup>
+    <h2>Boosting: averaging weak models</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/boosting.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-63" style="background:;">
+  <hgroup>
+    <h2>In R gradiant boosting</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">modFit &lt;- train(Species~ .,data=training,method=&quot;gbm&quot;,verbose=FALSE)
+modFit
+</code></pre>
+
+<pre><code>Stochastic Gradient Boosting 
+
+105 samples
+  4 predictors
+  3 classes: &#39;setosa&#39;, &#39;versicolor&#39;, &#39;virginica&#39; 
+
+No pre-processing
+Resampling: Bootstrapped (25 reps) 
+
+Summary of sample sizes: 105, 105, 105, 105, 105, 105, ... 
+
+Resampling results across tuning parameters:
+
+  interaction.depth  n.trees  Accuracy  Kappa  Accuracy SD  Kappa SD
+  1                  50       0.9       0.9    0.03         0.04    
+  1                  100      0.9       0.9    0.03         0.04    
+  1                  200      0.9       0.9    0.03         0.04    
+  2                  50       0.9       0.9    0.03         0.04    
+  2                  100      0.9       0.9    0.03         0.04    
+  2                  200      0.9       0.9    0.03         0.04    
+  3                  50       0.9       0.9    0.03         0.04    
+  3                  100      0.9       0.9    0.03         0.04    
+  3                  200      0.9       0.9    0.03         0.04    
+
+Tuning parameter &#39;shrinkage&#39; was held constant at a value of 0.1
+Accuracy was used to select the optimal model using  the largest value.
+The final values used for the model were n.trees = 50, interaction.depth = 1 and shrinkage = 0.1. 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-64" style="background:;">
+  <hgroup>
+    <h2>Naive Bayes</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/naiveBayes.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-65" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">modFit &lt;- train(Species~ .,data=training,method=&quot;nb&quot;,verbose=FALSE)
+modFit
+</code></pre>
+
+<pre><code>Naive Bayes 
+
+105 samples
+  4 predictors
+  3 classes: &#39;setosa&#39;, &#39;versicolor&#39;, &#39;virginica&#39; 
+
+No pre-processing
+Resampling: Bootstrapped (25 reps) 
+
+Summary of sample sizes: 105, 105, 105, 105, 105, 105, ... 
+
+Resampling results across tuning parameters:
+
+  usekernel  Accuracy  Kappa  Accuracy SD  Kappa SD
+  FALSE      0.9       0.9    0.03         0.05    
+  TRUE       0.9       0.9    0.03         0.04    
+
+Tuning parameter &#39;fL&#39; was held constant at a value of 0
+Accuracy was used to select the optimal model using  the largest value.
+The final values used for the model were fL = 0 and usekernel = TRUE. 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-66" style="background:;">
+  <hgroup>
+    <h2>Strongest approach: averaging methods</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>You can combine classifiers by averaging/voting</li>
+<li>Combining classifiers improves accuracy</li>
+<li>Combining classifiers reduces interpretability</li>
+<li>Boosting, bagging, and random forests are variants on this theme</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-67" style="background:;">
+  <hgroup>
+    <h2>Netflix prize</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>BellKor = Combination of 107 predictors </p>
+
+<p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/netflix.png height=450></p>
+
+<p><a href="http://www.netflixprize.com//leaderboard">http://www.netflixprize.com//leaderboard</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-68" style="background:;">
+  <hgroup>
+    <h2>Heritage health prize - Progress Prize 1</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/makers.png height=200>
+<a href="https://kaggle2.blob.core.windows.net/wiki-files/327/e4cd1d25-eca9-49ca-9593-b254a773fe03/Market%20Makers%20-%20Milestone%201%20Description%20V2%201.pdf">Market Makers</a></p>
+
+<p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/mestrom.png height=200></p>
+
+<p><a href="https://kaggle2.blob.core.windows.net/wiki-files/327/09ccf652-8c1c-4a3d-b979-ce2369c985e4/Willem%20Mestrom%20-%20Milestone%201%20Description%20V2%202.pdf">Mestrom</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-69" style="background:;">
+  <hgroup>
+    <h2>Basic intuition - majority vote</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Suppose we have 5 completely independent classifiers</p>
+
+<p>If accuracy is 70% for each:</p>
+
+<ul>
+<li>\(10\times(0.7)^3(0.3)^2 + 5\times(0.7)^4(0.3)^2 + (0.7)^5\)</li>
+<li>83.7% majority vote accuracy</li>
+</ul>
+
+<p>With 101 independent classifiers</p>
+
+<ul>
+<li>99.9% majority vote accuracy</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-70" style="background:;">
+  <hgroup>
+    <h2>Approaches for combining classifiers</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>Bagging, boosting, random forests
+
+<ul>
+<li>Usually combine similar classifiers</li>
+</ul></li>
+<li>Combining different classifiers
+
+<ul>
+<li>Model stacking</li>
+<li>Model ensembling</li>
+</ul></li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-71" style="background:;">
+  <hgroup>
+    <h2>Example with Wage data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Create training, test and validation sets</strong></p>
+
+<pre><code class="r">library(ISLR); data(Wage); library(ggplot2); library(caret);
+Wage &lt;- subset(Wage,select=-c(logwage)); set.seed(132434)
+
+# Create a building data set and validation set
+inBuild &lt;- createDataPartition(y=Wage$wage,
+                              p=0.7, list=FALSE)
+validation &lt;- Wage[-inBuild,]; buildData &lt;- Wage[inBuild,]
+
+inTrain &lt;- createDataPartition(y=buildData$wage,
+                              p=0.7, list=FALSE)
+training &lt;- buildData[inTrain,]; testing &lt;- buildData[-inTrain,]
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-72" style="background:;">
+  <hgroup>
+    <h2>Wage data sets</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Create training, test and validation sets</strong></p>
+
+<pre><code class="r">dim(training)
+</code></pre>
+
+<pre><code>[1] 1474   11
+</code></pre>
+
+<pre><code class="r">dim(testing)
+</code></pre>
+
+<pre><code>[1] 628  11
+</code></pre>
+
+<pre><code class="r">dim(validation)
+</code></pre>
+
+<pre><code>[1] 898  11
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-73" style="background:;">
+  <hgroup>
+    <h2>Build two different models</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">mod1 &lt;- train(wage ~.,method=&quot;glm&quot;,data=training)
+mod2 &lt;- train(wage ~.,method=&quot;rf&quot;,
+              data=training, 
+              trControl = trainControl(method=&quot;cv&quot;),number=3)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-74" style="background:;">
+  <hgroup>
+    <h2>Predict on the testing set</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">pred1 &lt;- predict(mod1,testing); pred2 &lt;- predict(mod2,testing)
+qplot(pred1,pred2,colour=wage,data=testing)
+</code></pre>
+
+<div class="rimage center"><img src="fig/predict.png" title="plot of chunk predict" alt="plot of chunk predict" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-75" style="background:;">
+  <hgroup>
+    <h2>Fit a model that combines predictors</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">predDF &lt;- data.frame(pred1,pred2,wage=testing$wage)
+combModFit &lt;- train(wage ~.,method=&quot;gam&quot;,data=predDF)
+combPred &lt;- predict(combModFit,predDF)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-76" style="background:;">
+  <hgroup>
+    <h2>Testing errors</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">sqrt(sum((pred1-testing$wage)^2))
+</code></pre>
+
+<pre><code>[1] 772.8
+</code></pre>
+
+<pre><code class="r">sqrt(sum((pred2-testing$wage)^2))
+</code></pre>
+
+<pre><code>[1] 819.8
+</code></pre>
+
+<pre><code class="r">sqrt(sum((combPred-testing$wage)^2))
+</code></pre>
+
+<pre><code>[1] 756
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-77" style="background:;">
+  <hgroup>
+    <h2>Predict on validation data set</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">pred1V &lt;- predict(mod1,validation); pred2V &lt;- predict(mod2,validation)
+predVDF &lt;- data.frame(pred1=pred1V,pred2=pred2V)
+combPredV &lt;- predict(combModFit,predVDF)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-78" style="background:;">
+  <hgroup>
+    <h2>Evaluate on validation</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">sqrt(sum((pred1V-validation$wage)^2))
+</code></pre>
+
+<pre><code>[1] 1074
+</code></pre>
+
+<pre><code class="r">sqrt(sum((pred2V-validation$wage)^2))
+</code></pre>
+
+<pre><code>[1] 1112
+</code></pre>
+
+<pre><code class="r">sqrt(sum((combPredV-validation$wage)^2))
+</code></pre>
+
+<pre><code>[1] 1071
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-79" style="background:;">
+  <hgroup>
+    <h2>Notes and further resources</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Even simple blending can be useful</li>
+<li>Typical model for binary/multiclass data
+
+<ul>
+<li>Build an odd number of models</li>
+<li>Predict with each model</li>
+<li>Predict the class by majority vote</li>
+</ul></li>
+<li>This can get dramatically more complicated
+
+<ul>
+<li>Simple blending in caret: <a href="https://github.com/zachmayer/caretEnsemble">caretEnsemble</a> (use at your own risk!)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-80" style="background:;">
+  <hgroup>
+    <h2>Recall - scalability matters</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/08_PredictionAndMachineLearning/netflixno.png height=250>
+</br></br></br></p>
+
+<p><a href="http://www.techdirt.com/blog/innovation/articles/20120409/03412518422/">http://www.techdirt.com/blog/innovation/articles/20120409/03412518422/</a></p>
+
+<p><a href="http://techblog.netflix.com/2012/04/netflix-recommendations-beyond-5-stars.html">http://techblog.netflix.com/2012/04/netflix-recommendations-beyond-5-stars.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-81" style="background:;">
+  <hgroup>
+    <h2>Further information</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Caret tutorials:
+
+<ul>
+<li><a href="http://www.edii.uclm.es/%7EuseR-2013/Tutorials/kuhn/user_caret_2up.pdf">http://www.edii.uclm.es/~useR-2013/Tutorials/kuhn/user_caret_2up.pdf</a></li>
+<li><a href="http://cran.r-project.org/web/packages/caret/vignettes/caret.pdf">http://cran.r-project.org/web/packages/caret/vignettes/caret.pdf</a></li>
+</ul></li>
+<li>A paper introducing the caret package
+
+<ul>
+<li><a href="http://www.jstatsoft.org/v28/i05/paper">http://www.jstatsoft.org/v28/i05/paper</a></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Pro tip'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Papers of the day'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title=''>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Caret functionality'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Machine learning algorithms in R'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Why caret?'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='SPAM Example: Data splitting'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='SPAM Example: Fit a model'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='SPAM Example: Final model'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='SPAM Example: Prediction'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='SPAM Example: Confusion Matrix'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='SPAM Example: Data splitting'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='SPAM Example: K-fold'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='SPAM Example: Return test'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='SPAM Example: Resampling'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='SPAM Example: Time Slices'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title=''>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Why preprocess?'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Standardizing'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Standardizing - test set'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Standardizing - <em>preProcess</em> function'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Standardizing - <em>preProcess</em> function'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Standardizing - <em>preProcess</em> argument'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Standardizing - Box-Cox transforms'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Standardizing - Imputing data'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Standardizing - Imputing data'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Correlated predictors'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Basic PCA idea'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='We could rotate the plot'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='Related problems'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='Related solutions - PCA/SVD'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='Principal components in R - prcomp'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='Principal components in R - prcomp'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='PCA on SPAM data'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='PCA with caret'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='Preprocessing with PCA'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='Preprocessing with PCA'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='Alternative (sets # of PCs)'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='Example Tree'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='Basic algorithm'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='Measures of impurity'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='Example: Iris Data'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='Create training and test sets'>
+         43
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=44 title='Iris petal widths/sepal width'>
+         44
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=45 title='Iris petal widths/sepal width'>
+         45
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=46 title='Plot tree'>
+         46
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=47 title='Prettier plots'>
+         47
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=48 title='Predicting new values'>
+         48
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=49 title='Bootstrap aggregating (bagging)'>
+         49
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=50 title='Ozone data'>
+         50
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=51 title='Bagged loess'>
+         51
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=52 title='Bagged loess'>
+         52
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=53 title='Random forests'>
+         53
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=54 title='Random forests'>
+         54
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=55 title='Iris data'>
+         55
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=56 title='Random forests'>
+         56
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=57 title='Getting a single tree'>
+         57
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=58 title='Class &quot;centers&quot;'>
+         58
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=59 title='Predicting new values'>
+         59
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=60 title='Predicting new values'>
+         60
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=61 title='Notes and further resources'>
+         61
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=62 title='Boosting: averaging weak models'>
+         62
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=63 title='In R gradiant boosting'>
+         63
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=64 title='Naive Bayes'>
+         64
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=65 title=''>
+         65
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=66 title='Strongest approach: averaging methods'>
+         66
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=67 title='Netflix prize'>
+         67
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=68 title='Heritage health prize - Progress Prize 1'>
+         68
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=69 title='Basic intuition - majority vote'>
+         69
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=70 title='Approaches for combining classifiers'>
+         70
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=71 title='Example with Wage data'>
+         71
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=72 title='Wage data sets'>
+         72
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=73 title='Build two different models'>
+         73
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=74 title='Predict on the testing set'>
+         74
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=75 title='Fit a model that combines predictors'>
+         75
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=76 title='Testing errors'>
+         76
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=77 title='Predict on validation data set'>
+         77
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=78 title='Evaluate on validation'>
+         78
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=79 title='Notes and further resources'>
+         79
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=80 title='Recall - scalability matters'>
+         80
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=81 title='Further information'>
+         81
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../librariesNew/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="../../librariesNew/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
