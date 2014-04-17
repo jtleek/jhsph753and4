@@ -88,3 +88,8 @@ April 10:
 April 15: 
 
 * Prediction II [Lecture](http://jtleek.github.io/jhsph753and4/lectures/11_02_predictionII/#1)
+
+April 17: 
+
+* Prediction III [Lecture](http://jtleek.github.io/jhsph753and4/lectures/11_03_predictionIII/#1)
+* [In class activity](https://github.com/jtleek/jhsph753and4/blob/master/lectures/11_03_inclass.md)

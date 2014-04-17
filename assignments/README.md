@@ -107,3 +107,14 @@ Assignment 1
 * Homework problems: https://github.com/jtleek/jhsph753and4/blob/master/assignments/hw1-754.md
 
 
+Assignment 2
+--------------
+
+* Assigned: Thursday, April 17th
+* Due: Thursday, May 8th
+* Peer Grading Due: Thursday, May 15th
+* Data Analysis Assignment: http://www.crowdgrader.org/crowdgrader/venues/view_venue/325
+* Homework problems: https://github.com/jtleek/jhsph753and4/blob/master/assignments/hw1-754.md
+
+
+

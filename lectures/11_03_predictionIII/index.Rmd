@@ -1,0 +1,89 @@
+---
+title       : Prediction III
+subtitle    : 
+author      : Jeffrey Leek
+job         : Johns Hopkins Bloomberg School of Public Health
+logo        : bloomberg_shield.png
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow   # 
+url:
+  lib: ../../librariesNew
+  assets: ../../assets
+widgets     : [mathjax]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+---
+
+
+```{r setup, cache = F, echo = F, message = F, warning = F, tidy = F}
+# make this an external chunk that can be included in any file
+options(width = 100)
+opts_chunk$set(message = F, error = F, warning = F, comment = NA, fig.align = 'center', dpi = 100, tidy = F, cache.path = '.cache/', fig.path = 'fig/')
+
+options(xtable.type = 'html')
+knit_hooks$set(inline = function(x) {
+  if(is.numeric(x)) {
+    round(x, getOption('digits'))
+  } else {
+    paste(as.character(x), collapse = ', ')
+  }
+})
+knit_hooks$set(plot = knitr:::hook_plot_html)
+```
+
+## Pro tip
+
+Academia is a weird place. The main criteria you are evaluated on is research. Everything we learn about in this class is focused on that. But in reality you spend a huge amount of time doing the following:
+
+* Meetings
+* Giving talks
+* Advising students
+* Teaching
+* Reviewing (grants, papers, etc.)
+* Interacting with collaobrators 
+
+These skills are often secondary in graduate programs but become hugely important very quickly when you become a faculty member. Learning how to do them well early is a fast way to make the transition to faculty dramatically easier. 
+
+---
+
+## Papers of the day
+
+
+[Bagging predictors](http://statistics.berkeley.edu/sites/default/files/tech-reports/421.pdf)
+
+[A short introduction to boosting](http://cseweb.ucsd.edu/~yfreund/papers/IntroToBoosting.pdf)
+
+
+---
+
+## KNN neighbors 
+
+
+Basic idea
+
+$$\hat{Y}(x) = \frac{1}{k}\sum_{x_i \in N_k(x)} y_i$$
+
+$$\hat{f}(x) = {\rm Ave}(y_i | x_i \in N_k(x))$$
+
+<img class="center" src="../../assets/img/knn.png" height=300>
+
+---
+
+## 1 nearest neighbor
+
+<img class="center" src="../../assets/img/1nn.png" height=400>
+
+---
+
+## An example of least parametric to most
+
+
+<center> KNN -> Logistic Regression -> LDA -> Fully Bayesian model </center>
+
+* KNN $\hat{Pr}(x == k) = {\rm Ave}(y_i ==k | x_i \in N_k(x))$
+* Logistic regression fit $logit(Pr(x = k) | X = x) = \beta x$
+* Linear discriminant analysis $argmax_k \phi_k(x) = x^T\Sigma^{-1} \mu_k - \frac{1}{2} \Sigma^{-1} + \log(\pi_k)$
+* Fully Bayesian model
+
+
+
