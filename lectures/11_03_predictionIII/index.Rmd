@@ -53,6 +53,16 @@ These skills are often secondary in graduate programs but become hugely importan
 
 [A short introduction to boosting](http://cseweb.ucsd.edu/~yfreund/papers/IntroToBoosting.pdf)
 
+---
+
+## An example of least parametric to most
+
+<center> KNN -> Logistic Regression -> LDA -> Fully Bayesian model </center>
+
+* K nearest neighbors
+* Logistic regression
+* Linear discriminant analysis
+* Fully Bayesian model
 
 ---
 
@@ -67,23 +77,186 @@ $$\hat{f}(x) = {\rm Ave}(y_i | x_i \in N_k(x))$$
 
 <img class="center" src="../../assets/img/knn.png" height=300>
 
+http://statweb.stanford.edu/~tibs/ElemStatLearn/
+
 ---
 
 ## 1 nearest neighbor
 
 <img class="center" src="../../assets/img/1nn.png" height=400>
 
+http://statweb.stanford.edu/~tibs/ElemStatLearn/
+
 ---
 
-## An example of least parametric to most
+## KNN for binary problem
+
+$$\hat{Pr}(Y=k) = {\rm Ave}(1(y_i == k) | x_i \in N_k(x))$$
 
 
-<center> KNN -> Logistic Regression -> LDA -> Fully Bayesian model </center>
+* Advantages
+  * Fully non-parametric
+  * Flexible
+* Disadvantages
+  * Prone to overfitting
+  * Curse of dimensionality
 
-* KNN $\hat{Pr}(x == k) = {\rm Ave}(y_i ==k | x_i \in N_k(x))$
-* Logistic regression fit $logit(Pr(x = k) | X = x) = \beta x$
-* Linear discriminant analysis $argmax_k \phi_k(x) = x^T\Sigma^{-1} \mu_k - \frac{1}{2} \Sigma^{-1} + \log(\pi_k)$
-* Fully Bayesian model
+---
+
+## Logistic regression
+
+<center> Assume a model for $Pr(Y=k | X=x)$ </center>
+
+$$ \rm{logit}Pr(Y = k |X = x) == x\beta$$
+
+* Advantages
+  * Still doesn't assume model for $x$
+  * Can be more easily explained
+* Disadvantages
+  * Lose flexibility
+  * Accuracy decreases when linear assumption isn't true
+  
+
+---
+
+## Linear discriminant analysis
+
+
+<center> Build parametric model for conditional distribution $P(Y = k | X = x)$ </center>
+
+$$Pr(Y = k | X=x) = \frac{f_k(x) \pi_k}{\sum_{\ell = 1}^K f_{\ell}(x) \pi_{\ell}}$$
+  
+* Classify to class with highest estimated probability
+* Linear discriminant analysis assumes $f_k(x)$ is multivariate Gaussian with same covariances
+* Quadratic discrimant analysis assumes $f_k(x)$ is multivariate Gaussian with different covariances
+* You can assume more complicated distributions to get more complicated boundaries
+* Naive Bayes would be assuming independence between features 
+
+http://statweb.stanford.edu/~tibs/ElemStatLearn/
+
+---
+
+## Why "linear" discriminant analysis?
+
+$$log \frac{Pr(Y = k | X=x)}{Pr(Y = j | X=x)}$$
+$$ = log \frac{f_k(x)}{f_j(x)} + log \frac{\pi_k}{\pi_j}$$
+$$ = log \frac{\pi_k}{\pi_j} - \frac{1}{2}(\mu_k + \mu_j)^T \Sigma^{-1}(\mu_k + \mu_j)$$
+$$ + x^T \Sigma^{-1} (\mu_k - \mu_j)$$
+
+---
+
+## Decision boundaries
+
+<img class="center" src="../../assets/img/ldaboundary.png" height=300>
+
+http://statweb.stanford.edu/~tibs/ElemStatLearn/
+
+---
+
+## Discriminant function
+
+$$\delta_k(x) = x^T \Sigma^{-1} \mu_k - \frac{1}{2}\mu_k \Sigma^{-1}\mu_k + log(\mu_k)$$
+
+
+* Decide on class based on $\hat{Y}(x) = argmax_k \delta_k(x)$
+* We usually estimate parameters with maximum likelihood
+
+---
+
+## Logistic regression versus LDA
+
+$$log \frac{Pr(Y = k | X=x)}{Pr(Y = j | X=x)}$$
+$$ = log \frac{\pi_k}{\pi_j} - \frac{1}{2}(\mu_k + \mu_j)^T \Sigma^{-1}(\mu_k + \mu_j)$$
+$$ + x^T \Sigma^{-1} (\mu_k - \mu_j)$$
+$$ = \alpha_{k0} + \alpha_k^Tx$$
+
+Similarly from logistic regression
+
+
+$$log \frac{Pr(Y = k | X=x)}{Pr(Y = j | X=x)} = \beta_{k0} + \beta_k^Tx$$
+
+Both have same form for second term in this equation, but LDA assumes form for first term as well
+
+$$Pr(X,Y=k) = Pr(X)Pr(Y=k|X)$$
+
+http://statweb.stanford.edu/~tibs/ElemStatLearn/
+
+---
+
+## Model based prediction approach
+
+* Assume that prior probability for a cluster is $\pi_k$
+* Assume multivariate density for $f(x | Y=k)$, usually normal
+* Build a general model for $\Sigma_k$ the conditional covariance
+* Estimate the model with the EM approach
+
+
+---
+
+## Choices for covariance
+
+<img class="center" src="../../assets/img/mclustcov.png" height=350>
+
+
+---
+
+## Bayes factors
+
+$$B_{12} = \frac{Pr(X|M_1)}{Pr(X|M_2)}$$
+
+where
+
+$$Pr(X | M_k) = \int Pr(X | \theta_k M_k)Pr(\theta_k | M_k)d\theta_k$$
+
+* Variables are then selected based on which model is "best" by this metric
+
+---
+
+## mclust package in R is where this is done
+
+```{r faithful}
+library(mclust); data(faithful)
+plot(faithful)
+```
+
+http://www.stat.washington.edu/mclust/
+
+
+---
+
+## mclust package in R is where this is done
+
+```{r mclust,dependson="faithful",fig.height=4,fig.width=4}
+faithfulMclust <- Mclust(faithful)
+summary(faithfulMclust)
+```
+
+http://www.stat.washington.edu/mclust/
+
+
+
+---
+
+## mclust package in R is where this is done
+
+```{r,dependson="mclust",fig.height=4,fig.width=4}
+par(mfrow=c(2,2))
+plot(faithfulMclust)
+```
+
+http://www.stat.washington.edu/mclust/
+
+
+---
+
+## Model based clustering advantages and disadvantages
+
+* Advantages
+  * Fully parametric so can compute all posterior quantities
+  * Can be a little more interpretable
+* Disadvantages
+  * Much less flexible
+  * If your assumptions are wrong can be pretty far off
 
 
 

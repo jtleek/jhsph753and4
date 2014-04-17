@@ -80,6 +80,24 @@
 
 <slide class="" id="slide-3" style="background:;">
   <hgroup>
+    <h2>An example of least parametric to most</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> KNN -&gt; Logistic Regression -&gt; LDA -&gt; Fully Bayesian model </center></p>
+
+<ul>
+<li>K nearest neighbors</li>
+<li>Logistic regression</li>
+<li>Linear discriminant analysis</li>
+<li>Fully Bayesian model</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
     <h2>KNN neighbors</h2>
   </hgroup>
   <article data-timings="">
@@ -91,16 +109,297 @@
 
 <p><img class="center" src="../../assets/img/knn.png" height=300></p>
 
+<p><a href="http://statweb.stanford.edu/%7Etibs/ElemStatLearn/">http://statweb.stanford.edu/~tibs/ElemStatLearn/</a></p>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-4" style="background:;">
+<slide class="" id="slide-5" style="background:;">
   <hgroup>
     <h2>1 nearest neighbor</h2>
   </hgroup>
   <article data-timings="">
     <p><img class="center" src="../../assets/img/1nn.png" height=400></p>
+
+<p><a href="http://statweb.stanford.edu/%7Etibs/ElemStatLearn/">http://statweb.stanford.edu/~tibs/ElemStatLearn/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>KNN for binary problem</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[\hat{Pr}(Y=k) = {\rm Ave}(1(y_i == k) | x_i \in N_k(x))\]</p>
+
+<ul>
+<li>Advantages
+
+<ul>
+<li>Fully non-parametric</li>
+<li>Flexible</li>
+</ul></li>
+<li>Disadvantages
+
+<ul>
+<li>Prone to overfitting</li>
+<li>Curse of dimensionality</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Logistic regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> Assume a model for \(Pr(Y=k | X=x)\) </center></p>
+
+<p>\[ \rm{logit}Pr(Y = k |X = x) == x\beta\]</p>
+
+<ul>
+<li>Advantages
+
+<ul>
+<li>Still doesn&#39;t assume model for \(x\)</li>
+<li>Can be more easily explained</li>
+</ul></li>
+<li>Disadvantages
+
+<ul>
+<li>Lose flexibility</li>
+<li>Accuracy decreases when linear assumption isn&#39;t true</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Linear discriminant analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> Build parametric model for conditional distribution \(P(Y = k | X = x)\) </center></p>
+
+<p>\[Pr(Y = k | X=x) = \frac{f_k(x) \pi_k}{\sum_{\ell = 1}^K f_{\ell}(x) \pi_{\ell}}\]</p>
+
+<ul>
+<li>Classify to class with highest estimated probability</li>
+<li>Linear discriminant analysis assumes \(f_k(x)\) is multivariate Gaussian with same covariances</li>
+<li>Quadratic discrimant analysis assumes \(f_k(x)\) is multivariate Gaussian with different covariances</li>
+<li>You can assume more complicated distributions to get more complicated boundaries</li>
+<li>Naive Bayes would be assuming independence between features </li>
+</ul>
+
+<p><a href="http://statweb.stanford.edu/%7Etibs/ElemStatLearn/">http://statweb.stanford.edu/~tibs/ElemStatLearn/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Why &quot;linear&quot; discriminant analysis?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[log \frac{Pr(Y = k | X=x)}{Pr(Y = j | X=x)}\]
+\[ = log \frac{f_k(x)}{f_j(x)} + log \frac{\pi_k}{\pi_j}\]
+\[ = log \frac{\pi_k}{\pi_j} - \frac{1}{2}(\mu_k + \mu_j)^T \Sigma^{-1}(\mu_k + \mu_j)\]
+\[ + x^T \Sigma^{-1} (\mu_k - \mu_j)\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Decision boundaries</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/ldaboundary.png" height=300></p>
+
+<p><a href="http://statweb.stanford.edu/%7Etibs/ElemStatLearn/">http://statweb.stanford.edu/~tibs/ElemStatLearn/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Discriminant function</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[\delta_k(x) = x^T \Sigma^{-1} \mu_k - \frac{1}{2}\mu_k \Sigma^{-1}\mu_k + log(\mu_k)\]</p>
+
+<ul>
+<li>Decide on class based on \(\hat{Y}(x) = argmax_k \delta_k(x)\)</li>
+<li>We usually estimate parameters with maximum likelihood</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Logistic regression versus LDA</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[log \frac{Pr(Y = k | X=x)}{Pr(Y = j | X=x)}\]
+\[ = log \frac{\pi_k}{\pi_j} - \frac{1}{2}(\mu_k + \mu_j)^T \Sigma^{-1}(\mu_k + \mu_j)\]
+\[ + x^T \Sigma^{-1} (\mu_k - \mu_j)\]
+\[ = \alpha_{k0} + \alpha_k^Tx\]</p>
+
+<p>Similarly from logistic regression</p>
+
+<p>\[log \frac{Pr(Y = k | X=x)}{Pr(Y = j | X=x)} = \beta_{k0} + \beta_k^Tx\]</p>
+
+<p>Both have same form for second term in this equation, but LDA assumes form for first term as well</p>
+
+<p>\[Pr(X,Y=k) = Pr(X)Pr(Y=k|X)\]</p>
+
+<p><a href="http://statweb.stanford.edu/%7Etibs/ElemStatLearn/">http://statweb.stanford.edu/~tibs/ElemStatLearn/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Model based prediction approach</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Assume that prior probability for a cluster is \(\pi_k\)</li>
+<li>Assume multivariate density for \(f(x | Y=k)\), usually normal</li>
+<li>Build a general model for \(\Sigma_k\) the conditional covariance</li>
+<li>Estimate the model with the EM approach</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Choices for covariance</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/mclustcov.png" height=350></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Bayes factors</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[B_{12} = \frac{Pr(X|M_1)}{Pr(X|M_2)}\]</p>
+
+<p>where</p>
+
+<p>\[Pr(X | M_k) = \int Pr(X | \theta_k M_k)Pr(\theta_k | M_k)d\theta_k\]</p>
+
+<ul>
+<li>Variables are then selected based on which model is &quot;best&quot; by this metric</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>mclust package in R is where this is done</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(mclust); data(faithful)
+plot(faithful)
+</code></pre>
+
+<div class="rimage center"><img src="fig/faithful.png" title="plot of chunk faithful" alt="plot of chunk faithful" class="plot" /></div>
+
+<p><a href="http://www.stat.washington.edu/mclust/">http://www.stat.washington.edu/mclust/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>mclust package in R is where this is done</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">faithfulMclust &lt;- Mclust(faithful)
+summary(faithfulMclust)
+</code></pre>
+
+<pre><code>----------------------------------------------------
+Gaussian finite mixture model fitted by EM algorithm 
+----------------------------------------------------
+
+Mclust EEE (elliposidal, equal volume, shape and orientation) model with 3 components:
+
+ log.likelihood   n df   BIC   ICL
+          -1126 272 11 -2314 -2361
+
+Clustering table:
+  1   2   3 
+130  97  45 
+</code></pre>
+
+<p><a href="http://www.stat.washington.edu/mclust/">http://www.stat.washington.edu/mclust/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>mclust package in R is where this is done</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">par(mfrow=c(2,2))
+plot(faithfulMclust)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-1.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" class="plot" /></div>
+
+<p><a href="http://www.stat.washington.edu/mclust/">http://www.stat.washington.edu/mclust/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Model based clustering advantages and disadvantages</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Advantages
+
+<ul>
+<li>Fully parametric so can compute all posterior quantities</li>
+<li>Can be a little more interpretable</li>
+</ul></li>
+<li>Disadvantages
+
+<ul>
+<li>Much less flexible</li>
+<li>If your assumptions are wrong can be pretty far off</li>
+</ul></li>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
@@ -124,14 +423,104 @@
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='KNN neighbors'>
+        data-slide=3 title='An example of least parametric to most'>
          3
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='1 nearest neighbor'>
+        data-slide=4 title='KNN neighbors'>
          4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='1 nearest neighbor'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='KNN for binary problem'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Logistic regression'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Linear discriminant analysis'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Why &quot;linear&quot; discriminant analysis?'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Decision boundaries'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Discriminant function'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Logistic regression versus LDA'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Model based prediction approach'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Choices for covariance'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Bayes factors'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='mclust package in R is where this is done'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='mclust package in R is where this is done'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='mclust package in R is where this is done'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Model based clustering advantages and disadvantages'>
+         19
       </a>
     </li>
   </ul>
