@@ -53,6 +53,28 @@ These skills are often secondary in graduate programs but become hugely importan
 
 [A short introduction to boosting](http://cseweb.ucsd.edu/~yfreund/papers/IntroToBoosting.pdf)
 
+
+---
+
+## New pro tip
+
+The absolute best way to have maximum impact:
+
+1. Find a scientific problem that hasn't been solved with data (by far hardest part)
+2. Collect data/partner up with someone with data for that problem. 
+3. Create a good solution to the problem 
+4. Only invent new methods if you must
+5. Write software and document the hell out of it
+6. Respond to users and update as needed
+7. Don't get (meanly) competitive
+
+---
+
+## New paper of the day
+
+[Does researching casual marijuana use cause brain abnormalities?](http://liorpachter.wordpress.com/2014/04/17/does-researching-casual-marijuana-use-cause-brain-abnormalities/)
+
+
 ---
 
 ## An example of least parametric to most
@@ -239,7 +261,7 @@ http://www.stat.washington.edu/mclust/
 
 ## mclust package in R is where this is done
 
-```{r,dependson="mclust",fig.height=4,fig.width=4}
+```{r,dependson="mclust",fig.height=4.5,fig.width=4.5}
 par(mfrow=c(2,2))
 plot(faithfulMclust)
 ```
@@ -258,5 +280,26 @@ http://www.stat.washington.edu/mclust/
   * Much less flexible
   * If your assumptions are wrong can be pretty far off
 
+---
 
+## Bagging proof
+
+Let $\phi(x,D_{train})$ be the predictor based on a training set $D_{train}$ then we could create a bagged predictor:
+
+$$\phi_A(x,P) = E_{D}[\phi(x,D)]$$
+
+where $P$ is the probability distribution over $D$. Then:
+
+$$e = E_D E_{Y,X}(Y-\phi(X,D))^2$$
+
+aggregated error is:
+
+$$e_A = E_{Y,X}(Y-\phi_A(X,D))^2$$
+
+Using the inequality $(EZ)^2 \leq EZ^2$
+
+$$e = EY^2 - 2EY\phi_A + E_{Y,X}E_D \phi^2(X,D$$
+$$ \geq E(Y-\phi_A)^2 = e_A$$
+
+http://statistics.berkeley.edu/sites/default/files/tech-reports/421.pdf
 
