@@ -94,6 +94,10 @@ April 17:
 * [In class activity](https://github.com/jtleek/jhsph753and4/blob/master/lectures/11_03_inclass.md)
 * [exampleFunction.R](https://github.com/jtleek/jhsph753and4/blob/master/lectures/exampleFunction.R)
 
-April 22;
+April 22:
 
 * Prediction III [Lecture](http://jtleek.github.io/jhsph753and4/lectures/12_01_predictionIII/#1)
+
+April 24:
+
+* Prediction III [Lecture](http://jtleek.github.io/jhsph753and4/lectures/12_02_smoothingI/#1)

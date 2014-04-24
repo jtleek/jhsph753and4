@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smoothing I</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Smoothing I">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../librariesNew/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../librariesNew/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="../../librariesNew/frameworks/io2012/js/slides" 
+    src="../../librariesNew/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="../../assets/img/bloomberg_shield.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Smoothing I</h1>
+    <h2></h2>
+    <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Set up a feed reader like Feedly. Add a bunch of blogs and journals. At minumum these journals:</p>
+
+<ul>
+<li>Biostatistics</li>
+<li>AOAS </li>
+<li>Biometrics</li>
+</ul>
+
+<p>You can add others as you see fit for your area. For example, like</p>
+
+<ul>
+<li>Bioinformatics</li>
+<li>Genome Biology</li>
+<li>Genome Research</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper of the day</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><a href="http://www.stanford.edu/%7Ehastie/Papers/gam.pdf">Generalized additive models</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Today&#39;s slide credits</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/rafa.png height=500></p>
+
+<p><a href="http://www.biostat.jhsph.edu/%7Eririzarr/Teaching/754/">http://www.biostat.jhsph.edu/~ririzarr/Teaching/754/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Local regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[Y_i = f(x_i) + \varepsilon_i\]</p>
+
+<ul>
+<li>\(f(x)\) is an unknown function and \(\varepsilon_i\) is an error term,
+representing random errors in the observations or variability from
+sources not included in the \(x_i\).</li>
+<li>We assume the errors \(\varepsilon_i\) are IID with mean 0 and finite
+variance \(Var(\varepsilon_i) = \sigma^2\). </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Fitting local polynomials</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Plan</strong>: Fit polynomials in local regions. </p>
+
+<p><strong>Motivation</strong>: Taylor&#39;s theorem</p>
+
+<p>\[f(x) = f(x_0) +  \sum_{k=1}^{K} \frac{f^{(k)}(x_0)}{k!}(x-x_0)^k +
+o(|x-x_0|^K), \mbox{ as } |x-x_0| \rightarrow 0.\]</p>
+
+<p><strong>Key idea</strong>: How do we figure out when we are &quot;close&quot; to the target point \(x_0\).</p>
+
+<ul>
+<li>Fit polynomial in window of \([x_0+h(x_0),x_0-h(x_0)]\)</li>
+<li>\(h(x_0)\) is the span/bandwidth </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Tukey&#39;s biweights</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[ W(u) = \left\{ \begin{array}{cc}
+(1 - |u|^3)^3&|u| \leq 1\\
+0&|u| > 1.
+\end{array} \right.\]</p>
+
+<pre><code class="r">x = seq(-2,2,length=100)
+plot(x,ifelse(abs(x) &lt; 1,(1-abs(x)^3)^3,0),ylab=&quot;weight&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-1.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Local regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[w_i(x_0) = W \left( \frac{x_i - x_0}{h(x)} \right)\]</p>
+
+<p>We define a window by a procedure similar to the \(k\) nearest
+points. We want to include \(\alpha\times 100\)\% of the data. </p>
+
+<p>\[f(x) \approx \beta_0 + \beta_1 (x-x_0) + \frac{1}{2} \beta_2 (x-x_0)^2 \mbox{ for
+  } x \in [x_0 - h(x_0), x_0+h(x_0)].\]</p>
+
+<p>We fit by: </p>
+
+<p>\[\hat{\beta} = \arg \min_{\beta \in {\mathbb R}^3} \sum_{i=1}^n w_i(x_0)[ Y_i - \{\beta_0 + \beta_1 (x_i-x_0) + \frac{1}{2} \beta_2 (x_i-x_0)\}]^2\]</p>
+
+<ul>
+<li>Define \(\hat{f}(x_0) = \hat{\beta}_0\).</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Span for irregularly shaped points</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>In practice, it is quite common to have the \(x_i\) irregularly spaced.</li>
+<li>One option is a nearest neighbor strategy to define a span for each target covariate \(x_0\).</li>
+<li>Define \(\Delta_i(x_0) = |x_0 -x_i|\), let \(\Delta_{(i)}(x_0)\) be the ordered values of such distances. One of the arguments in the local regression function <code>loess()</code> (available in the modreg library) is the <em>span</em>. </li>
+<li>A span of \(\alpha\) means that for each local fit we want to use \(\alpha \times 100 \%\) of the data.<br></li>
+<li>Let \(q\) be equal to $\alpha$n truncated to an integer. Then we define the span \(h(x_0) =\Delta_{(q)}(x_0)\). As \(\alpha\) increases the estimate
+becomes smoother. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>CD4 since seroconversion - effect of span</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/cd4span.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Long tailed symmetric distributions</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[ B(u,b) = \left\{ \begin{array}{cc}
+(1 - (u/b)^2)^2& |u| < b\\
+0&|u| \geq b.
+\end{array} \right.\]</p>
+
+<p>is the bisquare weight function. Calculate residuals:</p>
+
+<p>\[\hat{\varepsilon}_i = y_i  - \hat{f}(x_i)\]</p>
+
+<p>Let \(m\) = median(\(|\hat{\varepsilon}_i|\)), then the robust weights are:</p>
+
+<p>\[r_i = B(\hat{\varepsilon_i}; 6m)\]</p>
+
+<p>Then we refit the model with new weights \(r_i w_i(x)\)</p>
+
+<p><em>Note</em>: If we believe the variance \(Var(\varepsilon_i) = a_i \sigma^2\) we could
+also use this double-weight procedure with \(r_i = 1/a_i\).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Multivariate functions</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[Y_i = f(x_{i1},x_{i2}) + \varepsilon_i\]</p>
+
+<p>Multivariate Tyalor&#39;s theorem:</p>
+
+<p>\[f(x_1,x_2) \approx \beta_0 + \beta_1 (x_1 - x_{01}) + \beta_2 (x_2 - x_{02}) + \beta_3 (x_1 - x_{01})(x_2 - x_{02})\]
+\[ + \frac{1}{2} \beta_4 (x_1 - x_{01})^2 + \frac{1}{2} \beta_5(x_2-x_{02})^2\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Weights for multivariate smoothing</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[w_i(\vec{x}_0) = W\left(\frac{||\vec{x}_i,\vec{x}_0||}{h}\right).\]</p>
+
+<p>Often it makes sense to rescale \(x_1\) and \(x_2\) so we get similar smoothing in both directions. You can do this by for example defining distance by:</p>
+
+<p>\[||\vec{x} ||^2 = \sum_{j=1}^d (x_j/v_j)^2\]</p>
+
+<p>where \(v_j\) is the scale for dimension \(j\).</p>
+
+<ul>
+<li>A natural choice for these \(v_j\) are the standard deviation of the covariates.</li>
+<li>Still could run into curse of dimensionality problems. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Linear spaces</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We could assume \(f\) is in linear space. </p>
+
+<ul>
+<li>Makes estimation and statistical computations easy</li>
+<li>Has a nice geometrical interpretation</li>
+<li>Can specify a pretty broad range of models
+
+<ul>
+<li>Straight lines</li>
+<li>Polynomials</li>
+<li>Splines</li>
+<li>Functions with two continous derivatives</li>
+<li>+ more</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Quick aside about linear spaces</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Let&#39;s say we are interested in estimating \(f\). A common practice in
+statistics is to assume that \(f\) lies in some {\it linear space}, or
+is well approximated by a \(g\) that lies in some {\it linear space}. </p>
+
+<ul>
+<li>\(f\) is used to denote the true</li>
+<li>\(g\) is used to denote an arbitrary function in a particular space of functions. </li>
+<li>It isn&#39;t necessarily true that \(f\) lies in this space of functions. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Examples</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>\(g in G\) where \(G\) is the space spanned by linear combinations of covariates</li>
+</ul>
+
+<p>\[\alpha + \beta x, (\alpha,\beta)' \in {\mathbb R}^2.\]</p>
+
+<ul>
+<li>Linear model of order \(p\) is a \(p\) dimensional linear space \(G\) with basis functions </li>
+</ul>
+
+<p>\[B_j(x), j=1,\dots,p\]</p>
+
+<p>defined for \(x \in I\), each \(g \in G\) can be written uniquely as:</p>
+
+<p>\[g(\bx) = g(x; \bg{\theta}) = \theta_1 B_1(x) + \dots + \theta_p B_p(x)\]</p>
+
+<p>for some value of the coefficients \(g{\theta} = (\theta_1,\dots,\theta_p)' \in {\mathbb R}^p\). </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Fitting the model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>You can use any estimating equation/link function. The most common approach is least squares:</p>
+
+<p>\[\hat{f}(x) = g(x;\hat{\theta})\]
+\[arg\min_{g{\theta} \in {\mathbb R}^p} \sum_{i=1}^n \{Y_i - g(X_i,\theta)\}^2.\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Interpretation 1</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Assume that \(Y | X=x\) are in the family: \[N(g,\sigma^2 {\mathbf I}_n); g = [g(x_1),\dots,g(x_n)]', \, g \in {\cal G}\] </li>
+<li>Assume the errors \(\varepsilon\) are IID normal</li>
+<li>Assume that \(f \in \cal G\)</li>
+<li>Then \(\hat{f} = [g(x_1;\hat{\theta}),\dots,g(x_n;\hat{\theta})]\) is the maximum likelihood estimate</li>
+<li>The estimand \(f\) is an \(n \times 1\) vector. But how many parameters are we really estimating?</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Interpretation 2</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We can also think of this family as: \(N(B \theta,\sigma^2)\) \(\theta \in {\mathbb R}^p\)</li>
+<li>Maximum likelihood estimate for \(\theta\) is \(\hat{\theta}\) where \(B\) is a set of basis elements </li>
+<li>Estimating \(\hat{\theta}\) is easy because this is the standard linear model framework </li>
+<li>The estimate is \((B'B)\hat{\theta} = B'Y\) where \(B\) is \(n \times p\) design matrix. </li>
+<li>When this solution is unique we refer to \(g(x;\hat{\theta})\) as the OLS projection of \(Y\) into \(\cal G\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Parametric versus non-parametric</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>In some cases, we have reason to believe that the function \(f\) is
+actually a member of some linear space \(\cal G\).</li>
+<li>Traditionally, inference for regression models depends on \(f\) being representable
+as some combination of known predictors.</li>
+<li>This means we never have to consider models outside of the finite dimensional linear space \(\cal G\).</li>
+<li>We might consider broader classes of models \(\cal G'\) </li>
+<li>A common example is the class of &quot;smooth&quot; functions (non parametric)</li>
+<li>In non-parametric setting we might be more interested in properties of \(g(x; \hat{\theta})\) than \(\hat{\theta}\).</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>MSE of non-parametric estimates</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[E \{ f(x) - \hat{g}(x) \}^2 = bias^2\{\hat{g}(x)\} + Var\{\hat{g}(x)\}\]</p>
+
+<p>where</p>
+
+<p>\[bias\{\hat{g}(x)\} = f(x) - E\{\hat{g}(x)\}\]</p>
+
+<p>and </p>
+
+<p>\[Var\{\hat{g}(x)\} = E\{\hat{g}(x) - E[\hat{g}(x)]\}^2\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Inference</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>When the input values \(\{X_i\}\) are deterministic the expectations above are with respect to the noisy observation \({Y_i}\). </li>
+<li>When we do this standard regression can be applied \[Var\{\hat{g}(x)\} = \sigma^2 B(x)'(B'B)^{-1}B(x)\] where the error variance is assumed constant. </li>
+<li>This leads to classical t- and F-tests and associated parametric confidence intervals for \(\hat{\theta}\).</li>
+<li>When \(f\) is not a member of \(\cal G\) then the \(bias\) now reflects the ability of functions in \(\cal G\) to capture the features of \(f\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Data are rarely linear</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>It is rare for the exact regression function \(f\) to fall into space spanned by linear combinations of covariates</li>
+<li>So \[g(x;\theta) = \theta_1 + \theta_2 x, x \in I\] may miss important features. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Example data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Earth scientists believe that there might have been a major climate change that caused a mass extinction between the Cretacious and Tertiary periods. This is called the <a href="http://www.princeton.edu/geosciences/people/keller/publications/pdf/2011_Keller_SEPM_100_KTB_def.pdf">KTB boundary</a> and was \(\approx 66\) million years ago. The ratio of isotopes of Strontium in fossils tells us about the chemical composition in the atmosphere during different geological periods. </p>
+
+<p>\[^{87}\delta \mbox{Sr} = \left( \frac{ ^{87}\mbox{Sr}/^{86}\mbox{Sr sample}}{^{87}\mbox{Sr}/^{86}\mbox{Sr sea water}} - 1\right) \times 10^5.\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Strontium data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">dat = read.table(&quot;http://www.biostat.jhsph.edu/~ririzarr/Teaching/754/Data/Sr.dat&quot;)
+plot(dat,xlab=&quot;time (mya)&quot;,ylab=&quot;ratio&quot;,pch=19)
+</code></pre>
+
+<div class="rimage center"><img src="fig/strontium.png" title="plot of chunk strontium" alt="plot of chunk strontium" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Polynomial model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The polynomial might fit better here:  </p>
+
+<p>\[g(x;\theta) = \theta_1 + \theta_2 x + \dots + \theta_k x^{k-1}, x\in I\]</p>
+
+<ul>
+<li>Note that the space \(\cal G = {\cal P}_k\) consists of polynomials having degree at most \(k-1\).</li>
+<li>In exceptional cases, we have reasons to believe that the regression function \(f\) is in fact a high-order polynomial. </li>
+<li>For historical values of \(^{87}\delta Sr\) we consider polynomials simply because our scientific
+intuition tells us that \(f\) should be smooth. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Computational issue</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The basis of monomials</p>
+
+<p>\(B_j(x) = x^{j-1} \mbox{ for } j=1,\dots,k\)</p>
+
+<p>is not well suited for numerical calculations. </p>
+
+<ul>
+<li>This basis is ill conditioned for \(k\) larger than \(8\) or \(9\)</li>
+<li>R uses orthogonal <a href="http://en.wikipedia.org/wiki/Chebyshev_polynomials">Chebyshev polynomials</a> intead <code>?poly</code> (e.g. \(T_0(x)=1\), \(T_1(x) = x\), \(T_{n+1}(x) = 2xT_n(x) - T_{n-1}(x)\))</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Alternative set of polynomials you could use</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>An alternative to polynomials is to consider the space \({\cal PP}_k(t)\) of piecewise polynomials with break points \(t=(t_0,\dots,t_{m+1})'\). Given a sequence \(a = t_0 < t_1 < \dots < t_m < t_{m+1} = b\), construct \(m+1\) (disjoint) intervals 
+\[I_l = [t_{l-1},t_l), 1 \leq l \leq m \mbox{ and } I_{m+1} =
+[t_m,t_{m+1}]\] 
+whose union is \(I=[a,b]\). </p>
+
+<p>Define the piecewise polynomials of order \(k\) as </p>
+
+<p>\[g(x) = \left\{   \begin{array}{cc}
+    g_1(x) = \theta_{1,1} + \theta_{1,2} x + \dots + \theta_{1,k}
+    x^{k-1},&x \in I_1\\
+    \vdots&\vdots\\
+    g_{m+1}(x) = \theta_{m+1,1} + \theta_{m+1,2} x + \dots + \theta_{m+1,k}
+    x^{k-1},&x \in I_{k+1}.
+\end{array}
+\right.\]</p>
+
+<ul>
+<li>But it can be hard to justify the breaks</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Continuous first derivatives</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Basic idea - make the piecewise polynomials have continuous first derivative</li>
+<li>Start with space of piecewise polynomials \[{\cal PP}_k(t)$ with $t = (t_1,\dots,t_m)'\]</li>
+<li>We can put constrains on the behavior of the functions \(g\) at the break points.</li>
+<li>A trick is to write \(g \in {\cal PP}_k(t)\) in <em>the truncated basis power</em>:
+\[g(x) = \theta_{0,1} + \theta_{0,2} x + \dots + \theta_{0,k} x^{k-1} +\]
+\[,  \theta_{1,1}(x-t_1)^0_+ + \theta_{1,2} (x-t_1)^1_+ + \dots + \theta_{1,k} (x-t_1)^{k-1}_+ +\]
+\[ \vdots\]
+\[ \theta_{m,1}(x-t_m)^0_+ + \theta_{m,2} (x-t_m)^1_+ + \dots + \theta_{m,k} (x-t_m)^{k-1}_+\]
+where \((\cdot)_+ = \max(\cdot,0)\). </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Continuous first derivatves continued</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Written in this way the coefficients \(\theta_{1,1},\dots,\theta_{1,k}\) record the jumps in the
+different derivative from the first piece to the second. </p></li>
+<li><p>Now we can force constrains, such as continuity, by putting constrains like \(\theta_{1,1}=0\) etc... </p></li>
+<li><p>Notice that the constrains reduce the number of parameters. This is in agreement with the fact that we are forcing more smoothness.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Cubic splines</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[g(x) = \theta_{0,1} + \theta_{0,2} x + \dots + \theta_{0,4} x^3 + \theta_{1,k} (x-t_1)^{3}+ \dots + \theta_{m,k} (x-t_m)^{3}\]</p>
+
+<ul>
+<li>Note: It is always possible to have less restrictions at knots where we
+believe the behavior is &quot;less smooth&quot;, e.g for the Sr ratios, we may have &quot;unsmoothness&quot; around KTB. </li>
+<li>We can write this as a linear space, but it isn&#39;t convenient for computations <code>bs()</code> creates this basis but computationally convenient</li>
+<li>There is asymptotic theory for all this but we are going to do usual hand waving. Note \[E[ f(x) - g(x) ] = O(h_l^{2k} + 1/n_l)\] where \(h_l\) is the size of the interval for \(x\) and \(n_l\) is the number of points. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2><code>bs()</code> for strontium data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">basis1 = bs(dat[,1],df=3)
+matplot(basis1,type=&quot;l&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2><code>bs()</code> and regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">basis1 = bs(dat[,1],df=3)
+lm1 = lm(dat[,2] ~ basis1)
+plot(dat,pch=19); lines(dat[,1],lm1$fitted,col=&quot;red&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-3.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Splines in terms of spaces and sub-spaces</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The\(p\)-dimensional spaces described in Section 4.1 were defined through basis function
+\(B_j(x), j=1,\dots,p\). So  in general we defined for a given range \(I \subset {\mathbb R}^k\)</p>
+
+<p>\[ {\cal G} =\{ g: g(x) = \sum_{j=1}^p \theta_j \beta_j(x), x \in I, (\theta_1,\dots,\theta_p) \in {\mathbb R}^p \} \]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Can be even more flexible</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>In practice we have design points \(x_1,\dots,x_n\) and a vector of responses \(y = (y_1,\dots,y_n)\). </li>
+<li>We can think of \(y\) as an element in the \(n\)-dimensional vector space \({\mathbb R}^n\). </li>
+<li>We can go a step further and define a <a href="http://en.wikipedia.org/wiki/Hilbert_space">Hilbert space</a> with the usual inner product
+definition that gives us the norm \[||y|| = \sum_{i=1}^n y_i^2\]</li>
+<li>Now we can think of least squares estimation as the projection of the
+data \(y\) to the sub-space \(G \subset {\mathbb R}^n\) defined by \(\cal
+G\) in the following way \[G = \{ g \in {\mathbb R}^n: g = [g(x_1),\dots,g(x_n)]', g \in {\cal G} \}\] because this space is spanned by the vectors \([B_1(x_1),\dots,B_p(x_n)]\) the projection of \(y\) onto \(G\) is \(B(B'B)^{-}B'y\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Natural splines</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Natural splines add the constraint that the function must be linear after the knots at the end points</li>
+<li>This forces 2 more restrictions since \(f''\) must be 0 at the end points, i.e the space has \(k + 4 - 2\) parameters because of these 2 constraints. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Natural smoothing splines</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>What happens if the knots coincide with the dependent variables \(\{X_i\}\). Then there is a function \(g \in \cal G\), the space of cubic splines with knots at \((x_1,\dots,x_n)\), with
+\(g(x_i) = y_i, i,\dots,n\), i.e. we haven&#39;t smoothed at all.</li>
+<li> Among all functions \(g\) with two continuous first derivatives, find the one that minimizes the penalized residual sum of squares \[\sum_{i=1}^n \{ y_i - g(x_i) \}^2 + \lambda \int_a^b \{g''(t)\}^2 dt\] where \(\lambda\) is a fixed constant, and \(a \leq x_1 \leq \dots \leq
+x_n \leq b\). </li>
+<li> It can be shown (Reinsch 1967) that the solution to this
+problem is a natural cubic spline with knots at the values of \(x_i\) (so there are \(n-2\) interior knots and \(n-1\) intervals). Here \(a\) and \(b\) are arbitrary as long as they contain the data.</li>
+<li>It seems that this procedure is over-parameterized since a natural cubic spline as this one will have \(n\) degrees of freedom. However we will see that the penalty makes this go down.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Computational aspects</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We use the fact that the solution is a natural cubic spline and write the possible answers as: \[g(x) = \sum_{j=1}^{n} \theta_j B_j(x)\] where \(\theta_j\) are the coefficients and \(B_j(x)\) are the basis functions. </li>
+<li>Notice that if these were cubic splines the functions lie
+in a \(n+2\) dimensional space, but the natural splines are an \(n\)
+dimensional subspace. </li>
+<li>Let \(B\) be the \(n \times n\) matrix defined by
+\[ B_{ij} = B_j(x_i)\]
+and a penalty matrix \(\Omega\) by \[ \Omega_{ij} = \int_a^b B_i''(t)B_j''(t) \, dt\]</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>Computational aspects continued</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Now we can write the penalized criterion as</p>
+
+<p>\[(y - B\theta)'(y - B\theta) +\lambda\theta'\Omega\theta\]</p>
+
+<ul>
+<li><p>It seems there are no boundary derivatives constraints but they are
+implicitly imposed by the penalty term.</p></li>
+<li><p>Setting derivatives with respect to \(\theta\) equal to 0 gives
+the estimating equation:\[(B'B + \lambda\Omega)\theta = B'y.\]</p></li>
+<li><p>The \(\hat{\theta}\) that solves this equation will give us the estimate \(\hat{g} = B \hat{\theta}\).</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>Is this a linear smoother?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[\hat{g} = B \theta = B(B'B + \lambda \Omega)^{-1}
+B'y =  ({\mathbf I} + \lambda {\mathbf K})^{-1}y\]</p>
+
+<p>where \({\mathbf K} = B -1 ' \Omega B^{-1}\). Notice we can write the criterion as</p>
+
+<p>\[(y - g)'(y - g) + \lambda g' {\mathbf K} g\]</p>
+
+<p>If we look at the &quot;kernel&quot; of this linear smoother it is similar to the other smoothers in this class. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2><code>ns()</code> for strontium data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">basis2 = ns(dat[,1],df=3)
+matplot(basis2,type=&quot;l&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2><code>ns()</code> and regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">basis2 = ns(dat[,1],df=3)
+lm2 = lm(dat[,2] ~ basis2)
+plot(dat,pch=19); lines(dat[,1],lm2$fitted,col=&quot;red&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>Bagging proof</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Let \(\phi(x,D_{train})\) be the predictor based on a training set \(D_{train}\) then we could create a bagged predictor:</p>
+
+<p>\[\phi_A(x,P) = E_{D}[\phi(x,D)]\]</p>
+
+<p>where \(P\) is the probability distribution over \(D\). Then:</p>
+
+<p>\[e = E_D E_{Y,X}(Y-\phi(X,D))^2\]</p>
+
+<p>aggregated error is:</p>
+
+<p>\[e_A = E_{Y,X}(Y-\phi_A(X,D))^2\]</p>
+
+<p>Using the inequality \((EZ)^2 \leq EZ^2\)</p>
+
+<p>\[e = EY^2 - 2EY\phi_A + E_{Y,X}E_D \phi^2(X,D\]
+\[ \geq E(Y-\phi_A)^2 = e_A\]</p>
+
+<p><a href="http://statistics.berkeley.edu/sites/default/files/tech-reports/421.pdf">http://statistics.berkeley.edu/sites/default/files/tech-reports/421.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Pro tip'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Paper of the day'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Today&#39;s slide credits'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Local regression'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Fitting local polynomials'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Tukey&#39;s biweights'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Local regression'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Span for irregularly shaped points'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='CD4 since seroconversion - effect of span'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Long tailed symmetric distributions'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Multivariate functions'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Weights for multivariate smoothing'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Linear spaces'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Quick aside about linear spaces'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Examples'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Fitting the model'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Interpretation 1'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Interpretation 2'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Parametric versus non-parametric'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='MSE of non-parametric estimates'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Inference'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Data are rarely linear'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Example data'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Strontium data'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Polynomial model'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Computational issue'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Alternative set of polynomials you could use'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Continuous first derivatives'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='Continuous first derivatves continued'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='Cubic splines'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='<code>bs()</code> for strontium data'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='<code>bs()</code> and regression'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='Splines in terms of spaces and sub-spaces'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='Can be even more flexible'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='Natural splines'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='Natural smoothing splines'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='Computational aspects'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='Computational aspects continued'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='Is this a linear smoother?'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='<code>ns()</code> for strontium data'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='<code>ns()</code> and regression'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='Bagging proof'>
+         42
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../librariesNew/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="../../librariesNew/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

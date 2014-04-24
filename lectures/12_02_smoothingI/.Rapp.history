@@ -1,0 +1,212 @@
+x <- c(time)
+time
+time()
+date()
+library(twitteR)
+install.packages("twitteR")
+library(twitteR)
+getUser("WaltHickey")
+tmp = getUser(userName)
+userName <- "WaltHickey"
+tmp = getUser(userName)
+load("~/Desktop/hickey.rda")
+plot(tme,fl)
+tme
+plot(fl)
+plot(diff(fl))
+x <- matrix(rnorm(100*10),nrow=100)
+dim(x)
+tmp <- cor(x)
+tmp[1,]
+dim(tmp)
+heatmap(tmp)
+?heatmap
+hmcol<-brewer.pal(11,"RdBu")#
+heatmap(tmp,col=hmcol)
+library(RColorBewer)
+library(httr)
+github <- oauth_endpoint(NULL, "authorize", "access_token",#
+  base_url = "https://github.com/login/oauth")
+myapp <- oauth_app("github", "56b637a5baffac62cad9")
+myapp <- oauth_app("github", key="16475f9f19816c723402", secret="36149ce386190db5b57146826366c3d36c373c6f")
+github_token <- oauth2.0_token(github, myapp)#
+github_sig <- sign_oauth2.0(github_token$access_token)
+GET("https://api.github.com/user/followers", github_sig)
+github_sig
+GET("https://api.github.com/user/followers", github_sig)
+GET("https://api.github.com/jtleek/followers", github_sig)
+GET("https://api.github.com/repos/mojombo/jekyll/issues?state=closed")
+GET("https://api.github.com/repos/mojombo/jekyll/issues?state=closed",github_sig)
+myapp <- oauth_app("github", key="16475f9f19816c723402", secret="36149ce386190db5b57146826366c3d36c373c6f")
+library(httr)
+myapp <- oauth_app("github", key="16475f9f19816c723402", secret="36149ce386190db5b57146826366c3d36c373c6f")
+GET("https://api.github.com/repos/mojombo/jekyll/issues?state=closed",github_sig)
+github_token <- oauth2.0_token(github, myapp)#
+github_sig <- sign_oauth2.0(github_token$access_token)
+github <- oauth_endpoint(NULL, "authorize", "access_token",#
+  base_url = "https://github.com/login/oauth")
+github_token <- oauth2.0_token(github, myapp)#
+github_sig <- sign_oauth2.0(github_token$access_token)
+library(httr)
+github <- oauth_endpoint(NULL, "authorize", "access_token",#
+  base_url = "https://github.com/login/oauth")
+github_token <- oauth2.0_token(github, myapp)#
+github_sig <- sign_oauth2.0(github_token$access_token)
+myapp <- oauth_app("github", key="16475f9f19816c723402", secret="36149ce386190db5b57146826366c3d36c373c6f")
+github_token <- oauth2.0_token(github, myapp)#
+github_sig <- sign_oauth2.0(github_token$access_token)
+?confit
+library(httr)
+oauth_endpoints("github")
+myapp <- oauth_app("github", "56b637a5baffac62cad9")
+?oauth_app
+myapp <- oauth_app("github", key="16475f9f19816c723402", secret="36149ce386190db5b57146826366c3d36c373c6f")
+github_token <- oauth2.0_token(oauth_endpoints("github"), myapp)
+req <- GET("https://api.github.com/rate_limit", config(token = github_token))
+req
+req <- GET("https://api.github.com/users/jtleek/repos")
+req
+classs(req)
+class(req)
+names(req)
+req$url
+str(req)
+req$heades
+req$headers
+req$content
+?GET
+content(req)
+class(content(req))
+?content
+myapp <- oauth_app("github", key="16475f9f19816c723402", secret="36149ce386190db5b57146826366c3d36c373c6f")
+req <- GET("https://api.github.com/users/jtleek/repos")
+tmp =content(req)
+tmp[[1]]
+tmp[[2]]
+tmp[[15]]
+grep("datasharing",tmp)
+tmp[[4]]
+sapply(tmp,function(x){x$forks})
+sapply(tmp,function(x){x$watchers})
+which.max(x$watchers)
+sapply(tmp,function(x){x$created})
+tmp = sapply(tmp,function(x){x$created})
+?tmp
+tmp
+which.min(tmp)
+tmp = sapply(tmp,function(x){x$size})
+tmp = sapply(tmp,function(x){x$created})
+sapply(tmp,function(x){x$size})
+sapply(tmp,function(x){x$created})
+tmp[[4]]
+tmp =content(req)
+tmp[[4]]
+tmp[[4]]$created
+myapp <- oauth_app("github", key="16475f9f19816c723402", secret="36149ce386190db5b57146826366c3d36c373c6f")
+library(httr)
+myapp <- oauth_app("github", key="16475f9f19816c723402", secret="36149ce386190db5b57146826366c3d36c373c6f")
+github_token <- oauth2.0_token(oauth_endpoints("github"), myapp)
+req <- GET("https://api.github.com/users/jtleek/repos")
+req
+tmp =content(req)
+tmpp
+tmp
+tmp[[4]]
+tmp[[5]]
+tmp[[16]]
+tmp[[10]]
+load("digits_BH.Rdata")
+setwd("~/Desktop/classbattle/")
+load("digits_BH.Rdata")
+ls()
+predictNew
+load("battleData.csv")
+battleData = read.csv("battleData.csv")
+dim(battleData)
+predictNew(battleData[1:10,])
+library(rf)
+library(randomForest)
+library(rf)
+predictNew(battleData[1:10,])
+system.time(predictNew(battleData[1:10,]))
+system.time(predictNew(battleData[1:100,]))
+100/12*3000
+100/12*3000/60
+100/12*3000/60/60
+tmp = predictNew(battleData[1:100,])
+table(tmp,battleData[1:100,1])
+mean(tmp==battleData[1:100,1])
+12*100
+12*100/60
+predictNew
+12/100
+12/100*3000
+12/100*3000/60/60
+12/100*3000/60
+system.time(predictNew(battleData[1:200,]))
+19/200
+12/100
+12.321/100
+12.177/100
+19.321/200
+19.321/200*3000
+19.321/200*3000/60
+system.time(predictNew(battleData[1:500,]))
+67.95/500
+0.13*3000
+0.13*3000/60
+predictNew
+modFit
+lables(modFit)
+names(modFit)
+modFit$finalModel
+getwd()
+load("DigitsPrediction_Detian.RData")
+ls()
+rm(list=ls())
+load("DigitsPrediction_Detian.RData")
+ls()
+predictNew9
+predictDetian = predictNew9(battleData)
+load("fu.model.RData")
+ls()
+rm(list=ls())
+load("fu.model.RData")
+ls()
+mod
+load("fu.model.RData")
+X2 = as.matrix(battleData[,-1])
+battleData = read.csv("battleData.csv")
+X2 = as.matrix(battleData[,-1])
+predictFu = predict(mod,X2)
+library(glmnet)
+predictFu = predict(mod,X2)
+names(predictFu)
+length(predictFu)
+dim(predictFu)
+dim(predictFu[,,100])
+dim(predictFu[,,100][1,])
+predictFu[,,100][1,]
+tmp = apply(predictFu[,,100],1,max)
+table(tmp,battleData[,1])
+tmp = apply(predictFu[,,100],1,which.max)
+tmp[1]
+tmp[2]
+table(tmp,battleData[,1])
+mean(tmp==battleData[,1])
+mean(tmp-1==battleData[,1])
+predictFu = tmp-1
+mean(tmp==battleData[,1])
+mean(predictfu==battleData[,1])
+mean(predictFu==battleData[,1])
+save(predictFu,file="fupredict.rda")
+tmp = apply(predictFu[,,100],1,which.max)
+save(predictFu,file="fupredict.rda")
+setwd("~/Dropbox/Jeff/teaching/2014/jhsph753and4/lectures/12_01_predictionIII/")
+library(makeslides)
+sf()
+bu()
+sf()
+bu()
+getwd()
+bu()
