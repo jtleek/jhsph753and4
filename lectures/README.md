@@ -100,4 +100,8 @@ April 22:
 
 April 24:
 
-* Prediction III [Lecture](http://jtleek.github.io/jhsph753and4/lectures/12_02_smoothingI/#1)
+* Smoothing II [Lecture](http://jtleek.github.io/jhsph753and4/lectures/12_02_smoothingI/#1)
+
+April 29:
+
+* Smoothing II [Lecture](http://jtleek.github.io/jhsph753and4/lectures/13_01_smoothingII/#1)
