@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smoothing II</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Smoothing II">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../librariesNew/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../librariesNew/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="../../librariesNew/frameworks/io2012/js/slides" 
+    src="../../librariesNew/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="../../assets/img/bloomberg_shield.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Smoothing II</h1>
+    <h2></h2>
+    <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Unless you are a billionaire there is no such thing as complete intellectual freedom (probably not even then). At some level you have to convince someone that what you are working on is a reasonable idea (hiring committee, promotion committee, grant study section, venture capitalist, etc.). There is extreme value in being able to make a compelling argument for your research and knowing what kind of &quot;marketing&quot; to do. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper of the day</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><a href="http://link.springer.com/article/10.1007/BF01404567">Smoothing noisy data with spline functions</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Today&#39;s slide credits</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/rafa.png height=500></p>
+
+<p><a href="http://www.biostat.jhsph.edu/%7Eririzarr/Teaching/754/">http://www.biostat.jhsph.edu/~ririzarr/Teaching/754/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Recall the goal</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[Y_i = f(x_i) + \varepsilon_i\]</p>
+
+<ul>
+<li>\(f(x)\) is an unknown function and \(\varepsilon_i\) is an error term,
+representing random errors in the observations or variability from
+sources not included in the \(x_i\).</li>
+<li>We assume the errors \(\varepsilon_i\) are IID with mean 0 and finite
+variance \(Var(\varepsilon_i) = \sigma^2\). </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Splines in terms of spaces and sub-spaces</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The\(p\)-dimensional spaces described in Section 4.1 were defined through basis function
+\(B_j(x), j=1,\dots,p\). So  in general we defined for a given range \(I \subset {\mathbb R}^k\)</p>
+
+<p>\[ {\cal G} =\{ g: g(x) = \sum_{j=1}^p \theta_j \beta_j(x), x \in I, (\theta_1,\dots,\theta_p) \in {\mathbb R}^p \} \]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Can be even more flexible</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>In practice we have design points \(x_1,\dots,x_n\) and a vector of responses \(y = (y_1,\dots,y_n)\). </li>
+<li>We can think of \(y\) as an element in the \(n\)-dimensional vector space \({\mathbb R}^n\). </li>
+<li>We can go a step further and define a <a href="http://en.wikipedia.org/wiki/Hilbert_space">Hilbert space</a> with the usual inner product
+definition that gives us the norm \[||y|| = \sum_{i=1}^n y_i^2\]</li>
+<li>Now we can think of least squares estimation as the projection of the
+data \(y\) to the sub-space \(G \subset {\mathbb R}^n\) defined by \(\cal
+G\) in the following way \[G = \{ g \in {\mathbb R}^n: g = [g(x_1),\dots,g(x_n)]', g \in {\cal G} \}\] because this space is spanned by the vectors \([B_1(x_1),\dots,B_p(x_n)]\) the projection of \(y\) onto \(G\) is \(B(B'B)^{-}B'y\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Natural splines</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Natural splines add the constraint that the function must be linear after the knots at the end points</li>
+<li>This forces 2 more restrictions since \(f''\) must be 0 at the end points, i.e the space has \(k + 4 - 2\) parameters because of these 2 constraints. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Natural smoothing splines</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>What happens if the knots coincide with the dependent variables \(\{X_i\}\). Then there is a function \(g \in \cal G\), the space of cubic splines with knots at \((x_1,\dots,x_n)\), with
+\(g(x_i) = y_i, i,\dots,n\), i.e. we haven&#39;t smoothed at all.</li>
+<li> Among all functions \(g\) with two continuous first derivatives, find the one that minimizes the penalized residual sum of squares \[\sum_{i=1}^n \{ y_i - g(x_i) \}^2 + \lambda \int_a^b \{g''(t)\}^2 dt\] where \(\lambda\) is a fixed constant, and \(a \leq x_1 \leq \dots \leq
+x_n \leq b\). </li>
+<li> It can be shown (Reinsch 1967) that the solution to this
+problem is a natural cubic spline with knots at the values of \(x_i\) (so there are \(n-2\) interior knots and \(n-1\) intervals). Here \(a\) and \(b\) are arbitrary as long as they contain the data.</li>
+<li>It seems that this procedure is over-parameterized since a natural cubic spline as this one will have \(n\) degrees of freedom. However we will see that the penalty makes this go down.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Computational aspects</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We use the fact that the solution is a natural cubic spline and write the possible answers as: \[g(x) = \sum_{j=1}^{n} \theta_j B_j(x)\] where \(\theta_j\) are the coefficients and \(B_j(x)\) are the basis functions. </li>
+<li>Notice that if these were cubic splines the functions lie
+in a \(n+2\) dimensional space, but the natural splines are an \(n\)
+dimensional subspace. </li>
+<li>Let \(B\) be the \(n \times n\) matrix defined by
+\[ B_{ij} = B_j(x_i)\]
+and a penalty matrix \(\Omega\) by \[ \Omega_{ij} = \int_a^b B_i''(t)B_j''(t) \, dt\]</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Computational aspects continued</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Now we can write the penalized criterion as</p>
+
+<p>\[(y - B\theta)'(y - B\theta) +\lambda\theta'\Omega\theta\]</p>
+
+<ul>
+<li><p>It seems there are no boundary derivatives constraints but they are
+implicitly imposed by the penalty term.</p></li>
+<li><p>Setting derivatives with respect to \(\theta\) equal to 0 gives
+the estimating equation:\[(B'B + \lambda\Omega)\theta = B'y.\]</p></li>
+<li><p>The \(\hat{\theta}\) that solves this equation will give us the estimate \(\hat{g} = B \hat{\theta}\).</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Is this a linear smoother?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[\hat{g} = B \theta = B(B'B + \lambda \Omega)^{-1}
+B'y =  ({\mathbf I} + \lambda {\mathbf K})^{-1}y\]</p>
+
+<p>where \({\mathbf K} = B -1 ' \Omega B^{-1}\). Notice we can write the criterion as</p>
+
+<p>\[(y - g)'(y - g) + \lambda g' {\mathbf K} g\]</p>
+
+<p>K is the &quot;kernel&quot; of this linear smoother.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Strontium data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">dat = read.table(&quot;http://www.biostat.jhsph.edu/~ririzarr/Teaching/754/Data/Sr.dat&quot;)
+plot(dat,xlab=&quot;time (mya)&quot;,ylab=&quot;ratio&quot;,pch=19)
+</code></pre>
+
+<div class="rimage center"><img src="fig/strontium.png" title="plot of chunk strontium" alt="plot of chunk strontium" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2><code>ns()</code> for strontium data</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">basis2 = ns(dat[,1],df=3)
+matplot(basis2,type=&quot;l&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-1.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2><code>ns()</code> and regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">basis2 = ns(dat[,1],df=3)
+lm2 = lm(dat[,2] ~ basis2)
+plot(dat,pch=19); lines(dat[,1],lm2$fitted,col=&quot;red&quot;)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Linear smoothers and variance</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>A linear smoother has the form</p>
+
+<p>\[\hat{f} = S y\] </p>
+
+<p>where \(S\) is the smoother matrix. Sometimes:</p>
+
+<p>\[\hat{f}(x) = \sum_{i=1}^n W_i (x) y_i.\]</p>
+
+<p>Variance of linear interpolation is \(Var[y_1] = \sigma^2\). Variance of a smoothed estimate is: </p>
+
+<p>\[Var[\hat{f}(x)] = \sigma^2 \sum_{i=1}^n W_i^2(x)\]</p>
+
+<p>so \(\sum_{i=1}^n W_i^2(x)\) is the variance reduction. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Variance reduction</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The total variance can be written:</p>
+
+<p>\[\sum_{i=1}^n Var[\hat{f}(x_i)] = tr(SS')\sigma^2\]</p>
+
+<p>so the total variance reduction from \(\sum_{i=1}^n Var[y_i]\) is \(tr(SS')/n\). </p>
+
+<p>The same idea is true for linear regression. For linear regression:</p>
+
+<p>\[\sum_{i=1}^n Var[\hat{f}(x_i)] = p \sigma^2\]</p>
+
+<p>so the variance reduction is \((n-p) \sigma^2\). </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Degrees of freedom</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>For linear regression remember the degrees of freedom (for residuals) are \(n-p\) which is approximately the
+variance reduction. </p>
+
+<p>A commonly used degrees of freedom measure for smoothing is: </p>
+
+<p>\[df = tr(SS')\]</p>
+
+<p>The sensitivity of the fitted value, say \(\hat{f}(x_i)\), to the data
+point \(y_i\) can be measured by \(W_i(x_i)/\sum_{i=1}^n W_n(x_i)\) or \(S_{ii}\).</p>
+
+<p>The total influence or sensitivity is \(\sum_{i=1}^n W_i(x_i) =tr(S)\). In linear regression \(tr(S)=p\).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Quick example</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">tme = 1:10; X = model.matrix(~tme + I(tme^2)); Y = bs(tme,df=3)
+hatmatx = X %*% solve(t(X) %*% X) %*% t(X); hatmaty = Y %*% solve(t(Y) %*% Y) %*% t(Y)
+sum(diag(hatmatx))
+</code></pre>
+
+<pre><code>[1] 3
+</code></pre>
+
+<pre><code class="r">sum(diag(hatmaty))
+</code></pre>
+
+<pre><code>[1] 3
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>DOF and smoothing</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/dfsmooth.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Residual degrees of freedom</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Finally we notice that </p>
+
+<p>\[E[ (y - \hat{f})'(y - \hat{f}) ] = \{n - 2tr(S) + tr(SS')\}\sigma^2\]</p>
+
+<ul>
+<li>In linear regression: \((n-p)\sigma^2\)</li>
+<li>Residual DOF: \(n - 2tr(S) + tr(SS')\)</li>
+<li>Another definition of smoother DF is: \(2tr(S) - tr(SS')\)</li>
+</ul>
+
+<p>Under mild assumptions:</p>
+
+<p>\[1 \leq tr(SS') \leq tr(S) \leq 2tr(S) - tr(SS') \leq n\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Eigen analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>For a smoother with symmetric smoother matrix \(S\), the
+eigendecomposition of \(S\) can be used to describe its
+behavior. </p>
+
+<ul>
+<li>Let \(\{ u_1,\dots,u_n \}\) be an orthonormal basis of eigenvectors
+of \(S\) with eigenvalues \(\theta_1\geq\theta_2\dots\geq\theta_n\):</li>
+</ul>
+
+<p>\[S u_j = \theta_j u_j, j=1,\dots,n\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Example linear regression</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">tme = 1:10; X = model.matrix(~ tme)
+hatmatx = X %*% solve(t(X) %*% X) %*% t(X); eigen1 = eigen(hatmatx)
+par(mfrow=c(1,3)); plot(eigen1$values); plot(eigen1$vectors[,1]); plot(eigen1$vectors[,2])
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Eigen analysis of cubic spline</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>The cubic spline is an important example of a symmetric smoother, and its eigenvectors resemble polynomials of increasing degree.</p></li>
+<li><p>First 2 eigenvalues are 1 and the rest between 0 and 1. </p></li>
+<li><p>If presented with a response \(y = u_j\), it shrinks it by an amount \(\theta_j\). </p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Eigenvalues nd eigenvectors</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">tme = 1:100; Y = bs(tme,df=10);  hatmaty = Y %*% solve(t(Y) %*% Y) %*% t(Y); eigeny = eigen(hatmaty)
+layout(matrix(c(1,1,2,3,1,1,4,5),byrow=T,ncol=4))
+plot(eigeny$values); for(i in 1:4){plot(eigeny$vectors[,i])}
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Non-symmetric S</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Loess and other &quot;nearest neighbor&quot; don&#39;t have a symmetric smoothing matrix</li>
+<li>If \(S\) is not symmetric we have complex eigenvalues and the above decomposition is not as easy to interpret.</li>
+<li>So we use the SVD usually: 
+\[S = U D V'\]</li>
+<li>On can think of smoothing as performing a basis transformation \(z =V'y\), shrinking with \(\hat{z} = D z\) the components that are related to &quot;unsmooth components&quot; and then transforming back to the basis \(\hat{y} = U \hat{z}\) we started out with... sort of.</li>
+<li>You can think of smoothing splines like <a href="http://en.wikipedia.org/wiki/Low-pass_filter">low-pass filtering</a> in signal processing</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Economical bases</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Suppose that we have equally spaced Guassian data</p>
+
+<p>\[y_i = f(t_i) + \varepsilon_i, i=1,\dots,n\]</p>
+
+<p>\(t_i = (i-1)/n\) and the $\varepsilon_i$s IID \(N(0,\sigma^2)\), many things
+simplify. </p>
+
+<p>We want to solve this problem:</p>
+
+<p>\[n^{-1} E || \hat{f} - f ||^2 = n^{-1} E \left[ \sum_{i=1}^m \{ \hat{f}(t_i) - f(t_i) \}^2\right].\]</p>
+
+<p>but the MLE is \(\hat{f}_i = y_i\). </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Another approach: restrict class</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Specify some fixed class \(\cal F\) of functions where  \(f\) lies and seek an
+estimator \(\hat{f}\) attaining minimax risk  </p>
+
+<p>\[\inf_{\hat{f}} \sup_{f \in {\cal F}} R(\hat{f},f)\]</p>
+
+<ul>
+<li>Restricting \(f \in \cal F\) we make assumptions on the smoothness of \(f\).</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Useful transformations</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Remember that for \(f \in {\mathbb R}^n\) there are many bases</li>
+<li>Any orthogonal basis can be represented with an  orthogonal transform \(U\) that gives us the coefficients for any \(f\) by multiplying \(\xi = U' f\). This means that we can represent any
+vector as \(f = U \xi\). </li>
+<li>Eigen analysis is one such transform. </li>
+<li>Or we can use the transform to do compression for example. </li>
+<li>For equally spaced data you can use the <a href="http://en.wikipedia.org/wiki/Discrete_Fourier_transform">Discrete Fourier Transform (DFT)</a>
+\[f_i = a_0 + \sum_{k=1}^{n/2 - 1} \left\{ a_{k} \cos \left(\frac{2\pi k}{n}  \, i \right) \, + b_{k} \sin \left(\frac{2 \pi k}{n} \,i \right) \right\} + a_{n/2} \cos (\pi i) \]</li>
+<li>This defines a basis and the coefficients \(a = (a_0,a_1,b_1,\dots,\dots,a_{n/2})'\) can be obtained via \(a = U'f\) with \(U\) having columns of sines and cosines.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Why this is helpful sometimes</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The columns are:</p>
+
+<p>\[ U_1 = [n^{-1/2}: 1 \leq i \leq n] \]
+ \[ U_{2k} = [(2/n)^{1/2}\sin\{2\pi k i/n\} : 1 \leq i \leq n], k=1,\dots,n/2 \]
+ \[ U_{2k+1} = [(2/n)^{1/2}\cos\{2\pi k i/n\} : 1 \leq i \leq n], k=1,\dots,n/2-1.\]</p>
+
+<ul>
+<li>If a signal is close to a sine wave \(f(t) = \cos(2 \pi j t / n + \phi)\) for some integer \(1\leq j \leq n\), only  two of the coefficients in \(a\) will be big, namely the ones associated with the columns \(2j-1\) and \(2j\), the rest will be close to 0. </li>
+<li>This makes the basis associated with the DFT very economical (and the <em>periodogram</em> a  good detector of hidden periodicities</li>
+<li>For things like voice signals it would be more &quot;economical&quot; to send \(a\) instead of the \(f\). Once \(a\) is received, \(f=U a\) is reconstructed. </li>
+<li>Because we are dealing with equally spaced data, the coefficients of the DFT are also related to smoothness. Notice that the columns of \(U\) are increasing in frequency and thus decreasing in
+smoothness. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>An example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Body temperature of a mouse over time</p>
+
+<p><img class="center" src="../../assets/img/dfte1.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Periodogram</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/dfte2.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Bagging proof</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Let \(\phi(x,D_{train})\) be the predictor based on a training set \(D_{train}\) then we could create a bagged predictor:</p>
+
+<p>\[\phi_A(x,P) = E_{D}[\phi(x,D)]\]</p>
+
+<p>where \(P\) is the probability distribution over \(D\). Then:</p>
+
+<p>\[e = E_D E_{Y,X}(Y-\phi(X,D))^2\]</p>
+
+<p>aggregated error is:</p>
+
+<p>\[e_A = E_{Y,X}(Y-\phi_A(X,D))^2\]</p>
+
+<p>Using the inequality \((EZ)^2 \leq EZ^2\)</p>
+
+<p>\[e = EY^2 - 2EY\phi_A + E_{Y,X}E_D \phi^2(X,D\]
+\[ \geq E(Y-\phi_A)^2 = e_A\]</p>
+
+<p><a href="http://statistics.berkeley.edu/sites/default/files/tech-reports/421.pdf">http://statistics.berkeley.edu/sites/default/files/tech-reports/421.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Pro tip'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Paper of the day'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Today&#39;s slide credits'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Recall the goal'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Splines in terms of spaces and sub-spaces'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Can be even more flexible'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Natural splines'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Natural smoothing splines'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Computational aspects'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Computational aspects continued'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Is this a linear smoother?'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Strontium data'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='<code>ns()</code> for strontium data'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='<code>ns()</code> and regression'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Linear smoothers and variance'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Variance reduction'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Degrees of freedom'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Quick example'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='DOF and smoothing'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Residual degrees of freedom'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Eigen analysis'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Example linear regression'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Eigen analysis of cubic spline'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Eigenvalues nd eigenvectors'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Non-symmetric S'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Economical bases'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Another approach: restrict class'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Useful transformations'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='Why this is helpful sometimes'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='An example'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='Periodogram'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='Bagging proof'>
+         32
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../librariesNew/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="../../librariesNew/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
