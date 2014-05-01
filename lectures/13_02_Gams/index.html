@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GAMs</title>
+  <meta charset="utf-8">
+  <meta name="description" content="GAMs">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../librariesNew/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../librariesNew/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="../../librariesNew/frameworks/io2012/js/slides" 
+    src="../../librariesNew/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="../../assets/img/bloomberg_shield.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>GAMs</h1>
+    <h2></h2>
+    <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Two things that have really helped me become a better writer:</p>
+
+<ol>
+<li> Write a little bit every day</li>
+<li> Read people who are good writers</li>
+</ol>
+
+<p><a href="http://web.ics.purdue.edu/%7Edrkelly/DFWKenyonAddress2005.pdf">This is water</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper of the day</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><a href="http://web.mit.edu/6.435/www/Dempster77.pdf">Maximum likelihood from incomplete data via the EM algorithm</a></p>
+
+<p><a href="http://scholar.google.com/citations?user=5q4fhUoAAAAJ">Don Rubin</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Today&#39;s slide credits</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/rafa.png height=500></p>
+
+<p><a href="http://www.biostat.jhsph.edu/%7Eririzarr/Teaching/754/">http://www.biostat.jhsph.edu/~ririzarr/Teaching/754/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Recall the goal</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[Y_i = f(x_i) + \varepsilon_i\]</p>
+
+<ul>
+<li>\(f(x)\) is an unknown function and \(\varepsilon_i\) is an error term,
+representing random errors in the observations or variability from
+sources not included in the \(x_i\).</li>
+<li>We assume the errors \(\varepsilon_i\) are IID with mean 0 and finite
+variance \(Var(\varepsilon_i) = \sigma^2\). </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Additive models</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Assume that the response is linear in the
+predictors effects and that there is an additive error.</li>
+<li>This allows us to study the effect of each predictor separately. 
+\[f(X_1,\dots,X_p) = \sum_{j=1}^p f_j(X_j).\]</li>
+<li>This is a simplification of projection pursuit:
+\[f(X_1,\dots,X_p) = \sum_{j=1}^p f_j(\alpha X).\]
+with \(\alpha X = X_j\). </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Conditional expectation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Our model assumes: </p>
+
+<p>\[ E(Y | X_1=x_1, X_2) = f_1(x_1) + f_2(X_2) \]</p>
+
+<p>and</p>
+
+<p>\[E(Y | X_1=x_1', X_2) = f_1(x_1') + f_2(X_2).\]</p>
+
+<ul>
+<li>It is not easy to disregard the possibility that this dependence changes.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>But sometimes this works ok</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Example: modeling c-peptide as function of age and base deficit. </p>
+
+<p><img class="center" src="../../assets/img/addcompare.png" height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Marginal surfaces</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>An advantage of additive model is that no matter the dimension of the covariates we know what the surface \(f(X_1,\dots,X_p)\) is like by drawing each \(f_j(X_j)\) separately.</p>
+
+<p><img class="center" src="../../assets/img/margsurf.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Fitting additive models: backfitting</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>If the model is correct then:</p>
+
+<p>\[E\left(\left. Y - \alpha - \sum_{j\neq k} f_j(X_j) \, \right| \,X_k \right) = f_k(X_k) \]</p>
+
+<ul>
+<li>This suggests an iterative algorithm for computing all the \(f_j\).</li>
+<li>Suppose we have estimates \(\hat{f}_1,\dots,\hat{f}_{p-1}\)</li>
+<li>Then </li>
+</ul>
+
+<p>\[\left(\left.Y - \hat{\alpha} - \sum_{j=1}^{p-1} \hat{f}_j(X_j) \,\right| \, X_p \right)  \approx f_p(X_p).\]</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>More backfitting</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The partial residuals are<br>
+\[\hat{\epsilon} = Y -\hat{\alpha} - \sum_{j=1}^{p-1} \hat{f}_j(X_j)\]
+and
+\[\hat{\epsilon}_i \approx f_p(X_{ip}) + \delta_i\]</p>
+
+<p>where \(\delta_i\) is approximately IID with mean 0. </p>
+
+<p><em>This is back to our original smoothing framework so these can be fit by smoothing.</em></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>The complete algorithm</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>Define \(f_j = \{f_j(x_{1j}),\dots,f_j(x_{nj})\}'\) for all \(j\).</li>
+<li>Initialize: \(\alpha^{(0)} = \mbox{ave}(y_i)\), $\f_j<sup>{(0)}</sup> = $ linear estimate. </li>
+<li>Cycle over \(j=1,\dots,p\)
+\[f_j^{(1)} = S_j\left(\left. y - \alpha^{(0)} - \sum_{k\neq j} \mathbf{f}^{(0)}_k\, \right| x_j \right)\]</li>
+<li>Continue previous step until functions &quot;don&#39;t change&quot;, for example until 
+\[\max_{j} \left|\left| f_j^{(n)} - f_j^{(n-1)} \right|\right| < \delta\]
+with \(\delta\) is the smallest number recognized by your computer.</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Justifying backfitting</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The backfitting algorithm seems to make sense. We can say that we have
+given an intuitive justification.</li>
+<li>Statisticians don&#39;t like that as a justification. </li>
+<li>In <a href="http://statweb.stanford.edu/%7Etibs/ElemStatLearn/">ESL</a>,they justify it in three ways: (1) projections in \(L^2\) function spaces, (2) minimizing certain criterion with solutions from reproducing-kernel Hilbert spaces, and (3) as
+the solution to penalized least squares.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Backfitting as penalized least squares</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Consider the criterion: 
+\[\sum_{i=1}^n \left\{ y_i - \sum_{j=1}^p f_j(x_{ij}) \right\}^2 + \sum_{j=1}^p \lambda_j \int \{f_j''(t)\}^2 \, dt\]
+over all &quot;p-tuples&quot; of functions \(f_1,\ldots,f_p\) that are 2x differentiable. </p>
+
+<p>We can again show the solution is a set of \(p\) natural cubic splines and rewrite the criteria (using the buildup we did for a single variable):</p>
+
+<p>\[\left(y - \sum_{j=1}^p f_j \right)'\left(y - \sum_{j=1}^p f_j \right) + \sum_{j=1}^p \lambda_j f_j K_j f_j\]</p>
+
+<p>where the $K_j$s are penalty matrices for each predictor defined
+analogously to the \(K\) in a single dimension. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Backfitting is the solution</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>If we differentiate the above equation with respect to the function
+\(f_j\) we obtain \(-2(y - \sum_k f_k) + 2 \lambda_j K_j f_j =0\). The \(\hat{f}_j\)&#39;s that solve the above equation must satisfy:
+\[\hat{f}_j = \left(I + \lambda_j K_j\right)^{-1}\left(y - \sum_{k\neq j} \hat{f}_k\right), j=1,\dots,p \]</p>
+
+<p>If we define the smoother operator \(S_j = \left(I + \lambda_j K_j\right)^{-1}\) we can write out this equation in matrix notation </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Matrix notation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/gammat.png height=300></p>
+
+<ul>
+<li>One way to solve this equation is to use the Gauss-Seidel algorithm
+which in turn is  equivalent to solving the back-fitting algorithm. See Buja, Hastie &amp; Tibshirani (1989) Ann. Stat. 17, 435--555 for details.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Standard errors</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Notice that our estimates  \(\hat{f}_j\) are no longer of the form \(S_j y\) since we have used a complicated backfitting algorithm. </li>
+<li>At convergence we can express \(\hat{f}_j\) as \(R_j y\) for some \(n \times n\) matrix \(R_j\).</li>
+<li>In practice this \(R_j\) is obtained from the last calculation of the \(\hat{f}_j\)&#39;s but finding a closed form is rarely possible. </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Generalized additive models</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Say \(Y\) has conditional distribution from an exponential family and the
+conditional mean of the response \(E(Y|X_1,\dots,X_p) = \mu(X_1,\dots,X_p)\) is related to an additive  model through some link functions</p>
+
+<p>\[g\{\mu_i\} = \eta_i = \alpha + \sum_{j=1}^p f_j(x_{ij})\]</p>
+
+<p>with \(\mu_i\) the conditional expectation of \(Y_i\) given \(x_{i1},\dots,x_{ip}\). </p>
+
+<p>So we can use IRWLS + backfitting.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h3>Motviating a fitting algorithm</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>As seen for GLM the estimation technique is again motivated by the
+approximation:</p>
+
+<p>\[g(y_i) \approx g(\mu_i) + (y_i - \mu_i) \frac{\partial \eta_i}{\partial \mu_i}\]
+This motivates a weighted regression setting of the form</p>
+
+<p>\[z_i = \alpha + \sum_{j=1}^p f_j(x_{ij}) + \varepsilon_i, \, i=1,\dots,n\]</p>
+
+<p>with the $\varepsilon$s, the working residuals,  independent with \(E(\varepsilon_i) =0\) and </p>
+
+<p>\[var(\varepsilon_i) = w_i^{-1} = \left( \frac{\partial \eta_i}{\partial
+    \mu_i} \right)^2 V_i \]
+where \(V_i\) is the variance of \(Y_i\).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Algorithm</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The procedure for estimating the function $f<em>j$s is called the _local scoring procedure</em>: </p>
+
+<ul>
+<li><p>Initialize: Find initial values for our estimate:</p>
+
+<p>\[\alpha^{(0)}=g\left(\sum_{i=1}^n y_i/n\right); f^{(0)}_1 =
+\dots,f^{(0)}_p = 0 \]</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Algorithm 2</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Update: 
+
+<ol>
+<li>Construct an adjusted dependent variable
+\[z_i = \eta_i^{(0)} + (y_i - \mu_i^{(0)}) \left( \frac{\partial \eta_i}{\partial \mu_i} \right)_0\]
+with \(\eta_i^{(0)} = \alpha^{(0)} + \sum_{j=1}^p f^{(0)}_j(x_{ij})\) and \(\mu_i^{(0)} = g^{-1}(\eta_i^{(0)})\)</li>
+<li>Construct weights:
+\[w_i =  \left( \frac{\partial \mu_i}{\partial \eta_i} \right)^2_0
+(V_i^{(0)})^{-1}\]</li>
+<li>Fit a weighted additive model to \(z_i\), to obtain estimated functions \(f_j^{(1)}\), additive predictor \(\eta^{(1)}\) and fitted values \(\mu^{(1)}_i\).</li>
+</ol></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Algorithm convergence</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Compute the convergence criteria
+\[\Delta(\eta^{(1)},\eta^{(0)}) = \frac{\sum_{j=1}^p || f_j^{(1)} -
+f_j^{(0)} ||} {\sum_{j=1}^p ||f^{(0)}_j||}\]</li>
+<li>A natural candidate for \(||f||\) is \(||\mathbf{f}||\), the length of the vector of evaluations of \(f\) at the \(n\) sample points.</li>
+<li>Repeat previous step replacing \(\eta^{(0)}\) by \(\eta^{(1)}\) until
+\(\Delta(\eta^{(1)},\eta^{(0)})\) is below some small threshold.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Inference with deviance</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The deviance or likelihood-ratio statistic, for a fitted model \(\hat{\bg{\mu}}\) is defined by </p>
+
+<p>\[ D(y;\hat{g{\mu}}) = 2\{l(g{\mu}_{max}; y) - l(\hat{g{\mu}})\}\]
+where \(g{\mu}_{max}\) is the parameter value that maximizes \(l(\hat{g{\mu}})\) over all \(g{\mu}\) (the saturated model). </p>
+
+<ul>
+<li>We sometimes unambiguously use \(\hat{g{\eta}}\) as the argument of the deviance rather than \(\hat{g{\mu}}\). </li>
+<li>For GLM if we have two linear models defined by \(\eta_1\) nested within \(\eta_2\), then under appropriate regularity conditions, and assuming \(\eta_1\) is correct, \(D(\hat{\eta}_2;\hat{\eta}_1) =D(y;\hat{\eta}_1) - D(y;\hat{\eta}_2)\) has asymptotic \(\chi^2\) istribution with degrees of freedom equal to the difference in
+degrees of freedom of the two models. </li>
+<li>There is a heuristic version of this for GAMs (not a big fan)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>An example</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Thel data frame has 81 rows representing  data on 81  children  who have had corrective spinal surgery.  The binary outcome Kyphosis indicates the presence or absence of a postoperative
+deformity (called Kyphosis). 
+
+<ul>
+<li>The other threevariables are <em>Age</em> in months, <em>Number</em> of vertebra involved in the
+operation, and  the beginning of the range of vertebrae involved <em>Start</em>. </li>
+</ul></li>
+</ul>
+
+<pre><code class="r">library(rpart); data(kyphosis); kyphosis$present = (kyphosis$Kyphosis == &quot;present&quot;)
+head(kyphosis)
+</code></pre>
+
+<pre><code>  Kyphosis Age Number Start present
+1   absent  71      3     5   FALSE
+2   absent 158      3    14   FALSE
+3  present 128      4     5    TRUE
+4   absent   2      5     1   FALSE
+5   absent   1      4    15   FALSE
+6   absent   1      2    16   FALSE
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>An example</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">glm1 = glm(present ~ Age + Number + Start, data = kyphosis,family=&quot;binomial&quot;)
+summary(glm1)
+</code></pre>
+
+<pre><code>
+Call:
+glm(formula = present ~ Age + Number + Start, family = &quot;binomial&quot;, 
+    data = kyphosis)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-2.312  -0.548  -0.363  -0.166   2.161  
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept) -2.03693    1.44957   -1.41   0.1600   
+Age          0.01093    0.00645    1.70   0.0900 . 
+Number       0.41060    0.22486    1.83   0.0678 . 
+Start       -0.20651    0.06770   -3.05   0.0023 **
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 83.234  on 80  degrees of freedom
+Residual deviance: 61.380  on 77  degrees of freedom
+AIC: 69.38
+
+Number of Fisher Scoring iterations: 5
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Residuals don&#39;t look great</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/gamres.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Fit it with GAM</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(mgcv)
+gam1 = gam(present~s(Age)  + s(Number,k=3) +  s(Start), data = kyphosis,family=&quot;binomial&quot;)
+summary(gam1)
+</code></pre>
+
+<pre><code>
+Family: binomial 
+Link function: logit 
+
+Formula:
+present ~ s(Age) + s(Number, k = 3) + s(Start)
+&lt;environment: 0x7f95ef433380&gt;
+
+Parametric coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)    -2.30       0.51   -4.51  6.4e-06 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Approximate significance of smooth terms:
+           edf Ref.df Chi.sq p-value  
+s(Age)    2.21   2.79   6.43   0.079 .
+s(Number) 1.28   1.48   2.91   0.144  
+s(Start)  2.04   2.55   9.86   0.014 *
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+R-sq.(adj) =  0.362   Deviance explained = 40.3%
+UBRE score = -0.22543  Scale est. = 1         n = 81
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Example resids (from slightly different model)</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/gamresid.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Pro tip'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Paper of the day'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Today&#39;s slide credits'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Recall the goal'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Additive models'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Conditional expectation'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='But sometimes this works ok'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Marginal surfaces'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Fitting additive models: backfitting'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='More backfitting'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='The complete algorithm'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Justifying backfitting'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Backfitting as penalized least squares'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Backfitting is the solution'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Matrix notation'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Standard errors'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Generalized additive models'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Motviating a fitting algorithm'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Algorithm'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Algorithm 2'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Algorithm convergence'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Inference with deviance'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='An example'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='An example'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Residuals don&#39;t look great'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Fit it with GAM'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Example resids (from slightly different model)'>
+         27
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../librariesNew/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="../../librariesNew/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

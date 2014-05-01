@@ -105,3 +105,9 @@ April 24:
 April 29:
 
 * Smoothing II [Lecture](http://jtleek.github.io/jhsph753and4/lectures/13_01_smoothingII/#1)
+
+May 1: 
+
+* GAMs [Lecture](http://jtleek.github.io/jhsph753and4/lectures/13_02_Gams/#1)
+* EM [Lecture](https://docs.google.com/presentation/d/1mG3TtancqNFy0Pt7o2LkLBoB9X7auQjrZKn-sZ2KixU/edit)
+* EM [Old lecture](http://www.stat.washington.edu/thompson/S581_04/Notes/chapter_7.pdf)
