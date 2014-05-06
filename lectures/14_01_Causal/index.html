@@ -48,7 +48,16 @@
     <h2>Pro tip</h2>
   </hgroup>
   <article data-timings="">
-    
+    <p>Learn to say no politely. The primary source of motivation in academics (and in many other places) is guilt. To prevent total insanity you need to:</p>
+
+<ul>
+<li>Say no to most things and focus</li>
+<li>Do it in a way that doesn&#39;t offend people</li>
+<li>Do it in a way that doesn&#39;t make you feel guilty</li>
+</ul>
+
+<p>This is an art and requires years to master. <a href="http://www.bcaffo.com/">Some never do</a>. </p>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -58,7 +67,8 @@
     <h2>Paper of the day</h2>
   </hgroup>
   <article data-timings="">
-    
+    <p><a href="http://ftp.cs.ucla.edu/pub/stat_ser/r350.pdf">Causal inference in statistics, an overview</a></p>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -79,8 +89,8 @@
 <li>Elizabeth Stuart
 
 <ul>
-<li></li>
-<li></li>
+<li><a href="https://github.com/jtleek/jhsph753and4/blob/master/lectures/stuartcausal1.pdf">https://github.com/jtleek/jhsph753and4/blob/master/lectures/stuartcausal1.pdf</a></li>
+<li><a href="https://github.com/jtleek/jhsph753and4/blob/master/lectures/stuartcausal2.pdf">https://github.com/jtleek/jhsph753and4/blob/master/lectures/stuartcausal2.pdf</a></li>
 </ul></li>
 <li>Judea Pearl
 
@@ -284,8 +294,23 @@
     <p><img class=center src=../../assets/img/shoesize.png height=150></p>
 
 <ul>
-<li>Intuitively - an arrow \(S \rightarrow L\) means X &quot;influences&quot; Y</li>
-<li>Bayes Networks/Graphical models - represent conditional probabilities e.g. \(Pr(S,L| A) = Pr(S| A)Pr(L|A)\)</li>
+<li>Intuitively
+
+<ul>
+<li>an arrow \(S \rightarrow L\) means S &quot;influences&quot; L </li>
+</ul></li>
+<li>Bayes Networks/Graphical models (requires DAG)
+
+<ul>
+<li>Conditional probabilities e.g. \(Pr(S,L,A) = Pr(A)Pr(S|A)Pr(L|A)\)</li>
+</ul></li>
+<li>Causal networks (requires DAG)
+
+<ul>
+<li>Variables connected on an unblocked path <a href="http://www.andrew.cmu.edu/user/scheines/tutor/d-sep.html">d-separated</a></li>
+<li>Basically as long as two arrows don&#39;t run into each other on the path <a href="http://en.wikipedia.org/wiki/Collider_(epidemiology">collider</a>)</li>
+<li>For all distributions represented by the graph  if sets of vertices X and Y are d-separated by a set Z in the DAG G, then X and Y are independent conditional on Z in P (this is complicated!)</li>
+</ul></li>
 </ul>
 
   </article>
@@ -294,10 +319,539 @@
 
 <slide class="" id="slide-16" style="background:;">
   <hgroup>
-    <h2>Representing causal relatinships</h2>
+    <h2>Remember: these variables are causally related</h2>
   </hgroup>
   <article data-timings="">
-    <p>\(\mathrm P(G,S,R)=\mathrm P(G|S,R)\mathrm P(S|R)\mathrm P(R)\)</p>
+    <pre><code class="r">x = rnorm(100); y = rnorm(100,mean=0.1*x)
+plot(x,y,pch=19)
+</code></pre>
+
+<div class="rimage center"><img src="fig/unnamed-chunk-1.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" class="plot" /></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Causal inference the Rubin way</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Key concepts:</p>
+
+<ul>
+<li>Treatments
+
+<ul>
+<li>The intervention we could apply or withhold</li>
+<li>Think heavy drug use versus light drug use</li>
+<li>Difficult with things you can&#39;t assign </li>
+</ul></li>
+<li>Units
+
+<ul>
+<li>Who you apply the treatment to</li>
+<li>Could be genes, people, schools, etc.</li>
+</ul></li>
+<li>Potential outcomes
+
+<ul>
+<li>What would have happend in both treatment scenarios</li>
+<li>Typically denoted \(Y(0), Y(1)\)</li>
+</ul></li>
+</ul>
+
+<p>Slides on this framework via: </p>
+
+<p><a href="https://github.com/jtleek/jhsph753and4/blob/master/lectures/stuartcausal2.pdf">https://github.com/jtleek/jhsph753and4/blob/master/lectures/stuartcausal2.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>What we&#39;d like</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Eﬀect of heavy adolescent drug use (T) on earnings at age 40:</p>
+
+<p><img class=center src="../../assets/img/completedata.png" height=400 /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>What we get</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Causal inference as missing data problem:</p>
+
+<p><img class=center src="../../assets/img/obsdata.png" height=400 /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>We estiamte average effects</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Can’t estimate individual-level causal eﬀects</li>
+<li><em>ATE</em>: average treatement effect
+
+<ul>
+<li>\(ATE = \frac{1}{N} \sum_{i=1}^N Y_i(1) - Y_i(0)\)</li>
+<li>eﬀect of drug use on everyone, if forced everyone to use drugs</li>
+</ul></li>
+<li><em>ATT</em>: average treatement effect among treated
+
+<ul>
+<li>\(ATT = \frac{1}{N} \sum_{i=1}^N (Y_i(1) - Y_i(0) | T_i = 1)\)</li>
+<li>eﬀect of drug use on people who actually use drugs</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Randomized experiments as ideal</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>In a randomized experiment, units randomly assigned to treatment or
+control groups</li>
+<li>Mathematically, this means that average of control group outcomes
+an unbiased estimate of average outcome under control for whole
+population (and same for the treatment group)
+
+<ul>
+<li>\(E(\bar{y}_{T_i = 0}) = \bar{Y(0)}\), \(E(\bar{y}_{T_i = 1}) = \bar{Y(1)}\)</li>
+<li>So \(E(\bar{y}_{T_i = 0} - \bar{y}_{T_i = 1}) = \bar{Y(0)} - \bar{Y(1)}\)</li>
+</ul></li>
+<li>Intuition is randomization ensures &quot;balance&quot; of covariates</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Randomization is best but may cause problems</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>People don&#39;t do what they&#39;re told
+
+<ul>
+<li>Noncompliance</li>
+</ul></li>
+<li>Randomization isn&#39;t always feasible
+
+<ul>
+<li>Random mating in human populations</li>
+</ul></li>
+<li>Might have to wait a long time to see outcome</li>
+<li>Randomization may not estimate effects for the group we care about</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Ways of performing causal inference outside of experiments</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Stratification/regression</p>
+
+<ul>
+<li>Put people in groups with same covariates</li>
+<li>But some covariates may be missing</li>
+<li>Limitations of sample size if many covariates aren&#39;t there</li>
+</ul></li>
+<li><p>Instrumental variables</p>
+
+<ul>
+<li>Find an instrument that aﬀects the treatment of real interest, but does
+not directly aﬀect the outcomes</li>
+<li>Vietnam draft lottery as instrument for military service</li>
+<li>physician prescribing preferences as instrument for taking drug A vs. drug B</li>
+<li>Need a good instrument</li>
+<li>Implies a set of other assumptions (monotonicity, exclusion restrictions, etc.)</li>
+</ul></li>
+</ul>
+
+<hr>
+
+<h2>Propensity scores</h2>
+
+<ul>
+<li>Propensity scores
+
+<ul>
+<li>Try to replicate features of randomized experiments (create groups that look only randomly different, don&#39;t use the outcome when setting up the design)</li>
+<li>Basically trying to &quot;balance&quot; the data set</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Ideal matching scenario -exact match</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>For each treated find a control with <em>exact same covariates</em></li>
+<li>Easy with 1 covariate but harder with more</li>
+<li>Software for doing this:
+
+<ul>
+<li><a href="http://gking.harvard.edu/cem">http://gking.harvard.edu/cem</a></li>
+<li><a href="http://cran.r-project.org/web/packages/MatchIt/index.html">http://cran.r-project.org/web/packages/MatchIt/index.html</a></li>
+</ul></li>
+<li>Want similar covariate distributions in treatment/control after matching</li>
+<li>One diagnostic is &quot;standardization bias&quot;
+
+<ul>
+<li>Difference in means, divided by standard deviation</li>
+<li>Like an effect size for covariates</li>
+<li>Should hopefully be small</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Example diagnostic plot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/sbias.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Propensity scores</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[e_i = P(T_i = 1 | X_i)\]</p>
+
+<ul>
+<li>Key features
+
+<ul>
+<li>Balancing score - at each value the distribution is the same in the treated/control groups.<br></li>
+<li>Intuitvely people with similar probabilities should be assigned similar treatments other than randomness. </li>
+<li>If treatment is independent of potential outcomes given covariates, also independent of ptoential outcomes given propensity score (no unmeasured confounders)</li>
+</ul></li>
+<li>Can be used to match, instead of on covariates individually</li>
+<li>Central goal is to achieve balance</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Unconfoundedness assumption</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Assumes that there are no unobserved diﬀerences between the
+treatment and control groups, given the observed variables
+
+<ul>
+<li>Other ways of saying essentially the same thing: No unobservedconfounders, no hidden bias, “ignorable”</li>
+<li>Could be a problem if, e.g., people start smoking marijuana because they are getting bad grades and we don’t have grades measured</li>
+<li>Can help make unconfoundedness assumption more realistic if think about it during data collection</li>
+<li>Can also do sensitivity analyses to assess how sensitive results are toviolation of this assumption </li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>If assumption holds we get the nice property</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[P(T | X, Y(0), Y(1)) = P(T | X) \implies P(T |X, Y(0),Y(1)) = P(T|e(X))\]</p>
+
+<ul>
+<li>This is what allows us to match just on propensity score; don’t need
+to deal with all the covariates individually</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Types of matching</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>k-nearest neighbors 
+
+<ul>
+<li>For each treated unit select k similar controls</li>
+</ul></li>
+<li>Stratification/binning
+
+<ul>
+<li>Group individuals with similar propensity scores</li>
+</ul></li>
+<li>Weighting adjustments
+
+<ul>
+<li>Inverse probability of exposure weights (IPTW)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Double robustness</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>You can combine propensity score with regression adjustment
+
+<ul>
+<li>regression adjustment in 1:1 matched samples</li>
+<li>weighted regression adjustment</li>
+</ul></li>
+<li>The two methods work together and if you get one or the other right you are &quot;ok&quot;</li>
+<li>This is an active area of research</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Instrumental vairables: another approach</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Sometimes we can&#39;t randomize the thing we want
+
+<ul>
+<li>Gene expression levels</li>
+<li>Taking a drug</li>
+</ul></li>
+<li>But we can randomize something related
+
+<ul>
+<li>Genetic background</li>
+<li>Treatment assignment</li>
+</ul></li>
+<li>The thing we can randomize is &quot;variable&quot;</li>
+<li>Randomization is the &quot;instrument&quot;</li>
+<li>Good instruments 
+
+<ul>
+<li>Easy to randomize</li>
+<li>Closely related to the variable you care about</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Instrumental variables: yeast example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/yeast1.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Randomize with meiosis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/yeast2.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Is it random?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/yeast3.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>How do we use this?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/yeast4.png height=300></p>
+
+<ul>
+<li>Try to infer connections between genes (or genes and phenotype)</li>
+<li>Commonly called &quot;Mendelian randomization&quot;</li>
+<li>Hard to do in humans because instrument (randomization) isn&#39;t great: population structure for example</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Another example: Sommer and Zeger</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Study estimating the eﬀect of Vitamin A on child mortality</li>
+<li>Carried out in Indonesia</li>
+<li>Villages randomized to receive vitamin A supplements or not</li>
+<li>Not all children in Vitamin A villages actually got Vitamin A</li>
+<li>No children in control villages got Vitamin A (not available)</li>
+<li>For simplicity, will ignore village clustering and treat as if children
+randomly assigned (village indicators not available anyway)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Compliance and non-compliance</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Can think of there being two types of people:
+
+<ul>
+<li>Compliers: take the treatment if assigned to, don’t take it if not
+assigned to</li>
+<li>Non-compliers: don’t take the treatment either way</li>
+</ul></li>
+<li>Observe compliance status in treatment group</li>
+<li>Don’t observe compliance status in control group</li>
+<li>We don’t know what the controls would have done if they had been in
+the treatment group</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>The data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/zegersommerdata.png height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>How to deal with noncompliance</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Intent to treat (ITT) - ignore compliance
+
+<ul>
+<li>Gives unbiased estimates of causal effect of being assigned to group</li>
+<li>Not what we care about</li>
+</ul></li>
+<li>As treated - compare people who get treatment who get control
+
+<ul>
+<li>Ignores randomization</li>
+<li>Not a valid estimate of causal effect</li>
+</ul></li>
+<li>Per protocol analysis
+
+<ul>
+<li>Compares people who appeared to comply with their assigned treatment</li>
+<li>Not a valid estimate of a causal effect</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>How do we do this with instrumental variables</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Define the average effect among compliers (CACE) and noncompliers (NACE)</li>
+<li>Then we have that \[ACE = p_c \times CACE + (1-p_c) \times NACE\]</li>
+<li>Here we change what we are interested in to be &quot;complier average causal effect&quot;</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>We can estimate the CACE</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>ITT provides unbiased estimate of the total causal effect</li>
+<li>We can estimate the proportions of compliers (missing data problem again!)
+
+<ul>
+<li>\(p_c\) is proportion who took treatment (in Zeger/Sommer data 0.8)</li>
+</ul></li>
+<li>Now we have an estimation problem with two unknowns \[ACE = p_c \times CACE + (1-p_c) \times NACE\] \[-0.0025 = 0.8 \times CACE + 0.2 \times NACE\]</li>
+<li>Now assume that being assigned to treatment doesn&#39;t effect outcome if you don&#39;t take it (NACE =0)</li>
+<li>You can now solve \(CACE = -0.0025/0.8 = -0.0031\)</li>
+<li>This is the IV estimate for CACE</li>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
@@ -399,8 +953,158 @@
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=16 title='Representing causal relatinships'>
+        data-slide=16 title='Remember: these variables are causally related'>
          16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Causal inference the Rubin way'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='What we&#39;d like'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='What we get'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='We estiamte average effects'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Randomized experiments as ideal'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Randomization is best but may cause problems'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Ways of performing causal inference outside of experiments'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Ideal matching scenario -exact match'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Example diagnostic plot'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Propensity scores'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Unconfoundedness assumption'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='If assumption holds we get the nice property'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='Types of matching'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='Double robustness'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='Instrumental vairables: another approach'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='Instrumental variables: yeast example'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='Randomize with meiosis'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='Is it random?'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='How do we use this?'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='Another example: Sommer and Zeger'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='Compliance and non-compliance'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='The data'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='How to deal with noncompliance'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='How do we do this with instrumental variables'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='We can estimate the CACE'>
+         41
       </a>
     </li>
   </ul>
