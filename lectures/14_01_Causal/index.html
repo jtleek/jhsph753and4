@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Causal inference</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Causal inference">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../librariesNew/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../librariesNew/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="../../librariesNew/frameworks/io2012/js/slides" 
+    src="../../librariesNew/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="../../assets/img/bloomberg_shield.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Causal inference</h1>
+    <h2></h2>
+    <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper of the day</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Today&#39;s slide credits</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Some usesful resources</p>
+
+<ul>
+<li>Cosma Shalizi
+
+<ul>
+<li><a href="http://www.stat.cmu.edu/%7Ecshalizi/ADAfaEPoV/ADAfaEPoV.pdf">http://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf</a></li>
+</ul></li>
+<li>Elizabeth Stuart
+
+<ul>
+<li></li>
+<li></li>
+</ul></li>
+<li>Judea Pearl
+
+<ul>
+<li><a href="http://ftp.cs.ucla.edu/pub/stat_ser/r350.pdf">http://ftp.cs.ucla.edu/pub/stat_ser/r350.pdf</a></li>
+</ul></li>
+<li>Eric Xing
+
+<ul>
+<li><a href="http://www.cs.cmu.edu/%7Eepxing/Class/10708-05/Slides/causality.pdf">http://www.cs.cmu.edu/~epxing/Class/10708-05/Slides/causality.pdf</a></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Recall levels of analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>In approximate order of difficulty</strong></p>
+
+<ul>
+<li>Descriptive</li>
+<li>Exploratory</li>
+<li>Inferential</li>
+<li>Predictive</li>
+<li></rt>Causal</rt></li>
+<li></rt>Mechanistic</rt></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>About causal analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Goal</strong>: To find out what happens to one variable when you make another variable change. </p>
+
+<ul>
+<li>Usually randomized studies are required to identify causation</li>
+<li>There are approaches to inferring causation in non-randomized studies, but they are complicated and sensitive to assumptions</li>
+<li>Causal relationships are usually identified as average effects, but may not apply to every individual</li>
+<li>Causal models are usually the &quot;gold standard&quot; for data analysis</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Causal analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src="../../assets/img/01_DataScientistToolbox/feces.png" height=400 /></p>
+
+<p><a href="http://www.nejm.org/doi/full/10.1056/NEJMoa1205037?query=featured_home">van Nood et al. (2013) NEJM</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>About mechanistic analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Goal</strong>: Understand the exact changes in variables that lead to changes in other variables for individual objects.</p>
+
+<ul>
+<li>Incredibly hard to infer, except in simple situations</li>
+<li>Usually modeled by a deterministic set of equations (physical/engineering science)</li>
+<li>Generally the random component of the data is measurement error</li>
+<li>If the equations are known but the parameters are not, they may be inferred with data analysis</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Mechanistic analysis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src="../../assets/img/01_DataScientistToolbox/mechanistic.png" height=400 /></p>
+
+<p><a href="http://www.fhwa.dot.gov/resourcecenter/teams/pavement/pave_3pdg.pdf">http://www.fhwa.dot.gov/resourcecenter/teams/pavement/pave_3pdg.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Illustrating the main problem: shoe size and literacy</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/dexandjeff.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Most well known, but least understood idea</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/corcause.png height=300></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>An outsider&#39;s perspective on causal inference</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>With randomized trials -&gt; straightforwardish (we&#39;ll see why in a minute)</li>
+<li>With observational data -&gt; much, much harder
+
+<ul>
+<li>Main problem is confounding</li>
+<li>The key idea are the assumptions</li>
+</ul></li>
+<li>It is all about missing data
+
+<ul>
+<li>Missing confounders</li>
+<li>Missing counterfactual observations</li>
+</ul></li>
+<li>Causal inference is not easily described in standard statistical/probabilistic notation. </li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>This is one of <em>the hottest topics</em></h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/causegene.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>This is one of <em>the hottest topics</em></h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/planout.png height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Representing causal relatinships</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Rubin model:
+
+<ul>
+<li>\(Y(0), Y(1)\) or \(Y_x(u)\)</li>
+<li>Outcome Y, had the individual, u, received treatment 0,1 or X.</li>
+</ul></li>
+<li>Pearl model:
+
+<ul>
+<li>\(Pr(Y = y | do(X=x))\)</li>
+<li>Distribution when setting X=x</li>
+</ul></li>
+<li>Graphical models
+<img class=center src=../../assets/img/shoesize.png height=150></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>What do those arrows mean?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/shoesize.png height=150></p>
+
+<ul>
+<li>Intuitively - an arrow \(S \rightarrow L\) means X &quot;influences&quot; Y</li>
+<li>Bayes Networks/Graphical models - represent conditional probabilities e.g. \(Pr(S,L| A) = Pr(S| A)Pr(L|A)\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Representing causal relatinships</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\(\mathrm P(G,S,R)=\mathrm P(G|S,R)\mathrm P(S|R)\mathrm P(R)\)</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Pro tip'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Paper of the day'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Today&#39;s slide credits'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Recall levels of analysis'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='About causal analysis'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Causal analysis'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='About mechanistic analysis'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Mechanistic analysis'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Illustrating the main problem: shoe size and literacy'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Most well known, but least understood idea'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='An outsider&#39;s perspective on causal inference'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='This is one of <em>the hottest topics</em>'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='This is one of <em>the hottest topics</em>'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Representing causal relatinships'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='What do those arrows mean?'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Representing causal relatinships'>
+         16
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../librariesNew/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="../../librariesNew/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
