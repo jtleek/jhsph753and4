@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Graphical causal inference</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Graphical causal inference">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../librariesNew/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../librariesNew/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="../../librariesNew/frameworks/io2012/js/slides" 
+    src="../../librariesNew/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="../../assets/img/bloomberg_shield.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Graphical causal inference</h1>
+    <h2></h2>
+    <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>In academia your goal is to &quot;get famous&quot;. Not Bieber famous. Famous in the way that lots of people
+know about and respect your ideas/creativity/independence. A frustrating, but important aspect of this
+is that if you have a good idea you need to write about it a lot to make sure people remember it was
+you that came up with it. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper of the day</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><a href="http://www.genomine.org/papers/Chen_etal_GB_2007.pdf">Harnessing naturally randomized transcription to infer regulatory 
+relationships among genes</a></p>
+
+<p><a href="ftp://ftp.stat.math.ethz.ch/Research-Reports/Other-Manuscripts/buhlmann/AOS685.pdf">Estimating high-dimensional intervention effects from observational data.</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Today&#39;s slide credits</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Some usesful resources</p>
+
+<ul>
+<li>Cosma Shalizi
+
+<ul>
+<li><a href="http://www.stat.cmu.edu/%7Ecshalizi/ADAfaEPoV/ADAfaEPoV.pdf">http://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf</a></li>
+</ul></li>
+<li>Elizabeth Stuart
+
+<ul>
+<li><a href="https://github.com/jtleek/jhsph753and4/blob/master/lectures/stuartcausal1.pdf">https://github.com/jtleek/jhsph753and4/blob/master/lectures/stuartcausal1.pdf</a></li>
+<li><a href="https://github.com/jtleek/jhsph753and4/blob/master/lectures/stuartcausal2.pdf">https://github.com/jtleek/jhsph753and4/blob/master/lectures/stuartcausal2.pdf</a></li>
+</ul></li>
+<li>Judea Pearl
+
+<ul>
+<li><a href="http://ftp.cs.ucla.edu/pub/stat_ser/r350.pdf">http://ftp.cs.ucla.edu/pub/stat_ser/r350.pdf</a></li>
+</ul></li>
+<li>Eric Xing
+
+<ul>
+<li><a href="http://www.cs.cmu.edu/%7Eepxing/Class/10708-05/Slides/causality.pdf">http://www.cs.cmu.edu/~epxing/Class/10708-05/Slides/causality.pdf</a></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Basic idea</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>When can we use experimental data to tell us about the effect of an intervention</li>
+<li>Basically when can we get \(Pr(Y | set(X) = x, Z=z)\) from \(Pr(Y | X=x,Z=z)\)</li>
+<li>Association is symmetric $ X \not\perp Y \Leftrightarrow Y \not\perp X$</li>
+<li>Causation is asymmetric \(X \rightarrow Y \not\Leftrightarrow Y \rightarrow X\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Direct causation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\(X\) is a direct cause to \(Y\) relative to \(S\) iff</p>
+
+<p>\[P(Y | set(X)=x1,set(Z=z)) \neq P(Y | set(X)=x2,set(Z=z))\]</p>
+
+<p><img class="center" src="../../assets/img/causaldirect.png" height=300></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Need to know all &quot;confounders&quot;</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/causecomplete.png" height=400></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Can do this with intervention</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>But be careful of &quot;fat hand&quot; interventions that don&#39;t directly act on the thing you care about</p>
+
+<p><img class="center" src="../../assets/img/intervention.png" height=300></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Structural equation models</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/sem.png" height=300></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Connecting probability to causal structure</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/connecting.png" height=200></p>
+
+<ol>
+<li>There is a directed acyclic graph</li>
+<li><strong>The Causal Markov condition:</strong> The joint distribution of the variables obeys
+the Markov property on G.
+
+<ul>
+<li>Immediate causes make things independent of remote causes</li>
+<li>Common causes make their effects independent</li>
+</ul></li>
+<li><strong>Faithfulness:</strong> The joint distribution has all of the conditional independence
+relations implied by the causal Markov property, and only those conditional
+independence relations</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Causal Markov property</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/cmarkov1.png" height=100></p>
+
+<p><img class="center" src="../../assets/img/cmarkov2.png" height=200></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>D-separation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>If two variables are independent (don&#39;t have a connected, non-coliding line) conditional on a third. </p>
+
+<ul>
+<li>In SEMs you get this from assuming error terms are independent if they don&#39;t have a path connectino</li>
+<li>In acyclic graphs: d-separation is equivalent to Causal Markov</li>
+<li>In Cyclic SEMs with uncorrelated errors
+
+<ul>
+<li>D-separation is still correct</li>
+<li>Markov condition is incorrect</li>
+</ul></li>
+<li>In Cyclic discrete variable graphs
+
+<ul>
+<li>If equilibrium then d-separation is correct</li>
+<li>Markov is incorrect</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Why we want d-separation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/dsep.png" height=400></p>
+
+<p><a href="http://mlg.eng.cam.ac.uk/zoubin/SALD/Intro-Causal.pdf">http://mlg.eng.cam.ac.uk/zoubin/SALD/Intro-Causal.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>How these algorithms work</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/algorithms.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Equivalence classes implied by independence assumptions</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/easycase.png" height=250></p>
+
+<p><img class="center" src="../../assets/img/hardercase.png" height=250></p>
+
+<p><a href="http://www.stat.cmu.edu/%7Ecshalizi/ADAfaEPoV/ADAfaEPoV.pdf">http://www.stat.cmu.edu/~cshalizi/ADAfaEPoV/ADAfaEPoV.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Partial ancestral graphs</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/pags.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Partial ancestral graphs</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/pag.png" height=300></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Create equivalence classes from data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/fromdatatoequiv.png" height=300></p>
+
+<p><a href="http://mlg.eng.cam.ac.uk/zoubin/SALD/Intro-Causal.pdf">http://mlg.eng.cam.ac.uk/zoubin/SALD/Intro-Causal.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>The &quot;eliminate graphs&quot; approach</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/chenstorey.png" height=200></p>
+
+<p><strong>Basic idea</strong>:</p>
+
+<ol>
+<li>Make equivalence class of possible graphs</li>
+<li>Eliminate some with Causal Markov property</li>
+<li>Eliminate some with faithfulness</li>
+<li>Eliminate others based on correlations</li>
+<li>Hopefully you are left with one :-)</li>
+</ol>
+
+<p><a href="http://www.genomine.org/papers/Chen_etal_GB_2007.pdf">http://www.genomine.org/papers/Chen_etal_GB_2007.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>The &quot;sensitivity&quot; approach</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/equivalenceclass.png" height=200></p>
+
+<p><img class="center" src="../../assets/img/docalculus.png" height=200></p>
+
+<ol>
+<li>Estimate equivalence class of possible graphs</li>
+<li>Use DAGs/Causal Markov to eliminate potential models</li>
+<li>Fit each &quot;structural equation model&quot;</li>
+<li>Use property of estimated model fits across models (max,min,etc.) to estimate graphical structure</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Interesting application</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/idaexample.png" height=400></p>
+
+<p><a href="http://www.nature.com/nmeth/journal/v7/n4/full/nmeth0410-247.html">http://www.nature.com/nmeth/journal/v7/n4/full/nmeth0410-247.html</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>R software</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><a href="http://cran.r-project.org/web/packages/pcalg/index.html">http://cran.r-project.org/web/packages/pcalg/index.html</a></li>
+<li><a href="http://www.bioconductor.org/packages/release/bioc/html/trigger.html">http://www.bioconductor.org/packages/release/bioc/html/trigger.html</a></li>
+</ul>
+
+<p>Many more I haven&#39;t listed</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Pro tip'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Paper of the day'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Today&#39;s slide credits'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Basic idea'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Direct causation'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Need to know all &quot;confounders&quot;'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Can do this with intervention'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Structural equation models'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Connecting probability to causal structure'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Causal Markov property'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='D-separation'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Why we want d-separation'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='How these algorithms work'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Equivalence classes implied by independence assumptions'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Partial ancestral graphs'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Partial ancestral graphs'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Create equivalence classes from data'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='The &quot;eliminate graphs&quot; approach'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='The &quot;sensitivity&quot; approach'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Interesting application'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='R software'>
+         21
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../librariesNew/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="../../librariesNew/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

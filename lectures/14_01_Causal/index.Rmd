@@ -463,8 +463,28 @@ the treatment group
 
 ---
 
+## Intent to treat
+
+<img class=center src=../../assets/img/itt.png height=450>
+
+---
+
+## As treated
+
+<img class=center src=../../assets/img/astreated.png height=450>
+
+---
+
+## Per compliance
+
+<img class=center src=../../assets/img/perprotocol.png height=450>
+
+---
+
 ## How do we do this with instrumental variables
 
+* What we really want: the biologic effect of taking Vitman A on Mortality
+* We can use instrumental variables to get at this
 * Define the average effect among compliers (CACE) and noncompliers (NACE)
 * Then we have that $$ACE = p_c \times CACE + (1-p_c) \times NACE$$
 * Here we change what we are interested in to be "complier average causal effect"
@@ -477,8 +497,65 @@ the treatment group
 * We can estimate the proportions of compliers (missing data problem again!)
   * $p_c$ is proportion who took treatment (in Zeger/Sommer data 0.8)
 * Now we have an estimation problem with two unknowns $$ACE = p_c \times CACE + (1-p_c) \times NACE$$ $$-0.0025 = 0.8 \times CACE + 0.2 \times NACE$$
-* Now assume that being assigned to treatment doesn't effect outcome if you don't take it (NACE =0)
+* Assume that being assigned to treatment doesn't effect outcome if you don't take it (NACE =0)
 * You can now solve $CACE = -0.0025/0.8 = -0.0031$
 * This is the IV estimate for CACE
 
+---
 
+## Can extend this idea to 2-sided
+
+* Suppose that the control group has access to treatment 
+  * Flu shots - encouragement
+  * Diet - information 
+* Now we have three kinds of "non-compliers"
+  * Defiers
+  * Always takers
+  * Never takers
+* Main interest is still the CACE but things get more complicated
+* Fundamental idea still the same: $$ ACE = p_c \times CACE + p_d \times DACE + p_{at} \times AACE + p_{nt} \times NACE$$
+
+---
+
+## Three conditions for an instrument (Hernan and Robins 2006)
+
+* Has a causal effect on the treatment of interest ($p_c > 0$)
+  * (there exist some compliers)
+* Affects the outcome only through the treatment received
+  * (exclusion restrictions)
+* Does not share common causes with the outcome
+  * instrument (encouragement) assigned randomly
+
+---
+
+## Flu example
+
+
+<img class=center src=../../assets/img/fluencouragement.png height=300>
+
+
+---
+
+## How do we estimate CACE in the more complicated case
+
+$$ ACE = p_c \times CACE + p_d \times DACE + p_{at} \times AACE + p_{nt} \times NACE$$
+
+* No defiers $\implies p_d = 0$
+* Exclusion restrictions $AACE = NACE = 0$
+* People in the treatment goroup must be never takers $\implies p_{nt} = 1-0.307 = 0.693$
+* People in the control group who get the flu shot must be always takers $\implies p_{at} = 0.19$
+* The remaining people must be compliers $p_c = 1 - 0.693 - 0.19 = 0.12$ 
+* $ITT$ estimates $ACE$: $ITT = -0.014$
+* $ACE = p_c * CACE \implies CACE = ACE/p_c \implies CACE = -0.014/0.12$
+
+
+---
+
+## If you liked this learn from people who actually know stuff
+
+* Causal mailing list: https://groups.google.com/forum/#!forum/jhu-causal
+
+* 3rd Quarter, course by Elizabeth Stuart, who won Golden Apple award; focus is introducing methods and their application: http://www.jhsph.edu/courses/course/140.664/01/2014/20016/
+
+* 4th Quarter, theoretical foundations to provide background for developing new causal inference methods (taught by Frangakis and
+Rosenblum): http://www.jhsph.edu/courses/course/140.665/01/2013/18324/

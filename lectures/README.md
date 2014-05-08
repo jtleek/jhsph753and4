@@ -116,3 +116,8 @@ May 6:
 
 * EM [Old lecture](http://www.stat.washington.edu/thompson/S581_04/Notes/chapter_7.pdf)
 * Causal [Lecture](http://jtleek.github.io/jhsph753and4/lectures/14_01_Causal/#1)
+
+May 8: 
+
+* Causal [Lecture](http://jtleek.github.io/jhsph753and4/lectures/14_01_Causal/#1)
+* Graphical Causal [Lecture](http://jtleek.github.io/jhsph753and4/lectures/14_02_GraphCausal/#1)
