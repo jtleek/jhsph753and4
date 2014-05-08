@@ -822,10 +822,45 @@ the treatment group</li>
 
 <slide class="" id="slide-40" style="background:;">
   <hgroup>
+    <h2>Intent to treat</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/itt.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>As treated</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/astreated.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>Per compliance</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/perprotocol.png height=450></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-43" style="background:;">
+  <hgroup>
     <h2>How do we do this with instrumental variables</h2>
   </hgroup>
   <article data-timings="">
     <ul>
+<li>What we really want: the biologic effect of taking Vitman A on Mortality</li>
+<li>We can use instrumental variables to get at this</li>
 <li>Define the average effect among compliers (CACE) and noncompliers (NACE)</li>
 <li>Then we have that \[ACE = p_c \times CACE + (1-p_c) \times NACE\]</li>
 <li>Here we change what we are interested in to be &quot;complier average causal effect&quot;</li>
@@ -835,7 +870,7 @@ the treatment group</li>
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-41" style="background:;">
+<slide class="" id="slide-44" style="background:;">
   <hgroup>
     <h2>We can estimate the CACE</h2>
   </hgroup>
@@ -848,9 +883,111 @@ the treatment group</li>
 <li>\(p_c\) is proportion who took treatment (in Zeger/Sommer data 0.8)</li>
 </ul></li>
 <li>Now we have an estimation problem with two unknowns \[ACE = p_c \times CACE + (1-p_c) \times NACE\] \[-0.0025 = 0.8 \times CACE + 0.2 \times NACE\]</li>
-<li>Now assume that being assigned to treatment doesn&#39;t effect outcome if you don&#39;t take it (NACE =0)</li>
+<li>Assume that being assigned to treatment doesn&#39;t effect outcome if you don&#39;t take it (NACE =0)</li>
 <li>You can now solve \(CACE = -0.0025/0.8 = -0.0031\)</li>
 <li>This is the IV estimate for CACE</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>Can extend this idea to 2-sided</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Suppose that the control group has access to treatment 
+
+<ul>
+<li>Flu shots - encouragement</li>
+<li>Diet - information </li>
+</ul></li>
+<li>Now we have three kinds of &quot;non-compliers&quot;
+
+<ul>
+<li>Defiers</li>
+<li>Always takers</li>
+<li>Never takers</li>
+</ul></li>
+<li>Main interest is still the CACE but things get more complicated</li>
+<li>Fundamental idea still the same: \[ ACE = p_c \times CACE + p_d \times DACE + p_{at} \times AACE + p_{nt} \times NACE\]</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>Three conditions for an instrument (Hernan and Robins 2006)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Has a causal effect on the treatment of interest (\(p_c > 0\))
+
+<ul>
+<li>(there exist some compliers)</li>
+</ul></li>
+<li>Affects the outcome only through the treatment received
+
+<ul>
+<li>(exclusion restrictions)</li>
+</ul></li>
+<li>Does not share common causes with the outcome
+
+<ul>
+<li>instrument (encouragement) assigned randomly</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>Flu example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class=center src=../../assets/img/fluencouragement.png height=300></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>How do we estimate CACE in the more complicated case</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>\[ ACE = p_c \times CACE + p_d \times DACE + p_{at} \times AACE + p_{nt} \times NACE\]</p>
+
+<ul>
+<li>No defiers \(\implies p_d = 0\)</li>
+<li>Exclusion restrictions \(AACE = NACE = 0\)</li>
+<li>People in the treatment goroup must be never takers \(\implies p_{nt} = 1-0.307 = 0.693\)</li>
+<li>People in the control group who get the flu shot must be always takers \(\implies p_{at} = 0.19\)</li>
+<li>The remaining people must be compliers \(p_c = 1 - 0.693 - 0.19 = 0.12\) </li>
+<li>\(ITT\) estimates \(ACE\): \(ITT = -0.014\)</li>
+<li>\(ACE = p_c * CACE \implies CACE = ACE/p_c \implies CACE = -0.014/0.12\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>If you liked this learn from people who actually know stuff</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Causal mailing list: <a href="https://groups.google.com/forum/#!forum/jhu-causal">https://groups.google.com/forum/#!forum/jhu-causal</a></p></li>
+<li><p>3rd Quarter, course by Elizabeth Stuart, who won Golden Apple award; focus is introducing methods and their application: <a href="http://www.jhsph.edu/courses/course/140.664/01/2014/20016/">http://www.jhsph.edu/courses/course/140.664/01/2014/20016/</a></p></li>
+<li><p>4th Quarter, theoretical foundations to provide background for developing new causal inference methods (taught by Frangakis and
+Rosenblum): <a href="http://www.jhsph.edu/courses/course/140.665/01/2013/18324/">http://www.jhsph.edu/courses/course/140.665/01/2013/18324/</a></p></li>
 </ul>
 
   </article>
@@ -1097,14 +1234,62 @@ the treatment group</li>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=40 title='How do we do this with instrumental variables'>
+        data-slide=40 title='Intent to treat'>
          40
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=41 title='We can estimate the CACE'>
+        data-slide=41 title='As treated'>
          41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='Per compliance'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='How do we do this with instrumental variables'>
+         43
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=44 title='We can estimate the CACE'>
+         44
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=45 title='Can extend this idea to 2-sided'>
+         45
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=46 title='Three conditions for an instrument (Hernan and Robins 2006)'>
+         46
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=47 title='Flu example'>
+         47
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=48 title='How do we estimate CACE in the more complicated case'>
+         48
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=49 title='If you liked this learn from people who actually know stuff'>
+         49
       </a>
     </li>
   </ul>
