@@ -1,0 +1,3465 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data products</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Data products">
+  <meta name="author" content="Jeffrey Leek">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../librariesNew/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../librariesNew/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../librariesNew/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="../../librariesNew/frameworks/io2012/js/slides" 
+    src="../../librariesNew/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <aside class="gdbar">
+    <img src="../../assets/img/bloomberg_shield.png">
+  </aside>
+  <hgroup class="auto-fadein">
+    <h1>Data products</h1>
+    <h2></h2>
+    <p>Jeffrey Leek<br/>Johns Hopkins Bloomberg School of Public Health</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Pro tip</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Try to find people to work with who are much smarter than you. If they are friendly and fun to work with it is even better. A huge fraction of any success I have I owe to working with these folks:</p>
+
+<ul>
+<li>Jim Powell</li>
+<li>John Storey</li>
+<li>Giovanni Parmigiani</li>
+<li>Rafa Irizarry</li>
+</ul>
+
+<p>All <em>way</em> smarter/better than me at academics. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Paper of the day</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><a href="http://vis.stanford.edu/files/2011-D3-InfoVis.pdf">Data driven documents</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Examples of data products</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>R packages</li>
+<li>Interactive graphics</li>
+<li>Apps</li>
+<li>APIs</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Writing R packages</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Here are some links from people who are pros
+
+<ul>
+<li><a href="http://courses.had.co.nz/12-devtools/">Hadley&#39;s master class</a></li>
+<li><a href="http://cran.r-project.org/doc/contrib/Leisch-CreatingPackages.pdf">Creating R packages tutorial</a></li>
+<li><a href="http://cran.r-project.org/doc/manuals/R-exts.html">Writing R extensions</a></li>
+</ul></li>
+<li>Coding style
+
+<ul>
+<li><a href="http://www.bioconductor.org/developers/package-guidelines/">Bioconductor</a></li>
+<li><a href="https://github.com/hadley/devtools/wiki/Style">Hadley Wickham&#39;s version</a></li>
+<li><a href="http://google-styleguide.googlecode.com/svn/trunk/google-r-style.html">Google&#39;s R style guide</a></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Why write an R package?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>You were told to for your final</li>
+<li><a href="http://simplystatistics.org/2013/01/23/statisticians-and-computer-scientists-if-there-is-no-code-there-is-no-paper/">If there is no code, there is no paper</a></li>
+<li>Getting noticed (see e.g. <a href="http://yihui.name/">Yihui</a>)</li>
+<li>Getting cited (see e.g. <a href="http://www.ncbi.nlm.nih.gov/pubmed/12925520">RMA</a>, <a href="http://www.plosgenetics.org/article/info:doi/10.1371/journal.pgen.0030161">sva</a> )</li>
+<li>To avoid the <a href="http://odin.mdacc.tmc.edu/%7Ekabaggerly/">statistics boogeyman</a></li>
+<li>Because it is when you really learn how/why your method works</li>
+<li>To put together a set of functions that implement a method, or <a href="http://hilaryparker.com/2013/04/03/personal-r-packages/">are useful to you</a>, or summarize a body of work (like a dissertation)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>First step: naming</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Make it googleable </li>
+<li>Be a little cute, but not too much</li>
+<li>Avoid caps </li>
+<li>Package name must start with a letter</li>
+<li>r&quot;method&quot; or r&quot;technology&quot; is a good place to start, see e.g. <a href="http://ropensci.org/packages/index.html">rOpenSci</a></li>
+<li>Never let Rafa name your method (&quot;Succs&quot;, &quot;BumpHunter&quot;, &quot;DER Finder&quot;)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>If you want your software to be used</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> Documentation &gt; Usability &gt; Speed &gt; Statistical superiority</center></p>
+
+<p><img class=center src=../../assets/img/homer.jpg height='70%'/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Preliminaries: version control</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><a href="http://git-scm.com/video/what-is-version-control">What is version control</a></p>
+
+<ul>
+<li><a href="https://github.com/">Github</a> - where the cool nerds are</li>
+<li><a href="https://bitbucket.org/">Bitbucket</a> - where the real nerds are</li>
+<li><a href="http://subversion.tigris.org/">svn</a> - where the old nerds are</li>
+<li>Files on your desktop - where the frustrated nerds are</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Preliminaries: repositories</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><a href="http://cran.us.r-project.org/">CRAN</a>
+
+<ul>
+<li>All types of packages</li>
+<li>Minimal QC</li>
+</ul></li>
+<li><a href="http://www.bioconductor.org/">Bioconductor</a>
+
+<ul>
+<li>Mostly genomics packages</li>
+<li>Peer review/high QC</li>
+</ul></li>
+<li><a href="https://github.com/">Github</a>
+
+<ul>
+<li>Any type </li>
+<li>No QC</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Getting started - load packages</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">install.packages(&quot;devtools&quot;)
+install.packages(&quot;rogxygen2&quot;)
+install.packages(&quot;textthat&quot;)
+library(devtools); library(roxygen2);library(testthat)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Create a package</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r"># Set working directory
+setwd(&quot;~/Desktop&quot;)
+
+# Create a new package
+create(&quot;fdrreg&quot;)
+</code></pre>
+
+<p><center> Add stuff to package now</center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>R code</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Just like you would usually write</li>
+<li>Goes in the R/ directory</li>
+<li>Should be multiple files - one per major &quot;method&quot; at minimum</li>
+<li>Documentation included in files makes it easier</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Documenting R code with roxygen2</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> Show example </center></p>
+
+<p><strong>Example documentation</strong></p>
+
+<p>@param - Inputs</p>
+
+<p>@examples - examples</p>
+
+<p>@author - who wrote the function</p>
+
+<p>@seealso - refers to other packages</p>
+
+<p>@return - what it returns</p>
+
+<p>See more <a href="http://courses.had.co.nz/12-devtools/slides/8-documentation.pdf">here</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>How to use this</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">document(&quot;pkg&quot;)
+check_doc(&quot;pkg&quot;)
+show_rd(,&quot;pkg&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Testing R code with testthat</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><strong>Use expect_that to define subtests</strong></p>
+
+<p>expect_that(1,equals(1))</p>
+
+<p><strong>Example tests</strong></p>
+
+<p>is_truth</p>
+
+<p>is_false</p>
+
+<p>equals</p>
+
+<p>matches</p>
+
+<p>prints_text</p>
+
+<p><strong>Then arrange together</strong></p>
+
+<p>test_that(&quot;test name&quot;, {
+ expect_that(1,equals(1))
+})</p>
+
+<p>See more <a href="http://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf">here</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>How to use it</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Create tests in inst/tests</li>
+<li>Each file can test one component</li>
+<li>Start file with <em>context(&quot;Name for set of tests&quot;)</em></li>
+<li>To test run:
+
+<ul>
+<li>test_file()</li>
+<li>test_dir()</li>
+</ul></li>
+<li>Or you can do it when running R CMD CHECK with a file tests/run_all.R with</li>
+</ul>
+
+<pre><code class="r">library(testthat)
+library(mypackage)
+test_package(&quot;mypackage&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Vignettes versus README files</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Vignettes 
+
+<ul>
+<li>Go in inst/man</li>
+<li>Are written in Sweave</li>
+<li>Are required for Bioconductor</li>
+</ul></li>
+<li>README
+
+<ul>
+<li>Can be written in markdown</li>
+<li>Often useful if Github is where you will put your documentation</li>
+</ul></li>
+<li><a href="http://yihui.name/en/2012/09/r-package-markdown-vignettes/">Markdown vignettes</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Releasing package</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>On Github you can just post the package then tell users to do</li>
+</ul>
+
+<pre><code class="r">library(devtools)
+install_github(&quot;package&quot;,&quot;username&quot;)
+</code></pre>
+
+<ul>
+<li>Or for CRAN use </li>
+</ul>
+
+<pre><code class="r">release()
+</code></pre>
+
+<ul>
+<li>Or for BioC see <a href="http://www.bioconductor.org/developers/">here</a></li>
+</ul>
+
+<p>More on this <a href="http://courses.had.co.nz/12-devtools/slides/10-release.pdf">here</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>If it is an important package</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/rpackageguide.png" height=500></p>
+
+<p><a href="https://github.com/jtleek/rpackages">https://github.com/jtleek/rpackages</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Pretty pictures</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><a href="http://www.rstudio.com/ide/docs/advanced/manipulate">manipulate</a></li>
+<li><a href="http://rcharts.io/">rCharts</a></li>
+<li><a href="http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf">googleVis</a></li>
+<li><a href="http://ggvis.rstudio.com/">ggvis</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>Manipulate</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Suppose that you want to create a quick interactive graphic
+
+<ul>
+<li>You have to do it <em>now</em> </li>
+<li>The intended users also use Rstudio</li>
+</ul></li>
+<li><code>manipulate</code> is a really cool solution that is often all you need to quickly make interactive graphics</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Documentation</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Manipulate is well documented at the Rstudio web site here
+
+<ul>
+<li><a href="http://www.rstudio.com/ide/docs/advanced/manipulate">http://www.rstudio.com/ide/docs/advanced/manipulate</a></li>
+</ul></li>
+<li>From there, try this
+<code>
+library(manipulate)
+manipulate(plot(1:x), x = slider(1, 100))
+</code></li>
+<li>You can create a slider, checkbox, or picker (drop down) and have more than one</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <hgroup>
+    <h2>Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>library(UsingR)
+data(galton)
+library(manipulate)
+myHist &lt;- function(mu){
+  hist(galton$child,col=&quot;blue&quot;,breaks=100)
+  lines(c(mu, mu), c(0, 150),col=&quot;red&quot;,lwd=5)
+  mse &lt;- mean((galton$child - mu)^2)
+  text(63, 150, paste(&quot;mu = &quot;, mu))
+  text(63, 140, paste(&quot;MSE = &quot;, round(mse, 2)))
+}
+manipulate(myHist(mu), mu = slider(62, 74, step = 0.5))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Google Vis API</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/googlecharts.png" height=500></p>
+
+<p><a href="https://developers.google.com/chart/interactive/docs/gallery">https://developers.google.com/chart/interactive/docs/gallery</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Basic idea</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The R function creates an HTML page</li>
+<li>The HTML page calls Google Charts</li>
+<li>The result is an interactive HTML graphic</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-26" style="background:;">
+  <hgroup>
+    <h2>Watch Hans Rosling be awesome</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/hans.png" height=500></p>
+
+<p><a href="http://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen">http://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-27" style="background:;">
+  <hgroup>
+    <h2>Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">suppressPackageStartupMessages(library(googleVis))
+M &lt;- gvisMotionChart(Fruits, &quot;Fruit&quot;, &quot;Year&quot;,
+                     options=list(width=600, height=400))
+print(M,&quot;chart&quot;)
+</code></pre>
+
+<!-- MotionChart generated in R 3.1.0 by googleVis 0.5.1 package -->
+
+<!-- Thu May 15 09:53:01 2014 -->
+
+<!-- jsHeader -->
+
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataMotionChartID2641e541e90 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "Apples",
+2008,
+"West",
+98,
+78,
+20,
+"2008-12-31" 
+],
+[
+ "Apples",
+2009,
+"West",
+111,
+79,
+32,
+"2009-12-31" 
+],
+[
+ "Apples",
+2010,
+"West",
+89,
+76,
+13,
+"2010-12-31" 
+],
+[
+ "Oranges",
+2008,
+"East",
+96,
+81,
+15,
+"2008-12-31" 
+],
+[
+ "Bananas",
+2008,
+"East",
+85,
+76,
+9,
+"2008-12-31" 
+],
+[
+ "Oranges",
+2009,
+"East",
+93,
+80,
+13,
+"2009-12-31" 
+],
+[
+ "Bananas",
+2009,
+"East",
+94,
+78,
+16,
+"2009-12-31" 
+],
+[
+ "Oranges",
+2010,
+"East",
+98,
+91,
+7,
+"2010-12-31" 
+],
+[
+ "Bananas",
+2010,
+"East",
+81,
+71,
+10,
+"2010-12-31" 
+] 
+];
+data.addColumn('string','Fruit');
+data.addColumn('number','Year');
+data.addColumn('string','Location');
+data.addColumn('number','Sales');
+data.addColumn('number','Expenses');
+data.addColumn('number','Profit');
+data.addColumn('string','Date');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartMotionChartID2641e541e90() {
+var data = gvisDataMotionChartID2641e541e90();
+var options = {};
+options["width"] =    600;
+options["height"] =    400;
+
+    var chart = new google.visualization.MotionChart(
+    document.getElementById('MotionChartID2641e541e90')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "motionchart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartMotionChartID2641e541e90);
+})();
+function displayChartMotionChartID2641e541e90() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+
+<!-- jsChart -->  
+
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID2641e541e90"></script>
+ 
+
+<!-- divChart -->
+
+<div id="MotionChartID2641e541e90"
+  style="width: 600px; height: 400px;">
+</div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Charts in googleVis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center> &quot;gvis + ChartType&quot; </center></p>
+
+<ul>
+<li>Motion charts:  <code>gvisMotionChart</code></li>
+<li>Interactive maps: <code>gvisGeoChart</code></li>
+<li>Interactive tables: <code>gvisTable</code></li>
+<li>Line charts: <code>gvisLineChart</code></li>
+<li>Bar charts: <code>gvisColumnChart</code></li>
+<li>Tree maps: <code>gvisTreeMap</code></li>
+</ul>
+
+<p><a href="http://cran.r-project.org/web/packages/googleVis/googleVis.pdf">http://cran.r-project.org/web/packages/googleVis/googleVis.pdf</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-29" style="background:;">
+  <hgroup>
+    <h2>Plots on maps</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">G &lt;- gvisGeoChart(Exports, locationvar=&quot;Country&quot;,
+                  colorvar=&quot;Profit&quot;,options=list(width=600, height=400))
+print(G,&quot;chart&quot;)
+</code></pre>
+
+<!-- GeoChart generated in R 3.1.0 by googleVis 0.5.1 package -->
+
+<!-- Thu May 15 09:53:01 2014 -->
+
+<!-- jsHeader -->
+
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataGeoChartID26424a28f7e () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "Germany",
+3 
+],
+[
+ "Brazil",
+4 
+],
+[
+ "United States",
+5 
+],
+[
+ "France",
+4 
+],
+[
+ "Hungary",
+3 
+],
+[
+ "India",
+2 
+],
+[
+ "Iceland",
+1 
+],
+[
+ "Norway",
+4 
+],
+[
+ "Spain",
+5 
+],
+[
+ "Turkey",
+1 
+] 
+];
+data.addColumn('string','Country');
+data.addColumn('number','Profit');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartGeoChartID26424a28f7e() {
+var data = gvisDataGeoChartID26424a28f7e();
+var options = {};
+options["width"] =    600;
+options["height"] =    400;
+
+    var chart = new google.visualization.GeoChart(
+    document.getElementById('GeoChartID26424a28f7e')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "geochart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartGeoChartID26424a28f7e);
+})();
+function displayChartGeoChartID26424a28f7e() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+
+<!-- jsChart -->  
+
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID26424a28f7e"></script>
+ 
+
+<!-- divChart -->
+
+<div id="GeoChartID26424a28f7e"
+  style="width: 600px; height: 400px;">
+</div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Specifying a region</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">G2 &lt;- gvisGeoChart(Exports, locationvar=&quot;Country&quot;,
+                  colorvar=&quot;Profit&quot;,options=list(width=600, height=400,region=&quot;150&quot;))
+print(G2,&quot;chart&quot;)
+</code></pre>
+
+<!-- GeoChart generated in R 3.1.0 by googleVis 0.5.1 package -->
+
+<!-- Thu May 15 09:53:01 2014 -->
+
+<!-- jsHeader -->
+
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataGeoChartID2642c7aabfc () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "Germany",
+3 
+],
+[
+ "Brazil",
+4 
+],
+[
+ "United States",
+5 
+],
+[
+ "France",
+4 
+],
+[
+ "Hungary",
+3 
+],
+[
+ "India",
+2 
+],
+[
+ "Iceland",
+1 
+],
+[
+ "Norway",
+4 
+],
+[
+ "Spain",
+5 
+],
+[
+ "Turkey",
+1 
+] 
+];
+data.addColumn('string','Country');
+data.addColumn('number','Profit');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartGeoChartID2642c7aabfc() {
+var data = gvisDataGeoChartID2642c7aabfc();
+var options = {};
+options["width"] =    600;
+options["height"] =    400;
+options["region"] = "150";
+
+    var chart = new google.visualization.GeoChart(
+    document.getElementById('GeoChartID2642c7aabfc')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "geochart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartGeoChartID2642c7aabfc);
+})();
+function displayChartGeoChartID2642c7aabfc() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+
+<!-- jsChart -->  
+
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID2642c7aabfc"></script>
+ 
+
+<!-- divChart -->
+
+<div id="GeoChartID2642c7aabfc"
+  style="width: 600px; height: 400px;">
+</div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-31" style="background:;">
+  <hgroup>
+    <h2>Finding parameters to set under <code>options</code></h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/configoptions.png" height=450></p>
+
+<p><a href="https://developers.google.com/chart/interactive/docs/gallery/geochart">https://developers.google.com/chart/interactive/docs/gallery/geochart</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-32" style="background:;">
+  <hgroup>
+    <h2>Setting more options</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">df &lt;- data.frame(label=c(&quot;US&quot;, &quot;GB&quot;, &quot;BR&quot;), val1=c(1,3,4), val2=c(23,12,32))
+Line &lt;- gvisLineChart(df, xvar=&quot;label&quot;, yvar=c(&quot;val1&quot;,&quot;val2&quot;),
+        options=list(title=&quot;Hello World&quot;, legend=&quot;bottom&quot;,
+                titleTextStyle=&quot;{color:&#39;red&#39;, fontSize:18}&quot;,                         
+                vAxis=&quot;{gridlines:{color:&#39;red&#39;, count:3}}&quot;,
+                hAxis=&quot;{title:&#39;My Label&#39;, titleTextStyle:{color:&#39;blue&#39;}}&quot;,
+                series=&quot;[{color:&#39;green&#39;, targetAxisIndex: 0}, 
+                         {color: &#39;blue&#39;,targetAxisIndex:1}]&quot;,
+                vAxes=&quot;[{title:&#39;Value 1 (%)&#39;, format:&#39;##,######%&#39;}, 
+                                  {title:&#39;Value 2 (\U00A3)&#39;}]&quot;,                          
+                curveType=&quot;function&quot;, width=500, height=300                         
+                ))
+</code></pre>
+
+<p><a href="https://github.com/mages/Introduction_to_googleVis/blob/gh-pages/index.Rmd">https://github.com/mages/Introduction_to_googleVis/blob/gh-pages/index.Rmd</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-33" style="background:;">
+  <hgroup>
+    <h2>Setting more options</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">print(Line,&quot;chart&quot;)
+</code></pre>
+
+<!-- LineChart generated in R 3.1.0 by googleVis 0.5.1 package -->
+
+<!-- Thu May 15 09:53:01 2014 -->
+
+<!-- jsHeader -->
+
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataLineChartID26429b14434 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "US",
+1,
+23 
+],
+[
+ "GB",
+3,
+12 
+],
+[
+ "BR",
+4,
+32 
+] 
+];
+data.addColumn('string','label');
+data.addColumn('number','val1');
+data.addColumn('number','val2');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartLineChartID26429b14434() {
+var data = gvisDataLineChartID26429b14434();
+var options = {};
+options["allowHtml"] = true;
+options["title"] = "Hello World";
+options["legend"] = "bottom";
+options["titleTextStyle"] = {color:'red', fontSize:18};
+options["vAxis"] = {gridlines:{color:'red', count:3}};
+options["hAxis"] = {title:'My Label', titleTextStyle:{color:'blue'}};
+options["series"] = [{color:'green', targetAxisIndex: 0}, 
+                         {color: 'blue',targetAxisIndex:1}];
+options["vAxes"] = [{title:'Value 1 (%)', format:'##,######%'}, 
+                                  {title:'Value 2 (£)'}];
+options["curveType"] = "function";
+options["width"] =    500;
+options["height"] =    300;
+
+    var chart = new google.visualization.LineChart(
+    document.getElementById('LineChartID26429b14434')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "corechart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartLineChartID26429b14434);
+})();
+function displayChartLineChartID26429b14434() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+
+<!-- jsChart -->  
+
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID26429b14434"></script>
+ 
+
+<!-- divChart -->
+
+<div id="LineChartID26429b14434"
+  style="width: 500px; height: 300px;">
+</div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>Combining multiple plots together</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">G &lt;- gvisGeoChart(Exports, &quot;Country&quot;, &quot;Profit&quot;,options=list(width=200, height=100))
+T1 &lt;- gvisTable(Exports,options=list(width=200, height=270))
+M &lt;- gvisMotionChart(Fruits, &quot;Fruit&quot;, &quot;Year&quot;, options=list(width=400, height=370))
+GT &lt;- gvisMerge(G,T1, horizontal=FALSE)
+GTM &lt;- gvisMerge(GT, M, horizontal=TRUE,tableOptions=&quot;bgcolor=\&quot;#CCCCCC\&quot; cellspacing=10&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-35" style="background:;">
+  <hgroup>
+    <h2>Combining multiple plots together</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">print(GTM,&quot;chart&quot;)
+</code></pre>
+
+<!-- GeoChart generated in R 3.1.0 by googleVis 0.5.1 package -->
+
+<!-- Thu May 15 09:53:01 2014 -->
+
+<!-- jsHeader -->
+
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataGeoChartID26434f4c74e () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "Germany",
+3 
+],
+[
+ "Brazil",
+4 
+],
+[
+ "United States",
+5 
+],
+[
+ "France",
+4 
+],
+[
+ "Hungary",
+3 
+],
+[
+ "India",
+2 
+],
+[
+ "Iceland",
+1 
+],
+[
+ "Norway",
+4 
+],
+[
+ "Spain",
+5 
+],
+[
+ "Turkey",
+1 
+] 
+];
+data.addColumn('string','Country');
+data.addColumn('number','Profit');
+data.addRows(datajson);
+return(data);
+}
+
+
+// jsData 
+function gvisDataTableID2643248ed0b () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "Germany",
+3,
+true 
+],
+[
+ "Brazil",
+4,
+false 
+],
+[
+ "United States",
+5,
+true 
+],
+[
+ "France",
+4,
+true 
+],
+[
+ "Hungary",
+3,
+false 
+],
+[
+ "India",
+2,
+true 
+],
+[
+ "Iceland",
+1,
+false 
+],
+[
+ "Norway",
+4,
+true 
+],
+[
+ "Spain",
+5,
+true 
+],
+[
+ "Turkey",
+1,
+false 
+] 
+];
+data.addColumn('string','Country');
+data.addColumn('number','Profit');
+data.addColumn('boolean','Online');
+data.addRows(datajson);
+return(data);
+}
+
+
+// jsData 
+function gvisDataMotionChartID26451c286f7 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "Apples",
+2008,
+"West",
+98,
+78,
+20,
+"2008-12-31" 
+],
+[
+ "Apples",
+2009,
+"West",
+111,
+79,
+32,
+"2009-12-31" 
+],
+[
+ "Apples",
+2010,
+"West",
+89,
+76,
+13,
+"2010-12-31" 
+],
+[
+ "Oranges",
+2008,
+"East",
+96,
+81,
+15,
+"2008-12-31" 
+],
+[
+ "Bananas",
+2008,
+"East",
+85,
+76,
+9,
+"2008-12-31" 
+],
+[
+ "Oranges",
+2009,
+"East",
+93,
+80,
+13,
+"2009-12-31" 
+],
+[
+ "Bananas",
+2009,
+"East",
+94,
+78,
+16,
+"2009-12-31" 
+],
+[
+ "Oranges",
+2010,
+"East",
+98,
+91,
+7,
+"2010-12-31" 
+],
+[
+ "Bananas",
+2010,
+"East",
+81,
+71,
+10,
+"2010-12-31" 
+] 
+];
+data.addColumn('string','Fruit');
+data.addColumn('number','Year');
+data.addColumn('string','Location');
+data.addColumn('number','Sales');
+data.addColumn('number','Expenses');
+data.addColumn('number','Profit');
+data.addColumn('string','Date');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartGeoChartID26434f4c74e() {
+var data = gvisDataGeoChartID26434f4c74e();
+var options = {};
+options["width"] =    200;
+options["height"] =    100;
+
+    var chart = new google.visualization.GeoChart(
+    document.getElementById('GeoChartID26434f4c74e')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+
+
+// jsDrawChart
+function drawChartTableID2643248ed0b() {
+var data = gvisDataTableID2643248ed0b();
+var options = {};
+options["allowHtml"] = true;
+options["width"] =    200;
+options["height"] =    270;
+
+    var chart = new google.visualization.Table(
+    document.getElementById('TableID2643248ed0b')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+
+
+// jsDrawChart
+function drawChartMotionChartID26451c286f7() {
+var data = gvisDataMotionChartID26451c286f7();
+var options = {};
+options["width"] =    400;
+options["height"] =    370;
+
+    var chart = new google.visualization.MotionChart(
+    document.getElementById('MotionChartID26451c286f7')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "geochart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartGeoChartID26434f4c74e);
+})();
+function displayChartGeoChartID26434f4c74e() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+
+
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "table";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartTableID2643248ed0b);
+})();
+function displayChartTableID2643248ed0b() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+
+
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "motionchart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartMotionChartID26451c286f7);
+})();
+function displayChartMotionChartID26451c286f7() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+
+<!-- jsChart -->  
+
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID26434f4c74e"></script>
+
+<!-- jsChart -->  
+
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartTableID2643248ed0b"></script>
+
+<!-- jsChart -->  
+
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID26451c286f7"></script>
+ 
+
+<table bgcolor="#CCCCCC" cellspacing=10>
+<tr>
+<td>
+
+<table border="0">
+<tr>
+<td>
+
+<!-- divChart -->
+  
+<div id="GeoChartID26434f4c74e"
+  style="width: 200px; height: 100px;">
+</div>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<!-- divChart -->
+  
+<div id="TableID2643248ed0b"
+  style="width: 200px; height: 270px;">
+</div>
+
+</td>
+</tr>
+</table>
+
+<p></td>
+<td></p>
+
+<!-- divChart -->
+
+<div id="MotionChartID26451c286f7"
+  style="width: 400px; height: 370px;">
+</div>
+
+<p></td>
+</tr>
+</table></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Seeing the HTML code</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">M &lt;- gvisMotionChart(Fruits, &quot;Fruit&quot;, &quot;Year&quot;, options=list(width=600, height=400))
+print(M)
+</code></pre>
+
+<pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;
+  &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+&lt;title&gt;MotionChartID26458ea931d&lt;/title&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot; /&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+body {
+  color: #444444;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 75%;
+  }
+  a {
+  color: #4D87C7;
+  text-decoration: none;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+ &lt;!-- MotionChart generated in R 3.1.0 by googleVis 0.5.1 package --&gt;
+&lt;!-- Thu May 15 09:53:02 2014 --&gt;
+
+
+&lt;!-- jsHeader --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+
+// jsData 
+function gvisDataMotionChartID26458ea931d () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ &quot;Apples&quot;,
+2008,
+&quot;West&quot;,
+98,
+78,
+20,
+&quot;2008-12-31&quot; 
+],
+[
+ &quot;Apples&quot;,
+2009,
+&quot;West&quot;,
+111,
+79,
+32,
+&quot;2009-12-31&quot; 
+],
+[
+ &quot;Apples&quot;,
+2010,
+&quot;West&quot;,
+89,
+76,
+13,
+&quot;2010-12-31&quot; 
+],
+[
+ &quot;Oranges&quot;,
+2008,
+&quot;East&quot;,
+96,
+81,
+15,
+&quot;2008-12-31&quot; 
+],
+[
+ &quot;Bananas&quot;,
+2008,
+&quot;East&quot;,
+85,
+76,
+9,
+&quot;2008-12-31&quot; 
+],
+[
+ &quot;Oranges&quot;,
+2009,
+&quot;East&quot;,
+93,
+80,
+13,
+&quot;2009-12-31&quot; 
+],
+[
+ &quot;Bananas&quot;,
+2009,
+&quot;East&quot;,
+94,
+78,
+16,
+&quot;2009-12-31&quot; 
+],
+[
+ &quot;Oranges&quot;,
+2010,
+&quot;East&quot;,
+98,
+91,
+7,
+&quot;2010-12-31&quot; 
+],
+[
+ &quot;Bananas&quot;,
+2010,
+&quot;East&quot;,
+81,
+71,
+10,
+&quot;2010-12-31&quot; 
+] 
+];
+data.addColumn(&#39;string&#39;,&#39;Fruit&#39;);
+data.addColumn(&#39;number&#39;,&#39;Year&#39;);
+data.addColumn(&#39;string&#39;,&#39;Location&#39;);
+data.addColumn(&#39;number&#39;,&#39;Sales&#39;);
+data.addColumn(&#39;number&#39;,&#39;Expenses&#39;);
+data.addColumn(&#39;number&#39;,&#39;Profit&#39;);
+data.addColumn(&#39;string&#39;,&#39;Date&#39;);
+data.addRows(datajson);
+return(data);
+}
+
+// jsDrawChart
+function drawChartMotionChartID26458ea931d() {
+var data = gvisDataMotionChartID26458ea931d();
+var options = {};
+options[&quot;width&quot;] =    600;
+options[&quot;height&quot;] =    400;
+
+    var chart = new google.visualization.MotionChart(
+    document.getElementById(&#39;MotionChartID26458ea931d&#39;)
+    );
+    chart.draw(data,options);
+
+
+}
+
+
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = &quot;motionchart&quot;;
+
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage &amp;&amp; i &lt; pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartMotionChartID26458ea931d);
+})();
+function displayChartMotionChartID26458ea931d() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load(&quot;visualization&quot;, &quot;1&quot;, { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length &gt; 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+
+// jsFooter
+&lt;/script&gt;
+
+&lt;!-- jsChart --&gt;  
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://www.google.com/jsapi?callback=displayChartMotionChartID26458ea931d&quot;&gt;&lt;/script&gt;
+
+&lt;!-- divChart --&gt;
+
+&lt;div id=&quot;MotionChartID26458ea931d&quot;
+  style=&quot;width: 600px; height: 400px;&quot;&gt;
+&lt;/div&gt;
+ &lt;div&gt;&lt;span&gt;Data: Fruits &amp;#8226; Chart ID: &lt;a href=&quot;Chart_MotionChartID26458ea931d.html&quot;&gt;MotionChartID26458ea931d&lt;/a&gt;&lt;/span&gt;&lt;br /&gt; 
+&lt;!-- htmlFooter --&gt;
+&lt;span&gt; 
+  R version 3.1.0 (2014-04-10) &amp;#8226; &lt;a href=&quot;https://github.com/mages/googleVis&quot;&gt;googleVis-0.5.1&lt;/a&gt;
+  &amp;#8226; &lt;a href=&quot;https://developers.google.com/terms/&quot;&gt;Google Terms of Use&lt;/a&gt; &amp;#8226; &lt;a href=&quot;https://google-developers.appspot.com/chart/interactive/docs/gallery/motionchart#Data_Policy&quot;&gt;Data Policy&lt;/a&gt;
+&lt;/span&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<pre><code class="r">print(M, &#39;chart&#39;, file=&#39;myfilename.html&#39;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Things you can do with Google Vis</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The visualizations can be embedded in websites with HTML code</li>
+<li>Dynamic visualizations can be built with Shiny, Rook, and R.rsp</li>
+<li>Embed them in <a href="http://www.rstudio.com/ide/docs/authoring/using_markdown">R markdown</a> based documents
+
+<ul>
+<li>Set <code>results=&quot;asis&quot;</code> in the chunk options</li>
+<li>Can be used with <a href="http://cran.r-project.org/web/packages/knitr/index.html">knitr</a> and <a href="http://slidify.org/">slidify</a></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-38" style="background:;">
+  <hgroup>
+    <h2>For more info</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">demo(googleVis)
+</code></pre>
+
+<ul>
+<li><a href="http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf">http://cran.r-project.org/web/packages/googleVis/vignettes/googleVis.pdf</a></li>
+<li><a href="http://cran.r-project.org/web/packages/googleVis/googleVis.pdf">http://cran.r-project.org/web/packages/googleVis/googleVis.pdf</a></li>
+<li><a href="https://developers.google.com/chart/interactive/docs/gallery">https://developers.google.com/chart/interactive/docs/gallery</a></li>
+<li><a href="https://developers.google.com/chart/interactive/faq">https://developers.google.com/chart/interactive/faq</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-39" style="background:;">
+  <hgroup>
+    <h2>rCharts</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/rCharts.png" height=100></p>
+
+<ul>
+<li>rCharts is a way to create interactive javascript visualizations using R</li>
+<li>So
+
+<ul>
+<li>You don&#39;t have to learn complex tools, like D3</li>
+<li>You simply work in R learning a minimal amount of new syntaxt</li>
+</ul></li>
+<li>rCharts was written by Ramnath Vaidyanathan (friend of the Data Science Series), who also wrote slidify, the framework we use for all of the lectures in the class</li>
+<li>This lecture is basically going through
+(<a href="http://ramnathv.github.io/rCharts/">http://ramnathv.github.io/rCharts/</a>)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>require(rCharts)
+haireye = as.data.frame(HairEyeColor)
+n1 &lt;- nPlot(Freq ~ Hair, group = &#39;Eye&#39;, type = &#39;multiBarChart&#39;,
+  data = subset(haireye, Sex == &#39;Male&#39;)
+)
+n1$save(&#39;fig/n1.html&#39;, cdn = TRUE)
+cat(&#39;&lt;iframe src=&quot;fig/n1.html&quot; width=100%, height=600&gt;&lt;/iframe&gt;&#39;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>nvD3 run</h2>
+  </hgroup>
+  <article data-timings="">
+    <iframe src="fig/n1.html" width=100%, height=600></iframe>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-42" style="background:;">
+  <hgroup>
+    <h2>Slidify interactive</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The above was an example of embedding an rChart in a slidify document
+
+<ul>
+<li>In the YAML 
+<code>yaml ext_widgets : {rCharts: [&quot;libraries/nvd3&quot;]}</code></li>
+</ul></li>
+<li>Or, if you use more than one library</li>
+<li>YAML example
+<code>yaml ext_widgets : {rCharts: [&quot;libraries/highcharts&quot;, &quot;libraries/nvd3&quot;, &quot;libraries/morris&quot;]}</code> </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-43" style="background:;">
+  <hgroup>
+    <h2>Viewing the plot</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The object <code>n1</code> contains the plot
+
+<ul>
+<li>In RStudio, typing <code>n1</code> brings up the plot in the RStudio viewer (or you can just not assign it to an object)</li>
+</ul></li>
+<li>Do <code>n1$</code> then hit TAB to see the various functions contained in the object
+
+<ul>
+<li><code>n1$html()</code> prints out the html for the plot</li>
+</ul></li>
+<li>I do <code>n1$save(filename)</code> then bring the code back into slidify document
+
+<ul>
+<li>This is recommended for slidify, but if you&#39;re just looking at the plot,
+it&#39;s unnecessary</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-44" style="background:;">
+  <hgroup>
+    <h2>Deconstructing another example</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>## Example 1 Facetted Scatterplot
+names(iris) = gsub(&quot;\\.&quot;, &quot;&quot;, names(iris))
+r1 &lt;- rPlot(SepalLength ~ SepalWidth | Species, data = iris, color = &#39;Species&#39;, type = &#39;point&#39;)
+r1$save(&#39;fig/r1.html&#39;, cdn = TRUE)
+cat(&#39;&lt;iframe src=&quot;fig/r1.html&quot; width=100%, height=600&gt;&lt;/iframe&gt;&#39;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-45" style="background:;">
+  <hgroup>
+    <h2>When run</h2>
+  </hgroup>
+  <article data-timings="">
+    <iframe src="fig/r1.html" width=100%, height=600></iframe>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-46" style="background:;">
+  <hgroup>
+    <h2>Example 2 Facetted Barplot</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>hair_eye = as.data.frame(HairEyeColor)
+r2 &lt;- rPlot(Freq ~ Hair | Eye, color = &#39;Eye&#39;, data = hair_eye, type = &#39;bar&#39;)
+r2$save(&#39;fig/r2.html&#39;, cdn = TRUE)
+cat(&#39;&lt;iframe src=&quot;fig/r2.html&quot; width=100%, height=600&gt;&lt;/iframe&gt;&#39;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-47" style="background:;">
+  <hgroup>
+    <h2>Example 2 Facetted Barplot, when run</h2>
+  </hgroup>
+  <article data-timings="">
+    <iframe src="fig/r2.html" width=100%, height=600></iframe>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-48" style="background:;">
+  <hgroup>
+    <h2>How to get the js/html or publish an rChart</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Now you can add whatever you&#39;d like</p>
+
+<pre><code class="r">r1 &lt;- rPlot(mpg ~ wt | am + vs, data = mtcars, type = &quot;point&quot;, color = &quot;gear&quot;)
+r1$print(&quot;chart1&quot;) # print out the js 
+r1$save(&#39;myPlot.html&#39;) #save as html file
+r1$publish(&#39;myPlot&#39;, host = &#39;gist&#39;) # save to gist, rjson required
+r1$publish(&#39;myPlot&#39;, host = &#39;rpubs&#39;) # save to rpubs
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-49" style="background:;">
+  <hgroup>
+    <h2>rCharts has links to several libraries</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We&#39;ll do some examples</li>
+<li>Note Ramnath mentions that io2012 and polychart have conflicting js
+
+<ul>
+<li>They seem to work for me with that theme, but I get errors if I load the polychart library</li>
+<li>If debugging with io and polychart, factor that in</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-50" style="background:;">
+  <hgroup>
+    <h2>morris</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>data(economics, package = &quot;ggplot2&quot;)
+econ &lt;- transform(economics, date = as.character(date))
+m1 &lt;- mPlot(x = &quot;date&quot;, y = c(&quot;psavert&quot;, &quot;uempmed&quot;), type = &quot;Line&quot;, data = econ)
+m1$set(pointSize = 0, lineWidth = 1)
+m1$save(&#39;fig/m1.html&#39;, cdn = TRUE)
+cat(&#39;&lt;iframe src=&quot;fig/m1.html&quot; width=100%, height=600&gt;&lt;/iframe&gt;&#39;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-51" style="background:;">
+  <hgroup>
+    <h2>morris example run</h2>
+  </hgroup>
+  <article data-timings="">
+    <iframe src="fig/m1.html" width=100%, height=600></iframe>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-52" style="background:;">
+  <hgroup>
+    <h2>xCharts</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>require(reshape2)
+uspexp &lt;- melt(USPersonalExpenditure)
+names(uspexp)[1:2] = c(&quot;category&quot;, &quot;year&quot;)
+x1 &lt;- xPlot(value ~ year, group = &quot;category&quot;, data = uspexp, type = &quot;line-dotted&quot;)
+x1$save(&#39;fig/x1.html&#39;, cdn = TRUE)
+cat(&#39;&lt;iframe src=&quot;fig/x1.html&quot; width=100%, height=600&gt;&lt;/iframe&gt;&#39;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-53" style="background:;">
+  <hgroup>
+    <h2>xCharts run</h2>
+  </hgroup>
+  <article data-timings="">
+    <iframe src="fig/x1.html" width=100%, height=600></iframe>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-54" style="background:;">
+  <hgroup>
+    <h2>Leaflet</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>map3 &lt;- Leaflet$new()
+map3$setView(c(51.505, -0.09), zoom = 13)
+map3$marker(c(51.5, -0.09), bindPopup = &quot;&lt;p&gt; Hi. I am a popup &lt;/p&gt;&quot;)
+map3$marker(c(51.495, -0.083), bindPopup = &quot;&lt;p&gt; Hi. I am another popup &lt;/p&gt;&quot;)
+map3$save(&#39;fig/map3.html&#39;, cdn = TRUE)
+cat(&#39;&lt;iframe src=&quot;fig/map3.html&quot; width=100%, height=600&gt;&lt;/iframe&gt;&#39;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-55" style="background:;">
+  <hgroup>
+    <h2>Leaflet run</h2>
+  </hgroup>
+  <article data-timings="">
+    <iframe src="fig/map3.html" width=100%, height=600></iframe>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-56" style="background:;">
+  <hgroup>
+    <h2>Rickshaw</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>usp = reshape2::melt(USPersonalExpenditure)
+# get the decades into a date Rickshaw likes
+usp$Var2 &lt;- as.numeric(as.POSIXct(paste0(usp$Var2, &quot;-01-01&quot;)))
+p4 &lt;- Rickshaw$new()
+p4$layer(value ~ Var2, group = &quot;Var1&quot;, data = usp, type = &quot;area&quot;, width = 560)
+# add a helpful slider this easily; other features TRUE as a default
+p4$set(slider = TRUE)
+p4$save(&#39;fig/p4.html&#39;, cdn = TRUE)
+cat(&#39;&lt;iframe src=&quot;fig/p4.html&quot; width=100%, height=600&gt;&lt;/iframe&gt;&#39;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-57" style="background:;">
+  <hgroup>
+    <h2>Rickshaw run</h2>
+  </hgroup>
+  <article data-timings="">
+    <iframe src="fig/p4.html" width=100%, height=600></iframe>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-58" style="background:;">
+  <hgroup>
+    <h2>rCharts summarized</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>rCharts makes creating interactive javascript visualizations in R ridiculously easy</li>
+<li>However, non-trivial customization is going to require knowledge of javascript</li>
+<li>If what you want is not too big of a deviation from the rCharts examples, then it&#39;s awesome
+
+<ul>
+<li>Otherwise, it&#39;s challenging to extend without fairly deep knowledge of the JS
+libraries that it&#39;s calling.</li>
+</ul></li>
+<li>rCharts is under fairly rapid development</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-59" style="background:;">
+  <hgroup>
+    <h2>What is Shiny?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Shiny is a platform for creating interactive R programs embedded into a web page.</li>
+<li>Suppose that you create a prediction algorithm, with shiny you can <em>very easily</em> create web input form that calls R and thus your prediction algorithm and displays the results.</li>
+<li>Using Shiny, the time to create simple, yet powerful, web-based interactive data products in R is minimized.
+
+<ul>
+<li>However, it lacks the flexibility of full featured (and more complex) solutions.</li>
+</ul></li>
+<li>Shiny is made by the fine folks at R Studio.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-60" style="background:;">
+  <hgroup>
+    <h2>Some mild prerequisites</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Shiny doesn&#39;t really require it, but as with all web programming, a little knowledge of html, css and js is very helpful
+
+<ul>
+<li>html gives a web page structure and sectioning as well as markup instructions</li>
+<li>css gives the style</li>
+<li>js for interactivity</li>
+</ul></li>
+<li>There are too many tutorials online to count for getting basic proficiency in these topics to count. </li>
+<li>Shiny uses <a href="http://getbootstrap.com/">bootstrap</a> (no relation to the statistics bootstrap) style, which (to me) seems to look nice and renders well on mobile platforms</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-61" style="background:;">
+  <hgroup>
+    <h2>What else is out there?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Creating any solution requiring fairly deep knowledge of web client/server programming</li>
+<li><a href="https://public.opencpu.org/">OpenCPU</a> by Jerome Ooms, is a really neat project providing an API for calling R from web documents
+
+<ul>
+<li>And he even hosts an OpenCPU server, but you can create your own</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-62" style="background:;">
+  <hgroup>
+    <h2>Context</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>You created a novel prediction algorithm to predict risk for developing
+diabetes.
+
+<ul>
+<li>You&#39;re hoping patients and caregivers will be able to enter their data and, if needed, take preventative measures.</li>
+</ul></li>
+<li>You want to create a web site so that users can input the relevant predictors and obtain their prediction.</li>
+<li>Your prediction algorithm (ok, so you&#39;re not going to be saving the world with this one)
+
+<ul>
+<li><a href="http://www.ncbi.nlm.nih.gov/pubmed/12610029">link for a real prediction score</a></li>
+</ul></li>
+</ul>
+
+<pre><code class="r">diabetesRisk &lt;- function(glucose) glucose / 200
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-63" style="background:;">
+  <hgroup>
+    <h2>Getting started</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Make sure you have the latest release of R installed</li>
+<li>If on windows, make sure that you have Rtools installed</li>
+<li><code>install.packages(&quot;shiny&quot;)</code></li>
+<li><code>libray(shiny)</code></li>
+<li>Great tutorial at 
+<a href="http://rstudio.github.io/shiny/tutorial/">http://rstudio.github.io/shiny/tutorial/</a></li>
+<li>Basically, this lecture is walking through that tutorial offering some of our insights</li>
+<li>Note, some of the proposed interactive plotting uses of Shiny could be handled by the very simple <code>manipulate</code> function <a href="http://www.rstudio.com/ide/docs/advanced/manipulate">rstudio manipulate</a></li>
+<li>Also, <code>rCharts</code> is will be covered in a different lecture.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-64" style="background:;">
+  <hgroup>
+    <h2>A Shiny project</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>A shiny project is a directory containing at least two parts
+
+<ul>
+<li>One named ui.R (for user interface) controls how it looks.</li>
+<li>One named server.R that controls what it does.</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-65" style="background:;">
+  <hgroup>
+    <h2>ui.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>library(shiny)
+shinyUI(pageWithSidebar(
+  headerPanel(&quot;Data science FTW!&quot;),
+  sidebarPanel(
+    h3(&#39;Sidebar text&#39;)
+  ),
+  mainPanel(
+      h3(&#39;Main Panel text&#39;)
+  )
+))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-66" style="background:;">
+  <hgroup>
+    <h2>server.r</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>library(shiny)
+shinyServer(
+  function(input, output) {
+  }
+)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-67" style="background:;">
+  <hgroup>
+    <h2>To run it</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>In R, change to the directories with these files and type <code>runApp()</code></li>
+<li>or put the path to the directory as an argument</li>
+<li>It should open an browser window with the app running</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-68" style="background:;">
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/simplestApp.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-69" style="background:;">
+  <hgroup>
+    <h2>R functions for HTML markup</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><code>ui.R</code></p>
+
+<pre><code>shinyUI(pageWithSidebar(
+  headerPanel(&quot;Illustrating markup&quot;),
+  sidebarPanel(
+      h1(&#39;Sidebar panel&#39;),
+      h1(&#39;H1 text&#39;),
+      h2(&#39;H2 Text&#39;),
+      h3(&#39;H3 Text&#39;),
+      h4(&#39;H4 Text&#39;)
+
+  ),
+  mainPanel(
+      h3(&#39;Main Panel text&#39;),
+      code(&#39;some code&#39;),
+      p(&#39;some ordinary text&#39;)
+  )
+))
+
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-70" style="background:;">
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/markup.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-71" style="background:;">
+  <hgroup>
+    <h2>Illustrating inputs ui.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>shinyUI(pageWithSidebar(
+  headerPanel(&quot;Illustrating inputs&quot;),
+  sidebarPanel(
+    numericInput(&#39;id1&#39;, &#39;Numeric input, labeled id1&#39;, 0, min = 0, max = 10, step = 1),
+    checkboxGroupInput(&quot;id2&quot;, &quot;Checkbox&quot;,
+                   c(&quot;Value 1&quot; = &quot;1&quot;,
+                     &quot;Value 2&quot; = &quot;2&quot;,
+                     &quot;Value 3&quot; = &quot;3&quot;)),
+    dateInput(&quot;date&quot;, &quot;Date:&quot;)  
+  ),
+  mainPanel(
+
+  )
+))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-72" style="background:;">
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/inputs.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-73" style="background:;">
+  <hgroup>
+    <h2>Part of ui.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>  mainPanel(
+        h3(&#39;Illustrating outputs&#39;),
+        h4(&#39;You entered&#39;),
+        verbatimTextOutput(&quot;oid1&quot;),
+        h4(&#39;You entered&#39;),
+        verbatimTextOutput(&quot;oid2&quot;),
+        h4(&#39;You entered&#39;),
+        verbatimTextOutput(&quot;odate&quot;)
+  )
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-74" style="background:;">
+  <hgroup>
+    <h2>server.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>shinyServer(
+  function(input, output) {
+    output$oid1 &lt;- renderPrint({input$id1})
+    output$oid2 &lt;- renderPrint({input$id2})
+    output$odate &lt;- renderPrint({input$date})
+  }
+)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-75" style="background:;">
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/inputsOutputs.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-76" style="background:;">
+  <hgroup>
+    <h2>Let&#39;s build our prediction function</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>shinyUI(
+  pageWithSidebar(
+    # Application title
+    headerPanel(&quot;Diabetes prediction&quot;),
+
+    sidebarPanel(
+      numericInput(&#39;glucose&#39;, &#39;Glucose mg/dl&#39;, 90, min = 50, max = 200, step = 5),
+      submitButton(&#39;Submit&#39;)
+    ),
+    mainPanel(
+        h3(&#39;Results of prediction&#39;),
+        h4(&#39;You entered&#39;),
+        verbatimTextOutput(&quot;inputValue&quot;),
+        h4(&#39;Which resulted in a prediction of &#39;),
+        verbatimTextOutput(&quot;prediction&quot;)
+    )
+  )
+)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-77" style="background:;">
+  <hgroup>
+    <h2>server.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>diabetesRisk &lt;- function(glucose) glucose / 200
+
+shinyServer(
+  function(input, output) {
+    output$inputValue &lt;- renderPrint({input$glucose})
+    output$prediction &lt;- renderPrint({diabetesRisk(input$glucose)})
+  }
+)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-78" style="background:;">
+  <hgroup>
+    <h2>The result</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/predictionApp.png" height=300></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-79" style="background:;">
+  <hgroup>
+    <h2>Image example</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Let&#39;s build an example with an image</li>
+<li>How about we create a histogram of data</li>
+<li>Put a slider on so that the user has to guess the mean</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-80" style="background:;">
+  <hgroup>
+    <h2>ui.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>shinyUI(pageWithSidebar(
+  headerPanel(&quot;Example plot&quot;),
+  sidebarPanel(
+    sliderInput(&#39;mu&#39;, &#39;Guess at the mean&#39;,value = 70, min = 62, max = 74, step = 0.05,)
+  ),
+  mainPanel(
+    plotOutput(&#39;newHist&#39;)
+  )
+))
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-81" style="background:;">
+  <hgroup>
+    <h2>server.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>library(UsingR)
+data(galton)
+
+shinyServer(
+  function(input, output) {
+    output$newHist &lt;- renderPlot({
+      hist(galton$child, xlab=&#39;child height&#39;, col=&#39;lightblue&#39;,main=&#39;Histogram&#39;)
+      mu &lt;- input$mu
+      lines(c(mu, mu), c(0, 200),col=&quot;red&quot;,lwd=5)
+      mse &lt;- mean((galton$child - mu)^2)
+      text(63, 150, paste(&quot;mu = &quot;, mu))
+      text(63, 140, paste(&quot;MSE = &quot;, round(mse, 2)))
+      })
+
+  }
+)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-82" style="background:;">
+  <hgroup>
+    <h2>The output</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/examplePlot.png" width=600/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-83" style="background:;">
+  <hgroup>
+    <h2>Tighter control over style</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>All of the style elements are handled through ui.R</li>
+<li>Instead, you can create a www directory and then an index.html file in that directory
+
+<ul>
+<li><a href="http://rstudio.github.io/shiny/tutorial/#html-ui">This link</a> goes through the html needed</li>
+<li>You just have to have specific js libraries and appropriately name ids and classes. This is beyond the scope of this class</li>
+<li>For students with a lot of experience in html, js, css it would be a breeze and probably easier and more flexible than the R html controls in ui.R</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-84" style="background:;">
+  <hgroup>
+    <h2>Other things Shiny can do</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Allow users to upload or download files</li>
+<li>Have tabbed main panels</li>
+<li>Have editable data tables</li>
+<li>Have a dynamic UI</li>
+<li>User defined inputs and outputs </li>
+<li>Put a submit button so that Shiny only executes complex code after user hits submit</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-85" style="background:;">
+  <hgroup>
+    <h2>Distributing a Shiny app</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The quickest way is to send (or put on github or gist or dropbox or whatever) someone the app directory and they can then call <code>runApp</code></li>
+<li>You could create an R package and create a wrapper that calls <code>runApp</code><br>
+
+<ul>
+<li>Of course, these solutions only work if the user knows R</li>
+</ul></li>
+<li>Another option is to run a shiny server
+
+<ul>
+<li>Requires setting up a (Shiny server)[<a href="http://www.rstudio.com/shiny/server/">http://www.rstudio.com/shiny/server/</a>]</li>
+<li>Probably easiest if you use one of the virtual machines where they already have Shiny servers running well (for example, on AWS)</li>
+<li>Setting up a Shiny server is beyond the scope of this class as it involves some amount of linux server administration</li>
+<li>Groups are creating a Shiny hosting services that will presumably eventually be a fee for service or freemium service</li>
+<li>BTW, don&#39;t put system calls in your code (this is one of the first things many of us do for fun, but it introduces security concerns)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-86" style="background:;">
+  <hgroup>
+    <h2>yhat and apis</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img class="center" src="../../assets/img/yhat.png" height=500></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-87" style="background:;">
+  <hgroup>
+    <h2>yhat example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Use data from here: <a href="http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/download_files.html">http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/download_files.html</a></p>
+
+<pre><code>d &lt;- read.csv(&quot;annual_all_2013.csv&quot;, nrow = 68210)
+sub &lt;- subset(d, Parameter.Name %in% c(&quot;PM2.5 - Local Conditions&quot;, &quot;Ozone&quot;)
+              &amp; Pullutant.Standard %in% c(&quot;Ozone 8-Hour 2008&quot;, &quot;PM25 Annual 2006&quot;),
+              c(Longitude, Latitude, Parameter.Name, Arithmetic.Mean))
+
+pollavg &lt;- aggregate(sub[, &quot;Arithmetic.Mean&quot;],
+                     sub[, c(&quot;Longitude&quot;, &quot;Latitude&quot;, &quot;Parameter.Name&quot;)],
+                     mean, na.rm = TRUE)
+pollavg$Parameter.Name &lt;- factor(pollavg$Parameter.Name, labels = c(&quot;ozone&quot;, &quot;pm25&quot;))
+names(pollavg)[4] &lt;- &quot;level&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-88" style="background:;">
+  <hgroup>
+    <h2>Write function</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>monitors &lt;- data.matrix(pollavg[, c(&quot;Longitude&quot;, &quot;Latitude&quot;)])
+
+library(fields)
+
+pollutant &lt;- function(df) {
+        x &lt;- data.matrix(df[, c(&quot;lon&quot;, &quot;lat&quot;)])
+        r &lt;- df$radius
+        d &lt;- rdist.earth(monitors, x)
+        use &lt;- lapply(seq_len(ncol(d)), function(i) {
+                which(d[, i] &lt; r[i])
+        })
+        levels &lt;- sapply(use, function(idx) {
+                with(pollavg[idx, ], tapply(level, Parameter.Name, mean))
+        })
+        dlevel &lt;- as.data.frame(t(levels))
+        data.frame(df, dlevel)
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-89" style="background:;">
+  <hgroup>
+    <h2>Send to yhat</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>ibrary(yhatr)
+
+model.require &lt;- function() {
+        library(fields)
+}
+
+model.transform &lt;- function(df) {
+        df
+}
+
+model.predict &lt;- function(df) {
+        pollutant(df)
+}
+
+yhat.config  &lt;- c(
+        username=&quot;USERNAME&quot;,
+        apikey=&quot;YOUR KEY&quot;,
+        env=&quot;http://sandbox.yhathq.com/&quot;
+)
+
+yhat.deploy(&quot;pollutant&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-90" style="background:;">
+  <hgroup>
+    <h2>Calling it from R (least interesting)</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>library(yhatr)
+yhat.config  &lt;- c(
+        username=&quot;USERNAME&quot;,
+        apikey=&quot;YOUR KEY&quot;,
+        env=&quot;http://sandbox.yhathq.com/&quot;
+)
+df &lt;- data.frame(lon = c(-76.6167, -118.25), lat = c(39.2833, 34.05),
+                 radius = 20)
+yhat.predict(&quot;pollutant&quot;, df)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Pro tip'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Paper of the day'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Examples of data products'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Writing R packages'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Why write an R package?'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='First step: naming'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='If you want your software to be used'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Preliminaries: version control'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Preliminaries: repositories'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Getting started - load packages'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Create a package'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='R code'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Documenting R code with roxygen2'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='How to use this'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Testing R code with testthat'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='How to use it'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Vignettes versus README files'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Releasing package'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='If it is an important package'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Pretty pictures'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Manipulate'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Documentation'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Example'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Google Vis API'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Basic idea'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Watch Hans Rosling be awesome'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Example'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Charts in googleVis'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='Plots on maps'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='Specifying a region'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='Finding parameters to set under <code>options</code>'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='Setting more options'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='Setting more options'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='Combining multiple plots together'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='Combining multiple plots together'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='Seeing the HTML code'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='Things you can do with Google Vis'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='For more info'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='rCharts'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='Example'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='nvD3 run'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='Slidify interactive'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='Viewing the plot'>
+         43
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=44 title='Deconstructing another example'>
+         44
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=45 title='When run'>
+         45
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=46 title='Example 2 Facetted Barplot'>
+         46
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=47 title='Example 2 Facetted Barplot, when run'>
+         47
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=48 title='How to get the js/html or publish an rChart'>
+         48
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=49 title='rCharts has links to several libraries'>
+         49
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=50 title='morris'>
+         50
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=51 title='morris example run'>
+         51
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=52 title='xCharts'>
+         52
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=53 title='xCharts run'>
+         53
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=54 title='Leaflet'>
+         54
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=55 title='Leaflet run'>
+         55
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=56 title='Rickshaw'>
+         56
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=57 title='Rickshaw run'>
+         57
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=58 title='rCharts summarized'>
+         58
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=59 title='What is Shiny?'>
+         59
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=60 title='Some mild prerequisites'>
+         60
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=61 title='What else is out there?'>
+         61
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=62 title='Context'>
+         62
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=63 title='Getting started'>
+         63
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=64 title='A Shiny project'>
+         64
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=65 title='ui.R'>
+         65
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=66 title='server.r'>
+         66
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=67 title='To run it'>
+         67
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=68 title=''>
+         68
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=69 title='R functions for HTML markup'>
+         69
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=70 title=''>
+         70
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=71 title='Illustrating inputs ui.R'>
+         71
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=72 title=''>
+         72
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=73 title='Part of ui.R'>
+         73
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=74 title='server.R'>
+         74
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=75 title=''>
+         75
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=76 title='Let&#39;s build our prediction function'>
+         76
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=77 title='server.R'>
+         77
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=78 title='The result'>
+         78
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=79 title='Image example'>
+         79
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=80 title='ui.R'>
+         80
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=81 title='server.R'>
+         81
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=82 title='The output'>
+         82
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=83 title='Tighter control over style'>
+         83
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=84 title='Other things Shiny can do'>
+         84
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=85 title='Distributing a Shiny app'>
+         85
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=86 title='yhat and apis'>
+         86
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=87 title='yhat example'>
+         87
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=88 title='Write function'>
+         88
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=89 title='Send to yhat'>
+         89
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=90 title='Calling it from R (least interesting)'>
+         90
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../librariesNew/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="../../librariesNew/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
